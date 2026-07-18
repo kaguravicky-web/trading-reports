@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026-07-04 美股盘前监控｜测试样本：科技降温，广度扩张仍支撑中期趋势</title>
+<style>
+:root{
+  --bg:#f5f5f7;--panel:#fff;--text:#111827;--muted:#667085;--line:#e5e7eb;
+  --blue:#007aff;--green:#18864b;--amber:#a86600;--red:#c9342f;
+  --shadow:0 18px 48px rgba(15,23,42,.08);
+}
+*{box-sizing:border-box}
+body{margin:0;background:linear-gradient(180deg,#fbfbfd 0,var(--bg) 300px);color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft JhengHei","PingFang SC",Arial,sans-serif;
+  line-height:1.58}
+.wrap{max-width:1160px;margin:0 auto;padding:32px 16px 52px}
+header,.panel{background:rgba(255,255,255,.94);border:1px solid var(--line);border-radius:18px;
+  box-shadow:var(--shadow);padding:24px;margin-bottom:18px}
+.eyebrow{font-size:13px;font-weight:800;color:var(--blue);margin-bottom:8px}
+h1{font-size:32px;line-height:1.2;margin:0}
+h2{font-size:23px;margin:30px 0 12px;scroll-margin-top:72px}
+h3{font-size:18px;margin:20px 0 8px}
+.muted,.note{color:var(--muted)}
+.note{font-size:13px}
+
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:18px 0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 15px;
+  box-shadow:0 8px 20px rgba(15,23,42,.04)}
+.card span{display:block;color:var(--muted);font-size:12px;font-weight:800}
+.card strong{display:block;margin-top:4px;font-size:18px}
+
+.badge{display:inline-flex;align-items:center;border-radius:6px;padding:4px 9px;font-size:12.5px;
+  font-weight:700;letter-spacing:.01em;border:1px solid transparent;line-height:1.4}
+.card .badge{display:inline-flex;width:auto}
+.badge.amber,.amber{color:var(--amber);background:#fff7ed;border-color:#f2ddb0}
+.badge.blue,.blue{color:var(--blue);background:#eff6ff;border-color:#c3ddfd}
+.badge.green,.green{color:var(--green);background:#ecfdf3;border-color:#bfe9d2}
+.badge.red,.red{color:var(--red);background:#fff1f1;border-color:#f3c7c7}
+
+table{width:100%;border-collapse:separate;border-spacing:0;background:var(--panel);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden;margin:10px 0 12px;font-size:14px;box-shadow:0 8px 20px rgba(15,23,42,.04)}
+th,td{border-bottom:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top}
+tr:last-child td{border-bottom:0}
+th{background:#f8fafc;color:#334155;font-weight:800}
+.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.num.up{color:var(--green)}
+.num.dn{color:var(--red)}
+
+.callout{background:#fff;border:1px solid var(--line);border-left:5px solid var(--blue);border-radius:12px;
+  padding:14px 16px;margin:12px 0 18px}
+.callout.ok{border-left-color:var(--green)}
+.callout.warn{border-left-color:var(--amber)}
+.callout.risk{border-left-color:var(--red)}
+
+.checks{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:12px 0}
+.check{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 15px;
+  box-shadow:0 8px 20px rgba(15,23,42,.04)}
+.check span{display:block;color:var(--muted);font-size:12px;font-weight:800}
+.check strong{display:block;margin-top:4px}
+.check small{display:block;margin-top:4px;color:var(--muted)}
+.check.low{border-left:4px solid var(--green)}
+.check.mid{border-left:4px solid var(--amber)}
+.check.high{border-left:4px solid var(--red)}
+
+.regime-triggers{display:flex;gap:16px;margin:0 0 28px}
+.trigger-box{flex:1;padding:16px 20px;border-radius:8px}
+.trigger-upgrade{background:#e8f3ec;border-left:4px solid #2e7d5c}
+.trigger-downgrade{background:#faeeea;border-left:4px solid #a3422b}
+.tb-header{display:flex;align-items:baseline;gap:8px;margin-bottom:8px}
+.tb-arrow{font-size:18px}
+.tb-label{font-weight:800}
+.tb-sub{font-size:11px;color:var(--muted)}
+.tb-rule{font-size:11px;font-weight:800;color:var(--muted)}
+.tb-list{margin:8px 0 0;padding-left:20px}
+.tb-list li{margin:5px 0;font-size:13px}
+
+.action-directive{border-left:3px solid var(--amber);background:#faf6ee;padding:12px 16px;margin:14px 0 24px}
+.ad-label{color:var(--amber);font-size:12px;font-weight:800;letter-spacing:.05em}
+.ad-list{list-style:none;padding:0;margin:8px 0 0}
+.ad-list li{margin:6px 0}
+.ad-primary::before{content:"\25CF ";color:var(--amber)}
+.ad-watch::before{content:"\25CE ";color:var(--blue)}
+.ad-avoid::before{content:"\2717 ";color:var(--red)}
+.ad-invalidate{border-top:1px dashed #d8c7a6;padding-top:8px;color:#6b6960;font-size:12.5px}
+.ad-invalidate strong{color:#a3422b}
+
+.toc{position:sticky;top:8px;z-index:20;display:flex;gap:6px;overflow-x:auto;padding:7px 8px;
+  margin-bottom:20px;border:1px solid var(--line);background:rgba(255,255,255,.96);border-radius:10px}
+.toc a{flex:0 0 auto;padding:5px 9px;color:var(--text);font-size:12px;text-decoration:none;border-radius:4px}
+.toc a:hover{background:#eef2f6;color:var(--blue)}
+
+.source{font-size:12px;color:var(--muted)}
+.placeholder{color:var(--muted);font-style:italic}
+
+/* 盘后/一周复盘共用组件（借鉴sintszkay示例站点的report-shared.css） */
+.hitbar{display:flex;height:14px;border-radius:999px;overflow:hidden;margin:14px 0 6px;max-width:520px}
+.hitbar i{display:block;height:100%}
+.hitbar .h{background:var(--green)}.hitbar .p{background:#e0a83a}.hitbar .m{background:var(--red)}
+.hitbar-legend{font-size:12px;color:var(--muted)}
+.hitbar-legend b{color:var(--text)}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin:0 4px 0 12px;vertical-align:1px}
+.dot.h{background:var(--green)}.dot.p{background:#e0a83a}.dot.m{background:var(--red)}
+
+.result-badge{display:inline-flex;min-width:52px;justify-content:center;border-radius:999px;padding:3px 8px;font-size:11px;font-weight:700}
+.result-hit{color:var(--green);background:#e8f3ec}
+.result-partial{color:#9a5f0b;background:#fff3d6}
+.result-miss{color:var(--red);background:#faeeea}
+.result-not-triggered{color:var(--muted);background:#eef0f3}
+
+.chart{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:16px 18px 10px;margin:12px 0;box-shadow:0 6px 16px rgba(15,23,42,.035)}
+.chart-title{font-size:12px;font-weight:700;color:var(--muted);margin:0 0 10px}
+.bar-row{display:grid;grid-template-columns:104px 62px 1fr;align-items:center;gap:8px;margin:5px 0}
+.bar-row .lbl{font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar-row .val{font-size:12.5px;font-weight:700;text-align:right;font-variant-numeric:tabular-nums}
+.bar-row .val.pos{color:var(--green)}.bar-row .val.neg{color:var(--red)}
+.bar-track{position:relative;height:18px;background:#f6f7f9;border-radius:4px}
+.bar-track .b{position:absolute;top:2px;bottom:2px;border-radius:3px}
+.bar-track .b.pos{background:var(--green);opacity:.75}
+.bar-track .b.neg{background:var(--red);opacity:.75}
+
+.rsi{display:inline-flex;align-items:center;gap:6px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.rsi i{display:block;width:46px;height:6px;border-radius:999px;background:#edeff2;position:relative;overflow:hidden}
+.rsi i b{position:absolute;left:0;top:0;bottom:0;border-radius:999px;background:#9aa4b2}
+.rsi.hot{color:#8f3323;font-weight:700}.rsi.hot i b{background:var(--red)}
+.rsi.cold{color:#246849;font-weight:700}.rsi.cold i b{background:var(--green)}
+
+.ma-state{display:inline-flex;align-items:center;justify-content:center;gap:3px;font-size:13px;font-weight:800;margin-right:6px}
+.ma-state.ma-up .ma-arrow{color:var(--green)}
+.ma-state.ma-down .ma-arrow{color:var(--red)}
+.ma-period{color:var(--muted);font-size:12px;font-weight:700}
+.ma-arrow{font-size:13px;line-height:1}
+
+.pct{display:flex;align-items:center;gap:8px;justify-content:flex-end}
+.pct i{display:block;width:72px;height:8px;border-radius:999px;background:#edeff2;position:relative;overflow:hidden}
+.pct i b{position:absolute;left:0;top:0;bottom:0;border-radius:999px;background:var(--blue);opacity:.7}
+.pct em{font-style:normal;font-variant-numeric:tabular-nums;font-weight:600;min-width:52px;text-align:right}
+
+.atr{display:inline-flex;align-items:center;gap:6px;white-space:nowrap;font-variant-numeric:tabular-nums;font-weight:600}
+.atr i{display:inline-flex;gap:2px}
+.atr i b{width:6px;height:12px;border-radius:2px;background:#e6e8ec}
+.atr.l1 i b:nth-child(-n+1),.atr.l2 i b:nth-child(-n+2){background:#e0a83a}
+.atr.l3 i b:nth-child(-n+3){background:#cf7a2e}
+.atr.l4 i b:nth-child(-n+4){background:var(--red)}
+.atr.l3,.atr.l4{color:#8f3323}
+
+/* 今日信号灯：整块实心色标签，替代之前的大卡片 */
+.status-row{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+.status-tag{display:inline-flex;align-items:center;padding:6px 12px;border-radius:6px;font-size:13px;font-weight:700;color:#fff;white-space:nowrap}
+.status-tag.low{background:var(--green)}
+.status-tag.mid{background:var(--amber)}
+.status-tag.high{background:var(--red)}
+.discipline-line{font-size:15px;font-weight:700;background:#f8fafc;border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin:14px 0 4px}
+
+/* 风险温度打分：5格严重度条，替代之前的四色卡片网格 */
+.risk-rows{display:flex;flex-direction:column;gap:2px;margin:10px 0}
+.risk-row{display:grid;grid-template-columns:200px 90px 1fr;align-items:center;gap:12px;padding:8px 4px;border-bottom:1px solid var(--line)}
+.risk-row:last-child{border-bottom:0}
+.risk-label{font-size:13.5px;font-weight:600}
+.risk-detail{font-size:12.5px;color:var(--muted)}
+.severity{display:inline-flex;gap:2px}
+.severity i{width:15px;height:9px;border-radius:2px;background:#e6e8ec;display:block}
+.severity.low i:nth-child(-n+2){background:var(--green)}
+.severity.mid i:nth-child(-n+3){background:var(--amber)}
+.severity.high i{background:var(--red)}
+@media(max-width:640px){.risk-row{grid-template-columns:1fr;gap:4px}}
+
+/* 攻守记分板：统一表格，避免卡片+小结拆散的观感 */
+.scoreboard-table td.status-met{color:var(--green);font-weight:700}
+.scoreboard-table td.status-unmet{color:var(--muted)}
+.scoreboard-table td.status-triggered{color:var(--red);font-weight:700}
+
+@media(max-width:760px){.bar-row{grid-template-columns:88px 56px 1fr}}
+
+@media(max-width:900px){.grid,.checks{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:640px){
+  .wrap{padding:20px 12px 40px}
+  header{padding:18px}
+  h1{font-size:26px}
+  .grid,.checks{grid-template-columns:1fr}
+  .regime-triggers{flex-direction:column}
+  table{display:block;overflow-x:auto;white-space:nowrap}
+}
+
+</style>
+</head>
+<body data-report-type="premarket"><main class="wrap">
+<header>
+  <div class="eyebrow">美股盘前监控 · 2026-07-04 · 2026-07-04 20:15 SGT</div>
+  <h1>测试样本：科技降温，广度扩张仍支撑中期趋势</h1>
+  <p class="muted note">这是渲染管线的测试数据，用于检查视觉效果，不代表真实市场判断。</p>
+  <p><span class="badge green">Checklist 1/8 High · Low Risk</span><span class="badge amber">等待非农</span></p>
+</header>
+<nav class="toc" aria-label="章节导航"><a href="#signal">信号灯</a><a href="#scoreboard">攻守记分板</a><a href="#risk">风险温度</a><a href="#macro">宏观</a><a href="#gate">指数闸门</a><a href="#news">消息</a><a href="#13f">13F</a><a href="#squeeze">轧空</a><a href="#watchlist">Watchlist</a><a href="#xpool">X观点池</a><a href="#ml">ML Leader</a><a href="#triggers">攻守触发线</a><a href="#playbook">执行框架</a></nav>
+<section id="signal"><h2>今日信号灯</h2><div class="status-row"><span class="status-tag low">BIAS OFFENSE</span><span class="status-tag low">BOND CALM</span><span class="status-tag low">DXY NEUTRAL</span><span class="status-tag low">BREADTH BULLISH</span></div><div class="discipline-line">医疗/金融主线为主，半导体只持不追</div></section><section id="scoreboard"><h2>攻守记分板</h2><p class="placeholder">暂无数据。</p><p class="note" style="margin-top:8px">2/3满足，可加风险；但SPY未达门槛，维持中性偏多不全面进攻</p></section><section id="risk"><h2>今日风险温度打分</h2><div class="hitbar" role="img" aria-label="3/4/1"><i class="h" style="width:37.5%"></i><i class="p" style="width:50.0%"></i><i class="m" style="width:12.5%"></i></div><div class="hitbar-legend">总体：<span class="dot h"></span><b>3</b> 低<span class="dot p"></span><b>4</b> 中<span class="dot m"></span><b>1</b> 高</div><div class="risk-rows"><div class="risk-row"><span class="risk-label">S&amp;P 500 overextension</span><span class="severity mid"><i></i><i></i><i></i><i></i><i></i></span><span class="risk-detail">VOO+1.26 ATR</span></div><div class="risk-row"><span class="risk-label">Increasing downward momentum</span><span class="severity mid"><i></i><i></i><i></i><i></i><i></i></span><span class="risk-detail">晶片弱但广度未恶化</span></div><div class="risk-row"><span class="risk-label">Top range breakdown</span><span class="severity low"><i></i><i></i><i></i><i></i><i></i></span><span class="risk-detail">VOO仍在20/50/200MA上</span></div><div class="risk-row"><span class="risk-label">Technical deterioration</span><span class="severity mid"><i></i><i></i><i></i><i></i><i></i></span><span class="risk-detail">QQQ失守20MA</span></div><div class="risk-row"><span class="risk-label">Market breadth worsening</span><span class="severity low"><i></i><i></i><i></i><i></i><i></i></span><span class="risk-detail">六项MA广度均&gt;50%</span></div><div class="risk-row"><span class="risk-label">VIX &gt;20 / spike</span><span class="severity low"><i></i><i></i><i></i><i></i><i></i></span><span class="risk-detail">VIX约16.6</span></div><div class="risk-row"><span class="risk-label">Breakout win rate down</span><span class="severity mid"><i></i><i></i><i></i><i></i><i></i></span><span class="risk-detail">晶片失速</span></div><div class="risk-row"><span class="risk-label">Theme momentum weakening</span><span class="severity high"><i></i><i></i><i></i><i></i><i></i></span><span class="risk-detail">SMH/AIQ同步偏弱</span></div></div><p class="note" style="margin-top:8px">短线修正集中在AI硬件，中期趋势未受损</p></section><section id="macro"><h2>01 宏观环境</h2><h3>A · 指数</h3><h3>B · 市宽</h3><table><thead><tr><th class="">指标</th><th class="">当前值</th><th class="">5日前</th><th class="">趋势</th><th class="">判断</th></tr></thead><tbody><tr><td>T2108</td><td>50.97</td><td>48.19</td><td>↑</td><td>中性偏多</td></tr></tbody></table><h3>C · 其他资产（含利率/波动率/联合信号）</h3><h3>D · 宏观雷达</h3><h3>E · 板块与主题RS表</h3><h3 style='font-size:15px;color:var(--muted);margin:14px 0 4px'>第一组：XL标准板块+指数基准</h3><table><thead><tr><th class="">TICKER</th><th class="">名称</th><th class="">价格</th><th class="num">日%</th><th class="num">vs QQQ超额</th><th class="">RS趋势</th><th class="">驱动/原因</th></tr></thead><tbody><tr><td>XLF</td><td>金融</td><td>51.20</td><td class="num up">+2.18%</td><td class="num up">+2.49%</td><td>↑</td><td>利率预期改善</td></tr></tbody></table><h3 style='font-size:15px;color:var(--muted);margin:14px 0 4px'>第二组：AI/科技/半导体/量子/网安/软件</h3><table><thead><tr><th class="">TICKER</th><th class="">名称</th><th class="">价格</th><th class="num">日%</th><th class="num">vs QQQ超额</th><th class="">RS趋势</th><th class="">驱动/原因</th></tr></thead><tbody><tr><td>SMH</td><td>半导体</td><td>298.10</td><td class="num dn">-1.40%</td><td class="num dn">-1.10%</td><td>↓</td><td>AI资本支出担忧</td></tr></tbody></table><h3 style='font-size:15px;color:var(--muted);margin:14px 0 4px'>第三组：航天/国防/能源/材料/加密/中国/医疗/其他</h3><table><thead><tr><th class="">TICKER</th><th class="">名称</th><th class="">价格</th><th class="num">日%</th><th class="num">vs QQQ超额</th><th class="">RS趋势</th><th class="">驱动/原因</th></tr></thead><tbody><tr><td>XBI</td><td>生技</td><td>150.21</td><td class="num up">+0.80%</td><td class="num up">+1.10%</td><td>↑</td><td>板块轮动</td></tr></tbody></table></section><section id="gate"><h2>03 指数闸门</h2><table><thead><tr><th class="">指数</th><th class="">当前价</th><th class="">进攻确认线</th><th class="">谨慎线</th><th class="">降级线</th><th class="">状态</th></tr></thead><tbody><tr><td>QQQ</td><td>725.17</td><td>726.01</td><td>706.52</td><td>684.14</td><td>谨慎</td></tr><tr><td>SPY</td><td>734.20</td><td>748.00</td><td>728.99</td><td>716.49</td><td>谨慎</td></tr><tr><td>IWM</td><td>299.32</td><td>306.69</td><td>290.00</td><td>285.00</td><td>中性</td></tr></tbody></table><h3>大盘ETF技术</h3><table><thead><tr><th class="">ETF</th><th class="num">日变化</th><th class="num">5日</th><th class="num">1月</th><th class="">20/50/200MA</th><th class="num">RSI</th><th class="num">50MA ATR</th></tr></thead><tbody><tr><td>QQQ</td><td class="num dn">-1.52%</td><td class="num up">+1.23%</td><td class="num dn">-2.81%</td><td>下/上/上</td><td class="num">59</td><td class="num up">+1.45</td></tr><tr><td>SPY</td><td class="num dn">-0.14%</td><td class="num up">+1.56%</td><td class="num dn">-1.82%</td><td>上/上/上</td><td class="num">61</td><td class="num up">+1.26</td></tr></tbody></table></section><section id="news"><h2>04 盘前消息 + 本周大事</h2><h3>A · 今日盘前重点消息</h3><ul><li>MU财报后盘前+8.2%，带动记忆体板块（Reuters）</li><li>COIN因加密风险偏好回升盘前+5.1%（Saxo）</li></ul><h3>B · 本周重大事件</h3><ul><li>周三CPI数据公布</li><li>周五FOMC官员讲话</li></ul><h3>C · 行业活动雷达</h3><table><thead><tr><th class="">活动名称</th><th class="">日期(SGT)</th><th class="">主办/主角</th><th class="">关注重点</th><th class="">相关标的</th><th class="">级别</th></tr></thead><tbody><tr><td>NVIDIA GTC</td><td>2026-07-10</td><td>NVIDIA</td><td>AI算力路线图</td><td>NVDA/SMH</td><td>HIGH</td></tr></tbody></table></section><section id="13f"><h2>05 13F + 国会议员交易</h2><p class="placeholder">尚未接入13F自动数据源（WhaleWisdom/Dataroma/SEC EDGAR），本模块待下一版补上 / 尚未接入国会议员交易自动数据源（capitoltrades.com/quiverquant.com），本模块待下一版补上</p></section><section id="squeeze"><h2>06 轧空候选股扫描</h2><p class="placeholder">尚未接入轧空扫描所需的做空比例/借券成本数据源，本模块待下一版补上</p></section><section id="watchlist"><h2>07 Watchlist候选A/B/C分级</h2><h3>A级（允许执行）</h3><div class="callout ok">
+  <strong>MU</strong> — 半导体 — A级<br>
+  为什么看：盘前+8.2% · 量比2.1 · 财报催化<br>
+  触发线：$125.00 · 失效线：$118.50 · 第一目标：$132.00<br>
+  不做条件：SMH跌破20MA
+</div><h3>B级（只看不做）</h3><table><thead><tr><th class="">TICKER</th><th class="">板块</th><th class="num">盘前%</th><th class="num">量比</th><th class="">待确认条件</th><th class="">升级触发</th></tr></thead><tbody><tr><td>COIN</td><td>加密金融</td><td class="num up">+5.1%</td><td class="num">1.2</td><td>量比不足1.5</td><td>量比升破1.5</td></tr></tbody></table><h3>C级（当日忽略）</h3><ul><li>KLAC — 设备链弱势，无主线归属</li></ul><div class="callout ok"><strong>小结：</strong>今日最值得关注：MU（半导体主线延续，财报催化确认）</div></section><section id="xpool"><h2>X观点池</h2><h3>宏观类</h3><p class="placeholder">今日无实质交易相关内容。</p><h3>个股/Setup类</h3><p class="placeholder">今日无实质交易相关内容。</p></section><section id="ml"><h2>ML Market Leader跟踪</h2><div class="panel" style="margin-bottom:12px;padding:14px 16px;">
+  <strong>MRVL</strong> $82.10 · 今日+1.2% · 结构：整理中<br>
+  领袖行为确认：2026-07-02 大盘红日跌0.2%跑赢QQQ<br>
+  当日信号：无setup · 入场点：$80.50 · 失效线：$77.20
+</div><div class="panel" style="margin-bottom:12px;padding:14px 16px;">
+  <strong>SNDK</strong> $2080.10 · 今日-8.5% · 结构：延伸过度勿追<br>
+  领袖行为确认：待确认<br>
+  当日信号：延伸过度勿追 · 入场点：$- · 失效线：$-
+</div></section><section id="triggers"><h2>攻守触发线</h2><section class="regime-triggers">
+  <div class="trigger-box trigger-upgrade">
+    <div class="tb-header"><span class="tb-arrow">&uarr;</span><span class="tb-label">油门升级讯号</span><span class="tb-sub">转攻击</span></div>
+    <div class="tb-rule">满足2/3才成立</div>
+    <ul class="tb-list"><li>QQQ收复20MA 726.01并站上+1SD 728.90</li><li>10Y跌破4.40%，DXY不反向急升</li><li>5D breadth ratio维持&gt;1.5且RSP/IWM守强</li></ul>
+  </div>
+  <div class="trigger-box trigger-downgrade">
+    <div class="tb-header"><span class="tb-arrow">&darr;</span><span class="tb-label">油门降级讯号</span><span class="tb-sub">转防守</span></div>
+    <div class="tb-rule">任一触发即成立</div>
+    <ul class="tb-list"><li>SPY跌破-1SD 716.49</li><li>QQQ跌破-1SD 684.14</li><li>5D breadth ratio&lt;1或VIX&gt;20</li></ul>
+  </div>
+</section></section><section id="playbook"><h2>本周行动 &amp; 今日执行框架</h2><div class="callout">
+  <strong>情景A — 牛市确认</strong><br>
+  触发：10Y跌破4.40%且QQQ重返20MA<br>
+  执行：分两段增加QQQ/IGV<br>
+  目标/等待：QQQ 741.49
+</div><div class="callout">
+  <strong>情景B — 震荡消化</strong><br>
+  触发：QQQ高开低走前30分钟回吐超50%<br>
+  执行：新仓冻结，存量守止损<br>
+  目标/等待：等待30分钟量能确认
+</div><div class="callout">
+  <strong>情景C — 转弱防守</strong><br>
+  触发：10Y突破警戒位或QQQ跌破谨慎线<br>
+  执行：高Beta优先减半<br>
+  目标/等待：仓位上限按纪律执行
+</div><h3>持仓监控 · Moomoo（短线）</h3><table><thead><tr><th class="">TICKER</th><th class="">PRICE</th><th class="">COST</th><th class="num">P&amp;L%</th><th class="">STATUS</th><th class="">ACTION</th></tr></thead><tbody><tr><td>WRBY</td><td>29.10</td><td>27.72</td><td class="num up">+4.98%</td><td>HOLD</td><td>无</td></tr></tbody></table><h3>持仓监控 · LongBridge（长持）</h3><table><thead><tr><th class="">TICKER</th><th class="">PRICE</th><th class="">COST</th><th class="num">P&amp;L%</th><th class="">TREND</th><th class="">NOTE</th></tr></thead><tbody><tr><td>SYK</td><td>330.50</td><td>319.70</td><td class="num up">+3.38%</td><td>上升</td><td>医疗主线</td></tr><tr><td>BRKR</td><td>58.20</td><td>61.63</td><td class="num dn">-5.57%</td><td>下降</td><td>计划外建仓</td></tr><tr><td>XLV</td><td>168.40</td><td>162.00</td><td class="num up">+3.95%</td><td>上升</td><td>主线ETF</td></tr></tbody></table><h3>Polymarket 事件风险</h3><table><thead><tr><th class="">市场问题</th><th class="">最高概率选项</th><th class="num">概率</th><th class="">成交量</th><th class="">交易含义</th></tr></thead><tbody><tr><td>7月是否降息</td><td>是</td><td class="num">62%</td><td>$4.2M</td><td>偏鸽定价</td></tr></tbody></table></section>
+<footer class="source"><p>数据来源：LongBridge OpenAPI（实时行情/持仓）、Adanos X Top100、WebSearch（VIX9D/Fear&amp;Greed/宏观）、Polymarket、用户提供（Moomoo CSV/Stockbee截图）。本报告不构成投资建议。</p></footer>
+</main></body>
+</html>
