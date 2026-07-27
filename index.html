@@ -43,6 +43,13 @@ h3{font-size:18px;margin:20px 0 8px}
 .badge.green,.green{color:var(--green);background:var(--green-bg);border-color:#bfe0cd}
 .badge.red,.red{color:var(--red);background:var(--red-bg);border-color:#eccabf}
 
+/* Above MA(20/50/200) 三期限独立小标签，2026-07-21对标老师报告格式改版（原来是纯▲▼三字符文本） */
+.ma{white-space:nowrap;font-size:11.5px;font-weight:600}
+.ma b{display:inline-flex;align-items:center;gap:2px;margin-right:6px;color:var(--muted);font-weight:600}
+.ma b.up i{color:var(--green)}
+.ma b.dn i{color:var(--red)}
+.ma i{font-style:normal;font-size:12px}
+
 table{width:100%;border-collapse:separate;border-spacing:0;background:var(--panel);border:1px solid var(--line);
   border-radius:14px;overflow:hidden;margin:10px 0 12px;font-size:14px;box-shadow:0 8px 20px rgba(15,23,42,.04)}
 th,td{border-bottom:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top}
@@ -57,11 +64,11 @@ span.dn{color:var(--red);font-weight:700}
 tr.row-bull td{background:var(--green-bg)}
 tr.row-warn td{background:var(--red-bg)}
 
-.callout{background:#fff;border:1px solid var(--line);border-left:5px solid var(--blue);border-radius:12px;
+.callout{background:var(--blue-bg);border:1px solid var(--line);border-left:5px solid var(--blue);border-radius:12px;
   padding:14px 16px;margin:12px 0 18px}
-.callout.ok{border-left-color:var(--green)}
-.callout.warn{border-left-color:var(--amber)}
-.callout.risk{border-left-color:var(--red)}
+.callout.ok{border-left-color:var(--green);background:#fff}
+.callout.warn{border-left-color:var(--amber);background:#fff}
+.callout.risk{border-left-color:var(--red);background:#fff}
 
 .checks{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:12px 0}
 .check{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 15px;
@@ -94,6 +101,12 @@ tr.row-warn td{background:var(--red-bg)}
 .ad-avoid::before{content:"\2717 ";color:var(--red)}
 .ad-invalidate{border-top:1px dashed #ddc0b8;padding-top:8px;color:#6b6960;font-size:12.5px}
 .ad-invalidate strong{color:#a3422b}
+
+/* 核心纪律专用（2026-07-22 Vic："又有bullet又有**还有红绿灯,太多了"）——跟今日定位的ad-list
+   共用同一个黄色box，但不再加●前缀：box的背景色+行间距已经是一层强调，不需要再叠bullet。 */
+.disc-list{list-style:none;padding:0;margin:8px 0 0}
+.disc-list li.disc-item{margin:9px 0;line-height:1.62}
+.disc-list li.disc-item strong{color:#8a6a10}
 
 .toc{position:sticky;top:8px;z-index:20;display:flex;gap:6px;overflow-x:auto;padding:7px 8px;
   margin-bottom:20px;border:1px solid #c3d6f5;background:var(--blue-bg);border-radius:10px}
@@ -161,6 +174,30 @@ tr.row-warn td{background:var(--red-bg)}
 .status-tag.low{background:var(--green)}
 .status-tag.mid{background:var(--amber)}
 .status-tag.high{background:var(--red)}
+
+/* 今日信号灯：窄小浅色chip + 正文（2026-07-23 Vic："开头标签请用窄的小的浅红浅绿，不要占全行，
+   视觉冲击太强了"——推翻2026-07-22的整行实心色块方案，那个是为了解决"长文本撑成超宽单行"的问题，
+   但整行铺满实色视觉太重。现在chip只包住键名本身（窄/小/浅色背景+深色文字），正文跟在旁边正常
+   颜色换行，不再给整行上色。三档仍是 绿/浅红/深红，不引入黄色。*/
+.signal-blocks{display:flex;flex-direction:column;gap:8px;margin:14px 0 4px}
+.signal-block{display:flex;align-items:flex-start;gap:10px}
+.signal-block .sb-key{flex:0 0 auto;font-size:11px;font-weight:800;letter-spacing:.05em;
+  border-radius:999px;padding:3px 10px;text-align:center;white-space:nowrap;border:1px solid transparent}
+.signal-block .sb-text{font-size:13.5px;line-height:1.66;color:var(--text);flex:1}
+.signal-block .sb-text strong{color:var(--text);font-weight:800}
+.signal-block.low .sb-key{background:var(--green-bg);color:var(--green);border-color:#bfe0cd}
+.signal-block.mid .sb-key{background:var(--amber-bg);color:var(--amber);border-color:#e8c3b8}
+.signal-block.high .sb-key{background:var(--red-bg);color:var(--red);border-color:#eccabf}
+@media(max-width:720px){
+  .signal-block{flex-direction:column;gap:5px}
+}
+
+/* Premarket Movers：删掉价格列后（2026-07-22 Vic"给多点空间"），把省下的宽度分配给三个长文本列 */
+table.movers th:nth-child(1),table.movers td:nth-child(1){width:74px}
+table.movers th:nth-child(2),table.movers td:nth-child(2){width:92px}
+table.movers th:nth-child(3),table.movers td:nth-child(3){width:96px}
+table.movers th:nth-child(4),table.movers td:nth-child(4){width:82px}
+table.movers td:nth-child(n+5){font-size:12.8px;line-height:1.6}
 .discipline-line{font-size:15px;font-weight:700;background:#fff8e1;border:1px solid #ecdfae;border-radius:10px;padding:12px 14px;margin:8px 0 4px}
 
 /* 风险温度打分：5格严重度条，替代之前的四色卡片网格 */
@@ -215,10 +252,15 @@ tr.row-warn td{background:var(--red-bg)}
 <header>
   <div class="eyebrow">交易报告索引 · D:\交易为生</div>
   <h1>盘前 / 盘后报告总览</h1>
-  <p class="muted note">共 11 个交易日。点日期那行的「盘前」「盘后」打开对应报告。此页每次生成报告时自动刷新。
-  <a href="tradebook.html" style="font-weight:800">📒 TradeBook 交易日志 →</a></p>
+  <p class="muted note">共 16 个交易日。点日期那行的「盘前」「盘后」打开对应报告。此页每次生成报告时自动刷新。
+  <a href="tradebook.html" style="font-weight:800">📒 TradeBook 交易日志 →</a>
+  &nbsp;·&nbsp;
+  <a href="https://kaguravicky-web.github.io/earnings/" target="_blank" rel="noopener" style="font-weight:800">📊 财报深度分析归档 →</a>
+  &nbsp;·&nbsp;
+  <a href="https://kaguravicky-web.github.io/options/" target="_blank" rel="noopener" style="font-weight:800">📈 期权流分析框架 →</a>
+  </p>
 </header>
-<table><thead><tr><th>日期</th><th>盘前</th><th>盘后</th><th>标题</th></tr></thead><tbody><tr><td>2026-07-17</td><td><a href="premarket/2026-07-17-premarket.html">盘前</a></td><td><a href="postmarket/2026-07-17-postmarket.html">盘后</a></td><td>2026-07-17 盘前：伊朗第6夜空袭+Fed放鹰，QQQ贴690周防守线——防御轮动的验证日</td></tr><tr><td>2026-07-16</td><td><a href="premarket/2026-07-16-premarket.html">盘前</a></td><td><a href="postmarket/2026-07-16-postmarket.html">盘后</a></td><td>2026-07-16 盘前简报（周四）：UNH大beat vs ELV阴影，TSM beat但遭抛售</td></tr><tr><td>2026-07-15</td><td><a href="premarket/2026-07-15-premarket.html">盘前</a></td><td><a href="postmarket/2026-07-15-postmarket.html">盘后</a></td><td>2026-07-15 盘前简报（周三）</td></tr><tr><td>2026-07-14</td><td><a href="premarket/2026-07-14-premarket.html">盘前</a></td><td><a href="postmarket/2026-07-14-postmarket.html">盘后</a></td><td>CPI前2小时：半导体链带催化剂反弹（TSEM+18.5%/Jensen辟谣），但两根弦更紧了——WTI破80、10Y钉在4.618</td></tr><tr><td>2026-07-13</td><td><a href="premarket/2026-07-13-premarket.html">盘前</a></td><td><a href="postmarket/2026-07-13-postmarket.html">盘后</a></td><td>战争第三夜+记忆体崩盘：KOSPI熔断-8%、DRAM盘前-8.6%——但风暴很窄，医疗/XLY逆势企稳</td></tr><tr><td>2026-07-10</td><td><a href="premarket/2026-07-10-premarket.html">盘前</a></td><td><a href="postmarket/2026-07-10-postmarket.html">盘后</a></td><td>半导体链今晨回吐昨日涨幅：缩量突破的账，今天开始还</td></tr><tr><td>2026-07-09</td><td><a href="premarket/2026-07-09-premarket.html">盘前</a></td><td><a href="postmarket/2026-07-09-postmarket.html">盘后</a></td><td>降级档 vs 全场抢跑：战争第二夜，市场投了&amp;quot;不升级&amp;quot;的票</td></tr><tr><td>2026-07-08</td><td><a href="premarket/2026-07-08-premarket.html">盘前</a></td><td><a href="postmarket/2026-07-08-postmarket.html">盘后</a></td><td>美伊协议撕毁+利率二连破位：外生冲击共振，全面防守日</td></tr><tr><td>2026-07-07</td><td><a href="premarket/2026-07-07-premarket.html">盘前</a></td><td><a href="postmarket/2026-07-07-postmarket.html">盘后</a></td><td>地缘风险+韩国熔断引爆半导体二次抛售，10Y贴死4.50久期防线</td></tr><tr><td>2026-07-06</td><td><a href="premarket/2026-07-06-premarket.html">盘前</a></td><td><a href="postmarket/2026-07-06-postmarket.html">盘后</a></td><td>半导体全线反弹，risk-off轮动出现反转信号</td></tr><tr><td>2026-07-02</td><td><span class="muted">—</span></td><td><a href="postmarket/2026-07-02-postmarket.html">盘后</a></td><td>医疗单边框架兑现，半导体系统性去风险确认</td></tr></tbody></table><h2 style="margin-top:22px">周度复盘（周总结+下周前瞻）</h2><table><thead><tr><th>周</th><th>链接</th><th>标题</th></tr></thead><tbody><tr><td>2026-W29</td><td><a href="weekly/2026-W29-weekly.html">周报</a></td><td>近在咫尺的升级线，一周内打回深度降级</td></tr><tr><td>2026-W28</td><td><a href="weekly/2026-W28-weekly.html">周报</a></td><td>战争周的完整轮回：指数毫发无伤，账户学费不少</td></tr></tbody></table>
+<table><thead><tr><th>日期</th><th>盘前</th><th>盘后</th><th>标题</th></tr></thead><tbody><tr><td>2026-07-24</td><td><a href="premarket/2026-07-24-premarket.html">盘前</a></td><td><a href="postmarket/2026-07-24-postmarket.html">盘后</a></td><td>盘前报告 · 2026-07-24（周五）</td></tr><tr><td>2026-07-23</td><td><a href="premarket/2026-07-23-premarket.html">盘前</a></td><td><a href="postmarket/2026-07-23-postmarket.html">盘后</a></td><td>盘前报告 · 2026-07-23（周四）</td></tr><tr><td>2026-07-22</td><td><a href="premarket/2026-07-22-premarket.html">盘前</a></td><td><a href="postmarket/2026-07-22-postmarket.html">盘后</a></td><td>2026-07-22 盘前：半导体解禁线达成+降级档解除，判决日撞上GOOGL/TSLA/TXN三重财报</td></tr><tr><td>2026-07-21</td><td><a href="premarket/2026-07-21-premarket.html">盘前</a></td><td><a href="postmarket/2026-07-21-postmarket.html">盘后</a></td><td>2026-07-21 盘前：半导体盘前+3.05%正踩纪律#4解禁线(5MA 575.07)，降级档下只做A级半仓</td></tr><tr><td>2026-07-20</td><td><a href="premarket/2026-07-20-premarket.html">盘前</a></td><td><a href="postmarket/2026-07-20-postmarket.html">盘后</a></td><td>2026-07-20 盘前：Kimi K3冲击半导体全周-12.5%，QQQ 690防守线是本周唯一焦点</td></tr><tr><td>2026-07-17</td><td><a href="premarket/2026-07-17-premarket.html">盘前</a></td><td><a href="postmarket/2026-07-17-postmarket.html">盘后</a></td><td>2026-07-17 盘前：伊朗第6夜空袭+Fed放鹰，QQQ贴690周防守线——防御轮动的验证日</td></tr><tr><td>2026-07-16</td><td><a href="premarket/2026-07-16-premarket.html">盘前</a></td><td><a href="postmarket/2026-07-16-postmarket.html">盘后</a></td><td>2026-07-16 盘前简报（周四）：UNH大beat vs ELV阴影，TSM beat但遭抛售</td></tr><tr><td>2026-07-15</td><td><a href="premarket/2026-07-15-premarket.html">盘前</a></td><td><a href="postmarket/2026-07-15-postmarket.html">盘后</a></td><td>2026-07-15 盘前简报（周三）</td></tr><tr><td>2026-07-14</td><td><a href="premarket/2026-07-14-premarket.html">盘前</a></td><td><a href="postmarket/2026-07-14-postmarket.html">盘后</a></td><td>CPI前2小时：半导体链带催化剂反弹（TSEM+18.5%/Jensen辟谣），但两根弦更紧了——WTI破80、10Y钉在4.618</td></tr><tr><td>2026-07-13</td><td><a href="premarket/2026-07-13-premarket.html">盘前</a></td><td><a href="postmarket/2026-07-13-postmarket.html">盘后</a></td><td>战争第三夜+记忆体崩盘：KOSPI熔断-8%、DRAM盘前-8.6%——但风暴很窄，医疗/XLY逆势企稳</td></tr><tr><td>2026-07-10</td><td><a href="premarket/2026-07-10-premarket.html">盘前</a></td><td><a href="postmarket/2026-07-10-postmarket.html">盘后</a></td><td>半导体链今晨回吐昨日涨幅：缩量突破的账，今天开始还</td></tr><tr><td>2026-07-09</td><td><a href="premarket/2026-07-09-premarket.html">盘前</a></td><td><a href="postmarket/2026-07-09-postmarket.html">盘后</a></td><td>降级档 vs 全场抢跑：战争第二夜，市场投了&amp;quot;不升级&amp;quot;的票</td></tr><tr><td>2026-07-08</td><td><a href="premarket/2026-07-08-premarket.html">盘前</a></td><td><a href="postmarket/2026-07-08-postmarket.html">盘后</a></td><td>美伊协议撕毁+利率二连破位：外生冲击共振，全面防守日</td></tr><tr><td>2026-07-07</td><td><a href="premarket/2026-07-07-premarket.html">盘前</a></td><td><a href="postmarket/2026-07-07-postmarket.html">盘后</a></td><td>地缘风险+韩国熔断引爆半导体二次抛售，10Y贴死4.50久期防线</td></tr><tr><td>2026-07-06</td><td><a href="premarket/2026-07-06-premarket.html">盘前</a></td><td><a href="postmarket/2026-07-06-postmarket.html">盘后</a></td><td>半导体全线反弹，risk-off轮动出现反转信号</td></tr><tr><td>2026-07-02</td><td><span class="muted">—</span></td><td><a href="postmarket/2026-07-02-postmarket.html">盘后</a></td><td>医疗单边框架兑现，半导体系统性去风险确认</td></tr></tbody></table><h2 style="margin-top:22px">周度复盘（周总结+下周前瞻）</h2><table><thead><tr><th>周</th><th>链接</th><th>标题</th></tr></thead><tbody><tr><td>2026-W30</td><td><a href="weekly/2026-W30-weekly.html">周报</a></td><td>半导体V型来回甩，QQQ跌破690防守线——&quot;AI Capex过敏&quot;成为本周定价新规则</td></tr><tr><td>2026-W29</td><td><a href="weekly/2026-W29-weekly.html">周报</a></td><td>近在咫尺的升级线，一周内打回深度降级</td></tr><tr><td>2026-W28</td><td><a href="weekly/2026-W28-weekly.html">周报</a></td><td>战争周的完整轮回：指数毫发无伤，账户学费不少</td></tr></tbody></table>
 <footer class="source"><p>本地索引页，无需GitHub。用浏览器打开本文件即可作为每日入口。</p></footer>
 </main></body>
 </html>
