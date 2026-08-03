@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026-07-27 美股盘前监控｜盘前简报 2026-07-27（周一）</title>
+<style>
+:root{
+  --bg:#f5f5f7;--panel:#fff;--text:#1a1f2e;--muted:#6b7280;--line:#e6e8ec;
+  --blue:#2563eb;--green:#2e7d5c;--amber:#b5574a;--red:#a3422b;
+  --green-bg:#e8f3ec;--red-bg:#faeeea;--amber-bg:#f7e3dd;--blue-bg:#eaf2ff;
+  --shadow:0 18px 48px rgba(15,23,42,.07);
+  --soft-green:#6f9e83;--soft-amber:#c48b80;--soft-red:#c48b80;
+}
+/* 2026-07-06：黄色试了两版(#ba7517/#9c7a0a)都被Vic认成棕色，改成红绿二色系统——
+   --amber不再是黄色，而是比--red浅的"暖红/浅砖红"，跟--red同属红色家族、只靠深浅区分"中/高"档，
+   不再引入第三种色相。以后不要再把--amber调回黄/棕色调。*/
+*{box-sizing:border-box}
+body{margin:0;background:linear-gradient(180deg,#fbfbfd 0,var(--bg) 300px);color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft JhengHei","PingFang SC",Arial,sans-serif;
+  line-height:1.58}
+.wrap{max-width:1160px;margin:0 auto;padding:32px 16px 52px}
+header,.panel{background:rgba(255,255,255,.94);border:1px solid var(--line);border-radius:18px;
+  box-shadow:var(--shadow);padding:24px;margin-bottom:18px}
+.eyebrow{font-size:13px;font-weight:800;color:var(--blue);margin-bottom:8px}
+h1{font-size:32px;line-height:1.2;margin:0}
+h2{font-size:23px;margin:30px 0 12px;scroll-margin-top:72px}
+h3{font-size:18px;margin:20px 0 8px}
+.muted,.note{color:var(--muted)}
+.note{font-size:13px}
+
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:18px 0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 15px;
+  box-shadow:0 8px 20px rgba(15,23,42,.04)}
+.card span{display:block;color:var(--muted);font-size:12px;font-weight:800}
+.card strong{display:block;margin-top:4px;font-size:18px}
+
+.badge{display:inline-flex;align-items:center;border-radius:6px;padding:4px 9px;font-size:12.5px;
+  font-weight:700;letter-spacing:.01em;border:1px solid transparent;line-height:1.4}
+.card .badge{display:inline-flex;width:auto}
+.badge.amber,.amber{color:var(--amber);background:var(--amber-bg);border-color:#e8c3b8}
+.badge.blue,.blue{color:var(--blue);background:var(--blue-bg);border-color:#c3d6f5}
+.badge.green,.green{color:var(--green);background:var(--green-bg);border-color:#bfe0cd}
+.badge.red,.red{color:var(--red);background:var(--red-bg);border-color:#eccabf}
+
+/* Above MA(20/50/200) 三期限独立小标签，2026-07-21对标老师报告格式改版（原来是纯▲▼三字符文本） */
+.ma{white-space:nowrap;font-size:11.5px;font-weight:600}
+.ma b{display:inline-flex;align-items:center;gap:2px;margin-right:6px;color:var(--muted);font-weight:600}
+.ma b.up i{color:var(--green)}
+.ma b.dn i{color:var(--red)}
+.ma i{font-style:normal;font-size:12px}
+
+table{width:100%;border-collapse:separate;border-spacing:0;background:var(--panel);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden;margin:10px 0 12px;font-size:14px;box-shadow:0 8px 20px rgba(15,23,42,.04)}
+th,td{border-bottom:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top}
+tr:last-child td{border-bottom:0}
+/* 2026-07-27 Vic："第一行增加颜色，白色突兀"——表头原来是近乎白的#f8fafc，
+   跟深蓝组标题行放一起显得没有分量。加深成灰蓝，作为表头有存在感又不抢组标题的色。*/
+th{background:#e7ecf3;color:#2c3e55;font-weight:800;border-bottom:1px solid #d5dde7}
+.num{text-align:right;font-variant-numeric:tabular-nums}
+.nowrap{white-space:nowrap}
+.ctr{text-align:center}
+.num.up{color:var(--green)}
+.num.dn{color:var(--red)}
+span.up{color:var(--green);font-weight:700}
+span.dn{color:var(--red);font-weight:700}
+tr.row-bull td{background:var(--green-bg)}
+tr.row-warn td{background:var(--red-bg)}
+
+.callout{background:var(--blue-bg);border:1px solid var(--line);border-left:5px solid var(--blue);border-radius:12px;
+  padding:14px 16px;margin:12px 0 18px}
+.callout.ok{border-left-color:var(--green);background:#fff}
+.callout.warn{border-left-color:var(--amber);background:#fff}
+.callout.risk{border-left-color:var(--red);background:#fff}
+
+.checks{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:12px 0}
+.check{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 15px;
+  box-shadow:0 8px 20px rgba(15,23,42,.04)}
+.check span{display:block;color:var(--muted);font-size:12px;font-weight:800}
+.check strong{display:block;margin-top:4px}
+.check small{display:block;margin-top:4px;color:var(--muted)}
+.check.low{border-left:4px solid var(--green)}
+.check.mid{border-left:4px solid var(--amber)}
+.check.high{border-left:4px solid var(--red)}
+
+.regime-triggers{display:flex;gap:16px;margin:0 0 28px}
+.trigger-box{flex:1;padding:16px 20px;border-radius:8px}
+.trigger-upgrade{background:#e8f3ec;border-left:4px solid #2e7d5c}
+.trigger-downgrade{background:#faeeea;border-left:4px solid #a3422b}
+.tb-header{display:flex;align-items:baseline;gap:8px;margin-bottom:8px}
+.tb-arrow{font-size:18px}
+.tb-label{font-weight:800}
+.tb-sub{font-size:11px;color:var(--muted)}
+.tb-rule{font-size:11px;font-weight:800;color:var(--muted)}
+.tb-list{margin:8px 0 0;padding-left:20px}
+.tb-list li{margin:5px 0;font-size:13px}
+
+.action-directive{border-left:3px solid #d9b64a;background:#fff8e1;padding:12px 16px;margin:14px 0 24px}
+.ad-label{color:#9a7b0b;font-size:12px;font-weight:800;letter-spacing:.05em}
+.ad-list{list-style:none;padding:0;margin:8px 0 0}
+.ad-list li{margin:6px 0}
+.ad-primary::before{content:"\25CF ";color:#9a7b0b}
+.ad-watch::before{content:"\25CE ";color:var(--blue)}
+.ad-avoid::before{content:"\2717 ";color:var(--red)}
+.ad-invalidate{border-top:1px dashed #ddc0b8;padding-top:8px;color:#6b6960;font-size:12.5px}
+.ad-invalidate strong{color:#a3422b}
+
+/* 核心纪律专用（2026-07-22 Vic："又有bullet又有**还有红绿灯,太多了"）——跟今日定位的ad-list
+   共用同一个黄色box，但不再加●前缀：box的背景色+行间距已经是一层强调，不需要再叠bullet。 */
+.disc-list{list-style:none;padding:0;margin:8px 0 0}
+.disc-list li.disc-item{margin:9px 0;line-height:1.62}
+.disc-list li.disc-item strong{color:#8a6a10}
+
+/* 导航栏：Chrome标签页样式（2026-07-27 Vic："不要蓝底，我要白底，但是chrome那种标签页格式"）——
+   白底容器 + 底部一条基线；每个标签上圆角、三面描边、坐在基线上，hover/当前项把底边"打开"接进内容区。*/
+.toc{position:sticky;top:0;z-index:20;display:flex;gap:3px;overflow-x:auto;
+  padding:8px 10px 0;margin-bottom:20px;background:#fff;
+  border-bottom:1px solid var(--line);box-shadow:0 6px 14px rgba(15,23,42,.05)}
+.toc::-webkit-scrollbar{height:0}
+.toc a{flex:0 0 auto;position:relative;bottom:-1px;padding:7px 14px;
+  color:var(--muted);font-size:12.5px;font-weight:600;text-decoration:none;white-space:nowrap;
+  background:#f4f5f7;border:1px solid var(--line);border-radius:9px 9px 0 0}
+.toc a:hover,.toc a:focus{background:#fff;color:var(--blue);border-bottom-color:#fff}
+
+.source{font-size:12px;color:var(--muted)}
+.placeholder{color:var(--muted);font-style:italic}
+.kicker{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:18px 0 2px}
+
+/* 盘后/一周复盘共用组件（借鉴sintszkay示例站点的report-shared.css） */
+.hitbar{display:flex;height:14px;border-radius:999px;overflow:hidden;margin:14px 0 6px;max-width:520px}
+.hitbar i{display:block;height:100%}
+.hitbar .h{background:var(--green)}.hitbar .p{background:var(--amber)}.hitbar .m{background:var(--red)}
+.hitbar-legend{font-size:12px;color:var(--muted)}
+.hitbar-legend b{color:var(--text)}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin:0 4px 0 12px;vertical-align:1px}
+.dot.h{background:var(--green)}.dot.p{background:var(--amber)}.dot.m{background:var(--red)}
+
+.result-badge{display:inline-flex;min-width:52px;justify-content:center;border-radius:999px;padding:3px 8px;font-size:11px;font-weight:700}
+.result-hit{color:var(--green);background:#e8f3ec}
+.result-partial{color:var(--amber);background:var(--amber-bg)}
+.result-miss{color:var(--red);background:#faeeea}
+.result-not-triggered{color:var(--muted);background:#eef0f3}
+
+.chart{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:16px 18px 10px;margin:12px 0;box-shadow:0 6px 16px rgba(15,23,42,.035)}
+.chart-title{font-size:12px;font-weight:700;color:var(--muted);margin:0 0 10px}
+.bar-row{display:grid;grid-template-columns:104px 62px 1fr;align-items:center;gap:8px;margin:5px 0}
+.bar-row .lbl{font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar-row .val{font-size:12.5px;font-weight:700;text-align:right;font-variant-numeric:tabular-nums}
+.bar-row .val.pos{color:var(--green)}.bar-row .val.neg{color:var(--red)}
+.bar-track{position:relative;height:18px;background:#f6f7f9;border-radius:4px}
+.bar-track .b{position:absolute;top:2px;bottom:2px;border-radius:3px}
+.bar-track .b.pos{background:var(--green);opacity:.75}
+.bar-track .b.neg{background:var(--red);opacity:.75}
+
+.rsi{display:inline-flex;align-items:center;gap:6px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.rsi i{display:block;width:46px;height:6px;border-radius:999px;background:#edeff2;position:relative;overflow:hidden}
+.rsi i b{position:absolute;left:0;top:0;bottom:0;border-radius:999px;background:#9aa4b2}
+.rsi.hot{color:#8f3323;font-weight:700}.rsi.hot i b{background:var(--red)}
+.rsi.cold{color:#246849;font-weight:700}.rsi.cold i b{background:var(--green)}
+
+.ma-state{display:inline-flex;align-items:center;justify-content:center;gap:3px;font-size:13px;font-weight:800;margin-right:6px}
+.ma-state.ma-up .ma-arrow{color:var(--green)}
+.ma-state.ma-down .ma-arrow{color:var(--red)}
+.ma-period{color:var(--muted);font-size:12px;font-weight:700}
+.ma-arrow{font-size:13px;line-height:1}
+
+.pct{display:flex;align-items:center;gap:8px;justify-content:flex-end}
+.pct i{display:block;width:72px;height:8px;border-radius:999px;background:#edeff2;position:relative;overflow:hidden}
+.pct i b{position:absolute;left:0;top:0;bottom:0;border-radius:999px;background:var(--blue);opacity:.7}
+.pct em{font-style:normal;font-variant-numeric:tabular-nums;font-weight:600;min-width:52px;text-align:right}
+
+.atr{display:inline-flex;align-items:center;gap:6px;white-space:nowrap;font-variant-numeric:tabular-nums;font-weight:600}
+.atr i{display:inline-flex;gap:2px}
+.atr i b{width:6px;height:12px;border-radius:2px;background:#e6e8ec}
+.atr.l1 i b:nth-child(-n+1),.atr.l2 i b:nth-child(-n+2){background:var(--amber)}
+.atr.l3 i b:nth-child(-n+3){background:var(--red)}
+.atr.l4 i b:nth-child(-n+4){background:var(--red)}
+.atr.l3,.atr.l4{color:#8f3323}
+
+/* 50MA ATR延伸条（2026-07-27新增，借鉴Vic老师报告的"距50MA(ATR)"可视化，见report_helpers.atr_extension_rows）。
+   4格分段条，方向决定色系（跌=红家族/涨=绿家族，不引入黄棕色，沿用项目既有红绿二色规则），
+   l0-l4按|距50MA(ATR)|幅度分级，级数越高填色越多、颜色越深。*/
+/* 2026-07-27 Vic："距离50ma atr那个4个点应该对齐的"——原来i和em都按内容自适应宽度，
+   数字位数不同（-0.75 vs -2.40 vs +1.66）就把方块推得左右错位。改成两段都定宽即可列对齐。*/
+.atr-cell{display:inline-flex;align-items:center;gap:8px;white-space:nowrap;font-variant-numeric:tabular-nums;font-weight:600}
+.atr-cell i{display:inline-flex;gap:2px;width:30px;flex:0 0 30px}
+.atr-cell i b{width:6px;height:12px;border-radius:2px;background:#e6e8ec;flex:0 0 6px}
+.atr-cell em{min-width:46px;text-align:right}
+.atr-cell.dn.l1 i b:nth-child(-n+1),.atr-cell.dn.l2 i b:nth-child(-n+2){background:var(--amber)}
+.atr-cell.dn.l3 i b:nth-child(-n+3),.atr-cell.dn.l4 i b:nth-child(-n+4){background:var(--red)}
+.atr-cell.dn.l3 em,.atr-cell.dn.l4 em{color:#8f3323}
+.atr-cell.up.l1 i b:nth-child(-n+1),.atr-cell.up.l2 i b:nth-child(-n+2){background:#bfe0cd}
+.atr-cell.up.l3 i b:nth-child(-n+3),.atr-cell.up.l4 i b:nth-child(-n+4){background:var(--green)}
+.atr-cell.up.l3 em,.atr-cell.up.l4 em{color:var(--green)}
+.atr-cell em{font-style:normal;margin-left:2px}
+
+/* 2026-07-27 Vic："第一组/第二组/第三组是同样的表格格式，他们应该都对齐的"
+   + "你表格标题不要换行呀"。fixed布局+colgroup定宽=多张同构表列宽一致；th一律不换行。*/
+/* 三表一致性检查（2026-07-27 Vic："如果不同向，一定要指出"）：
+   同向=低调淡绿（只是确认，不该抢注意力）；分歧=红框高亮（分歧才是这个模块的价值所在）*/
+.cc-box{margin-top:12px;padding:12px 14px;border-radius:8px;border:1px solid var(--line)}
+.cc-box.cc-aligned{background:var(--green-bg);border-color:#bfe0cd}
+.cc-box.cc-split{background:var(--red-bg);border-color:#eccabf}
+.cc-head{font-weight:700;margin-bottom:8px}
+.cc-box.cc-aligned .cc-head{color:var(--green)}
+.cc-box.cc-split .cc-head{color:var(--red)}
+.cc-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.cc-chip{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:700;background:#fff;border:1px solid var(--line)}
+.cc-chip.cc-bull{color:var(--green);border-color:#bfe0cd}
+.cc-chip.cc-bear{color:var(--red);border-color:#eccabf}
+.cc-chip.cc-neutral{color:var(--muted)}
+.cc-detail{font-size:13.5px;line-height:1.75}
+
+/* 分段小结：每条独立成行、续行悬挂缩进对齐首行文字左边缘
+   （2026-07-27 Vic："按; 分段落；段落开头缩进对齐"／"重点要分行，每行开头缩进对齐"）*/
+/* A级入场触发常驻说明（2026-07-27 Vic："一开始我会记不住，在A级表格下面增加注释"）*/
+.entry-legend{margin:4px 0 6px;padding:11px 14px;border-radius:8px;
+  background:#f6f7f9;border:1px solid var(--line);border-left:4px solid var(--muted)}
+.entry-legend .el-title{font-weight:700;color:var(--text);margin-bottom:6px;font-size:13.5px}
+.entry-legend .co-item{font-size:12.8px;line-height:1.8}
+.entry-legend b{color:var(--text)}
+
+/* A/B/C候选卡（2026-07-27 Vic："A/B/C级格式统一吧，A级绿色，B/C灰色或者浅绿色"）*/
+.wl-card{border-radius:8px;padding:10px 13px;margin:0 0 9px;border:1px solid var(--line)}
+.wl-card.wl-a{background:var(--green-bg);border-color:#bfe0cd}
+.wl-card.wl-c{background:#f6f7f9}
+.wl-head{font-size:14.5px;margin-bottom:5px}
+.wl-head strong{font-size:15px}
+.wl-line{font-size:13px;line-height:1.8;color:var(--text)}
+.wl-line b{color:var(--muted);font-weight:700}
+.src-chip{display:inline-block;margin-left:8px;padding:1px 8px;border-radius:999px;
+  background:#fff;border:1px solid var(--line);font-size:11.5px;font-weight:700;color:var(--muted)}
+
+/* 本周日历（2026-07-27 Vic："做成6列 5个工作日 加周末的日历样子"）*/
+.cal-table{table-layout:fixed;width:100%}
+.cal-table th{background:#1f3a5f;color:#fff;font-size:12px;text-align:center;padding:6px 4px;white-space:nowrap}
+.cal-table td{vertical-align:top;padding:8px 6px;font-size:12.5px;line-height:1.6}
+.cal-list{list-style:none;padding:0;margin:0}
+.cal-list li{margin:0 0 6px;padding-left:.8em;text-indent:-.8em}
+.cal-list li::before{content:"·";color:var(--muted);margin-right:.4em}
+.cal-none{color:var(--muted)}
+
+/* X观点池：账号名 + 该账号多条bullet（2026-07-27 Vic：同一账号只出现一次名字）*/
+.x-acct{margin:0 0 12px}
+.x-handle{font-weight:700;color:var(--blue);margin-bottom:3px}
+
+/* 长表分区（2026-07-27 Vic："市宽表格很长了，能不能再分板块，格式上让我好读一些"）：
+   组标题=深蓝色带；组内数据行用.row-band上浅蓝底，跟白底的其它组区分开。*/
+tr.row-group td{background:#1f3a5f;color:#fff;font-weight:700;font-size:12.5px;
+  letter-spacing:.04em;padding:5px 10px}
+tr.row-band td{background:var(--blue-bg)}
+/* C级：灰底降权（2026-07-27 A/B/C三级共表，只靠底色区分）*/
+tr.row-mute td{background:#f4f5f7;color:var(--muted)}
+
+/* 核心结论：编号 + 粗体标题句 + 支撑句（2026-07-27对标老师报告的「核心結論」格式）*/
+.kt-list{margin:10px 0 0;padding-left:1.4em}
+.kt-item{margin:0 0 10px}
+.kt-item:last-child{margin-bottom:0}
+.kt-head{font-weight:700}
+.kt-body{margin-top:3px;color:var(--text);font-size:13.5px;line-height:1.75}
+
+/* 2026-07-27 Vic："加bullet对齐吧，参考我老师用的bullet point"——老师用 • 做并列项标记
+   （核心結論那种有顺序的才用1./2./3.）。悬挂缩进让续行与首行文字左边缘对齐。*/
+.co-list{margin-top:6px}
+.co-item{padding-left:1.25em;text-indent:-1.25em;margin:0 0 5px}
+.co-item:last-child{margin-bottom:0}
+.co-item::before{content:"•";color:var(--muted);margin-right:.6em}
+
+table.fixed-cols{table-layout:fixed}
+table.fixed-cols td{overflow-wrap:anywhere}
+th{white-space:nowrap}
+
+.trend-tag{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap}
+.trend-tag.down{color:var(--red);background:var(--red-bg)}
+.trend-tag.critical{color:#6b7280;background:#f1f2f4}
+.trend-tag.strong{color:var(--green);background:var(--green-bg)}
+
+/* 今日信号灯：整块实心色标签，替代之前的大卡片 */
+.status-row{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+.status-tag{display:inline-flex;align-items:center;padding:6px 12px;border-radius:6px;font-size:13px;font-weight:700;color:#fff;white-space:nowrap}
+.status-tag.low{background:var(--green)}
+.status-tag.mid{background:var(--amber)}
+.status-tag.high{background:var(--red)}
+
+/* 今日信号灯：窄小浅色chip + 正文（2026-07-23 Vic："开头标签请用窄的小的浅红浅绿，不要占全行，
+   视觉冲击太强了"——推翻2026-07-22的整行实心色块方案，那个是为了解决"长文本撑成超宽单行"的问题，
+   但整行铺满实色视觉太重。现在chip只包住键名本身（窄/小/浅色背景+深色文字），正文跟在旁边正常
+   颜色换行，不再给整行上色。三档仍是 绿/浅红/深红，不引入黄色。*/
+.signal-blocks{display:flex;flex-direction:column;gap:8px;margin:14px 0 4px}
+.signal-block{display:flex;align-items:flex-start;gap:10px}
+.signal-block .sb-key{flex:0 0 auto;font-size:11px;font-weight:800;letter-spacing:.05em;
+  border-radius:999px;padding:3px 10px;text-align:center;white-space:nowrap;border:1px solid transparent}
+.signal-block .sb-text{font-size:13.5px;line-height:1.66;color:var(--text);flex:1}
+.signal-block .sb-text strong{color:var(--text);font-weight:800}
+.signal-block.low .sb-key{background:var(--green-bg);color:var(--green);border-color:#bfe0cd}
+.signal-block.mid .sb-key{background:var(--amber-bg);color:var(--amber);border-color:#e8c3b8}
+.signal-block.high .sb-key{background:var(--red-bg);color:var(--red);border-color:#eccabf}
+@media(max-width:720px){
+  .signal-block{flex-direction:column;gap:5px}
+}
+
+/* Premarket Movers：删掉价格列后（2026-07-22 Vic"给多点空间"），把省下的宽度分配给三个长文本列 */
+table.movers th:nth-child(1),table.movers td:nth-child(1){width:74px}
+table.movers th:nth-child(2),table.movers td:nth-child(2){width:92px}
+table.movers th:nth-child(3),table.movers td:nth-child(3){width:96px}
+table.movers th:nth-child(4),table.movers td:nth-child(4){width:82px}
+table.movers td:nth-child(n+5){font-size:12.8px;line-height:1.6}
+.discipline-line{font-size:15px;font-weight:700;background:#fff8e1;border:1px solid #ecdfae;border-radius:10px;padding:12px 14px;margin:8px 0 4px}
+
+/* 风险温度打分：5格严重度条，替代之前的四色卡片网格 */
+.risk-rows{display:flex;flex-direction:column;gap:2px;margin:10px 0}
+.risk-row{display:grid;grid-template-columns:200px 90px 1fr;align-items:center;gap:12px;padding:8px 4px;border-bottom:1px solid var(--line)}
+.risk-row:last-child{border-bottom:0}
+.risk-label{font-size:13.5px;font-weight:600}
+.risk-detail{font-size:12.5px;color:var(--muted)}
+.severity{display:inline-flex;gap:2px}
+.severity i{width:15px;height:9px;border-radius:2px;background:#eceef1;display:block}
+.severity.low i:nth-child(-n+2){background:var(--soft-green)}
+.severity.mid i:nth-child(-n+3){background:var(--soft-red)}
+.severity.high i{background:#8b1f10}
+#risk .hitbar .h{background:var(--soft-green)}
+#risk .hitbar .p{background:var(--soft-red)}
+#risk .hitbar .m{background:var(--amber)}
+@media(max-width:640px){.risk-row{grid-template-columns:1fr;gap:4px}}
+
+/* Setup / 机会扫描：方法分组标签 + Leader对比 */
+.method-tag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.04em;color:var(--blue);
+  background:var(--blue-bg);border:1px solid #c3d6f5;border-radius:5px;padding:3px 8px;margin:18px 0 4px}
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:10px 0}
+.compare-grid h4{margin:0 0 6px;font-size:14px;font-weight:800}
+.compare-grid h4 small{font-weight:600;color:var(--muted);font-size:12px}
+@media(max-width:760px){.compare-grid{grid-template-columns:1fr}}
+
+/* 对账清单：预判 vs 收盘核对 */
+.ledger-table td.pending{color:var(--muted);font-style:italic}
+
+/* 攻守记分板：统一表格，避免卡片+小结拆散的观感 */
+.scoreboard-table td.status-met{color:var(--green);font-weight:700;background:var(--green-bg)}
+.scoreboard-table td.status-unmet{color:var(--muted)}
+.scoreboard-table td.status-triggered{color:var(--red);font-weight:700;background:var(--red-bg)}
+.scoreboard-table td.status-safe{color:var(--green);font-weight:700;background:var(--green-bg)}
+.scoreboard-table td.type-col{color:var(--muted);font-size:12.5px;white-space:nowrap}
+
+@media(max-width:760px){.bar-row{grid-template-columns:88px 56px 1fr}}
+
+@media(max-width:900px){.grid,.checks{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:640px){
+  .wrap{padding:20px 12px 40px}
+  header{padding:18px}
+  h1{font-size:26px}
+  .grid,.checks{grid-template-columns:1fr}
+  .regime-triggers{flex-direction:column}
+  table{display:block;overflow-x:auto;white-space:nowrap}
+}
+
+</style>
+</head>
+<body data-report-type="premarket"><main class="wrap">
+<header>
+  <div class="eyebrow">美股盘前监控 · 2026-07-27 · 2026-07-27 17:30 SGT（段1判断基于7/24收盘+X扫描；段2盘前报价取自17:18 SGT快照，距开盘约4小时，盘前流动性仍偏薄）</div>
+  <h1>盘前简报 2026-07-27（周一）</h1>
+  
+</header>
+<nav class="toc" aria-label="章节导航"><a href="#signal">信号灯</a><a href="#risk">动能打分</a><a href="#scoreboard">攻守记分板</a><a href="#breadthscore">市宽打分</a><a href="#macro">宏观</a><a href="#gate">指数闸门</a><a href="#positions">持仓</a><a href="#news">消息</a><a href="#movers">盘前异动</a><a href="#setup">机会扫描</a><a href="#scenario">情景分析</a><a href="#wrapup">今日定位</a></nav>
+<section id="signal"><h2>今日信号灯</h2><div class="signal-blocks"><div class="signal-block mid"><span class="sb-key">BIAS</span><span class="sb-text">美伊停火驱动risk-on：QQQ盘前+1.59%/IWM+1.23%，但档位不变（盘前抢跑不改档位）</span></div><div class="signal-block high"><span class="sb-key">BOND</span><span class="sb-text">10Y 4.68%，RATE-ALERT仍触发（停火后油价崩→通胀预期可能回落，但收盘前不作数）</span></div><div class="signal-block high"><span class="sb-key">DXY</span><span class="sb-text">美元走强(UUP 28.58，5日+0.88%，站上20/50MA，RSI 64.3)——与10Y 4.68%构成<strong>双重压制</strong>，高Beta/长久期成长股今日受两条独立压制线夹击</span></div><div class="signal-block high"><span class="sb-key">BREADTH</span><span class="sb-text">降级档维持：5日涨跌比0.83（&lt;1.0触发）、T2108 51.0贴近50降级线</span></div></div><div class="action-directive"><span class="ad-label">→ 核心纪律</span><ul class="disc-list"><li class="disc-item">今天最大的风险不是选错票，是追高——全场跳空高开由一条地缘头条驱动，而&#x27;买入当天冲高回落&#x27;是你W28以来重复次数最多的亏损形态（3批）。降级档=半仓+只做A级，Setup B/突破类今日不做。</li><li class="disc-item">半导体链禁碰<strong>维持不变</strong>：SMH盘前576.01已站上5MA解禁线574.24，但&#x27;盘前抢跑不改档位&#x27;这条规则7/21刚验证过是对的——<strong>要等收盘确认</strong>。若今日收盘站稳574.24上方，明日解禁。</li><li class="disc-item">段1的能源主线已被停火消息证伪，全部能源候选今日不执行（详见下方冲突说明）。</li></ul></div></section><section id="risk"><h2>今日动能打分</h2><div class="risk-rows"><div class="risk-row"><span class="risk-label">S&amp;P 500 overextension</span><span class="severity low"><i></i><i></i><i></i><i></i><i></i></span><span class="risk-detail">SPY距50MA -0.75ATR，无过热问题——风险在破位不在过热</span></div><div class="risk-row"><span class="risk-label">Increasing downward momentum</span><span class="severity mid"><i></i><i></i><i></i><i></i><i></i></span><span class="risk-detail">7/24半导体链暴跌带动，但今日盘前全面回补(QQQ+1.59%)——动能方向被停火消息打断，待收盘确认</span></div><div class="risk-row"><span class="risk-label">Top range breakdown</span><span class="severity high"><i></i><i></i><i></i><i></i><i></i></span><span class="risk-detail">QQQ已跌破690周防守线(收684.23)；SPY距20MA-1ATR降级线738.00仅+0.13%缓冲</span></div><div class="risk-row"><span class="risk-label">Technical deterioration</span><span class="severity high"><i></i><i></i><i></i><i></i><i></i></span><span class="risk-detail">QQQ RSI 39.3、QQQE 39.2均跌破40；QQQ距50MA -2.40ATR、QQQE -1.79ATR，负偏离在扩大</span></div><div class="risk-row"><span class="risk-label">Market breadth worsening</span><span class="severity high"><i></i><i></i><i></i><i></i><i></i></span><span class="risk-detail">NDX&gt;20MA 32.03(7/21曾47.54)、NDX&gt;50MA 39.80持续下滑；5日ratio 0.83、T2108 51.0贴50线</span></div><div class="risk-row"><span class="risk-label">VIX &gt;20 spike</span><span class="severity low"><i></i><i></i><i></i><i></i><i></i></span><span class="risk-detail">VIX 18.58，停火后风险偏好回补，短期尖峰概率下降</span></div><div class="risk-row"><span class="risk-label">Rate shock (exogenous)</span><span class="severity high"><i></i><i></i><i></i><i></i><i></i></span><span class="risk-detail">10Y 4.68%，RATE-ALERT触发中；停火压低油价理论上利于通胀预期，但本周FOMC(7/29)+核心PCE(7/30)是更大变量</span></div><div class="risk-row"><span class="risk-label">Geopolitical shock (exogenous)</span><span class="severity mid"><i></i><i></i><i></i><i></i><i></i></span><span class="risk-detail">美伊停火落地(Brent -4.17%至$92.74)使风险大幅下降，但胡塞仍袭击红海航运并击中沙特能源资产、霍尔木兹不确定性未除——是降温不是解除</span></div><div class="risk-row"><span class="risk-label">Theme momentum weakening</span><span class="severity mid"><i></i><i></i><i></i><i></i><i></i></span><span class="risk-detail">半导体链盘前全线+2.6~6%强势回补(SMH站上5MA解禁线)，但能源链同步崩塌——主题层面是剧烈轮动不是单边转弱</span></div></div><div class="callout"><strong>小结：</strong><div class="co-list"><div class="co-item">9项里4项深红，与上周持平</div><div class="co-item">唯一变化是Geopolitical shock从深红降到中档（美伊停火、Brent -4.17%）</div><div class="co-item">但这个降级是事件性的——胡塞仍在袭击红海航运，停火只覆盖美伊双边，不是风险解除</div></div></div></section><section id="scoreboard"><h2>攻守记分板</h2><table class="fixed-cols"><colgroup><col style="width:7%"><col style="width:9%"><col style="width:11%"><col style="width:9%"><col style="width:9%"><col style="width:9%"><col style="width:12%"><col style="width:34%"></colgroup><thead><tr><th>指数</th><th class="num">收盘</th><th class="num">进攻线(=标配)</th><th class="num">距进攻</th><th class="num">防守线</th><th class="num">距防守</th><th>状态</th><th>说明</th></tr></thead><tbody><tr class="row-warn"><td><b>QQQ</b></td><td class="num">684.23</td><td class="num">728</td><td class="num">-6.01%</td><td class="num">690</td><td class="num">-0.84%</td><td class="status-triggered">已跌破防守线</td><td>跌破防守线即不可能在标配区间——这两条线是同一根尺上的位置，不是两个独立判断。盘前+1.59%回补至约695，<strong>但盘前抢跑不改档位，看收盘</strong>。</td></tr><tr><td><b>SPY</b></td><td class="num">738.93</td><td class="num">748</td><td class="num">-1.21%</td><td class="num">720</td><td class="num">+2.63%</td><td class="status-unmet">中性区</td><td>未达进攻线、也未破防守线。<strong>更近的一条是20MA-1ATR降级线738.00，只剩+0.13%缓冲</strong>——今天真正要盯的是它，不是720。</td></tr></tbody></table><div class="callout"><strong>小结：</strong><div class="co-list"><div class="co-item">QQQ已跌破防守线、SPY仍在中性区，权重股受伤但大盘未破</div><div class="co-item">「科技标配」两行已删——门槛与进攻线数值相同，是重复行</div><div class="co-item">SPY更近的一条是20MA-1ATR降级线738.00，只剩+0.13%缓冲，今天盯它不是720</div></div></div></section><section id="breadthscore"><h2>市宽打分</h2><table class="scoreboard-table"><thead><tr><th>条件</th><th>类型</th><th class="num">门槛</th><th class="num">当前值</th><th class="num">距门槛%</th><th>状态</th></tr></thead><tbody><tr><td>10D ratio</td><td class="type-col">升级</td><td class="num">&gt;1.35</td><td class="num">0.76</td><td class="num">-43.7%</td><td class="status-unmet">未满足</td></tr><tr><td>NDX &gt; 50MA</td><td class="type-col">升级</td><td class="num">&gt;52%</td><td class="num">39.80%</td><td class="num">-23.5%</td><td class="status-unmet">未满足</td></tr><tr class="row-bull"><td>T2108</td><td class="type-col">降级</td><td class="num">&lt;50</td><td class="num">51.00</td><td class="num">+2.0%（贴近门槛）</td><td class="status-safe">安全</td></tr><tr class="row-bull"><td>Stocks up / down 4%+</td><td class="type-col">降级</td><td class="num">跌方&gt;400</td><td class="num">144涨 / 349跌</td><td class="num">-12.8%（距400）</td><td class="status-safe">安全</td></tr><tr class="row-warn"><td>5D ratio</td><td class="type-col">降级</td><td class="num">&lt;1.0</td><td class="num">0.83</td><td class="num">-17.0%</td><td class="status-triggered">已触发</td></tr></tbody></table><div class="callout"><strong>小结：</strong><div class="co-list"><div class="co-item">0/2升级条件满足，10D ratio(0.76)距门槛差43.7%最远</div><div class="co-item">降级项里只有5D ratio(0.83)触发，这是降级档当前唯一的有效理由</div><div class="co-item">涨跌4%+按144/349看，跌方是涨方2.4倍，比「349未破400」更能说明广度质量</div></div></div><div class="cc-box cc-aligned"><div class="cc-head">三表同向（均为偏空）</div><div class="cc-chips"><span class="cc-chip cc-bear">攻守记分板：偏空</span><span class="cc-chip cc-bear">市宽打分：偏空</span><span class="cc-chip cc-bear">动能打分：偏空</span></div><div class="cc-detail">攻守记分板、市宽打分、动能打分本日指向一致——价格位置、广度内部、风险清单三个角度没有互相矛盾，判断可以直接采用。</div></div></section><section id="macro"><h2>01 宏观环境</h2><h3>A · 市宽</h3><table class="fixed-cols"><colgroup><col style="width:20%"><col style="width:12%"><col style="width:10%"><col style="width:12%"><col style="width:14%"><col style="width:32%"></colgroup><thead><tr><th class="">指标</th><th class="">T</th><th class="num">T-1</th><th class="">变化</th><th class="">基准</th><th class="">判断</th></tr></thead><tbody><tr class="row-group"><td colspan="6">指数成分过均线比例 · 来源 Vic Sheet「Maket breath」</td></tr><tr class="row-band"><td>SPX &gt; 20MA</td><td><span class="up">55.06</span></td><td class="num">43.33</td><td><span class="trend-tag strong">▲ 11.73</span></td><td>50</td><td></td></tr><tr class="row-band"><td>SPX &gt; 50MA</td><td><span class="up">65.20</span></td><td class="num">57.65</td><td><span class="trend-tag strong">▲ 7.55</span></td><td>50</td><td></td></tr><tr class="row-band"><td>NDX &gt; 20MA</td><td><span class="dn">32.03</span></td><td class="num">31.06</td><td><span class="trend-tag strong">▲ 0.97</span></td><td>50</td><td>纳指内部最弱一项，7/21曾47.54</td></tr><tr class="row-band"><td>NDX &gt; 50MA</td><td><span class="dn">39.80</span></td><td class="num">39.80</td><td><span class="trend-tag critical">持平</span></td><td>52（升级线）</td><td>中期结构未修复</td></tr><tr class="row-band"><td>IWM &gt; 20MA</td><td><span class="dn">39.79</span></td><td class="num">35.50</td><td><span class="trend-tag strong">▲ 4.29</span></td><td>50</td><td></td></tr><tr class="row-band"><td>IWM &gt; 50MA</td><td><span class="up">56.51</span></td><td class="num">56.26</td><td><span class="trend-tag strong">▲ 0.25</span></td><td>50</td><td></td></tr><tr class="row-group"><td colspan="6">Stockbee 广度指标 · 全市场约6500只</td></tr><tr><td>T2108</td><td><span class="up">51.00</span></td><td class="num">47.17</td><td><span class="trend-tag strong">▲ 3.83</span></td><td>50（降级线）</td><td>贴近降级线</td></tr><tr><td>5D ratio</td><td><span class="dn">0.83</span></td><td class="num">0.97</td><td><span class="trend-tag down">▼ 0.14</span></td><td>1.00（降级线）</td><td>降级档当前唯一有效理由</td></tr><tr><td>10D ratio</td><td><span class="dn">0.76</span></td><td class="num">0.80</td><td><span class="trend-tag down">▼ 0.04</span></td><td>1.35（升级线）</td><td>距门槛差43.7%，全表最远</td></tr><tr><td>Stocks up 4%+</td><td>144</td><td class="num">138</td><td><span class="trend-tag strong">▲ 6.00</span></td><td>-</td><td></td></tr><tr><td>Stocks down 4%+</td><td><span class="up">349</span></td><td class="num">325</td><td><span class="trend-tag down">▲ 24.00</span></td><td>400（降级线）</td><td>跌方是涨方的2.4倍</td></tr><tr class="row-group"><td colspan="6">COMBINED U.S. MARKET BREADTH · 2469只（SPX+NDX+RUT+DJIA去重）</td></tr><tr class="row-band"><td>New Highs vs New Lows</td><td><span class="up">+62</span></td><td class="num up">+2</td><td><span class="trend-tag strong">▲ 60.00</span></td><td>净值 &gt; 0</td><td>99新高 vs 37新低</td></tr><tr class="row-band"><td>Advance vs Decline %</td><td><span class="up">59</span></td><td class="num">34</td><td><span class="trend-tag strong">▲ 25.00</span></td><td>50</td><td>1428涨/1007跌，较7/23的34%大幅改善</td></tr><tr class="row-band"><td>Up from Open vs Down</td><td><span class="dn">-29</span></td><td class="num up">+161</td><td><span class="trend-tag down">▼ 190.00</span></td><td>净值 &gt; 0</td><td>1206 vs 1235——涨跌家数好但盘中走弱，尾盘抛压</td></tr><tr class="row-band"><td>Up Volume vs Down Volume</td><td><span class="up">+68</span></td><td class="num dn">-191</td><td><span class="trend-tag strong">▲ 259.00</span></td><td>净值 &gt; 0</td><td>260 vs 192，量能站在上涨侧</td></tr><tr class="row-band"><td>Daily Score</td><td><span class="up">56</span></td><td class="num">42</td><td><span class="trend-tag strong">▲ 14.00</span></td><td>50（0-100）</td><td>较7/23的42明显回升</td></tr><tr class="row-band"><td>Weinstein Stage 2 / Stage 4 占比</td><td><span class="up">40</span>% / 16%</td><td class="num">40% / 17%</td><td><span class="trend-tag critical">持平</span></td><td>S2 &gt; 40 / S4 &lt; 20</td><td>Stage2=可买池子大小；Stage4收窄16%（7/23为17%）</td></tr></tbody></table><div class="callout"><strong>小结：</strong><div class="co-list"><div class="co-item">标普广度在修复、纳指广度在恶化——资金从科技往外轮动，不是全市场同步转弱</div><div class="co-item">COMBINED口径7/24 Daily Score 56、涨跌家数59%，但Up-from-Open净-29——涨跌家数好看、盘中却走弱，7/24那根阳线质量不高</div><div class="co-item">Weinstein Stage2占比40%、Stage4收窄到16%，可买池子没有进一步萎缩</div></div></div><h3>B · 指数</h3><table class="atr-ext-table"><thead><tr><th>指标</th><th class="num">价格</th><th class="num">50MA</th><th class="num">ATR(14)</th><th class="num">距50MA ATR</th><th>趋势</th><th>判断</th></tr></thead><tbody><tr><td>SPY</td><td class="num">738.93</td><td class="num">745.07</td><td class="num">8.15</td><td class="num"><span class="atr-cell dn l2"><i><b></b><b></b><b></b><b></b></i><em>-0.75</em></span></td><td><span class="trend-tag down">下降</span></td><td>趋势未修复，但未过度延伸</td></tr><tr><td>QQQ</td><td class="num">684.23</td><td class="num">718.29</td><td class="num">14.17</td><td class="num"><span class="atr-cell dn l4"><i><b></b><b></b><b></b><b></b></i><em>-2.40</em></span></td><td><span class="trend-tag down">下降</span></td><td>压力持续加深</td></tr><tr><td>QQQE</td><td class="num">115.41</td><td class="num">118.33</td><td class="num">1.63</td><td class="num"><span class="atr-cell dn l3"><i><b></b><b></b><b></b><b></b></i><em>-1.79</em></span></td><td><span class="trend-tag down">下降</span></td><td>压力持续加深</td></tr><tr><td>RSP</td><td class="num">213.57</td><td class="num">210.06</td><td class="num">2.11</td><td class="num"><span class="atr-cell up l3"><i><b></b><b></b><b></b><b></b></i><em>+1.66</em></span></td><td><span class="trend-tag strong">相对强</span></td><td>相对强势格局</td></tr><tr><td>DIA</td><td class="num">518.76</td><td class="num">514.56</td><td class="num">5.40</td><td class="num"><span class="atr-cell up l2"><i><b></b><b></b><b></b><b></b></i><em>+0.78</em></span></td><td><span class="trend-tag strong">横盘偏强</span></td><td>守稳，未转强</td></tr><tr><td>IWM</td><td class="num">291.17</td><td class="num">291.19</td><td class="num">4.33</td><td class="num"><span class="atr-cell up l0"><i><b></b><b></b><b></b><b></b></i><em>-0.00</em></span></td><td><span class="trend-tag critical">临界</span></td><td>方向未定，下一交易日确认</td></tr><tr><td>VOO</td><td class="num">679.14</td><td class="num">685.09</td><td class="num">7.31</td><td class="num"><span class="atr-cell dn l2"><i><b></b><b></b><b></b><b></b></i><em>-0.81</em></span></td><td><span class="trend-tag down">下降</span></td><td>趋势未修复，但未过度延伸</td></tr><tr><td>SMH</td><td class="num">561.19</td><td class="num">598.88</td><td class="num">26.30</td><td class="num"><span class="atr-cell dn l3"><i><b></b><b></b><b></b><b></b></i><em>-1.43</em></span></td><td><span class="trend-tag down">下降</span></td><td>趋势未修复，但未过度延伸</td></tr></tbody></table><div class="callout"><strong>小结：</strong><div class="co-list"><div class="co-item">QQQ与QQQE同时低于50MA超2ATR，成长端压力最深</div><div class="co-item">RSP与DIA仍在50MA上方，等权与价值端的轮动格局未变</div><div class="co-item">IWM几乎贴住50MA，是下一交易日风格能否扩散的确认位</div></div></div><h3>C · 其他资产</h3><table class="fixed-cols"><colgroup><col style="width:16%"><col style="width:14%"><col style="width:70%"></colgroup><thead><tr><th class="">资产</th><th class="num">数值</th><th class="">信号</th></tr></thead><tbody><tr><td>VIX</td><td class="num">17.64</td><td>曲线正常（短期期货21.44高于现货，contango）</td></tr><tr><td>10Y</td><td class="num">4.68%</td><td>RATE-ALERT触发中（&gt;4.50%）</td></tr><tr><td>美元 UUP</td><td class="num">28.58</td><td>走强：5日+0.88%，站上20/50MA，RSI 64.30</td></tr><tr><td>USO</td><td class="num">136.69</td><td>停火后急跌，Brent -4.17%至$92.74</td></tr><tr><td>BTCUSD</td><td class="num">65163.94</td><td>-</td></tr><tr><td>GLD</td><td class="num">368.41</td><td>-</td></tr></tbody></table><div class="callout"><strong>小结：</strong><div class="co-list"><div class="co-item">利率（10Y 4.68%）与美元（UUP 5日+0.88%）双重压制，高Beta/长久期成长股受夹击。</div></div></div><h3>D · 宏观雷达</h3><table class="fixed-cols"><colgroup><col style="width:13%"><col style="width:26%"><col style="width:61%"></colgroup><thead><tr><th class="">日期</th><th class="">事件</th><th class="">市场解读</th></tr></thead><tbody><tr><td>2026-07-29(三)</td><td>FOMC利率决议</td><td>🎯核心事件，NickTimiraos(X池)称本次会议&#x27;近年来最难预测之一&#x27;，加息/降息都有理由支撑</td></tr><tr><td>2026-07-30(四)</td><td>Fed新主席Kevin Warsh记者会 + GDP + 核心PCE + 初请</td><td>⭐同日四件大事叠加，波动率预期高</td></tr><tr><td>2026-07-31(五)</td><td>新屋销售(6月)</td><td>-</td></tr><tr><td>持续</td><td>60贸易伙伴新关税(10-12.5%)已于7/24生效</td><td>替代到期的Section122临时10%全球关税，是7/24收盘抛压的直接催化剂之一</td></tr><tr><td>隔夜(周末)</td><td>美伊停火</td><td>🎯Trump连续第二晚下令停火，伊朗称已停止报复性打击；原油单日-8%，futures一度+0.7%——需盘前重新核实是否延续</td></tr></tbody></table><div class="callout"><strong>小结：</strong>本周是FOMC周，且10Y已站上4.50%警戒线，Fed决议的鹰鸽方向会直接决定RATE-ALERT是否解除或加重。charliebilello(X池)：年初市场定价2次降息，现收窄至1次，属鹰派再定价，与10Y走高互相印证。</div><h3>E · 板块</h3><h3 style='font-size:15px;color:var(--muted);margin:14px 0 4px'>指数基准</h3><table class="fixed-cols"><colgroup><col style="width:9%"><col style="width:10%"><col style="width:10%"><col style="width:10%"><col style="width:11%"><col style="width:40%"><col style="width:10%"></colgroup><thead><tr><th class="">TICKER</th><th class="num">T-1%</th><th class="num">5日%</th><th class="num">1月%</th><th class="num">盘前</th><th class="">驱动/原因</th><th class="num">RS(1周)</th></tr></thead><tbody><tr><td>DIA</td><td class="num up">+0.48%</td><td class="num dn">-0.39%</td><td class="num up">+0.05%</td><td class="num up">+0.92%</td><td></td><td class="num up">+1.2</td></tr><tr><td>VOO</td><td class="num up">+0.08%</td><td class="num dn">-0.59%</td><td class="num up">+0.51%</td><td class="num up">+0.94%</td><td></td><td class="num up">+1.0</td></tr><tr><td>IWM</td><td class="num dn">-0.31%</td><td class="num dn">-0.98%</td><td class="num dn">-1.86%</td><td class="num up">+1.23%</td><td></td><td class="num up">+0.6</td></tr><tr><td>QQQ</td><td class="num dn">-1.12%</td><td class="num dn">-1.60%</td><td class="num dn">-3.71%</td><td class="num up">+1.59%</td><td></td><td class="num up">+0.0</td></tr></tbody></table><h3 style='font-size:15px;color:var(--muted);margin:14px 0 4px'>标准板块</h3><table class="fixed-cols"><colgroup><col style="width:9%"><col style="width:10%"><col style="width:10%"><col style="width:10%"><col style="width:11%"><col style="width:40%"><col style="width:10%"></colgroup><thead><tr><th class="">TICKER</th><th class="num">T-1%</th><th class="num">5日%</th><th class="num">1月%</th><th class="num">盘前</th><th class="">驱动/原因</th><th class="num">RS(1周)</th></tr></thead><tbody><tr><td>XLRE</td><td class="num up">+2.22%</td><td class="num up">+1.17%</td><td class="num up">+3.24%</td><td class="num dn">-0.05%</td><td></td><td class="num up">+2.8</td></tr><tr><td>XLB</td><td class="num up">+1.93%</td><td class="num up">+1.44%</td><td class="num up">+0.20%</td><td class="num dn">-0.27%</td><td>商品端跟随油价走弱</td><td class="num up">+3.0</td></tr><tr><td>XLP</td><td class="num up">+1.11%</td><td class="num dn">-1.24%</td><td class="num dn">-0.37%</td><td class="num dn">-0.12%</td><td>防御端资金流出</td><td class="num up">+0.4</td></tr><tr><td>XLC</td><td class="num up">+0.87%</td><td class="num dn">-3.93%</td><td class="num dn">-0.23%</td><td class="num up">+0.87%</td><td></td><td class="num dn">-2.3</td></tr><tr><td>XLF</td><td class="num up">+0.86%</td><td class="num up">+0.09%</td><td class="num up">+4.82%</td><td class="num up">+0.48%</td><td></td><td class="num up">+1.7</td></tr><tr><td>XLV</td><td class="num up">+0.70%</td><td class="num up">+0.92%</td><td class="num up">+6.01%</td><td class="num up">+0.14%</td><td></td><td class="num up">+2.5</td></tr><tr><td>XLY</td><td class="num up">+0.60%</td><td class="num dn">-5.22%</td><td class="num dn">-4.92%</td><td class="num up">+1.35%</td><td>risk-on回补</td><td class="num dn">-3.6</td></tr><tr><td>XLI</td><td class="num up">+0.40%</td><td class="num up">+1.81%</td><td class="num up">+1.36%</td><td class="num up">+0.73%</td><td></td><td class="num up">+3.4</td></tr><tr class="row-warn"><td>XLE</td><td class="num up">+0.40%</td><td class="num up">+3.36%</td><td class="num up">+11.29%</td><td class="num dn">-2.52%</td><td>停火抽走地缘溢价，全链杀跌</td><td class="num up">+5.0</td></tr><tr><td>XLU</td><td class="num up">+0.22%</td><td class="num up">+2.48%</td><td class="num up">+1.65%</td><td class="num up">+0.37%</td><td></td><td class="num up">+4.1</td></tr><tr><td>XLK</td><td class="num dn">-1.44%</td><td class="num up">+0.17%</td><td class="num dn">-3.92%</td><td class="num up">+1.88%</td><td>半导体链停火后risk-on领涨</td><td class="num up">+1.8</td></tr></tbody></table><h3 style='font-size:15px;color:var(--muted);margin:14px 0 4px'>科技 / AI / 半导体 / 网安 / 软件</h3><table class="fixed-cols"><colgroup><col style="width:9%"><col style="width:10%"><col style="width:10%"><col style="width:10%"><col style="width:11%"><col style="width:40%"><col style="width:10%"></colgroup><thead><tr><th class="">TICKER</th><th class="num">T-1%</th><th class="num">5日%</th><th class="num">1月%</th><th class="num">盘前</th><th class="">驱动/原因</th><th class="num">RS(1周)</th></tr></thead><tbody><tr><td>IGV</td><td class="num up">+1.01%</td><td class="num dn">-5.19%</td><td class="num up">+2.10%</td><td class="num up">+1.39%</td><td>软件跟随科技回补</td><td class="num dn">-3.6</td></tr><tr><td>CIBR</td><td class="num up">+0.78%</td><td class="num dn">-4.29%</td><td class="num up">+5.49%</td><td class="num up">+0.96%</td><td></td><td class="num dn">-2.7</td></tr><tr><td>MAGS</td><td class="num dn">-0.13%</td><td class="num dn">-5.62%</td><td class="num up">+0.75%</td><td class="num up">+1.17%</td><td></td><td class="num dn">-4.0</td></tr><tr class="row-bull"><td>AIQ</td><td class="num dn">-2.28%</td><td class="num dn">-1.23%</td><td class="num dn">-8.53%</td><td class="num up">+4.52%</td><td></td><td class="num up">+0.4</td></tr><tr><td>KOID</td><td class="num dn">-2.36%</td><td class="num dn">-1.56%</td><td class="num dn">-10.23%</td><td class="num up">+1.31%</td><td></td><td class="num up">+0.0</td></tr><tr><td>ARKK</td><td class="num dn">-2.63%</td><td class="num dn">-4.40%</td><td class="num dn">-6.30%</td><td class="num up">+2.16%</td><td></td><td class="num dn">-2.8</td></tr><tr><td>QTUM</td><td class="num dn">-2.73%</td><td class="num dn">-1.50%</td><td class="num dn">-12.71%</td><td class="num up">+1.88%</td><td></td><td class="num up">+0.1</td></tr><tr><td>SMH</td><td class="num dn">-3.27%</td><td class="num up">+0.84%</td><td class="num dn">-9.33%</td><td class="num up">+2.64%</td><td>站上5MA解禁线，盘前不要抢跑</td><td class="num up">+2.4</td></tr><tr class="row-bull"><td>EUV</td><td class="num dn">-5.18%</td><td class="num dn">-0.45%</td><td class="num dn">-15.69%</td><td class="num up">+3.72%</td><td></td><td class="num up">+1.1</td></tr><tr class="row-bull"><td>DRAM</td><td class="num dn">-8.75%</td><td class="num up">+0.91%</td><td class="num dn">-23.92%</td><td class="num up">+5.07%</td><td>存储链盘前+5.07%，半导体内部最强分支</td><td class="num up">+2.5</td></tr><tr><td>ARKG</td><td class="num">-</td><td class="num">-</td><td class="num">-</td><td class="num up">+1.16%</td><td></td><td class="num">-</td></tr></tbody></table><h3 style='font-size:15px;color:var(--muted);margin:14px 0 4px'>主题与国家</h3><table class="fixed-cols"><colgroup><col style="width:9%"><col style="width:10%"><col style="width:10%"><col style="width:10%"><col style="width:11%"><col style="width:40%"><col style="width:10%"></colgroup><thead><tr><th class="">TICKER</th><th class="num">T-1%</th><th class="num">5日%</th><th class="num">1月%</th><th class="num">盘前</th><th class="">驱动/原因</th><th class="num">RS(1周)</th></tr></thead><tbody><tr class="row-group"><td colspan="7">能源</td></tr><tr><td>OIH</td><td class="num up">+2.27%</td><td class="num up">+3.34%</td><td class="num up">+5.49%</td><td class="num up">+0.07%</td><td>油服相对抗跌，与XLE分化</td><td class="num up">+4.9</td></tr><tr class="row-warn"><td>XOP</td><td class="num dn">-0.92%</td><td class="num up">+2.27%</td><td class="num up">+13.74%</td><td class="num dn">-2.81%</td><td>同XLE，勘探端跌幅更大</td><td class="num up">+3.9</td></tr><tr><td>TAN</td><td class="num dn">-2.97%</td><td class="num dn">-4.86%</td><td class="num dn">-11.83%</td><td class="num up">+0.54%</td><td></td><td class="num dn">-3.3</td></tr><tr><td>URA</td><td class="num dn">-3.01%</td><td class="num up">+3.00%</td><td class="num dn">-10.80%</td><td class="num up">+1.63%</td><td></td><td class="num up">+4.6</td></tr><tr class="row-group"><td colspan="7">金属与另类货币</td></tr><tr><td>SLV</td><td class="num up">+1.02%</td><td class="num up">+3.56%</td><td class="num up">+1.56%</td><td class="num up">+1.90%</td><td></td><td class="num up">+5.2</td></tr><tr><td>GLD</td><td class="num up">+0.10%</td><td class="num up">+0.95%</td><td class="num up">+1.63%</td><td class="num">无盘前quote</td><td></td><td class="num up">+2.5</td></tr><tr class="row-bull"><td>ETH</td><td class="num dn">-0.62%</td><td class="num up">+1.05%</td><td class="num up">+17.78%</td><td class="num up">+4.96%</td><td></td><td class="num up">+2.6</td></tr><tr><td>IBIT</td><td class="num dn">-0.82%</td><td class="num up">+0.00%</td><td class="num up">+7.32%</td><td class="num up">+1.40%</td><td></td><td class="num up">+1.6</td></tr><tr><td>COPX</td><td class="num dn">-0.83%</td><td class="num up">+5.96%</td><td class="num up">+2.67%</td><td class="num up">+1.78%</td><td>铜矿逆油价上涨，工业需求逻辑</td><td class="num up">+7.6</td></tr><tr><td>LIT</td><td class="num dn">-1.75%</td><td class="num dn">-0.83%</td><td class="num dn">-14.07%</td><td class="num up">+0.15%</td><td></td><td class="num up">+0.8</td></tr><tr class="row-bull"><td>REMX</td><td class="num dn">-2.91%</td><td class="num dn">-7.10%</td><td class="num dn">-25.54%</td><td class="num up">+4.43%</td><td></td><td class="num dn">-5.5</td></tr><tr class="row-bull"><td>WGMI</td><td class="num dn">-8.03%</td><td class="num up">+12.66%</td><td class="num dn">-19.73%</td><td class="num up">+4.40%</td><td>加密矿工链最激进的risk-on端</td><td class="num up">+14.3</td></tr><tr class="row-group"><td colspan="7">医疗</td></tr><tr><td>IHI</td><td class="num up">+1.60%</td><td class="num dn">-0.55%</td><td class="num up">+1.23%</td><td class="num up">+0.61%</td><td></td><td class="num up">+1.1</td></tr><tr><td>PPH</td><td class="num up">+0.62%</td><td class="num up">+0.54%</td><td class="num up">+4.63%</td><td class="num">无盘前quote</td><td></td><td class="num up">+2.1</td></tr><tr><td>XBI</td><td class="num dn">-1.15%</td><td class="num dn">-2.45%</td><td class="num up">+0.51%</td><td class="num up">+1.63%</td><td>生技跟随risk-on</td><td class="num dn">-0.8</td></tr><tr class="row-group"><td colspan="7">金融</td></tr><tr class="row-bull"><td>IAK</td><td class="num up">+2.11%</td><td class="num up">+1.40%</td><td class="num up">+6.57%</td><td class="num">无盘前quote</td><td></td><td class="num up">+3.0</td></tr><tr><td>KRE</td><td class="num up">+0.77%</td><td class="num dn">-1.25%</td><td class="num up">+2.38%</td><td class="num up">+0.05%</td><td></td><td class="num up">+0.3</td></tr><tr class="row-group"><td colspan="7">工业 / 基建 / 航天国防</td></tr><tr><td>JETS</td><td class="num up">+2.66%</td><td class="num dn">-1.18%</td><td class="num dn">-7.33%</td><td class="num up">+2.59%</td><td></td><td class="num up">+0.4</td></tr><tr><td>XHB</td><td class="num up">+1.64%</td><td class="num up">+0.18%</td><td class="num dn">-5.11%</td><td class="num">无盘前quote</td><td></td><td class="num up">+1.8</td></tr><tr><td>ITA</td><td class="num up">+0.80%</td><td class="num up">+4.08%</td><td class="num up">+1.67%</td><td class="num up">+0.62%</td><td></td><td class="num up">+5.7</td></tr><tr><td>PAVE</td><td class="num up">+0.31%</td><td class="num up">+2.47%</td><td class="num dn">-1.23%</td><td class="num up">+1.20%</td><td></td><td class="num up">+4.1</td></tr><tr><td>AIRR</td><td class="num dn">-2.47%</td><td class="num up">+0.00%</td><td class="num dn">-7.17%</td><td class="num up">+0.90%</td><td></td><td class="num up">+1.6</td></tr><tr><td>NASA</td><td class="num dn">-4.69%</td><td class="num dn">-3.70%</td><td class="num dn">-19.02%</td><td class="num up">+2.26%</td><td></td><td class="num dn">-2.1</td></tr><tr class="row-group"><td colspan="7">中国与亚洲</td></tr><tr><td>FXI</td><td class="num up">+0.35%</td><td class="num up">+1.32%</td><td class="num up">+6.86%</td><td class="num up">+1.19%</td><td>中国资产跟随全球risk-on</td><td class="num up">+2.9</td></tr><tr><td>KWEB</td><td class="num up">+0.08%</td><td class="num dn">-1.94%</td><td class="num up">+8.19%</td><td class="num up">+1.64%</td><td></td><td class="num dn">-0.3</td></tr><tr><td>ASHR</td><td class="num dn">-1.21%</td><td class="num up">+2.17%</td><td class="num dn">-4.18%</td><td class="num up">+1.16%</td><td></td><td class="num up">+3.8</td></tr><tr class="row-bull"><td>EWY</td><td class="num dn">-6.27%</td><td class="num up">+0.26%</td><td class="num dn">-17.39%</td><td class="num up">+3.26%</td><td></td><td class="num up">+1.9</td></tr></tbody></table><div class="callout"><strong>小结：</strong><div class="co-list"><div class="co-item">T-1列是7/24收盘，盘前列已被停火消息完全反转——这张表的T-1排序今天不能用于选股</div><div class="co-item">今日真实方向看盘前列：科技/半导体领涨（XLK +1.88%、SMH +2.64%），金属与另类货币最猛（WGMI +4.40%）</div><div class="co-item">能源是唯一的红底区块，与停火消息一一对应</div><div class="co-item">第三组已按板块/国家重分（原来的偏防御/偏投机分法把NASA、OIH放错了组）</div></div></div><h3 style='font-size:15px;color:var(--muted);margin:14px 0 4px'>防御观察篮子</h3><table><thead><tr><th>TICKER</th><th class="num">收盘价</th><th class="num">T-1收盘%</th><th class="num">盘前%</th><th>角色</th></tr></thead><tbody><tr><td>TLT</td><td class="num">83.25</td><td class="num ">-</td><td class="num ">盘前-</td><td>防御篮子</td></tr><tr><td>XLU</td><td class="num">46.29</td><td class="num ">-</td><td class="num ">盘前+0.37%</td><td>防御篮子</td></tr><tr><td>XLP</td><td class="num">84.13</td><td class="num ">-</td><td class="num ">盘前-0.12%</td><td>防御篮子</td></tr><tr><td>GLD</td><td class="num">371.90</td><td class="num ">-</td><td class="num ">盘前-</td><td>防御篮子</td></tr><tr><td>PG</td><td class="num">147.41</td><td class="num ">-</td><td class="num ">盘前-0.05%</td><td>防御篮子</td></tr></tbody></table><div class="callout"><strong>小结：</strong><div class="co-list"><div class="co-item">停火驱动的risk-on日，防御端普遍落后（XLP -0.12%），符合资金从防御流向进攻的方向</div><div class="co-item">但这是事件驱动的单日轮动，不是趋势确认——降级档仍按7/24收盘的广度数据维持</div><div class="co-item">篮子已精简到5只核心（TLT利率/XLU公用/XLP必需消费/GLD黄金/PG个股代表）</div></div></div><h3>F · 单边板块</h3><table class="fixed-cols"><colgroup><col style="width:5%"><col style="width:8%"><col style="width:6%"><col style="width:11%"><col style="width:24%"><col style="width:8%"><col style="width:8%"><col style="width:8%"><col style="width:10%"><col style="width:12%"></colgroup><thead><tr><th class="">排名</th><th class="">TICKER</th><th class="">得分</th><th class="">Weinstein</th><th class="">通过项</th><th class="num">5日%</th><th class="num">1月%</th><th class="num">RS(1周)</th><th class="">距50MA</th><th class="">延伸档位</th></tr></thead><tbody><tr><td>1</td><td>OIH</td><td>3/4</td><td>Stage 2 上升</td><td>跌天数≤4·站稳20MA·RSI强势+MA上翘</td><td class="num up">+3.34%</td><td class="num up">+5.49%</td><td class="num up">+4.9</td><td>-1.16×ATR</td><td>mild</td></tr><tr><td>2</td><td>PAVE</td><td>2/4</td><td>Stage 2 上升</td><td>跌天数≤4·低点未破坏</td><td class="num up">+2.47%</td><td class="num dn">-1.23%</td><td class="num up">+4.1</td><td>0.73×ATR</td><td>ok</td></tr><tr><td>3</td><td>IAK</td><td>2/4</td><td>Stage 2 上升</td><td>跌天数≤4·RSI强势+MA上翘</td><td class="num up">+1.40%</td><td class="num up">+6.57%</td><td class="num up">+3.0</td><td>4.16×ATR</td><td>EXTREME（回踩类减半仓）</td></tr><tr><td>4</td><td>KRE</td><td>2/4</td><td>Stage 2 上升</td><td>低点未破坏·RSI强势+MA上翘</td><td class="num dn">-1.25%</td><td class="num up">+2.38%</td><td class="num up">+0.3</td><td>2.55×ATR</td><td>HIGH（只做回踩类）</td></tr></tbody></table><div class="callout"><strong>小结：</strong><div class="co-list"><div class="co-item">两层筛选：Weinstein只留Stage 1/2，再按<strong>实测相关系数≥0.85</strong>做同族去重</div><div class="co-item">XLE(Stage 3派发)带走了XOP——两者60日相关0.94，等于同一个赌注，而OIH相关只有0.64、停火当天确实分道扬镳(XLE -2.52% vs OIH +0.07%)，所以保留</div><div class="co-item">XLV/XLF同样是Stage 3，PPH(与XLV相关0.91)被一并剔除</div><div class="co-item">榜单基于7/24收盘，遇到事件驱动的重定价日整张作废——今天就是这种日子</div></div></div></section><section id="gate"><h2>03 指数闸门</h2><table class="fixed-cols"><colgroup><col style="width:7%"><col style="width:9%"><col style="width:15%"><col style="width:11%"><col style="width:11%"><col style="width:11%"><col style="width:12%"><col style="width:24%"></colgroup><thead><tr><th class="">ETF</th><th class="num">收盘</th><th class="num">T-1%（盘前）</th><th class="">进攻线(+1ATR)</th><th class="">谨慎线(20MA)</th><th class="">降级线(-1ATR)</th><th class="">距50MA</th><th class="">判断</th></tr></thead><tbody><tr><td>SPY</td><td class="num">738.93</td><td class="num up">+0.10%（盘前+1.28%）</td><td>754.30</td><td>746.15</td><td>738.00</td><td><span class="atr-cell dn l2"><i><b></b><b></b><b></b><b></b></i><em>-0.75</em></span></td><td>距20MA-1ATR降级线738.00只剩+0.13%缓冲，今天盯这条</td></tr><tr><td>QQQ</td><td class="num">684.23</td><td class="num dn">-1.12%（盘前+1.59%）</td><td>725.88</td><td>711.71</td><td>697.54</td><td><span class="atr-cell dn l4"><i><b></b><b></b><b></b><b></b></i><em>-2.40</em></span></td><td>已跌破690周防守线</td></tr><tr><td>DIA</td><td class="num">518.76</td><td class="num up">+0.48%（盘前+0.92%）</td><td>-</td><td>-</td><td>-</td><td><span class="atr-cell up l2"><i><b></b><b></b><b></b><b></b></i><em>+0.78</em></span></td><td>守50MA上方，价值端缓冲仍在</td></tr><tr><td>IWM</td><td class="num">291.17</td><td class="num dn">-0.31%（盘前+1.23%）</td><td>300.19</td><td>295.86</td><td>291.53</td><td><span class="atr-cell up l0"><i><b></b><b></b><b></b><b></b></i><em>-0.00</em></span></td><td>几乎贴住50MA，风格能否扩散的确认位</td></tr><tr><td>SMH</td><td class="num">561.19</td><td class="num dn">-3.27%（盘前+2.64%）</td><td>-</td><td>-</td><td>-</td><td><span class="atr-cell dn l3"><i><b></b><b></b><b></b><b></b></i><em>-1.43</em></span></td><td>站上5MA解禁线，盘前不要抢跑</td></tr><tr><td>RSP</td><td class="num">213.57</td><td class="num up">+0.78%（盘前-）</td><td>-</td><td>-</td><td>-</td><td><span class="atr-cell up l3"><i><b></b><b></b><b></b><b></b></i><em>+1.66</em></span></td><td>等权仍是全表最强</td></tr><tr><td>QQQE</td><td class="num">115.41</td><td class="num dn">-0.65%（盘前-）</td><td>-</td><td>-</td><td>-</td><td><span class="atr-cell dn l3"><i><b></b><b></b><b></b><b></b></i><em>-1.79</em></span></td><td>等权科技同步走弱，弱势具有广度</td></tr></tbody></table><div class="callout"><strong>小结：</strong><div class="co-list"><div class="co-item">SPY距20MA-1ATR降级线738.00只剩+0.13%缓冲，这是今天真正的关键线，不是720</div><div class="co-item">QQQ已跌破690周防守线，收在20MA下方3.86%</div><div class="co-item">SMH盘前站上5MA解禁线，但收盘确认前不解禁</div><div class="co-item">RSP/DIA仍在50MA上方，等权与价值端的轮动格局未变</div></div></div></section><section id="positions"><h2>持仓</h2><h3>Moomoo账户</h3><p class="placeholder">暂无数据。</p><h3>LongBridge账户</h3><p class="placeholder">暂无数据。</p><div class="callout"><strong>小结：</strong><div class="co-list"><div class="co-item">两个账户当前均空仓——NVDY已于7/23全部平仓（7/16买入250股@12.58 → 7/22卖80股@12.84 → 7/23卖出剩余170股@12.50），整笔基本打平</div><div class="co-item">今日所有决策都是新建仓决策，降级档半仓+只做A级完整适用于每一笔</div><div class="co-item">段1（13:27）跑时tradebook里NVDY还显示持仓中，你13:35补录了7/23平仓腿——以段2为准</div></div></div></section><section id="news"><h2>04 宏观消息</h2><h3>A · 今日盘前重点消息</h3><ul style="padding-left:20px"><li style="margin:0 0 7px"><strong>美伊停火（已WebSearch交叉核实）</strong>：美国停止对伊朗打击，伊朗表示只要美方不恢复攻击就维持停火。Brent一度急挫7%后收窄至-4.17%约$92.74，WTI -6%。这是今日全场跳空的唯一驱动。</li><li style="margin:0 0 7px"><strong>停火并非全面缓和</strong>：胡塞武装仍在加大红海航运袭击并击中沙特能源资产；霍尔木兹海峡不确定性未消除。能源的地缘溢价被抽掉一大块但没归零。</li></ul><h3>B · 本周重大事件</h3><table class="cal-table"><thead><tr><th>周一 7/27</th><th>周二 7/28</th><th>周三 7/29</th><th>周四 7/30</th><th>周五 7/31</th><th>周末 8/1-8/2</th></tr></thead><tbody><tr><td><ul class=cal-list><li>盘后财报：CDNS · NUE · CLS · FFIV · AMKR</li></ul></td><td><ul class=cal-list><li><strong>大盘财报最密集</strong></li><li>盘前：KO · BA · SPGI · UPS · ITW · PYPL</li><li>盘后：<strong>V</strong> · NXPI · F · WM · MDLZ</li></ul></td><td><ul class=cal-list><li>🏛 <strong>FOMC 利率决议</strong></li><li>盘后：<strong>MSFT · META</strong></li><li>同日双重判决</li></ul></td><td><ul class=cal-list><li>🏛 Fed新主席 Warsh 记者会</li><li>GDP · <strong>核心PCE</strong> · 初请</li><li>盘后：<strong>AAPL · AMZN</strong></li></ul></td><td><ul class=cal-list><li>新屋销售(6月)</li><li>盘前：ABBV · CVX · ETN · CL · MRNA</li></ul></td><td><ul class=cal-list><li>无排定事件</li><li>关注中东停火是否延续</li></ul></td></tr></tbody></table></section><section id="movers"><h2>盘前异动</h2><table class="movers"><thead><tr><th>股票</th><th class="num">盘前变化</th><th class="num">盘前量</th><th>量能</th><th>催化/成交确认</th><th>板块read-through</th><th>交易判断</th></tr></thead><tbody><tr><td>BJ</td><td class="num dn">-12.01%</td><td class="num">-</td><td>极低量</td><td>无实质催化（1股成交）</td><td>-</td><td>🔴伪信号：盘前成交仅1股，-12.01%是单笔挂单造成，不可采信</td></tr><tr><td>PSA</td><td class="num up">+9.34%</td><td class="num">-</td><td>极低量</td><td>无实质催化（1股成交）</td><td>-</td><td>🔴伪信号：同上，+9.34%由1股成交产生</td></tr><tr><td>APD</td><td class="num up">+8.81%</td><td class="num">-</td><td>极低量</td><td>无实质催化（1股成交）</td><td>-</td><td>🔴伪信号：同上，+8.81%由1股成交产生</td></tr><tr><td>LASR</td><td class="num up">+7.39%</td><td class="num">-</td><td>极低量</td><td>无实质催化（2股成交）</td><td>-</td><td>🔴伪信号：+7.39%由2股成交产生；该股同时是段1扫描的A级候选(回踩9EMA-0.67%/缩量0.53×)，但盘前报价无参考价值</td></tr><tr><td>DGXX</td><td class="num up">+7.29%</td><td class="num">-</td><td>极低量</td><td>小票（400股）</td><td>-</td><td>低流动性小票，+7.29%但成交仅400股，不构成信号</td></tr></tbody></table><div class="callout"><strong>小结：</strong><div class="co-list"><div class="co-item">今日5只±7%的MOVER全部是1-400股单笔成交造成的伪信号，一只都不能用</div><div class="co-item">真正有量的动能全在7%门槛以下的半导体链：TSEM +6.02%(9527股)、STM +5.82%(48056股)、NBIS +5.70%(92949股)、DRAM +5.07%(224806股)</div><div class="co-item">教训：MOVER门槛是±7%但必须同时看成交量，否则单笔挂单就能制造假异动（今天5/5全假）</div></div></div></section><section id="setup"><h2>机会扫描 / Setup（核心）</h2><span class="method-tag">方法1 · Market Leader</span><p class="placeholder">ML Leader名单待Vic重建——他目前只看到国防有相对强势，但判断可能是短期现象，确认后会告诉我开始追踪。</p><span class="method-tag">方法2 · 强势板块全量Setup扫描</span><p class="note">Setup A 缩量回踩9EMA ｜ B tight consolidation出方向 ｜ C undercut and rally ｜ D 突破后缩量回踩 ｜ W 双底/三重底未破前低 ｜ E shakeout + momentum burst（Ew = shakeout已收回但burst未确认，等开盘第一根放量动量bar）</p><table class="fixed-cols"><colgroup><col style="width:8%"><col style="width:11%"><col style="width:10%"><col style="width:8%"><col style="width:8%"><col style="width:7%"><col style="width:42%"><col style="width:6%"></colgroup><thead><tr><th class="">TICKER</th><th class="">板块</th><th class="">Setup标签</th><th class="num">RS(1周)</th><th class="num">距9EMA</th><th class="num">量比</th><th class="">机器说明</th><th class="">评分</th></tr></thead><tbody><tr><td>VRTX</td><td>XLV/IBB</td><td>A+C+W</td><td class="num dn">-0.1</td><td class="num dn">-0.57%</td><td class="num">0.66x</td><td>不沾三层限制+盘前近平开，今日结构最干净的A级</td><td>5</td></tr><tr><td>ANET</td><td>XLK/CIBR</td><td>B+A+W</td><td class="num up">+4.8</td><td class="num dn">-0.05%</td><td class="num">0.58x</td><td>非半导体成分，禁碰令不覆盖；B腿今日不用只走A腿</td><td>4</td></tr><tr><td>V</td><td>XLF/DIA</td><td>B+A+W</td><td class="num up">+0.8</td><td class="num up">+0.20%</td><td class="num">0.52x</td><td>今晚盘后财报，财报前2小时禁建仓</td><td>4</td></tr><tr><td>SYK</td><td>XLV/IHI</td><td>W</td><td class="num up">+4.8</td><td class="num up">+2.93%</td><td class="num">0.91x</td><td>距9EMA +2.93%偏远，等回踩</td><td>3</td></tr><tr><td>TMO</td><td>XLV</td><td>D</td><td class="num up">+8.3</td><td class="num up">+4.75%</td><td class="num">1.26x</td><td>7/23放量2.5×突破后缩量回踩，距9EMA偏远</td><td>3</td></tr></tbody></table><div class="callout"><strong>小结：</strong>降级档=半仓 + 只做A级；Setup B/突破类今日不做（板块单日极差3.66pct，突破后squat概率高）；RATE-ALERT冻结高Beta/长久期成长新仓；半导体链禁碰维持（收盘确认前不解禁）；全场跳空高开，不追第一根，只在回踩确认后分批</div><span class="method-tag">方法3 · Adanos Top100扫描</span><p class="placeholder">本次未跑Adanos全量扫描；正式盘前会curl Adanos Top100后填。</p><span class="method-tag">方法4 · 盘前异动机会</span><p class="placeholder">见上方Premarket Movers；今日无可回踩买入的机会。</p><span class="method-tag">方法5 · X trader setup提取</span><h3>宏观类</h3><div class="x-acct"><div class="x-handle">@KobeissiLetter</div><div class="co-list"><div class="co-item">（Jul27）美伊停火后美股期货急涨，S&amp;P500期货+0.7%；美油单日暴跌超8%</div><div class="co-item">（Jul27）本周关键事件：停火市场反应、7月CPI、MSFT/META周三财报、7月PCE周四</div><div class="co-item">（Jul27）S&amp;P500 2026 Q2净利润率预计升至15.7%，创纪录新高</div><div class="co-item">（Jul26）全球股市总市值/GDP比137%接近历史高位，追平2021 meme股峰值</div></div></div><div class="x-acct"><div class="x-handle">@zerohedge</div><div class="co-list"><div class="co-item">（Jul27）Brent开盘跌4.4%，美伊延长停火；伊朗战事每多一月布伦特多加$7-8/桶</div><div class="co-item">（Jul27）高盛交易台：科技股现已「利好出尽」</div><div class="co-item">（Jul27）The AI Capex Bill Comes Due——AI资本开支账单到期</div><div class="co-item">（Jul27）China&#x27;s Two-Front Squeeze On America&#x27;s AI Build-Out</div></div></div><div class="x-acct"><div class="x-handle">@spotgamma</div><div class="co-list"><div class="co-item">（Jul27）《Big Tech Earnings and FOMC Collide》——周四抛售是警告信号</div><div class="co-item">（Jul24）原油波动率OVX突破，VIX尚未跟随（波动率背离未收敛）</div></div></div><div class="x-acct"><div class="x-handle">@NickTimiraos</div><div class="co-list"><div class="co-item">（Jul23）转WSJ：这是Fed近年来最难预测的会议之一，加息降息都有理由</div><div class="co-item">（Jul20）预测机构预计6月核心PCE环比+0.18%</div></div></div><div class="x-acct"><div class="x-handle">@charliebilello</div><div class="co-list"><div class="co-item">（Jul27）年初债市定价2次降息，如今收窄至1次（鹰派转向）</div><div class="co-item">（Jul27）美国通胀已连续64个月高于Fed 2%目标</div><div class="co-item">（Jul27）PE最大问题是无法退出，未分配资本达$348.5B创纪录</div></div></div><h3>个股类</h3><div class="x-acct"><div class="x-handle">bluechipdaily</div><div class="co-list"><div class="co-item">（Jul25）GLD/黄金 — &quot;黄金作为避险资产&quot;的交易逻辑应正式退役，近期几乎单边下跌（附图） · 是否符合当日主线：待验证</div><div class="co-item">（Jul24）CNBC采访发言：不要急于抄底入场（谨慎立场） · 是否符合当日主线：待验证</div><div class="co-item">（Jul23）5/31现金仓位6%，此后7周平均维持21%；近6周仅1笔科技股买入且被止损，vs 2笔能源股买入均盈利 · 是否符合当日主线：待验证</div><div class="co-item">（Jul23(转发6/25旧帖)）MU — 创新高，8.4倍远期PE，逻辑和图形都偏多，但已锁定部分利润（当时超30%仓位在存储/半导体） · 是否符合当日主线：否（半导体/高Beta，今日禁碰+RATE-ALERT限制区）</div><div class="co-item">（Jul23(转发6/26旧帖)）NFLX — 10/22/25在112.66获利了结会员站持仓，此后又下跌36%——验证了&#x27;避免抄底下跌股&#x27;的纪律 · 是否符合当日主线：待验证</div><div class="co-item">（Jul21）XME — 6月提前止损-4.2%，此后该ETF又额外下跌19%——早止损案例 · 是否符合当日主线：待验证</div></div></div><div class="x-acct"><div class="x-handle">WalterDeemer</div><div class="co-list"><div class="co-item">（10h前）回顾2007-08年CDS曾发出最清晰的危机预警信号，现在需要密切关注CDS指标（提及@zerohedge是较好的信息源） · 是否符合当日主线：待验证</div><div class="co-item">（Jul26）QQQ — 周四留下的跳空缺口在703.62，整个周末都会挂在那里 · 是否符合当日主线：待验证</div><div class="co-item">（Jul24）QQQ — 今日缺口未回补，QQQ缺口看起来更不祥（偏空信号） · 是否符合当日主线：待验证</div><div class="co-item">（Jul23）SPY/QQQ — SPY需涨到746.37、QQQ需涨到703.62才能回补今晨跳空缺口，缺口回补速度可作为市场强弱指示 · 是否符合当日主线：待验证</div><div class="co-item">（Jul21）SPY/QQQ — 周五的两个跳空缺口当日已全部回补（偏多确认） · 是否符合当日主线：待验证</div></div></div><div class="x-acct"><div class="x-handle">BillAckman</div><div class="co-list"><div class="co-item">（5h前）FNMA/FMCC — 转发关于房利美/房地美的重要分析文章并表态Bullish（引用：DC巡回法院维持原判实质上使优先股转换方案落空）；其余今日内容均为政治相关(Mamdani/DSA/移民议题)，与交易无关已过滤 · 是否符合当日主线：待验证</div></div></div><div class="x-acct"><div class="x-handle">RichardMoglen</div><div class="co-list"><div class="co-item">（今日9:25am ET）AMP,AXSM,DVA,CBRS,NET,NTAP,OKTA,PTGX,SNOW,TDW,TGTX,RAL,AMD,CRWD,DDOG,DELL,MU — My Watchlist/RS Watchlist（17只标的相对强度观察名单），附YouTube视频《New QQQ Lows - Market Analysis and Rotation Between Themes in Deepvue》 · 是否符合当日主线：待验证</div><div class="co-item">（今日）另发一条&#x27;Here are my thoughts on the current market&#x27;（视频形式，正文未展开文字观点） · 是否符合当日主线：待验证</div></div></div><div class="x-acct"><div class="x-handle">ohiain</div><div class="co-list"><div class="co-item">（Jul26）DELL,AMD — 回复中提及&quot;DELL、AMD，而我还没有仓位&quot;——观察中尚未建仓；本周其余内容均为交易纪律/心态类发言（风险第一、不摊低成本、严格纪律等）及大量社交回复，未发布本周多标的观察名单（与该账号历史高产模式不同，属异常） · 是否符合当日主线：待验证</div></div></div><div class="x-acct"><div class="x-handle">spluscollective</div><div class="co-list"><div class="co-item">（3h前）MSM — 工业分销商，跟随预期稳步走高。Setup: 突破前高附近；Entry: 120-126；Stop: 114；T1: 138 | T2: 145（附图） · 是否符合当日主线：弱相关（工业股，XLI今日单边榜第8名2/4分）</div><div class="co-item">（9h前）ET — Energy Transfer，作者长期最爱的现金流标的，罕见出现技术性setup，油价企稳时利好。Setup: 创历史新高+能源需求；Entry: 19.80-20.40；Stop: 18.90；T1: 22 | T2: 23.50；R/R约2.0 · 是否符合当日主线：是（能源，与今日单边榜XLE/XOP结构一致）</div><div class="co-item">（2h前）DELL,HPE,NVDA — 本周无顶级idea，上周大盘弱势收官后选择耐心等待而非硬追；DELL/HPE或许NVDA有上行空间，但大盘指数偏弱，暂观望 · 是否符合当日主线：待验证</div><div class="co-item">（Jul26）INTC — 数据中心增长亮眼、代工业务有起色，但仍在大幅亏损且估值偏高（附Q2 FY26利润表拆解图，偏中性/谨慎） · 是否符合当日主线：待验证</div></div></div><div class="x-acct"><div class="x-handle">aleabitoreddit</div><div class="co-list"><div class="co-item">（1h前(中文原文)）CPO相关 — 个人目前只想静待既有多头逻辑兑现，尤其是近期大盘回调后的CPO相关标的，暂不打算建新仓，稍后会分享个股思路（Vic已标记该账号为promoter类，默认降权） · 是否符合当日主线：待验证</div><div class="co-item">（1h前）CMXT — IPO首日暴涨+469.98%，估值达约$487.31B · 是否符合当日主线：待验证</div><div class="co-item">（3h前）NVDA — 据传洽谈为OpenAI数据中心租赁提供$250B融资担保；OpenAI另在讨论购买至多$350B英伟达芯片的协议 · 是否符合当日主线：否（半导体/高Beta，今日禁碰+RATE-ALERT限制区）</div><div class="co-item">（8h前）CXMT,AVGO — TLDR新闻：CXMT明日IPO（中国存储概念）；三星据传难以拿到大单；AVGO签下存储相关协议 · 是否符合当日主线：待验证</div><div class="co-item">（Jul25）UBER,LYFT — 旧金山Waymo车辆随处可见，短中期影响有限但长期看衰UBER/LYFT在美国市场，除非其采取应对 · 是否符合当日主线：待验证</div><div class="co-item">（Jul25）GOOGL,UBER,NBIS — 据FT报道Waymo(GOOGL)考虑与UBER拆伙；作者去年12月即预判Uber不会与Waymo在所有城市合作；提及NBIS旗下Avride为中立第三方 · 是否符合当日主线：待验证</div></div></div><div class="callout"><strong>小结：</strong><strong>可用的具体setup只有一条</strong>：@spluscollective 的 MSM（工业分销，Entry 120-126 / Stop 114 / T1 138 / T2 145）——属XLI，不在半导体禁碰、不受油价影响，是今天X池唯一能直接用的名字；<strong>同一账号的 ET（能源中游，Entry 19.80-20.40）今日作废</strong>——停火直接打掉能源论点；@RichardMoglen 的watchlist（AMD/MU/CRWD/DELL/NET/SNOW等）几乎全落在RATE-ALERT+半导体禁碰区，今日不跟；@ohiain 本周反常没发多标的名单（历史招牌内容），只在回复里提了DELL/AMD「还没进」，仅作观察；@aleabitoreddit 是promoter类账号，看多观点默认降权，除非有中立信源或价格行为同时确认</div><span class="method-tag">方法6 · Vic肉眼筛选</span><p class="placeholder">待Vic提供——市场转好后由他自己筛选并给出结果。</p><span class="method-tag">方法7 · 机构大额持仓变动（13D/13G）</span><p class="placeholder">今日无相关标的的13D/13G新申报。</p><div class="callout"><strong>小结：</strong>SEC 13D/13G getcurrent实时流截至今晨查询：本周一无新增申报（No recent filings）。</div><span class="method-tag">方法8 · 轧空候选股扫描</span><p class="placeholder">暂停使用——FINRA做空比例/借券费率三源拼接成本高，待Vic确认恢复。</p><div class="kicker" style="margin-top:22px">综合候选 · A/B/C分级</div><table class="fixed-cols"><colgroup><col style="width:8%"><col style="width:16%"><col style="width:8%"><col style="width:26%"><col style="width:11%"><col style="width:9%"><col style="width:22%"></colgroup><thead><tr><th class="ctr">TICKER</th><th class="">来源</th><th class="ctr">Setup</th><th class="">触发</th><th class="">失效</th><th class="">第一目标</th><th class="">不做/备注</th></tr></thead><tbody><tr class="row-group"><td colspan="7">A级 · 允许执行</td></tr><tr class="row-bull"><td class="ctr">VRTX</td><td>XLV / IBB / 方法2</td><td class="ctr">A+C+W</td><td><strong>收回bar</strong>：收盘站回9EMA（约474.6）上方且收盘位置≥60%，该bar收盘或次日开盘进</td><td>465.0（双底L2）</td><td>490区</td><td>三层限制都不沾、盘前近平开，今日结构最干净。跳空&gt;1.5%或触发bar量能&lt;0.8×则放弃。反向：跌破465.0（双底L2）即失效；跳空&gt;1.5%或触发bar量能&lt;0.8×则放弃</td></tr><tr class="row-bull"><td class="ctr">ANET</td><td>XLK / CIBR / 方法2</td><td class="ctr">B+A+W</td><td><strong>收回bar</strong>：收盘站回9EMA（约174.1）上方且收盘位置≥60%。<strong>只走A腿，B腿突破今日不做</strong></td><td>170.0（三重底L2）</td><td>185区</td><td>非半导体成分禁碰令不覆盖，但属高Beta落在RATE-ALERT灰区——半仓再打折。盘前+1.76%不追。反向：跌破170.0即失效；高Beta落RATE-ALERT灰区，半仓再打折；盘前+1.76%不追</td></tr><tr class="row-bull"><td class="ctr">V</td><td>XLF / DIA / 方法2</td><td class="ctr">B+A+W</td><td><strong>今日不在买点</strong>（已离9EMA +1.68%）。等下一次回踩9EMA（约356.5）的收回bar</td><td>348.5（三重底L2）</td><td>375区</td><td>7/23那根就是标准收回bar（击穿-0.91%/量0.48×/收盘位置87%）。今晚盘后财报，财报前2小时禁建仓。反向：跌破348.5即失效；今晚盘后财报，财报前2小时禁建仓</td></tr><tr class="row-group"><td colspan="7">B级 · 观察为主</td></tr><tr><td class="ctr">MSM</td><td>XLI / 方法5</td><td class="ctr">X池setup</td><td>120-126</td><td>114</td><td>138 / 145</td><td>@spluscollective给的完整setup，不沾三层限制；结构未经我们自己扫描确认。反向：跌破114止损；结构未经我们自己扫描确认</td></tr><tr><td class="ctr">FIX</td><td>XLI / 方法2</td><td class="ctr">Ew+W</td><td>开盘第一根放量动量bar</td><td>洗盘低点下方</td><td>-</td><td>shakeout已收回1705.0（深8.72%），burst未确认。反向：burst未出现即不进；止损洗盘低点下方</td></tr><tr><td class="ctr">SYK</td><td>XLV / IHI / 方法2</td><td class="ctr">W</td><td>等回踩9EMA（约320.8）</td><td>306.5（双底L2）</td><td>345区</td><td>距9EMA +2.93%偏远，不在买点；IHI板块需同步才做。反向：跌破306.5即失效；IHI板块需同步才做</td></tr><tr><td class="ctr">TMO</td><td>XLV / 方法2</td><td class="ctr">D</td><td>等回踩9EMA</td><td>544.45（突破位）</td><td>-</td><td>7/23放量2.5×突破后缩量回踩，但距9EMA +4.75%仍偏远。反向：跌回544.45突破位下方即失效</td></tr><tr><td class="ctr">CAT</td><td>DIA / 方法2</td><td class="ctr">W</td><td>等回踩</td><td>838.33（双底L1）</td><td>-</td><td>盘前+2.39%跳空，今日不追。反向：跌破838.33即失效；盘前+2.39%跳空不追</td></tr><tr class="row-group"><td colspan="7">C级 · 当日忽略</td></tr><tr class="row-mute"><td class="ctr">半导体链</td><td>SMH/MU/AMD/INTC/TSEM/WOLF/STM/NBIS</td><td class="ctr">-</td><td>禁碰令未解除</td><td>-</td><td>-</td><td>今日收盘站稳574.24则明日解禁</td></tr><tr class="row-mute"><td class="ctr">能源链</td><td>XLE/XOP/COP/OXY/VLO/MPC/PSX/TRGP/EQT</td><td class="ctr">-</td><td>论点被停火抹掉</td><td>-</td><td>-</td><td>本周不重新建仓；重建需要新论点不是反弹</td></tr><tr class="row-mute"><td class="ctr">加密矿工链</td><td>WGMI/CIFR/WULF/CLSK</td><td class="ctr">-</td><td>纯跳空追高</td><td>-</td><td>-</td><td>盘前+4~5%，降级档下不碰</td></tr><tr class="row-mute"><td class="ctr">今日MOVER</td><td>BJ/PSA/APD/LASR/DGXX</td><td class="ctr">-</td><td>伪信号</td><td>-</td><td>-</td><td>1-400股单笔成交造成的±7%，一只都不能用</td></tr></tbody></table><div class="entry-legend">
+  <div class="el-title">入场触发一律看「bar」，不看价位</div>
+  <div class="co-list">
+    <div class="co-item"><b>回踩类（A / C / D）——收回bar</b>：出现一根<b>收盘站回9EMA上方</b>且
+      <b>收盘位置≥60%</b>的K线，在该bar收盘或次日开盘进；止损放该bar低点下方。
+      <b>不要等「贴着均线不破」的干净回踩</b>，那种形态多数时候不会出现。</div>
+    <div class="co-item"><b>突破类（B / tight）——突破bar</b>：<b>收盘</b>站上突破位 且
+      <b>量≥1.5×20日均量</b>才算数。<b>不要把单子挂在突破点</b>——挂单会在每一次假突破都成交，
+      这正是Base Breakout实测胜率仅27%的来源。</div>
+    <div class="co-item"><b>Setup E（shakeout+burst）</b>：等开盘后<b>第一根放量动量bar</b>，
+      止损放洗盘低点下方；报告只给结构位，入场时机由盘中人工执行。</div>
+    <div class="co-item"><b>通用否决</b>：开盘跳空高开超过1.5%即视为追高，当日放弃；
+      触发bar量能低于0.8×20日均量视为无买盘跟进，不进。</div>
+  </div>
+</div><div class="callout"><strong>小结：</strong><div class="co-list"><div class="co-item">今天真正可执行的只有VRTX一只——ANET受RATE-ALERT打折、V today不在买点且今晚财报</div><div class="co-item">全场跳空由单一地缘头条驱动，机器的结构分在这种日子可信度打折，<strong>筛选逻辑是「不受停火影响 + 不在禁碰区 + 盘前接近平开」</strong>，不是看谁分高</div><div class="co-item"><strong>入场一律用「收回bar」触发，不用「回踩到某个价位」</strong>——V的7/23就是标准案例，等干净的贴线回踩往往等不到</div></div></div></section><section id="scenario"><h2>今日情景分析</h2><div class="callout">
+  <strong>情景1·跳空高开后回踩承接（基准）</strong><span style="float:right;font-weight:800;font-size:15px">45%</span><div style="height:6px;background:#eceef1;border-radius:999px;margin:6px 0 8px"><div style="height:6px;width:45%;background:var(--blue);border-radius:999px"></div></div>
+  触发：开盘30分钟内回吐部分跳空但守住前收上方，SMH维持574.24上方<br>
+  执行：A级候选（VRTX/ANET/V）在回踩企稳处半仓分批；半导体只观察收盘是否站稳解禁线<br>
+  目标/等待：SPY回补至745区、SMH收盘站上574.24触发明日解禁
+</div><div class="callout">
+  <strong>情景2·高开低走，停火利好一次性出尽</strong><span style="float:right;font-weight:800;font-size:15px">35%</span><div style="height:6px;background:#eceef1;border-radius:999px;margin:6px 0 8px"><div style="height:6px;width:35%;background:var(--blue);border-radius:999px"></div></div>
+  触发：开盘后30-60分钟内跌回前收下方，SMH失守574.24，收盘位置&lt;30%<br>
+  执行：当日不建任何新仓——这正是&#x27;买入当天冲高回落&#x27;的形态；已有持仓NVDY按12.10止损纪律执行<br>
+  目标/等待：QQQ重回684下方则降级档理由进一步强化，明日维持全面防守
+</div><div class="callout">
+  <strong>情景3·risk-on延续，半导体收盘确认解禁</strong><span style="float:right;font-weight:800;font-size:15px">20%</span><div style="height:6px;background:#eceef1;border-radius:999px;margin:6px 0 8px"><div style="height:6px;width:20%;background:var(--blue);border-radius:999px"></div></div>
+  触发：SMH收盘明确站上574.24且收盘位置&gt;60%、放量确认；QQQ收复695上方<br>
+  执行：**今日仍不动手**（规则要收盘确认），明日盘前重新评估半导体链解禁与档位上调<br>
+  目标/等待：SMH站稳5MA+QQQ收复20MA则升级条件开始积累
+</div></section><section id="wrapup"><h2>今日定位</h2><div class="callout"><strong>KEY TAKEAWAYS</strong><ol class="kt-list"><li class="kt-item"><span class="kt-head">段1的能源主线被隔夜停火消息完全推翻，全部能源候选今日作废。</span><div class="kt-body">段1（13:27，基于7/24收盘）判能源XLE/XOP 4/4分全场最强、首选EQT；段2（17:18）见能源全线杀跌——XLE -2.52%、COP -3.18%、OXY -3.60%、DK -5.00%，EQT自己-1.94%。油价是能源股论点的本体，停火抽掉地缘溢价=论点消失，不适用「结构没坏就留一半」那条。</div></li><li class="kt-item"><span class="kt-head">盘前跳空不可信——SMH从盘前+2.64%收成-2.25%，全天吐掉近5%。</span><div class="kt-body">收548.55、量比3.44×、板块排名73/81。「盘前抢跑不改档位」这条规则今天再次被验证；对账清单里原本还有一条「SMH进板块前3」与「不解禁」方向相反，等于两头下注，已删除——<strong>预判必须单向可证伪，覆盖两个方向的不是预判。</strong></div></li><li class="kt-item"><span class="kt-head">半导体是今日最强板块，但禁碰维持不变——今天收盘才是解禁判定时刻。</span><div class="kt-body">SMH盘前576.01已站上5MA解禁线574.24，链上TSEM/WOLF +6.02%、STM +5.82%、NBIS +5.70%。但「盘前抢跑不改档位」这条规则7/21刚验证过是对的。收盘站稳574.24则明日解禁。</div></li><li class="kt-item"><span class="kt-head">今天最可能犯的错是追高，不是选错票。</span><div class="kt-body">全场跳空由单一地缘头条驱动，而「买入当天冲高回落」是W28以来重复次数最多的亏损形态（3批）。降级档半仓 + 只做A级 + 不追第一根，三条一起用。</div></li><li class="kt-item"><span class="kt-head">利率与美元双重压制成立，与「今日最强的不能碰」是同一个结论的两条独立证据。</span><div class="kt-body">10Y 4.68%（RATE-ALERT）叠加美元UUP走强（5日+0.88%、RSI 64.30、站上20/50MA）。停火带来的是风险偏好回补，不是流动性改善——决定高Beta估值的两个变量方向都是逆风。</div></li><li class="kt-item"><span class="kt-head">今日空仓开局，所有决策都是新建仓决策。</span><div class="kt-body">NVDY 7/23已全部平仓（12.58进、12.84与12.50出，基本打平），两个账户目前无持仓。没有「保护既有仓位」的问题，降级档三条规则完整适用于每一笔。</div></li><li class="kt-item"><span class="kt-head">今日5只±7% MOVER全部是伪信号，真正的动能在门槛以下。</span><div class="kt-body">BJ -12.01%只有1股成交，PSA/APD/LASR同为1-2股。有真实成交量的是半导体链（TSEM 9527股、STM 48056股、NBIS 92949股）。MOVER门槛必须同时看成交量。</div></li><li class="kt-item"><span class="kt-head">美元这一行我原本写成「抓取失败」是错的，你的宏观Sheet一直有。</span><div class="kt-body">已把UUP加进LongPort SDK的ticker universe，以后有完整T-1%/5日/MA/RSI而不只是点位；两个数据源今天核对一致28.58。补上方向后结论是实质性的：美元在走强。</div></li></ol></div><h3 style="margin-top:24px">盘后对账清单</h3><table class="ledger-table"><thead><tr><th>今日预判</th><th>触发/阈值（可证伪）</th><th>收盘核对</th></tr></thead><tbody><tr><td>半导体链今日不解禁——SMH收盘无法站稳5MA解禁线574.24</td><td>收盘 &lt; 574.24 判命中；≥574.24 判失误（则明日解禁）</td><td class="pending">（盘后填）</td></tr><tr><td>盘前跳空不可信——SMH收盘涨幅显著低于盘前的+2.64%</td><td>收盘涨幅 &lt; +1.0% 判命中（与上一条同方向，不再两头下注）</td><td class="pending">（盘后填）</td></tr><tr><td>能源板块今日收跌，XLE收盘为负</td><td>XLE收盘涨跌 &lt; 0 判命中</td><td class="pending">（盘后填）</td></tr><tr><td>今日是跳空高开后回吐的一天——SPY收盘位置（当日区间）&lt; 60%</td><td>收盘位置 &lt; 60% 判命中；&gt; 80% 判失误</td><td class="pending">（盘后填）</td></tr><tr><td>降级档不解除——5D ratio 收盘仍 &lt; 1.0</td><td>5D ratio &lt; 1.0 判命中</td><td class="pending">（盘后填）</td></tr><tr><td>RATE-ALERT不解除——10Y收盘仍 &gt; 4.50%</td><td>10Y收盘 &gt; 4.50% 判命中</td><td class="pending">（盘后填）</td></tr><tr><td>T2108不跌破50（广度不进一步恶化）</td><td>T2108收盘 ≥ 50 判命中</td><td class="pending">（盘后填）</td></tr></tbody></table></section>
+<footer class="source"><p>[&#x27;LongPort SDK（fetch_market_data.py，data_date=2026-07-24收盘）&#x27;, &#x27;Vic Google Sheet主表5tab + S&amp;P500全量市宽 + 宏观自建表&#x27;, &#x27;Stockbee公开表（T2108/5日10日ratio，2026-07-24行）&#x27;, &#x27;CNN Fear&amp;Greed：WebSearch替代（CNN官方接口/WebFetch均被拦截，451/teapot）&#x27;, &#x27;SEC 13D/13G getcurrent atom feed&#x27;, &#x27;X观点池13账号逐查（子代理执行，data/cache/x_scan_20260727.json）&#x27;, &#x27;投资.com DXY本次抓取失败（Cloudflare拦截），未影响久期防线判定（10Y单独已触发）&#x27;]</p></footer>
+</main></body>
+</html>

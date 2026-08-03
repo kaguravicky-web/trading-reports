@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>2026 W30 周总结（7/20-7/24）｜半导体V型来回甩，QQQ失守690，"AI Capex过敏"成定价新规则</title>
 <style>
-
 :root{
   --bg:#f5f5f7;--panel:#fff;--text:#1a1f2e;--muted:#6b7280;--line:#e6e8ec;
   --blue:#2563eb;--green:#2e7d5c;--amber:#b5574a;--red:#a3422b;
@@ -13,6 +12,9 @@
   --shadow:0 18px 48px rgba(15,23,42,.07);
   --soft-green:#6f9e83;--soft-amber:#c48b80;--soft-red:#c48b80;
 }
+/* 2026-07-06：黄色试了两版(#ba7517/#9c7a0a)都被Vic认成棕色，改成红绿二色系统——
+   --amber不再是黄色，而是比--red浅的"暖红/浅砖红"，跟--red同属红色家族、只靠深浅区分"中/高"档，
+   不再引入第三种色相。以后不要再把--amber调回黄/棕色调。*/
 *{box-sizing:border-box}
 body{margin:0;background:linear-gradient(180deg,#fbfbfd 0,var(--bg) 300px);color:var(--text);
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft JhengHei","PingFang SC",Arial,sans-serif;
@@ -41,6 +43,13 @@ h3{font-size:18px;margin:20px 0 8px}
 .badge.green,.green{color:var(--green);background:var(--green-bg);border-color:#bfe0cd}
 .badge.red,.red{color:var(--red);background:var(--red-bg);border-color:#eccabf}
 
+/* Above MA(20/50/200) 三期限独立小标签，2026-07-21对标老师报告格式改版（原来是纯▲▼三字符文本） */
+.ma{white-space:nowrap;font-size:11.5px;font-weight:600}
+.ma b{display:inline-flex;align-items:center;gap:2px;margin-right:6px;color:var(--muted);font-weight:600}
+.ma b.up i{color:var(--green)}
+.ma b.dn i{color:var(--red)}
+.ma i{font-style:normal;font-size:12px}
+
 table{width:100%;border-collapse:separate;border-spacing:0;background:var(--panel);border:1px solid var(--line);
   border-radius:14px;overflow:hidden;margin:10px 0 12px;font-size:14px;box-shadow:0 8px 20px rgba(15,23,42,.04)}
 th,td{border-bottom:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top}
@@ -55,11 +64,11 @@ span.dn{color:var(--red);font-weight:700}
 tr.row-bull td{background:var(--green-bg)}
 tr.row-warn td{background:var(--red-bg)}
 
-.callout{background:#fff;border:1px solid var(--line);border-left:5px solid var(--blue);border-radius:12px;
+.callout{background:var(--blue-bg);border:1px solid var(--line);border-left:5px solid var(--blue);border-radius:12px;
   padding:14px 16px;margin:12px 0 18px}
-.callout.ok{border-left-color:var(--green)}
-.callout.warn{border-left-color:var(--amber)}
-.callout.risk{border-left-color:var(--red)}
+.callout.ok{border-left-color:var(--green);background:#fff}
+.callout.warn{border-left-color:var(--amber);background:#fff}
+.callout.risk{border-left-color:var(--red);background:#fff}
 
 .checks{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:12px 0}
 .check{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 15px;
@@ -83,25 +92,32 @@ tr.row-warn td{background:var(--red-bg)}
 .tb-list{margin:8px 0 0;padding-left:20px}
 .tb-list li{margin:5px 0;font-size:13px}
 
-.action-directive{border-left:3px solid var(--amber);background:var(--amber-bg);padding:12px 16px;margin:14px 0 24px}
-.ad-label{color:var(--amber);font-size:12px;font-weight:800;letter-spacing:.05em}
+.action-directive{border-left:3px solid #d9b64a;background:#fff8e1;padding:12px 16px;margin:14px 0 24px}
+.ad-label{color:#9a7b0b;font-size:12px;font-weight:800;letter-spacing:.05em}
 .ad-list{list-style:none;padding:0;margin:8px 0 0}
 .ad-list li{margin:6px 0}
-.ad-primary::before{content:"\25CF ";color:var(--amber)}
+.ad-primary::before{content:"\25CF ";color:#9a7b0b}
 .ad-watch::before{content:"\25CE ";color:var(--blue)}
 .ad-avoid::before{content:"\2717 ";color:var(--red)}
 .ad-invalidate{border-top:1px dashed #ddc0b8;padding-top:8px;color:#6b6960;font-size:12.5px}
 .ad-invalidate strong{color:#a3422b}
 
+/* 核心纪律专用（2026-07-22 Vic："又有bullet又有**还有红绿灯,太多了"）——跟今日定位的ad-list
+   共用同一个黄色box，但不再加●前缀：box的背景色+行间距已经是一层强调，不需要再叠bullet。 */
+.disc-list{list-style:none;padding:0;margin:8px 0 0}
+.disc-list li.disc-item{margin:9px 0;line-height:1.62}
+.disc-list li.disc-item strong{color:#8a6a10}
+
 .toc{position:sticky;top:8px;z-index:20;display:flex;gap:6px;overflow-x:auto;padding:7px 8px;
-  margin-bottom:20px;border:1px solid var(--line);background:rgba(255,255,255,.96);border-radius:10px}
+  margin-bottom:20px;border:1px solid #c3d6f5;background:var(--blue-bg);border-radius:10px}
 .toc a{flex:0 0 auto;padding:5px 9px;color:var(--text);font-size:12px;text-decoration:none;border-radius:4px}
-.toc a:hover{background:#eef2f6;color:var(--blue)}
+.toc a:hover{background:#fff;color:var(--blue)}
 
 .source{font-size:12px;color:var(--muted)}
 .placeholder{color:var(--muted);font-style:italic}
 .kicker{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:18px 0 2px}
 
+/* 盘后/一周复盘共用组件（借鉴sintszkay示例站点的report-shared.css） */
 .hitbar{display:flex;height:14px;border-radius:999px;overflow:hidden;margin:14px 0 6px;max-width:520px}
 .hitbar i{display:block;height:100%}
 .hitbar .h{background:var(--green)}.hitbar .p{background:var(--amber)}.hitbar .m{background:var(--red)}
@@ -116,6 +132,17 @@ tr.row-warn td{background:var(--red-bg)}
 .result-miss{color:var(--red);background:#faeeea}
 .result-not-triggered{color:var(--muted);background:#eef0f3}
 
+.chart{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:16px 18px 10px;margin:12px 0;box-shadow:0 6px 16px rgba(15,23,42,.035)}
+.chart-title{font-size:12px;font-weight:700;color:var(--muted);margin:0 0 10px}
+.bar-row{display:grid;grid-template-columns:104px 62px 1fr;align-items:center;gap:8px;margin:5px 0}
+.bar-row .lbl{font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar-row .val{font-size:12.5px;font-weight:700;text-align:right;font-variant-numeric:tabular-nums}
+.bar-row .val.pos{color:var(--green)}.bar-row .val.neg{color:var(--red)}
+.bar-track{position:relative;height:18px;background:#f6f7f9;border-radius:4px}
+.bar-track .b{position:absolute;top:2px;bottom:2px;border-radius:3px}
+.bar-track .b.pos{background:var(--green);opacity:.75}
+.bar-track .b.neg{background:var(--red);opacity:.75}
+
 .rsi{display:inline-flex;align-items:center;gap:6px;font-variant-numeric:tabular-nums;white-space:nowrap}
 .rsi i{display:block;width:46px;height:6px;border-radius:999px;background:#edeff2;position:relative;overflow:hidden}
 .rsi i b{position:absolute;left:0;top:0;bottom:0;border-radius:999px;background:#9aa4b2}
@@ -128,7 +155,71 @@ tr.row-warn td{background:var(--red-bg)}
 .ma-period{color:var(--muted);font-size:12px;font-weight:700}
 .ma-arrow{font-size:13px;line-height:1}
 
-/* 风险温度打分：5格严重度条 */
+.pct{display:flex;align-items:center;gap:8px;justify-content:flex-end}
+.pct i{display:block;width:72px;height:8px;border-radius:999px;background:#edeff2;position:relative;overflow:hidden}
+.pct i b{position:absolute;left:0;top:0;bottom:0;border-radius:999px;background:var(--blue);opacity:.7}
+.pct em{font-style:normal;font-variant-numeric:tabular-nums;font-weight:600;min-width:52px;text-align:right}
+
+.atr{display:inline-flex;align-items:center;gap:6px;white-space:nowrap;font-variant-numeric:tabular-nums;font-weight:600}
+.atr i{display:inline-flex;gap:2px}
+.atr i b{width:6px;height:12px;border-radius:2px;background:#e6e8ec}
+.atr.l1 i b:nth-child(-n+1),.atr.l2 i b:nth-child(-n+2){background:var(--amber)}
+.atr.l3 i b:nth-child(-n+3){background:var(--red)}
+.atr.l4 i b:nth-child(-n+4){background:var(--red)}
+.atr.l3,.atr.l4{color:#8f3323}
+
+/* 50MA ATR延伸条（2026-07-27新增，借鉴Vic老师报告的"距50MA(ATR)"可视化，见report_helpers.atr_extension_rows）。
+   4格分段条，方向决定色系（跌=红家族/涨=绿家族，不引入黄棕色，沿用项目既有红绿二色规则），
+   l0-l4按|距50MA(ATR)|幅度分级，级数越高填色越多、颜色越深。*/
+.atr-cell{display:inline-flex;align-items:center;gap:6px;white-space:nowrap;font-variant-numeric:tabular-nums;font-weight:600}
+.atr-cell i{display:inline-flex;gap:2px}
+.atr-cell i b{width:6px;height:12px;border-radius:2px;background:#e6e8ec}
+.atr-cell.dn.l1 i b:nth-child(-n+1),.atr-cell.dn.l2 i b:nth-child(-n+2){background:var(--amber)}
+.atr-cell.dn.l3 i b:nth-child(-n+3),.atr-cell.dn.l4 i b:nth-child(-n+4){background:var(--red)}
+.atr-cell.dn.l3 em,.atr-cell.dn.l4 em{color:#8f3323}
+.atr-cell.up.l1 i b:nth-child(-n+1),.atr-cell.up.l2 i b:nth-child(-n+2){background:#bfe0cd}
+.atr-cell.up.l3 i b:nth-child(-n+3),.atr-cell.up.l4 i b:nth-child(-n+4){background:var(--green)}
+.atr-cell.up.l3 em,.atr-cell.up.l4 em{color:var(--green)}
+.atr-cell em{font-style:normal;margin-left:2px}
+
+.trend-tag{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap}
+.trend-tag.down{color:var(--red);background:var(--red-bg)}
+.trend-tag.critical{color:#6b7280;background:#f1f2f4}
+.trend-tag.strong{color:var(--green);background:var(--green-bg)}
+
+/* 今日信号灯：整块实心色标签，替代之前的大卡片 */
+.status-row{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+.status-tag{display:inline-flex;align-items:center;padding:6px 12px;border-radius:6px;font-size:13px;font-weight:700;color:#fff;white-space:nowrap}
+.status-tag.low{background:var(--green)}
+.status-tag.mid{background:var(--amber)}
+.status-tag.high{background:var(--red)}
+
+/* 今日信号灯：窄小浅色chip + 正文（2026-07-23 Vic："开头标签请用窄的小的浅红浅绿，不要占全行，
+   视觉冲击太强了"——推翻2026-07-22的整行实心色块方案，那个是为了解决"长文本撑成超宽单行"的问题，
+   但整行铺满实色视觉太重。现在chip只包住键名本身（窄/小/浅色背景+深色文字），正文跟在旁边正常
+   颜色换行，不再给整行上色。三档仍是 绿/浅红/深红，不引入黄色。*/
+.signal-blocks{display:flex;flex-direction:column;gap:8px;margin:14px 0 4px}
+.signal-block{display:flex;align-items:flex-start;gap:10px}
+.signal-block .sb-key{flex:0 0 auto;font-size:11px;font-weight:800;letter-spacing:.05em;
+  border-radius:999px;padding:3px 10px;text-align:center;white-space:nowrap;border:1px solid transparent}
+.signal-block .sb-text{font-size:13.5px;line-height:1.66;color:var(--text);flex:1}
+.signal-block .sb-text strong{color:var(--text);font-weight:800}
+.signal-block.low .sb-key{background:var(--green-bg);color:var(--green);border-color:#bfe0cd}
+.signal-block.mid .sb-key{background:var(--amber-bg);color:var(--amber);border-color:#e8c3b8}
+.signal-block.high .sb-key{background:var(--red-bg);color:var(--red);border-color:#eccabf}
+@media(max-width:720px){
+  .signal-block{flex-direction:column;gap:5px}
+}
+
+/* Premarket Movers：删掉价格列后（2026-07-22 Vic"给多点空间"），把省下的宽度分配给三个长文本列 */
+table.movers th:nth-child(1),table.movers td:nth-child(1){width:74px}
+table.movers th:nth-child(2),table.movers td:nth-child(2){width:92px}
+table.movers th:nth-child(3),table.movers td:nth-child(3){width:96px}
+table.movers th:nth-child(4),table.movers td:nth-child(4){width:82px}
+table.movers td:nth-child(n+5){font-size:12.8px;line-height:1.6}
+.discipline-line{font-size:15px;font-weight:700;background:#fff8e1;border:1px solid #ecdfae;border-radius:10px;padding:12px 14px;margin:8px 0 4px}
+
+/* 风险温度打分：5格严重度条，替代之前的四色卡片网格 */
 .risk-rows{display:flex;flex-direction:column;gap:2px;margin:10px 0}
 .risk-row{display:grid;grid-template-columns:200px 90px 1fr;align-items:center;gap:12px;padding:8px 4px;border-bottom:1px solid var(--line)}
 .risk-row:last-child{border-bottom:0}
@@ -139,7 +230,30 @@ tr.row-warn td{background:var(--red-bg)}
 .severity.low i:nth-child(-n+2){background:var(--soft-green)}
 .severity.mid i:nth-child(-n+3){background:var(--soft-red)}
 .severity.high i{background:#8b1f10}
+#risk .hitbar .h{background:var(--soft-green)}
+#risk .hitbar .p{background:var(--soft-red)}
+#risk .hitbar .m{background:var(--amber)}
 @media(max-width:640px){.risk-row{grid-template-columns:1fr;gap:4px}}
+
+/* Setup / 机会扫描：方法分组标签 + Leader对比 */
+.method-tag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.04em;color:var(--blue);
+  background:var(--blue-bg);border:1px solid #c3d6f5;border-radius:5px;padding:3px 8px;margin:18px 0 4px}
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:10px 0}
+.compare-grid h4{margin:0 0 6px;font-size:14px;font-weight:800}
+.compare-grid h4 small{font-weight:600;color:var(--muted);font-size:12px}
+@media(max-width:760px){.compare-grid{grid-template-columns:1fr}}
+
+/* 对账清单：预判 vs 收盘核对 */
+.ledger-table td.pending{color:var(--muted);font-style:italic}
+
+/* 攻守记分板：统一表格，避免卡片+小结拆散的观感 */
+.scoreboard-table td.status-met{color:var(--green);font-weight:700;background:var(--green-bg)}
+.scoreboard-table td.status-unmet{color:var(--muted)}
+.scoreboard-table td.status-triggered{color:var(--red);font-weight:700;background:var(--red-bg)}
+.scoreboard-table td.status-safe{color:var(--green);font-weight:700;background:var(--green-bg)}
+.scoreboard-table td.type-col{color:var(--muted);font-size:12.5px;white-space:nowrap}
+
+@media(max-width:760px){.bar-row{grid-template-columns:88px 56px 1fr}}
 
 @media(max-width:900px){.grid,.checks{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:640px){
@@ -150,10 +264,6 @@ tr.row-warn td{background:var(--red-bg)}
   .regime-triggers{flex-direction:column}
   table{display:block;overflow-x:auto;white-space:nowrap}
 }
-
-span.up{color:var(--green);font-weight:700}
-span.dn{color:var(--red);font-weight:700}
-.wk-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:14px 0}
 
 </style>
 </head>
@@ -310,20 +420,20 @@ span.dn{color:var(--red);font-weight:700}
 </section>
 
 <section class="panel">
-<h3>指数ETF复盘（收盘/5日/1月/RSI/距52周高）</h3>
-<table><thead><tr><th>ETF/指数</th><th>收盘</th><th class="num">5日</th><th class="num">1月</th><th class="num">RSI</th><th class="num">距52周高</th></tr></thead>
+<h3>指数ETF复盘（收盘/5日/1月/RS(1周)/距52周高）</h3>
+<table><thead><tr><th>ETF/指数</th><th>收盘</th><th class="num">5日</th><th class="num">1月</th><th class="num">RS(1周)</th><th class="num">距52周高</th></tr></thead>
 <tbody>
-<tr><td>SPY</td><td>738.93</td><td class="num dn">-0.59%</td><td class="num up">+0.78%</td><td class="num">45.2</td><td class="num dn">-2.82%</td></tr>
-<tr><td>QQQ</td><td>684.23</td><td class="num dn">-1.60%</td><td class="num dn">-3.71%</td><td class="num">39.3</td><td class="num dn">-8.60%</td></tr>
-<tr><td>SMH</td><td>561.19</td><td class="num up">+0.84%</td><td class="num dn">-9.33%</td><td class="num">42.9</td><td class="num dn">-16.47%</td></tr>
-<tr><td>VOO</td><td>679.14</td><td class="num dn">-0.59%</td><td class="num up">+0.51%</td><td class="num">45.0</td><td class="num dn">-2.86%</td></tr>
-<tr><td>RSP</td><td>213.57</td><td class="num up">+0.09%</td><td class="num up">+1.52%</td><td class="num">55.1</td><td class="num dn">-1.29%</td></tr>
-<tr><td>IWM</td><td>291.17</td><td class="num dn">-0.98%</td><td class="num dn">-1.86%</td><td class="num">45.5</td><td class="num dn">-3.82%</td></tr>
-<tr><td>DIA</td><td>518.76</td><td class="num dn">-0.39%</td><td class="num up">+0.05%</td><td class="num">48.8</td><td class="num dn">-2.59%</td></tr>
-<tr><td>QQQE</td><td>115.41</td><td class="num dn">-1.19%</td><td class="num dn">-2.76%</td><td class="num">39.2</td><td class="num dn">-6.37%</td></tr>
+<tr><td>SPY</td><td>738.93</td><td class="num dn">-0.59%</td><td class="num up">+0.78%</td><td class="num up">+1.0</td><td class="num dn">-2.82%</td></tr>
+<tr><td>QQQ</td><td>684.23</td><td class="num dn">-1.60%</td><td class="num dn">-3.71%</td><td class="num up">+0.0</td><td class="num dn">-8.60%</td></tr>
+<tr><td>SMH</td><td>561.19</td><td class="num up">+0.84%</td><td class="num dn">-9.33%</td><td class="num up">+2.4</td><td class="num dn">-16.47%</td></tr>
+<tr><td>VOO</td><td>679.14</td><td class="num dn">-0.59%</td><td class="num up">+0.51%</td><td class="num up">+1.0</td><td class="num dn">-2.86%</td></tr>
+<tr><td>RSP</td><td>213.57</td><td class="num up">+0.09%</td><td class="num up">+1.52%</td><td class="num up">+1.7</td><td class="num dn">-1.29%</td></tr>
+<tr><td>IWM</td><td>291.17</td><td class="num dn">-0.98%</td><td class="num dn">-1.86%</td><td class="num up">+0.6</td><td class="num dn">-3.82%</td></tr>
+<tr><td>DIA</td><td>518.76</td><td class="num dn">-0.39%</td><td class="num up">+0.05%</td><td class="num up">+1.2</td><td class="num dn">-2.59%</td></tr>
+<tr><td>QQQE</td><td>115.41</td><td class="num dn">-1.19%</td><td class="num dn">-2.76%</td><td class="num up">+0.4</td><td class="num dn">-6.37%</td></tr>
 <tr><td>VIX</td><td>18.58</td><td class="num dn">-1.0%（约）</td><td class="num up">+11%（约）</td><td class="num">-</td><td class="num">-（未现恐慌尖峰）</td></tr>
 </tbody></table>
-<div class="callout warn"><strong>小结：</strong>RSP继续是全表唯一"5日+1月"双正的宽基（+0.09%/+1.52%），QQQ/QQQE RSI跌破40是本周最弱的两个读数——
+<div class="callout warn"><strong>小结：</strong>RSP继续是全表唯一"5日+1月"双正的宽基（+0.09%/+1.52%），QQQ/QQQE的RS(1周)是全表最低的两个（+0.0/+0.4，几乎没有跑赢自己），RSI也双双跌破40（39.3/39.2）——
 纳指的问题比上周更集中在权重股本身，等权/小盘/价值的相对抗跌程度比W29时更明显。</div>
 
 <h3>50MA ATR 周延伸（追价风险 vs 破位风险）</h3>
@@ -341,28 +451,28 @@ span.dn{color:var(--red);font-weight:700}
 这是跟上周"贴线未破"最大的区别：本周不是贴线，是真正在扩大的负偏离，只有IWM保持零附近的中性状态。</div>
 
 <h3>Big Winners（本周5日涨幅前8，全票池829只个股，剔除ETF）</h3>
-<table><thead><tr><th>标的</th><th class="num">5日%</th><th class="num">RSI</th><th class="num">距52周高</th><th>20/50/200MA</th><th>状态与交易含义</th></tr></thead>
+<table><thead><tr><th>标的</th><th class="num">5日%</th><th class="num">RS(1周)</th><th class="num">距52周高</th><th>20/50/200MA</th><th>状态与交易含义</th></tr></thead>
 <tbody>
-<tr><td>CIFR</td><td class="num up">+31.83%</td><td class="num">51.8</td><td class="num dn">-23.19%</td><td class="nowrap">▲▲▲</td><td>加密矿工链，WGMI成分；1月-11.71%仍是反弹性质不是趋势恢复</td></tr>
-<tr><td>SMCI</td><td class="num up">+24.48%</td><td class="num">52.4</td><td class="num dn">-51.73%</td><td class="nowrap">▲▼▼</td><td>AI服务器整机，20MA上但50/200MA仍下方，反弹但结构未修复</td></tr>
-<tr><td>RIOT</td><td class="num up">+23.38%</td><td class="num">49.0</td><td class="num dn">-25.69%</td><td class="nowrap">▲▼▲</td><td>矿工链同CIFR，BTC/ETH本周走平，纯粹是板块内部资金游戏</td></tr>
-<tr><td>HUT</td><td class="num up">+20.27%</td><td class="num">52.1</td><td class="num dn">-21.88%</td><td class="nowrap">▲▼▲</td><td>矿工链第三只，本周WGMI主题+12.66%集中在这几只小票上</td></tr>
-<tr><td>ONDS</td><td class="num up">+19.54%</td><td class="num">48.3</td><td class="num dn">-48.95%</td><td class="nowrap">▲▼▼</td><td>无人机小票，方法2 Setup E候选池里的名字，流动性差需谨慎</td></tr>
-<tr><td>WAB</td><td class="num up">+15.42%</td><td class="num">75.1</td><td class="num dn">-0.15%</td><td class="nowrap">▲▲▲</td><td>铁路设备，财报beat+上调指引，三均线全▲，距52周高仅-0.15%——本表唯一真正健康的趋势票</td></tr>
-<tr><td>CBRS</td><td class="num up">+15.19%</td><td class="num">47.1</td><td class="num dn">-48.46%</td><td class="nowrap">▲-（数据不足）</td><td>Vic本周日内交易标的(Momentum Burst，+14.30小赚)，个股层面确认了当周的日内机会</td></tr>
-<tr><td>FCEL</td><td class="num up">+14.95%</td><td class="num">48.7</td><td class="num dn">-43.88%</td><td class="nowrap">▼▼▲</td><td>燃料电池小票，20MA仍下方，反弹但结构未确认</td></tr>
+<tr><td>CIFR</td><td class="num up">+31.83%</td><td class="num up">+33.4</td><td class="num dn">-23.19%</td><td class="ma-cell"><span class="ma"><b class="up">20<i>▲</i></b><b class="up">50<i>▲</i></b><b class="up">200<i>▲</i></b></span></td><td>加密矿工链，WGMI成分；1月-11.71%仍是反弹性质不是趋势恢复</td></tr>
+<tr><td>SMCI</td><td class="num up">+24.48%</td><td class="num up">+26.1</td><td class="num dn">-51.73%</td><td class="ma-cell"><span class="ma"><b class="up">20<i>▲</i></b><b class="dn">50<i>▼</i></b><b class="dn">200<i>▼</i></b></span></td><td>AI服务器整机，20MA上但50/200MA仍下方，反弹但结构未修复</td></tr>
+<tr><td>RIOT</td><td class="num up">+23.38%</td><td class="num up">+25.0</td><td class="num dn">-25.69%</td><td class="ma-cell"><span class="ma"><b class="up">20<i>▲</i></b><b class="dn">50<i>▼</i></b><b class="up">200<i>▲</i></b></span></td><td>矿工链同CIFR，BTC/ETH本周走平，纯粹是板块内部资金游戏</td></tr>
+<tr><td>HUT</td><td class="num up">+20.27%</td><td class="num up">+21.9</td><td class="num dn">-21.88%</td><td class="ma-cell"><span class="ma"><b class="up">20<i>▲</i></b><b class="dn">50<i>▼</i></b><b class="up">200<i>▲</i></b></span></td><td>矿工链第三只，本周WGMI主题+12.66%集中在这几只小票上</td></tr>
+<tr><td>ONDS</td><td class="num up">+19.54%</td><td class="num up">+21.1</td><td class="num dn">-48.95%</td><td class="ma-cell"><span class="ma"><b class="up">20<i>▲</i></b><b class="dn">50<i>▼</i></b><b class="dn">200<i>▼</i></b></span></td><td>无人机小票，方法2 Setup E候选池里的名字，流动性差需谨慎</td></tr>
+<tr><td>WAB</td><td class="num up">+15.42%</td><td class="num up">+17.0</td><td class="num dn">-0.15%</td><td class="ma-cell"><span class="ma"><b class="up">20<i>▲</i></b><b class="up">50<i>▲</i></b><b class="up">200<i>▲</i></b></span></td><td>铁路设备，财报beat+上调指引，三均线全▲，距52周高仅-0.15%——本表唯一真正健康的趋势票</td></tr>
+<tr><td>CBRS</td><td class="num up">+15.19%</td><td class="num up">+16.8</td><td class="num dn">-48.46%</td><td class="ma-cell"><span class="ma"><b class="up">20<i>▲</i></b><b>50<i>-</i></b><b>200<i>-</i></b></span></td><td>Vic本周日内交易标的(Momentum Burst，+14.30小赚)，个股层面确认了当周的日内机会；上市时间短，50/200MA数据不足</td></tr>
+<tr><td>FCEL</td><td class="num up">+14.95%</td><td class="num up">+16.6</td><td class="num dn">-43.88%</td><td class="ma-cell"><span class="ma"><b class="dn">20<i>▼</i></b><b class="dn">50<i>▼</i></b><b class="up">200<i>▲</i></b></span></td><td>燃料电池小票，20MA仍下方，反弹但结构未确认</td></tr>
 </tbody></table>
 <h3>Big Losers（本周5日跌幅前8）</h3>
-<table><thead><tr><th>标的</th><th class="num">5日%</th><th class="num">RSI</th><th class="num">距52周高</th><th>20/50/200MA</th><th>状态与交易含义</th></tr></thead>
+<table><thead><tr><th>标的</th><th class="num">5日%</th><th class="num">RS(1周)</th><th class="num">距52周高</th><th>20/50/200MA</th><th>状态与交易含义</th></tr></thead>
 <tbody>
-<tr><td>SNEX</td><td class="num dn">-27.90%</td><td class="num">24.3</td><td class="num dn">-47.70%</td><td class="nowrap">▼▼▼</td><td>金融服务，三均线全▼，RSI 24.3深度超卖但结构未止跌</td></tr>
-<tr><td>ACI</td><td class="num dn">-27.00%</td><td class="num">21.6</td><td class="num dn">-46.98%</td><td class="nowrap">▼▼▼</td><td>Albertsons，7/23财报数字beat但EBITDA不及预期+缺乏惊喜遭抛售，跌幅远超本周财报播报里的初判</td></tr>
-<tr><td>WOLF</td><td class="num dn">-22.75%</td><td class="num">29.7</td><td class="num dn">-71.43%</td><td class="nowrap">▼▼▼</td><td>Wolfspeed，半导体材料端持续去估值，距52周高-71%全表最差结构</td></tr>
-<tr><td>PTRN</td><td class="num dn">-21.13%</td><td class="num">37.4</td><td class="num dn">-25.60%</td><td class="nowrap">▼▲▲</td><td>20MA下方但50/200MA仍上方，短线急跌但中期结构未坏</td></tr>
-<tr><td>TENB</td><td class="num dn">-19.13%</td><td class="num">43.6</td><td class="num dn">-26.15%</td><td class="nowrap">▼▲▲</td><td>网安CIBR成分，个股层面走弱与CIBR板块本周(-4.29%)方向一致</td></tr>
-<tr><td>CHRN</td><td class="num dn">-18.65%</td><td class="num">48.5</td><td class="num dn">-28.33%</td><td class="nowrap">▼▲▲</td><td>上周Big Winners榜首(+26.46%)，本周直接跌成Losers——典型的无主线趋势票双向剧烈波动案例</td></tr>
-<tr><td>TEM</td><td class="num dn">-18.64%</td><td class="num">32.9</td><td class="num dn">-59.08%</td><td class="nowrap">▼▼▼</td><td>Tempus AI，ARKK成分，三均线全▼深度弱势</td></tr>
-<tr><td>TSLA</td><td class="num dn">-17.81%</td><td class="num">28.0</td><td class="num dn">-37.25%</td><td class="nowrap">▼▼▼</td><td>capex担忧的震中，RSI 28.0全表最超卖之一但三均线全▼，本周AI capex过敏叙事的最直接受害者</td></tr>
+<tr><td>SNEX</td><td class="num dn">-27.90%</td><td class="num dn">-26.3</td><td class="num dn">-47.70%</td><td class="ma-cell"><span class="ma"><b class="dn">20<i>▼</i></b><b class="dn">50<i>▼</i></b><b class="dn">200<i>▼</i></b></span></td><td>金融服务，三均线全▼，RSI 24.3深度超卖但结构未止跌</td></tr>
+<tr><td>ACI</td><td class="num dn">-27.00%</td><td class="num dn">-25.4</td><td class="num dn">-46.98%</td><td class="ma-cell"><span class="ma"><b class="dn">20<i>▼</i></b><b class="dn">50<i>▼</i></b><b class="dn">200<i>▼</i></b></span></td><td>Albertsons，7/23财报数字beat但EBITDA不及预期+缺乏惊喜遭抛售，跌幅远超本周财报播报里的初判</td></tr>
+<tr><td>WOLF</td><td class="num dn">-22.75%</td><td class="num dn">-21.1</td><td class="num dn">-71.43%</td><td class="ma-cell"><span class="ma"><b class="dn">20<i>▼</i></b><b class="dn">50<i>▼</i></b><b class="dn">200<i>▼</i></b></span></td><td>Wolfspeed，半导体材料端持续去估值，距52周高-71%全表最差结构</td></tr>
+<tr><td>PTRN</td><td class="num dn">-21.13%</td><td class="num dn">-19.5</td><td class="num dn">-25.60%</td><td class="ma-cell"><span class="ma"><b class="dn">20<i>▼</i></b><b class="dn">50<i>▼</i></b><b class="up">200<i>▲</i></b></span></td><td>20MA下方，50MA本周也已失守（原表标▲已修正），仅200MA上方——短线急跌且中期结构开始受损</td></tr>
+<tr><td>TENB</td><td class="num dn">-19.13%</td><td class="num dn">-17.5</td><td class="num dn">-26.15%</td><td class="ma-cell"><span class="ma"><b class="dn">20<i>▼</i></b><b class="up">50<i>▲</i></b><b class="up">200<i>▲</i></b></span></td><td>网安CIBR成分，个股层面走弱与CIBR板块本周(-4.29%)方向一致</td></tr>
+<tr><td>CHRN</td><td class="num dn">-18.65%</td><td class="num dn">-17.1</td><td class="num dn">-28.33%</td><td class="ma-cell"><span class="ma"><b class="dn">20<i>▼</i></b><b class="up">50<i>▲</i></b><b class="up">200<i>▲</i></b></span></td><td>上周Big Winners榜首(+26.46%)，本周直接跌成Losers——典型的无主线趋势票双向剧烈波动案例</td></tr>
+<tr><td>TEM</td><td class="num dn">-18.64%</td><td class="num dn">-17.0</td><td class="num dn">-59.08%</td><td class="ma-cell"><span class="ma"><b class="dn">20<i>▼</i></b><b class="dn">50<i>▼</i></b><b class="dn">200<i>▼</i></b></span></td><td>Tempus AI，ARKK成分，三均线全▼深度弱势</td></tr>
+<tr><td>TSLA</td><td class="num dn">-17.81%</td><td class="num dn">-16.2</td><td class="num dn">-37.25%</td><td class="ma-cell"><span class="ma"><b class="dn">20<i>▼</i></b><b class="dn">50<i>▼</i></b><b class="dn">200<i>▼</i></b></span></td><td>capex担忧的震中，RSI 28.0全表最超卖之一但三均线全▼，本周AI capex过敏叙事的最直接受害者</td></tr>
 </tbody></table>
 <p class="note"><b>其他关联标的补充：</b>GOOGL本周d5约-0.65%（周三暴跌后周四小幅反弹），INTC本周d5约-6%（周五单日-7.89%抹掉此前反弹），MU本周d5约+6%（周内V型，周五单日-6.99%但周初涨幅仍留有余）。</p>
 <div class="callout warn"><strong>小结：</strong>本周Winners集中在加密矿工链(CIFR/RIOT/HUT，同一主题WGMI三只占据前四)和AI硬件反弹(SMCI/ONDS/FCEL)——
