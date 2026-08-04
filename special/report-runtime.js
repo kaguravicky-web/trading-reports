@@ -37,8 +37,8 @@
     if (!summary) return;
     var legend = document.createElement("div");
     legend.className = "symbol-legend";
-    legend.setAttribute("aria-label", "報告符號圖例");
-    legend.textContent = "符號圖例：● 主要　● 條件／次要　● 觀察　✓ 避免　⚠ 反向訊號　↑ 升級　↓ 降級";
+    legend.setAttribute("aria-label", "报告符号图例");
+    legend.textContent = "符号图例：● 主要　● 条件／次要　● 观察　✓ 避免　⚠ 反向讯号　↑ 升级　↓ 降级";
     summary.insertAdjacentElement("afterend", legend);
   }
 
@@ -74,10 +74,10 @@
 
     var nav = document.createElement("nav");
     nav.className = "report-toc";
-    nav.setAttribute("aria-label", "報告目錄");
+    nav.setAttribute("aria-label", "报告目录");
     var label = document.createElement("span");
     label.className = "toc-label";
-    label.textContent = "快速導覽";
+    label.textContent = "快速导览";
     nav.appendChild(label);
 
     headings.forEach(function (heading) {
@@ -110,21 +110,21 @@
 
   function addSectionKickers() {
     var labels = [
-      [/核心結論|五個核心|收盤核心/i, "重點摘要"],
-      [/Pre-market movers/i, "盤前異動"],
-      [/Correction Checklist|修正檢查/i, "風險檢查"],
-      [/宏觀|事件|Fed/i, "宏觀脈絡"],
-      [/Sector\s*\/\s*Thematic|板塊|主題/i, "板塊與主題"],
-      [/大盤 ETF|指數|風格/i, "指數與風格"],
+      [/核心结论|五个核心|收盘核心/i, "重点摘要"],
+      [/Pre-market movers/i, "盘前异动"],
+      [/Correction Checklist|修正检查/i, "风险检查"],
+      [/宏观|事件|Fed/i, "宏观脉络"],
+      [/Sector\s*\/\s*Thematic|板块|主题/i, "板块与主题"],
+      [/大盘 ETF|指数|风格/i, "指数与风格"],
       [/50MA ATR/i, "延伸程度"],
-      [/市場廣度|Stockbee/i, "廣度"],
-      [/外匯|商品|利率|美債/i, "匯率與利率"],
-      [/交易計畫|下一週|下一交易日/i, "交易計畫"],
-      [/盤中觸發/i, "盤中劇本"],
-      [/上週對賬|對帳|對賬/i, "對賬"],
-      [/Big Winners|Big Losers|贏家|輸家/i, "個股領先／落後"],
-      [/Cross-validation|交叉驗證/i, "交叉驗證"],
-      [/資料來源/i, "資料來源"],
+      [/市场广度|Stockbee/i, "广度"],
+      [/外汇|商品|利率|美债/i, "汇率与利率"],
+      [/交易计划|下一周|下一交易日/i, "交易计划"],
+      [/盘中触发/i, "盘中剧本"],
+      [/上周对账|对账|对账/i, "对账"],
+      [/Big Winners|Big Losers|赢家|输家/i, "个股领先／落后"],
+      [/Cross-validation|交叉验证/i, "交叉验证"],
+      [/资料来源/i, "资料来源"],
     ];
     document.querySelectorAll("main section h2").forEach(function (heading) {
       var section = heading.closest("section");
