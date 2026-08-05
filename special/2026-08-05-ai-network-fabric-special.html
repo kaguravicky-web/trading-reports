@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="ANET 首个 30 亿季度与 ALAB 翻倍增长同日落地，8/4 网络与光互连全线大涨。拆解 AI 算力瓶颈从算力转向互连后，以太网 Fabric 这条叙事上谁拿量、谁定价，并给出分层席位、硬验证口径与证伪条件。">
+<title>AI 网络层成为新瓶颈：Ethernet Fabric｜2026-08-05</title>
+<style>
+:root{
+  --bg:#f5f5f7;--panel:#fff;--text:#1a1f2e;--muted:#6b7280;--line:#e6e8ec;
+  --blue:#2563eb;--green:#2e7d5c;--amber:#b5574a;--red:#a3422b;
+  --green-bg:#e8f3ec;--red-bg:#faeeea;--amber-bg:#f7e3dd;--blue-bg:#eaf2ff;
+  --shadow:0 18px 48px rgba(15,23,42,.07);
+  --soft-green:#6f9e83;--soft-amber:#c48b80;--soft-red:#c48b80;
+}
+/* 2026-07-06：黄色试了两版(#ba7517/#9c7a0a)都被Vic认成棕色，改成红绿二色系统——
+   --amber不再是黄色，而是比--red浅的"暖红/浅砖红"，跟--red同属红色家族、只靠深浅区分"中/高"档，
+   不再引入第三种色相。以后不要再把--amber调回黄/棕色调。*/
+*{box-sizing:border-box}
+body{margin:0;background:linear-gradient(180deg,#fbfbfd 0,var(--bg) 300px);color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft JhengHei","PingFang SC",Arial,sans-serif;
+  line-height:1.58}
+.wrap{max-width:1160px;margin:0 auto;padding:32px 16px 52px}
+header,.panel{background:rgba(255,255,255,.94);border:1px solid var(--line);border-radius:18px;
+  box-shadow:var(--shadow);padding:24px;margin-bottom:18px}
+.eyebrow{font-size:13px;font-weight:800;color:var(--blue);margin-bottom:8px}
+h1{font-size:32px;line-height:1.2;margin:0}
+h2{font-size:23px;margin:30px 0 12px;scroll-margin-top:72px}
+h3{font-size:18px;margin:20px 0 8px}
+.muted,.note{color:var(--muted)}
+.note{font-size:13px}
+
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:18px 0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 15px;
+  box-shadow:0 8px 20px rgba(15,23,42,.04)}
+.card span{display:block;color:var(--muted);font-size:12px;font-weight:800}
+.card>strong{display:block;margin-top:4px;font-size:18px}
+
+.badge{display:inline-flex;align-items:center;border-radius:6px;padding:4px 9px;font-size:12.5px;
+  font-weight:700;letter-spacing:.01em;border:1px solid transparent;line-height:1.4}
+.card .badge{display:inline-flex;width:auto}
+.badge.amber,.amber{color:var(--amber);background:var(--amber-bg);border-color:#e8c3b8}
+.badge.blue,.blue{color:var(--blue);background:var(--blue-bg);border-color:#c3d6f5}
+.badge.green,.green{color:var(--green);background:var(--green-bg);border-color:#bfe0cd}
+.badge.red,.red{color:var(--red);background:var(--red-bg);border-color:#eccabf}
+
+/* Above MA(20/50/200) 三期限独立小标签，2026-07-21对标老师报告格式改版（原来是纯▲▼三字符文本） */
+.ma{white-space:nowrap;font-size:11.5px;font-weight:600}
+.ma b{display:inline-flex;align-items:center;gap:2px;margin-right:6px;color:var(--muted);font-weight:600}
+.ma b.up i{color:var(--green)}
+.ma b.dn i{color:var(--red)}
+.ma i{font-style:normal;font-size:12px}
+
+table{width:100%;border-collapse:separate;border-spacing:0;background:var(--panel);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden;margin:10px 0 12px;font-size:14px;box-shadow:0 8px 20px rgba(15,23,42,.04)}
+th,td{border-bottom:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top}
+tr:last-child td{border-bottom:0}
+/* 2026-07-27 Vic："第一行增加颜色，白色突兀"——表头原来是近乎白的#f8fafc，
+   跟深蓝组标题行放一起显得没有分量。加深成灰蓝，作为表头有存在感又不抢组标题的色。*/
+th{background:#e7ecf3;color:#2c3e55;font-weight:800;border-bottom:1px solid #d5dde7}
+.num{text-align:right;font-variant-numeric:tabular-nums}
+.nowrap{white-space:nowrap}
+.ctr{text-align:center}
+.num.up{color:var(--green)}
+.num.dn{color:var(--red)}
+span.up{color:var(--green);font-weight:700}
+span.dn{color:var(--red);font-weight:700}
+tr.row-bull td{background:var(--green-bg)}
+tr.row-warn td{background:var(--red-bg)}
+
+.callout{background:var(--blue-bg);border:1px solid var(--line);border-left:5px solid var(--blue);border-radius:12px;
+  padding:14px 16px;margin:12px 0 18px}
+.callout.ok{border-left-color:var(--green);background:#fff}
+.callout.warn{border-left-color:var(--amber);background:#fff}
+.callout.risk{border-left-color:var(--red);background:#fff}
+
+.checks{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:12px 0}
+.check{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 15px;
+  box-shadow:0 8px 20px rgba(15,23,42,.04)}
+.check span{display:block;color:var(--muted);font-size:12px;font-weight:800}
+.check strong{display:block;margin-top:4px}
+.check small{display:block;margin-top:4px;color:var(--muted)}
+.check.low{border-left:4px solid var(--green)}
+.check.mid{border-left:4px solid var(--amber)}
+.check.high{border-left:4px solid var(--red)}
+
+.regime-triggers{display:flex;gap:16px;margin:0 0 28px}
+.trigger-box{flex:1;padding:16px 20px;border-radius:8px}
+.trigger-upgrade{background:#e8f3ec;border-left:4px solid #2e7d5c}
+.trigger-downgrade{background:#faeeea;border-left:4px solid #a3422b}
+.tb-header{display:flex;align-items:baseline;gap:8px;margin-bottom:8px}
+.tb-arrow{font-size:18px}
+.tb-label{font-weight:800}
+.tb-sub{font-size:11px;color:var(--muted)}
+.tb-rule{font-size:11px;font-weight:800;color:var(--muted)}
+.tb-list{margin:8px 0 0;padding-left:20px}
+.tb-list li{margin:5px 0;font-size:13px}
+
+.action-directive{border-left:3px solid #d9b64a;background:#fff8e1;padding:12px 16px;margin:14px 0 24px}
+.ad-label{color:#9a7b0b;font-weight:800}
+.ad-list{list-style:none;padding:0;margin:8px 0 0}
+.ad-list li{margin:6px 0}
+.ad-primary::before{content:"\25CF ";color:#9a7b0b}
+.ad-watch::before{content:"\25CE ";color:var(--blue)}
+.ad-avoid::before{content:"\2717 ";color:var(--red)}
+.ad-invalidate{border-top:1px dashed #ddc0b8;padding-top:8px;color:#6b6960;font-size:12.5px}
+.ad-invalidate strong{color:#a3422b}
+
+/* 核心纪律专用（2026-07-22 Vic："又有bullet又有**还有红绿灯,太多了"）——跟今日定位的ad-list
+   共用同一个黄色box，但不再加●前缀：box的背景色+行间距已经是一层强调，不需要再叠bullet。 */
+.disc-list{list-style:none;padding:0;margin:8px 0 0}
+.disc-list li.disc-item{margin:9px 0;line-height:1.62}
+.disc-list li.disc-item strong{color:#8a6a10}
+
+/* 导航栏：Chrome标签页样式（2026-07-27 Vic："不要蓝底，我要白底，但是chrome那种标签页格式"）——
+   白底容器 + 底部一条基线；每个标签上圆角、三面描边、坐在基线上，hover/当前项把底边"打开"接进内容区。*/
+.toc{position:sticky;top:0;z-index:20;display:flex;gap:3px;overflow-x:auto;
+  padding:8px 10px 0;margin-bottom:20px;background:#fff;
+  border-bottom:1px solid var(--line);box-shadow:0 6px 14px rgba(15,23,42,.05)}
+.toc::-webkit-scrollbar{height:0}
+.toc a{flex:0 0 auto;position:relative;bottom:-1px;padding:7px 14px;
+  color:var(--muted);font-size:12.5px;font-weight:600;text-decoration:none;white-space:nowrap;
+  background:#f4f5f7;border:1px solid var(--line);border-radius:9px 9px 0 0}
+.toc a:hover,.toc a:focus{background:#fff;color:var(--blue);border-bottom-color:#fff}
+
+.source{font-size:12px;color:var(--muted)}
+.placeholder{color:var(--muted);font-style:italic}
+.kicker{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:18px 0 2px}
+
+/* 盘后/一周复盘共用组件（借鉴sintszkay示例站点的report-shared.css） */
+.hitbar{display:flex;height:14px;border-radius:999px;overflow:hidden;margin:14px 0 6px;max-width:520px}
+.hitbar i{display:block;height:100%}
+.hitbar .h{background:var(--green)}.hitbar .p{background:var(--amber)}.hitbar .m{background:var(--red)}
+.hitbar-legend{font-size:12px;color:var(--muted)}
+.hitbar-legend b{color:var(--text)}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin:0 4px 0 12px;vertical-align:1px}
+.dot.h{background:var(--green)}.dot.p{background:var(--amber)}.dot.m{background:var(--red)}
+
+.result-badge{display:inline-flex;min-width:52px;justify-content:center;border-radius:999px;padding:3px 8px;font-size:11px;font-weight:700}
+.result-hit{color:var(--green);background:#e8f3ec}
+.result-partial{color:var(--amber);background:var(--amber-bg)}
+.result-miss{color:var(--red);background:#faeeea}
+.result-not-triggered{color:var(--muted);background:#eef0f3}
+
+.chart{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:16px 18px 10px;margin:12px 0;box-shadow:0 6px 16px rgba(15,23,42,.035)}
+.chart-title{font-size:12px;font-weight:700;color:var(--muted);margin:0 0 10px}
+.bar-row{display:grid;grid-template-columns:104px 62px 1fr;align-items:center;gap:8px;margin:5px 0}
+.bar-row .lbl{font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar-row .val{font-size:12.5px;font-weight:700;text-align:right;font-variant-numeric:tabular-nums}
+.bar-row .val.pos{color:var(--green)}.bar-row .val.neg{color:var(--red)}
+.bar-track{position:relative;height:18px;background:#f6f7f9;border-radius:4px}
+.bar-track .b{position:absolute;top:2px;bottom:2px;border-radius:3px}
+.bar-track .b.pos{background:var(--green);opacity:.75}
+.bar-track .b.neg{background:var(--red);opacity:.75}
+
+.rsi{display:inline-flex;align-items:center;gap:6px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.rsi i{display:block;width:46px;height:6px;border-radius:999px;background:#edeff2;position:relative;overflow:hidden}
+.rsi i b{position:absolute;left:0;top:0;bottom:0;border-radius:999px;background:#9aa4b2}
+.rsi.hot{color:#8f3323;font-weight:700}.rsi.hot i b{background:var(--red)}
+.rsi.cold{color:#246849;font-weight:700}.rsi.cold i b{background:var(--green)}
+
+.ma-state{display:inline-flex;align-items:center;justify-content:center;gap:3px;font-size:13px;font-weight:800;margin-right:6px}
+.ma-state.ma-up .ma-arrow{color:var(--green)}
+.ma-state.ma-down .ma-arrow{color:var(--red)}
+.ma-period{color:var(--muted);font-size:12px;font-weight:700}
+.ma-arrow{font-size:13px;line-height:1}
+
+.pct{display:flex;align-items:center;gap:8px;justify-content:flex-end}
+.pct i{display:block;width:72px;height:8px;border-radius:999px;background:#edeff2;position:relative;overflow:hidden}
+.pct i b{position:absolute;left:0;top:0;bottom:0;border-radius:999px;background:var(--blue);opacity:.7}
+.pct em{font-style:normal;font-variant-numeric:tabular-nums;font-weight:600;min-width:52px;text-align:right}
+
+.atr{display:inline-flex;align-items:center;gap:6px;white-space:nowrap;font-variant-numeric:tabular-nums;font-weight:600}
+.atr i{display:inline-flex;gap:2px}
+.atr i b{width:6px;height:12px;border-radius:2px;background:#e6e8ec}
+.atr.l1 i b:nth-child(-n+1),.atr.l2 i b:nth-child(-n+2){background:var(--amber)}
+.atr.l3 i b:nth-child(-n+3){background:var(--red)}
+.atr.l4 i b:nth-child(-n+4){background:var(--red)}
+.atr.l3,.atr.l4{color:#8f3323}
+
+/* 50MA ATR延伸条（2026-07-27新增，借鉴Vic老师报告的"距50MA(ATR)"可视化，见report_helpers.atr_extension_rows）。
+   4格分段条，方向决定色系（跌=红家族/涨=绿家族，不引入黄棕色，沿用项目既有红绿二色规则），
+   l0-l4按|距50MA(ATR)|幅度分级，级数越高填色越多、颜色越深。*/
+/* 2026-07-27 Vic："距离50ma atr那个4个点应该对齐的"——原来i和em都按内容自适应宽度，
+   数字位数不同（-0.75 vs -2.40 vs +1.66）就把方块推得左右错位。改成两段都定宽即可列对齐。*/
+.atr-cell{display:inline-flex;align-items:center;gap:8px;white-space:nowrap;font-variant-numeric:tabular-nums;font-weight:600}
+.atr-cell i{display:inline-flex;gap:2px;width:30px;flex:0 0 30px}
+.atr-cell i b{width:6px;height:12px;border-radius:2px;background:#e6e8ec;flex:0 0 6px}
+.atr-cell em{min-width:46px;text-align:right}
+.atr-cell.dn.l1 i b:nth-child(-n+1),.atr-cell.dn.l2 i b:nth-child(-n+2){background:var(--amber)}
+.atr-cell.dn.l3 i b:nth-child(-n+3),.atr-cell.dn.l4 i b:nth-child(-n+4){background:var(--red)}
+.atr-cell.dn.l3 em,.atr-cell.dn.l4 em{color:#8f3323}
+.atr-cell.up.l1 i b:nth-child(-n+1),.atr-cell.up.l2 i b:nth-child(-n+2){background:#bfe0cd}
+.atr-cell.up.l3 i b:nth-child(-n+3),.atr-cell.up.l4 i b:nth-child(-n+4){background:var(--green)}
+.atr-cell.up.l3 em,.atr-cell.up.l4 em{color:var(--green)}
+.atr-cell em{font-style:normal;margin-left:2px}
+
+/* 2026-07-27 Vic："第一组/第二组/第三组是同样的表格格式，他们应该都对齐的"
+   + "你表格标题不要换行呀"。fixed布局+colgroup定宽=多张同构表列宽一致；th一律不换行。*/
+/* 三表一致性检查（2026-07-27 Vic："如果不同向，一定要指出"）：
+   同向=低调淡绿（只是确认，不该抢注意力）；分歧=红框高亮（分歧才是这个模块的价值所在）*/
+.cc-box{margin-top:12px;padding:12px 14px;border-radius:8px;border:1px solid var(--line)}
+.cc-box.cc-aligned{background:var(--green-bg);border-color:#bfe0cd}
+.cc-box.cc-split{background:var(--red-bg);border-color:#eccabf}
+.cc-head{font-weight:700;margin-bottom:8px}
+.cc-box.cc-aligned .cc-head{color:var(--green)}
+.cc-box.cc-split .cc-head{color:var(--red)}
+.cc-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.cc-chip{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:700;background:#fff;border:1px solid var(--line)}
+.cc-chip.cc-bull{color:var(--green);border-color:#bfe0cd}
+.cc-chip.cc-bear{color:var(--red);border-color:#eccabf}
+.cc-chip.cc-neutral{color:var(--muted)}
+.cc-detail{font-size:13.5px;line-height:1.75}
+
+/* 分段小结：每条独立成行、续行悬挂缩进对齐首行文字左边缘
+   （2026-07-27 Vic："按; 分段落；段落开头缩进对齐"／"重点要分行，每行开头缩进对齐"）*/
+/* A级入场触发常驻说明（2026-07-27 Vic："一开始我会记不住，在A级表格下面增加注释"）*/
+.entry-legend{margin:4px 0 6px;padding:11px 14px;border-radius:8px;
+  background:#f6f7f9;border:1px solid var(--line);border-left:4px solid var(--muted)}
+.entry-legend .el-title{font-weight:700;color:var(--text);margin-bottom:6px;font-size:13.5px}
+.entry-legend .co-item{font-size:12.8px;line-height:1.8}
+.entry-legend b{color:var(--text)}
+
+/* A/B/C候选卡（2026-07-27 Vic："A/B/C级格式统一吧，A级绿色，B/C灰色或者浅绿色"）*/
+.wl-card{border-radius:8px;padding:10px 13px;margin:0 0 9px;border:1px solid var(--line)}
+.wl-card.wl-a{background:var(--green-bg);border-color:#bfe0cd}
+.wl-card.wl-c{background:#f6f7f9}
+.wl-head{font-size:14.5px;margin-bottom:5px}
+.wl-head strong{font-size:15px}
+.wl-line{font-size:13px;line-height:1.8;color:var(--text)}
+.wl-line b{color:var(--muted);font-weight:700}
+.src-chip{display:inline-block;margin-left:8px;padding:1px 8px;border-radius:999px;
+  background:#fff;border:1px solid var(--line);font-size:11.5px;font-weight:700;color:var(--muted)}
+
+/* 本周日历（2026-07-27 Vic："做成6列 5个工作日 加周末的日历样子"）*/
+.cal-table{table-layout:fixed;width:100%}
+.cal-table th{background:#1f3a5f;color:#fff;font-size:12px;text-align:center;padding:6px 4px;white-space:nowrap}
+.cal-table td{vertical-align:top;padding:8px 6px;font-size:12.5px;line-height:1.6}
+.cal-list{list-style:none;padding:0;margin:0}
+.cal-list li{margin:0 0 6px;padding-left:.8em;text-indent:-.8em}
+.cal-list li::before{content:"·";color:var(--muted);margin-right:.4em}
+.cal-none{color:var(--muted)}
+
+/* X观点池：账号名 + 该账号多条bullet（2026-07-27 Vic：同一账号只出现一次名字）*/
+.x-acct{margin:0 0 12px}
+.x-handle{font-weight:700;color:var(--blue);margin-bottom:3px}
+
+/* 长表分区（2026-07-27 Vic："市宽表格很长了，能不能再分板块，格式上让我好读一些"）：
+   组标题=深蓝色带；组内数据行用.row-band上浅蓝底，跟白底的其它组区分开。*/
+tr.row-group td{background:#1f3a5f;color:#fff;font-weight:700;font-size:12.5px;
+  letter-spacing:.04em;padding:5px 10px}
+tr.row-band td{background:var(--blue-bg)}
+/* C级：灰底降权（2026-07-27 A/B/C三级共表，只靠底色区分）*/
+tr.row-mute td{background:#f4f5f7;color:var(--muted)}
+
+/* 核心结论：编号 + 粗体标题句 + 支撑句（2026-07-27对标老师报告的「核心結論」格式）*/
+.kt-list{margin:10px 0 0;padding-left:1.4em}
+.kt-item{margin:0 0 10px}
+.kt-item:last-child{margin-bottom:0}
+.kt-head{font-weight:700}
+.kt-body{margin-top:3px;color:var(--text);font-size:13.5px;line-height:1.75}
+
+/* 2026-07-27 Vic："加bullet对齐吧，参考我老师用的bullet point"——老师用 • 做并列项标记
+   （核心結論那种有顺序的才用1./2./3.）。悬挂缩进让续行与首行文字左边缘对齐。*/
+.co-list{margin-top:6px}
+.co-item{padding-left:1.25em;text-indent:-1.25em;margin:0 0 5px}
+.co-item:last-child{margin-bottom:0}
+.co-item::before{content:"•";color:var(--muted);margin-right:.6em}
+
+table.fixed-cols{table-layout:fixed}
+table.fixed-cols td{overflow-wrap:anywhere}
+th{white-space:nowrap}
+
+.trend-tag{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap}
+.trend-tag.down{color:var(--red);background:var(--red-bg)}
+.trend-tag.critical{color:#6b7280;background:#f1f2f4}
+.trend-tag.strong{color:var(--green);background:var(--green-bg)}
+
+/* 今日信号灯：整块实心色标签，替代之前的大卡片 */
+.status-row{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+.status-tag{display:inline-flex;align-items:center;padding:6px 12px;border-radius:6px;font-size:13px;font-weight:700;color:#fff;white-space:nowrap}
+.status-tag.low{background:var(--green)}
+.status-tag.mid{background:var(--amber)}
+.status-tag.high{background:var(--red)}
+
+/* 今日信号灯：窄小浅色chip + 正文（2026-07-23 Vic："开头标签请用窄的小的浅红浅绿，不要占全行，
+   视觉冲击太强了"——推翻2026-07-22的整行实心色块方案，那个是为了解决"长文本撑成超宽单行"的问题，
+   但整行铺满实色视觉太重。现在chip只包住键名本身（窄/小/浅色背景+深色文字），正文跟在旁边正常
+   颜色换行，不再给整行上色。三档仍是 绿/浅红/深红，不引入黄色。*/
+.signal-blocks{display:flex;flex-direction:column;gap:8px;margin:14px 0 4px}
+.signal-block{display:flex;align-items:flex-start;gap:10px}
+.signal-block .sb-key{flex:0 0 auto;font-size:11px;font-weight:800;letter-spacing:.05em;
+  border-radius:999px;padding:3px 10px;text-align:center;white-space:nowrap;border:1px solid transparent}
+.signal-block .sb-text{font-size:13.5px;line-height:1.66;color:var(--text);flex:1}
+.signal-block .sb-text strong{color:var(--text);font-weight:800}
+.signal-block.low .sb-key{background:var(--green-bg);color:var(--green);border-color:#bfe0cd}
+.signal-block.mid .sb-key{background:var(--amber-bg);color:var(--amber);border-color:#e8c3b8}
+.signal-block.high .sb-key{background:var(--red-bg);color:var(--red);border-color:#eccabf}
+@media(max-width:720px){
+  .signal-block{flex-direction:column;gap:5px}
+}
+
+/* Premarket Movers：删掉价格列后（2026-07-22 Vic"给多点空间"），把省下的宽度分配给三个长文本列 */
+table.movers th:nth-child(1),table.movers td:nth-child(1){width:74px}
+table.movers th:nth-child(2),table.movers td:nth-child(2){width:92px}
+table.movers th:nth-child(3),table.movers td:nth-child(3){width:96px}
+table.movers th:nth-child(4),table.movers td:nth-child(4){width:82px}
+table.movers td:nth-child(n+5){font-size:12.8px;line-height:1.6}
+.discipline-line{font-size:15px;font-weight:700;background:#fff8e1;border:1px solid #ecdfae;border-radius:10px;padding:12px 14px;margin:8px 0 4px}
+
+/* 风险温度打分：5格严重度条，替代之前的四色卡片网格 */
+.risk-rows{display:flex;flex-direction:column;gap:2px;margin:10px 0}
+.risk-row{display:grid;grid-template-columns:200px 90px 1fr;align-items:center;gap:12px;padding:8px 4px;border-bottom:1px solid var(--line)}
+.risk-row:last-child{border-bottom:0}
+.risk-label{font-size:13.5px;font-weight:600}
+.risk-detail{font-size:12.5px;color:var(--muted)}
+.severity{display:inline-flex;gap:2px}
+.severity i{width:15px;height:9px;border-radius:2px;background:#eceef1;display:block}
+.severity.low i:nth-child(-n+2){background:var(--soft-green)}
+.severity.mid i:nth-child(-n+3){background:var(--soft-red)}
+.severity.high i{background:#8b1f10}
+#risk .hitbar .h{background:var(--soft-green)}
+#risk .hitbar .p{background:var(--soft-red)}
+#risk .hitbar .m{background:var(--amber)}
+@media(max-width:640px){.risk-row{grid-template-columns:1fr;gap:4px}}
+
+/* Setup / 机会扫描：方法分组标签 + Leader对比 */
+.method-tag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.04em;color:var(--blue);
+  background:var(--blue-bg);border:1px solid #c3d6f5;border-radius:5px;padding:3px 8px;margin:18px 0 4px}
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:10px 0}
+.compare-grid h4{margin:0 0 6px;font-size:14px;font-weight:800}
+.compare-grid h4 small{font-weight:600;color:var(--muted);font-size:12px}
+@media(max-width:760px){.compare-grid{grid-template-columns:1fr}}
+
+/* 对账清单：预判 vs 收盘核对 */
+.ledger-table td.pending{color:var(--muted);font-style:italic}
+
+/* 攻守记分板：统一表格，避免卡片+小结拆散的观感 */
+.scoreboard-table td.status-met{color:var(--green);font-weight:700;background:var(--green-bg)}
+.scoreboard-table td.status-unmet{color:var(--muted)}
+.scoreboard-table td.status-triggered{color:var(--red);font-weight:700;background:var(--red-bg)}
+.scoreboard-table td.status-safe{color:var(--green);font-weight:700;background:var(--green-bg)}
+.scoreboard-table td.type-col{color:var(--muted);font-size:12.5px;white-space:nowrap}
+
+@media(max-width:760px){.bar-row{grid-template-columns:88px 56px 1fr}}
+
+@media(max-width:900px){.grid,.checks{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:640px){
+  .wrap{padding:20px 12px 40px}
+  header{padding:18px}
+  h1{font-size:26px}
+  .grid,.checks{grid-template-columns:1fr}
+  .regime-triggers{flex-direction:column}
+  table{display:block;overflow-x:auto;white-space:nowrap}
+}
+
+
+
+/* 2026-07-28 Vic：本日迭代 = 左右对照（左迭代/右新规则），整表白底，
+   类别只靠最左那道细色条，不写「对/错/形态」字样 */
+.iter-table{width:100%;border-collapse:collapse;margin:10px 0;background:#fff;table-layout:fixed}
+.iter-table th{background:#e7ecf3;font-size:12.5px;font-weight:700;text-align:left;padding:7px 10px}
+.iter-table th:first-child{width:6px;padding:0}
+.iter-table td{background:#fff;border-top:1px solid var(--line);padding:10px;
+  vertical-align:top;font-size:13.5px;line-height:1.75}
+.iter-table .it-lesson{width:56%}
+.iter-table .it-rule{width:44%}
+.it-bar{width:6px;padding:0!important;border-top:none!important}
+.it-good{background:#2e7d4f!important}
+.it-bad{background:#c0392b!important}
+.it-adjust{background:#c9a227!important}
+.it-pattern{background:#5b6b7a!important}
+.it-none{color:var(--muted)}
+/* 修正规则里的状态色块沿用（如仍有旧数据渲染） */
+.corr-mark{display:inline-block;min-width:34px;font-size:11.5px;font-weight:800;
+  padding:1px 6px;border-radius:3px;text-align:center;margin-right:4px}
+.corr-keep{background:#e3f2e9;color:#2e7d4f}    .corr-adjust{background:#fdf1d8;color:#9a7b0b}
+.corr-fix{background:#fbe4e1;color:#c0392b}     .corr-reverse{background:#e8eaed;color:#5b6b7a}
+
+/* 2026-07-28 Vic：「延续 如果是 用绿色标签」 */
+.yn{display:inline-block;min-width:30px;padding:2px 9px;border-radius:4px;
+  font-size:12px;font-weight:800;text-align:center}
+.yn-yes{background:#e3f2e9;color:#2e7d4f}
+.yn-no{background:#eceef1;color:var(--muted)}
+.src-note{margin:8px 0 0;font-size:12px;color:var(--muted);line-height:1.7}
+
+/* 2026-07-28 Vic：明日前瞻给个白底，容易阅读 */
+.outlook-list{background:#fff;border:1px solid var(--line);border-radius:8px;
+  margin:10px 0 0;padding:14px 16px 14px 38px;list-style-position:outside}
+.outlook-list li{margin:0 0 11px;line-height:1.8}
+.outlook-list li:last-child{margin-bottom:0}
+
+/* 2026-07-28 Vic：方法论块用黄色，跟蓝色的「小结」区分（黄=怎么做/规则，蓝=发生了什么） */
+.callout.co-method{background:#fff8e1;border-left-color:#d9b64a}
+.callout.co-method>strong{color:#9a7b0b}
+
+/* 2026-08-01：周报的 Cross-validation 三色块（确认=绿 / 分歧=红 / 主结论=黄） */
+.callout.co-good{background:#f2f9f5;border-left-color:#2e7d4f}
+.callout.co-good>strong{color:#2e7d4f}
+.callout.co-warn{background:#fdf3f2;border-left-color:#c0392b}
+.callout.co-warn>strong{color:#c0392b}
+
+/* 2026-08-01：仓位治理标题（缺持有理由/止损的仓位单列一节，硬性规则） */
+.gov-head{color:#c0392b}
+
+</style>
+</head>
+<body data-report-type="special"><main class="wrap">
+<header>
+  <div class="eyebrow">专题报告 · 板块叙事 · 2026-08-05</div>
+  <h1>AI 网络层成为新瓶颈：Ethernet Fabric，谁拿量、谁定价</h1>
+  <p class="muted note">以 ANET 与 ALAB 同日财报为锚，核验 8/4 网络与光互连板块的集体重估。
+  结论：增量预算是真的，但价值捕获在链路不在机箱。<b>系统层已完成重估，连接与光互连层还在修复</b>。</p>
+  <div class="badges"><span class="badge blue">Ethernet Fabric</span><span class="badge green">ANET +37.7% YoY</span>
+  <span class="badge red">ANET 毛利率 −2.2pt</span><span class="badge green">ALAB 毛利率 73.7%</span>
+  <span class="badge amber">铜/光路线未决</span><span class="badge blue">SMH 仍在 50MA 下方</span></div>
+</header>
+<nav class="toc" aria-label="章节导航"><a href="#answer">答案先行</a><a href="#price">价格核验</a><a href="#earnings">ANET财报</a><a href="#alab">ALAB对照</a><a href="#chain">因果链</a><a href="#seats">席位表</a><a href="#copper">铜vs光</a><a href="#scenario">情景</a><a href="#monitor">监测</a><a href="#qa">质检</a><a href="#src">来源</a></nav>
+<section id="answer"><h2>答案先行</h2><ol class="kt-list"><li class="kt-item"><div class="kt-head">网络层的重估在 8/4 盘中就发生了，ANET 的财报是确认不是起点。</div><div class="kt-body">8/4 单日：MRVL +12.81%、ALAB +12.65%、COHR +12.35%、FN +16.47%、AAOI +19.44%，而 ANET 盘中只涨 3.04%、跑输 SMH 2.51pt。ANET 的 +11.10% 是盘后才兑现的。<b>买盘先进的是连接与光互连，不是交换系统</b>。</div></li><li class="kt-item"><div class="kt-head">ANET 用毛利率换了增长，这是「收费站」模型的第一道裂缝。</div><div class="kt-body">营收 $3.036B（+37.7% YoY，首个 30 亿季度）、non-GAAP EPS $1.02（预期 $0.89），但 non-GAAP 毛利率 63.4% vs 去年同期 65.6%，掉了 2.2pt。<b>营收加速的同时单位毛利在退</b>——AI 大单是以价换量拿的。</div></li><li class="kt-item"><div class="kt-head">同一天 ALAB 给出了反证：连接层的定价权比系统层强。</div><div class="kt-body">ALAB 营收 $392.4M（+104% YoY）、non-GAAP 毛利率 <b>73.7%</b>、Q3 指引环比再 +40%。同样吃 AI 网络的钱，芯片/连接层拿 73.7% 毛利，交换系统拿 63.4% 且在下滑。<b>叙事的钱在往链路上游走</b>。</div></li><li class="kt-item"><div class="kt-head">这条叙事的席位分成两层：系统层已重估完毕，连接与光互连层还在修复。</div><div class="kt-body">ANET 距 52 周高 -1.98%、CSCO -6.62%、DELL -2.02%（已完成）；MRVL -33.74%、ALAB -27.59%、COHR -26.42%、CRDO -22.92%、FN -29.09%（未完成）。<b>发现空间在第二层，第一层只能用来确认线还在</b>。</div></li><li class="kt-item"><div class="kt-head">叙事内部有一个未决分歧，它决定第二层里谁赢：机架内是铜还是光。</div><div class="kt-body">2026-03-05 AVGO 电话会 Hock Tan 说主要定制芯片客户到 2028 年机架内仍用直连铜缆，当日 CRDO 涨近 10%、LITE -4%、COHR -5%（盘前）。但 NVDA 此前分别向 LITE 和 COHR 各投 $20 亿做先进光学。<b>这两件事不能同时全对，仓位不该同时全押</b>。</div></li></ol><div class="callout"><strong>一句话</strong>：AI 算力的瓶颈正从「有没有 GPU」移到「GPU 之间连得够不够快」，以太网因为 UEC 1.0 与 ESUN 的标准化正在吃掉这块新增预算；但收租的位置在链路（SerDes / retimer / 光 DSP / AEC / 光模块），不在机箱。ANET 财报同时证明了需求（+37.7%）和这个位置的代价（毛利率 -2.2pt）。</div></section><section id="price"><h2>8/4 价格核验：这不是 AI 普涨</h2><p class="note muted">口径：全部为 2026-08-04 收盘（长桥 SDK，未复权）。「超额」= 该股 8/4 涨跌 − SMH 8/4 涨跌（+5.55%）。当日 SPY +1.80%、QQQ +3.40%。</p><div class="chart"><p class="chart-title">8/4 单日相对 SMH 的超额收益（百分点）</p><div class="bar-row"><span class="lbl">AAOI</span><span class="val pos">+13.89</span><span class="bar-track"><i class="b pos" style="left:50%;width:50.0%"></i></span></div><div class="bar-row"><span class="lbl">FN</span><span class="val pos">+10.92</span><span class="bar-track"><i class="b pos" style="left:50%;width:39.3%"></i></span></div><div class="bar-row"><span class="lbl">MRVL</span><span class="val pos">+7.26</span><span class="bar-track"><i class="b pos" style="left:50%;width:26.1%"></i></span></div><div class="bar-row"><span class="lbl">ALAB</span><span class="val pos">+7.10</span><span class="bar-track"><i class="b pos" style="left:50%;width:25.6%"></i></span></div><div class="bar-row"><span class="lbl">COHR</span><span class="val pos">+6.80</span><span class="bar-track"><i class="b pos" style="left:50%;width:24.5%"></i></span></div><div class="bar-row"><span class="lbl">SMCI</span><span class="val pos">+5.10</span><span class="bar-track"><i class="b pos" style="left:50%;width:18.4%"></i></span></div><div class="bar-row"><span class="lbl">LITE</span><span class="val pos">+3.37</span><span class="bar-track"><i class="b pos" style="left:50%;width:12.1%"></i></span></div><div class="bar-row"><span class="lbl">CRDO</span><span class="val pos">+3.41</span><span class="bar-track"><i class="b pos" style="left:50%;width:12.3%"></i></span></div><div class="bar-row"><span class="lbl">DELL</span><span class="val pos">+3.37</span><span class="bar-track"><i class="b pos" style="left:50%;width:12.1%"></i></span></div><div class="bar-row"><span class="lbl">MTSI</span><span class="val pos">+1.17</span><span class="bar-track"><i class="b pos" style="left:50%;width:4.2%"></i></span></div><div class="bar-row"><span class="lbl">AVGO</span><span class="val pos">+1.06</span><span class="bar-track"><i class="b pos" style="left:50%;width:3.8%"></i></span></div><div class="bar-row"><span class="lbl">CSCO</span><span class="val neg">-0.47</span><span class="bar-track"><i class="b neg" style="left:48.3%;width:1.7%"></i></span></div><div class="bar-row"><span class="lbl">HPE</span><span class="val neg">-1.27</span><span class="bar-track"><i class="b neg" style="left:45.4%;width:4.6%"></i></span></div><div class="bar-row"><span class="lbl">ANET</span><span class="val neg">-2.51</span><span class="bar-track"><i class="b neg" style="left:41.0%;width:9.0%"></i></span></div><div class="bar-row"><span class="lbl">SPY</span><span class="val neg">-3.75</span><span class="bar-track"><i class="b neg" style="left:36.5%;width:13.5%"></i></span></div><div class="bar-row"><span class="lbl">NVDA</span><span class="val neg">-2.99</span><span class="bar-track"><i class="b neg" style="left:39.2%;width:10.8%"></i></span></div><div class="bar-row"><span class="lbl">VRT</span><span class="val neg">-2.93</span><span class="bar-track"><i class="b neg" style="left:39.5%;width:10.5%"></i></span></div></div><div class="cc-box cc-aligned"><div class="cc-head">三项噪音检验都通过</div><div class="cc-chips"><span class="cc-chip cc-bull">不是大盘 beta</span><span class="cc-chip cc-bull">不是数据中心总包</span><span class="cc-chip cc-bear">但基准本身没修复</span></div><div class="cc-detail"><div class="co-item">SPY 当日仅 +1.80%、QQQ +3.40%，而连接/光互连一线普遍 +8~19%，<b>不是大盘拉动</b>。</div><div class="co-item">VRT（电源与散热）只涨 2.62%、量比 0.92 缩量，仍在 50MA 下方 11.1%。如果这天是「AI 基建普涨」，最不该缺席的就是电力散热。它缺席了，<b>钱是精确买网络与算力，不是买数据中心总包</b>。</div><div class="co-item">但 SMH 自身仍在 50MA（595.94）下方 3.39%。<b>网络篮子跑赢的是一个尚未修复的基准</b>，这既是轮动的证据，也是这条叙事最脆弱的地方——半导体整体若继续走弱，这波超额很难独活。</div></div></div></section><section id="earnings"><h2>ANET 财报核验：需求与代价同时出现</h2><table><thead><tr><th>口径</th><th>2026 Q2</th><th>去年同期</th><th>读数</th></tr></thead><tbody><tr><td>营收</td><td class="num"><b>$3.036B</b></td><td class="num">$2.205B</td><td>+37.7% YoY、+12.1% QoQ，首个 30 亿季度</td></tr><tr><td>产品收入</td><td class="num">$2.61B</td><td class="num">—</td><td>占比约 86%，仍是硬件驱动</td></tr><tr class="row-warn"><td>non-GAAP 毛利率</td><td class="num">63.4%</td><td class="num">65.6%</td><td><b>−2.2pt</b>：营收加速的同时单位毛利在退</td></tr><tr><td>GAAP 毛利率</td><td class="num">62.9%</td><td class="num">65.2%</td><td>−2.3pt，同向</td></tr><tr><td>non-GAAP 营业利润率</td><td class="num">49.9%</td><td class="num">48.8%</td><td>+1.1pt，靠费用率摊薄补回来了</td></tr><tr><td>non-GAAP 摊薄 EPS</td><td class="num">$1.02</td><td class="num">$0.73</td><td>+39.7%，超预期 $0.89</td></tr><tr><td>递延收入（流动+非流动）</td><td class="num">$6.87B</td><td class="num">—</td><td>约等于 2.3 个季度的营收，是这份财报里最硬的资产</td></tr><tr><td>现金及等价物</td><td class="num">$2.29B</td><td class="num">—</td><td>—</td></tr><tr><td>Q3 指引</td><td class="num">~$3.3B</td><td class="num">—</td><td>市场预期 $2.95B；non-GAAP OM 48–49%、EPS $1.06–1.08</td></tr></tbody></table><div class="callout warn"><strong>毛利率这 2.2pt 要怎么读</strong>：不能直接判成「护城河破了」。AI 交换机是大批量、单客户集中、竞标性质的订单，毛利率结构性低于园区/企业网是行业常识。但它确实回答了「谁埋单」这个问题——<b>在这条价值链上，交换系统厂商是拿量的一方，不是定价的一方</b>。真正要跟的是下一季：营业利润率能否继续靠费用率补回毛利率的失血。<br><br>Q3 指引 non-GAAP OM 48–49%，低于本季的 49.9%，<b>公司自己给的方向是补不回来</b>。</div><p class="co-item">客户集中度：管理层表示 2026 年底前预计新增「至少一个、可能两个」占收入 10% 以上的客户，现有 10% 级客户为 Microsoft 与 Meta。<span class="src-chip">媒体转述</span>这条如果兑现，是把单点风险摊薄的实质进展；如果落空，就是一次典型的口头指引。</p><p class="co-item">新品：7060XE7 系列，1.6Tbps AI fabric、系统带宽 100Tbps、功耗降低约 60%，含液冷选项，覆盖 scale-up / scale-out / scale-across 三种网络形态。</p><div class="callout risk"><strong>没能核实的一项</strong>：多家媒体对 ANET 2026 全年营收指引的转述不一致（有称上调至 $12.6B / 约 40% 增速，有称 $11.5B / 27.7%，有称 $11.25B / 25%）。官方新闻稿只给了 Q3 指引、未列全年指引。<b>本报告不采用任何一个全年数字</b>，等电话会实录出来再补；在此之前所有推演只用已确认的 Q3 指引 $3.3B。</div></section><section id="alab"><h2>同日的 ALAB：连接层拿走了更高的毛利</h2><table><thead><tr><th>口径</th><th>ALAB 2026 Q2</th><th>ANET 2026 Q2</th><th>差异说明</th></tr></thead><tbody><tr><td>营收</td><td class="num">$392.4M</td><td class="num">$3,036M</td><td>体量差 7.7 倍</td></tr><tr><td>同比增速</td><td class="num up">+104%</td><td class="num up">+37.7%</td><td>连接层增速是系统层的 2.8 倍</td></tr><tr class="row-bull"><td>non-GAAP 毛利率</td><td class="num"><b>73.7%</b></td><td class="num">63.4%</td><td><b>+10.3pt</b>，且方向相反（ALAB 高位、ANET 下滑）</td></tr><tr><td>下季指引</td><td class="num">$540–560M</td><td class="num">~$3.3B</td><td>ALAB 中值环比 <b>+40%</b>；ANET 环比 +8.7%</td></tr><tr><td>产品节奏</td><td colspan="3">Scorpio X（AI fabric 交换）已量产，Q3 将成为最大产品线，<b>比公司自己的计划提前一个季度</b>；Aries PCIe 6 retimer 持续放量；800G Taurus 开始出货</td></tr></tbody></table><div class="callout ok"><strong>这组对照就是这条叙事的核心判断</strong>：AI 网络的增量预算是真的，但它在价值链上的分布是<b>越靠近信号本身、毛利越高</b>。ANET 卖的是「箱子+操作系统」，ALAB/CRDO 卖的是「每一比特能不能干净地跑过去」。当机架密度和速率同时上台阶（800G→1.6T），后者的内容量是按端口数×速率翻倍的，前者是按机箱数线性增长的。<br><br>这也解释了 8/4 的价格顺序：<b>买盘先进连接层，后进系统层</b>。</div></section><section id="chain"><h2>因果链：网络为什么现在才成为瓶颈</h2><div class="co-list"><div class="co-item"><b>规模跨过了机架边界。</b>训练与推理集群从单机架走向万卡、十万卡，有效算力（MFU）不再由单卡峰值决定，而由集群里最慢的那条链路和拥塞控制决定。计算买得起，连不上就白买。</div><div class="co-item"><b>专有互连的成本与锁定被超大规模客户拒绝。</b>InfiniBand / NVLink 性能好但单一供应、议价能力低，客户要的是能多供应商、能自己集成的方案。</div><div class="co-item"><b>标准补齐了以太网的短板。</b>UEC 1.0 规范（2025 年中发布）给了以太网现代 AI 传输协议、拥塞信号与高精度遥测，使其在低延迟上具备对标 InfiniBand 的框架；AVGO Tomahawk 6 达 102.4Tb/s，是首个跨过 100T 门槛的交换芯片。</div><div class="co-item"><b>连 scale-up 也开始被以太网争夺。</b>OCP 发起的 ESUN 工作组（成员含 AMD、Arista、ARM、Broadcom、Cisco、HPE Networking、Marvell、Meta、Microsoft、Nvidia、OpenAI）把以太网从机架间推进到机架内，这是历史上第一次机架内互连有了跨厂商标准路径。</div><div class="co-item"><b>但 NVDA 已经在收自己的过路费。</b>Spectrum-X 最近季度销售额超 $20 亿，客户覆盖 Google Cloud、Meta、Azure、Oracle 及 CoreWeave、xAI。<b>以太网蛋糕变大，不等于第三方厂商份额变大</b>。</div></div></section><section id="seats"><h2>四层收租结构与席位表</h2><div class="entry-legend"><div class="el-title">读表方式</div><div class="co-item"><b>确认层</b>：价格已完成重估（距 52 周高 &lt;10%），用来判断这条线还在不在，<b>不是发现机会的地方</b>。</div><div class="co-item"><b>扩散层</b>：同一条叙事、价格未修复（距高 &gt;20%），是研究优先级所在，但必须逐只给出硬验证口径。</div><div class="co-item"><b>对照层</b>：用来证伪的标的。它们的表现如果和叙事同向，说明结论不够锐利；反向才有信息量。</div></div><h3>第一层 · 确认层（已重估，用作趋势确认）</h3><table class="fixed-cols"><thead><tr><th>代码</th><th>价值链位置</th><th>8/4收盘</th><th>8/4涨跌</th><th>超额(vs SMH)</th><th>3个月</th><th>距52周高</th><th>RSI</th><th>均线</th><th>判断</th></tr></thead><tbody><tr><td class="nowrap"><b>ANET</b></td><td>以太网交换系统（EOS/Etherlink）</td><td class="num">190.51</td><td class="num up">+3.04%</td><td class="num">-2.51</td><td class="num">+10.36%</td><td class="num dn">-1.98%</td><td class="num">62.4</td><td class="nowrap"><span class="ma"><b class="up">20<i>▲</i></b><b class="up">50<i>▲</i></b><b class="up">200<i>▲</i></b></span></td><td>叙事主线本尊，价格已完成重估（距高仅 -1.98%）。8/4 盘中只涨 3.04%、跑输 SMH 2.51pt，全部涨幅在盘后财报后兑现。<b>现在是确认工具，不是发现工具</b>。</td></tr><tr><td class="nowrap"><b>CSCO</b></td><td>网络设备 + Silicon One + 安全</td><td class="num">121.74</td><td class="num up">+5.08%</td><td class="num">-0.47</td><td class="num">+31.43%</td><td class="num dn">-6.62%</td><td class="num">62.1</td><td class="nowrap"><span class="ma"><b class="up">20<i>▲</i></b><b class="up">50<i>▲</i></b><b class="up">200<i>▲</i></b></span></td><td>3个月 +31.43%、站上全部均线。低波动版本的同一条叙事（ATR 3.09%），但增长弹性最小，AI 收入占比远低于 ANET。</td></tr><tr><td class="nowrap"><b>AVGO</b></td><td>Tomahawk/Jericho 交换芯片 + 定制 XPU</td><td class="num">418.16</td><td class="num up">+6.61%</td><td class="num">+1.06</td><td class="num">+0.40%</td><td class="num dn">-15.52%</td><td class="num">61.8</td><td class="nowrap"><span class="ma"><b class="up">20<i>▲</i></b><b class="up">50<i>▲</i></b><b class="up">200<i>▲</i></b></span></td><td>以太网交换芯片的事实标准（TH6 102.4Tb/s）。距高 -15.52% 说明还没被当成纯 AI 网络股定价，但估值已不便宜。</td></tr><tr><td class="nowrap"><b>DELL</b></td><td>AI 服务器 + 网络集成</td><td class="num">467.27</td><td class="num up">+8.92%</td><td class="num">+3.37</td><td class="num">+120.79%</td><td class="num dn">-2.02%</td><td class="num">60.9</td><td class="nowrap"><span class="ma"><b class="up">20<i>▲</i></b><b class="up">50<i>▲</i></b><b class="up">200<i>▲</i></b></span></td><td>3个月 +120.79%、距高仅 -2.02%，是整个篮子里唯一「系统集成层」完成重估的样本。<b>对照价值：说明市场已经愿意为「整机+网络」付钱，问题只剩谁拿走毛利</b>。</td></tr></tbody></table><h3>第二层 · 扩散层（叙事同源、价格未修复，研究优先级在这里）</h3><table class="fixed-cols"><thead><tr><th>代码</th><th>价值链位置</th><th>8/4收盘</th><th>8/4涨跌</th><th>超额(vs SMH)</th><th>3个月</th><th>距52周高</th><th>RSI</th><th>均线</th><th>判断</th></tr></thead><tbody><tr><td class="nowrap"><b>MRVL</b></td><td>定制硅 + 光 DSP + 数据中心互连</td><td class="num">218.59</td><td class="num up">+12.81%</td><td class="num">+7.26</td><td class="num">+33.56%</td><td class="num dn">-33.74%</td><td class="num">52.2</td><td class="nowrap"><span class="ma"><b class="up">20<i>▲</i></b><b class="dn">50<i>▼</i></b><b class="up">200<i>▲</i></b></span></td><td>8/4 +12.81%、超额 +7.26pt，但仍在 50MA 下方 8.98%、距高 -33.74%。<b>典型的「叙事已回来、价格还没修复」</b>。8/27 财报是硬闸门。</td></tr><tr><td class="nowrap"><b>ALAB</b></td><td>PCIe/CXL/以太网 Scale-up 连接</td><td class="num">361.67</td><td class="num up">+12.65%</td><td class="num">+7.10</td><td class="num">+79.71%</td><td class="num dn">-27.59%</td><td class="num">55.4</td><td class="nowrap"><span class="ma"><b class="up">20<i>▲</i></b><b class="up">50<i>▲</i></b><b class="up">200<i>▲</i></b></span></td><td>8/4 财报：营收 $392.4M（+104% YoY）、non-GAAP 毛利率 73.7%、Q3 指引 $540–560M（环比 +40%）。Scorpio X 提前一个季度成为最大产品线。<b>连接层的定价权样本</b>。</td></tr><tr><td class="nowrap"><b>CRDO</b></td><td>AEC 有源电缆 + SerDes</td><td class="num">237.92</td><td class="num up">+8.96%</td><td class="num">+3.41</td><td class="num">+32.13%</td><td class="num dn">-22.92%</td><td class="num">54.2</td><td class="nowrap"><span class="ma"><b class="up">20<i>▲</i></b><b class="up">50<i>▲</i></b><b class="up">200<i>▲</i></b></span></td><td>铜缆路线的直接受益者（见「铜 vs 光」一节）。距高 -22.92%、刚站上 50MA。9/9 财报。</td></tr><tr><td class="nowrap"><b>COHR</b></td><td>光模块 + 激光器</td><td class="num">323.73</td><td class="num up">+12.35%</td><td class="num">+6.80</td><td class="num">-1.87%</td><td class="num dn">-26.42%</td><td class="num">54.0</td><td class="nowrap"><span class="ma"><b class="up">20<i>▲</i></b><b class="dn">50<i>▼</i></b><b class="up">200<i>▲</i></b></span></td><td>8/4 +12.35%、超额 +6.80pt，但仍在 50MA 下方 6.15%。光路线的仓位，与 CRDO 互为对冲。</td></tr><tr><td class="nowrap"><b>LITE</b></td><td>光模块 + 相干光</td><td class="num">849.47</td><td class="num up">+8.92%</td><td class="num">+3.37</td><td class="num">-12.98%</td><td class="num dn">-21.76%</td><td class="num">56.4</td><td class="nowrap"><span class="ma"><b class="up">20<i>▲</i></b><b class="up">50<i>▲</i></b><b class="up">200<i>▲</i></b></span></td><td>1个月 +16.17% 但 3个月 -12.98%——先跌后涨，典型的叙事重估未完成。NVDA 曾投资 $20 亿。</td></tr><tr><td class="nowrap"><b>FN</b></td><td>光模块代工（Fabrinet）</td><td class="num">531.03</td><td class="num up">+16.47%</td><td class="num">+10.92</td><td class="num">-26.02%</td><td class="num dn">-29.09%</td><td class="num">55.5</td><td class="nowrap"><span class="ma"><b class="up">20<i>▲</i></b><b class="dn">50<i>▼</i></b><b class="dn">200<i>▼</i></b></span></td><td>8/4 +16.47%、超额 +10.92pt（篮子里第二高），但 3个月 -26.02%、仍卡在 200MA（-0.02%）。<b>Stage 1，全篮子里结构最差的一只</b>，只能算题材跟涨，不能当扩散证据。</td></tr><tr><td class="nowrap"><b>AAOI</b></td><td>光模块（数据中心）</td><td class="num">131.63</td><td class="num up">+19.44%</td><td class="num">+13.89</td><td class="num">-23.90%</td><td class="num dn">-43.67%</td><td class="num">55.9</td><td class="nowrap"><span class="ma"><b class="up">20<i>▲</i></b><b class="dn">50<i>▼</i></b><b class="up">200<i>▲</i></b></span></td><td>8/4 +19.44%、量比 2.37，涨幅第一。但距高 -43.67%、ATR 12.07%——高波动投机腿，不是叙事席位。</td></tr><tr><td class="nowrap"><b>MTSI</b></td><td>射频/光通信芯片</td><td class="num">273.31</td><td class="num up">+6.72%</td><td class="num">+1.17</td><td class="num">-6.31%</td><td class="num dn">-34.76%</td><td class="num">44.6</td><td class="nowrap"><span class="ma"><b class="dn">20<i>▼</i></b><b class="dn">50<i>▼</i></b><b class="up">200<i>▲</i></b></span></td><td>8/4 +6.72% 但仍在 20MA 下方、50MA 下方 17.81%，RSI 44.6。<b>唯一没跟上的连接层公司</b>，是这条叙事广度的反例。</td></tr></tbody></table><h3>第三层 · 对照层（用来证伪）</h3><table class="fixed-cols"><thead><tr><th>代码</th><th>价值链位置</th><th>8/4收盘</th><th>8/4涨跌</th><th>超额(vs SMH)</th><th>3个月</th><th>距52周高</th><th>RSI</th><th>均线</th><th>判断</th></tr></thead><tbody><tr><td class="nowrap"><b>NVDA</b></td><td>Spectrum-X 以太网 + NVLink</td><td class="num">211.94</td><td class="num up">+2.56%</td><td class="num">-2.99</td><td class="num">+6.78%</td><td class="num dn">-10.40%</td><td class="num">56.9</td><td class="nowrap"><span class="ma"><b class="up">20<i>▲</i></b><b class="up">50<i>▲</i></b><b class="up">200<i>▲</i></b></span></td><td>最近季度 Spectrum-X 销售额超 $20 亿。<b>它既是需求来源也是竞争者</b>：Spectrum-X 越强，第三方以太网的份额论点越弱。8/4 只涨 2.56%、跑输 SMH 2.99pt。</td></tr><tr><td class="nowrap"><b>VRT</b></td><td>数据中心电源与散热</td><td class="num">269.93</td><td class="num up">+2.62%</td><td class="num">-2.93</td><td class="num">-18.44%</td><td class="num dn">-28.95%</td><td class="num">45.0</td><td class="nowrap"><span class="ma"><b class="dn">20<i>▼</i></b><b class="dn">50<i>▼</i></b><b class="up">200<i>▲</i></b></span></td><td>8/4 只涨 2.62%、量比 0.92（缩量），50MA 下方 11.1%。<b>关键噪音检验：如果 8/4 是「AI 基建普涨」，VRT 不该缺席</b>。它缺席了，说明买的是网络与算力，不是数据中心总包。</td></tr><tr><td class="nowrap"><b>SMH</b></td><td>半导体基准</td><td class="num">575.71</td><td class="num up">+5.55%</td><td class="num">+0.00</td><td class="num">+13.60%</td><td class="num dn">-14.31%</td><td class="num">51.1</td><td class="nowrap"><span class="ma"><b class="up">20<i>▲</i></b><b class="dn">50<i>▼</i></b><b class="up">200<i>▲</i></b></span></td><td>8/4 +5.55% 但仍在 50MA（595.94）下方 3.39%。<b>网络篮子跑赢的是一个尚未修复的板块基准</b>——这是结构性轮动的证据，也是最大的脆弱点。</td></tr></tbody></table><h3>下一次硬验证：看什么口径、什么时候</h3><table><thead><tr><th>标的</th><th>日期</th><th>必须加速的口径</th><th>证伪条件（出现即降级）</th></tr></thead><tbody><tr><td class="nowrap"><b>CSCO</b></td><td class="nowrap">8 月中<span class="src-chip">各家日历 8/11–8/19 不一，以公司公告为准</span></td><td>AI 基础设施订单（此前按季披露）、网络产品收入、订阅占比</td><td>AI 订单不再单独披露，或披露了但网络产品收入无加速</td></tr><tr><td class="nowrap"><b>MRVL</b></td><td class="nowrap">8/27<span class="src-chip">公司公告</span></td><td>数据中心营收占比（上季 76%）、定制硅项目数与量产时点、光 DSP/互连产品线</td><td>数据中心增速掉到 20% 以下，或定制项目被点名延期/丢失</td></tr><tr><td class="nowrap"><b>NVDA</b></td><td class="nowrap">8 月下旬<span class="src-chip">惯例推断</span></td><td>Spectrum-X 季度销售额（上季 &gt;$20 亿）</td><td><b>反向读</b>：Spectrum-X 大幅加速反而削弱 ANET/AVGO 的份额论点</td></tr><tr><td class="nowrap"><b>CRDO</b></td><td class="nowrap">9/9<span class="src-chip">媒体</span></td><td>光互连业务收入（市场预期 FY27 超 $6 亿）、AEC 出货量与客户数</td><td>AEC 增长依赖单一客户，或光互连口径被推迟到下一财年</td></tr><tr><td class="nowrap"><b>AVGO</b></td><td class="nowrap">9 月上旬<span class="src-chip">惯例推断</span></td><td>网络业务收入、Tomahawk 6/Ultra 出货节奏、定制 XPU 订单</td><td>网络增速低于定制 XPU，说明公司自己也认为价值在算力不在网络</td></tr><tr><td class="nowrap"><b>COHR / LITE / FN</b></td><td class="nowrap">8 月中<span class="src-chip">惯例推断</span></td><td>800G/1.6T 光模块出货占比、数据中心收入占比、产能扩张指引</td><td>高速率占比不提升，只有总量增长——说明是价格战不是升级周期</td></tr></tbody></table></section><section id="copper"><h2>叙事内部最大的未决分歧：机架内是铜还是光</h2><table><thead><tr><th>证据</th><th>时间</th><th>指向</th><th>当时的价格反应</th></tr></thead><tbody><tr><td>AVGO CEO Hock Tan 在 Q1 电话会表示，主要定制芯片客户机架内互连<b>到 2028 年仍将使用直连铜缆</b></td><td class="nowrap">2026-03-05</td><td>铜（AEC）</td><td>CRDO 涨近 10%；LITE −4%、COHR −5%（盘前）</td></tr><tr><td>NVDA 分别向 LITE 与 COHR <b>各投资 $20 亿</b>用于先进光学开发</td><td class="nowrap">此前数日</td><td>光</td><td>两只均大涨</td></tr><tr class="row-band"><td>8/4 同时上涨：CRDO +8.96%、COHR +12.35%、LITE +8.92%、FN +16.47%</td><td class="nowrap">2026-08-04</td><td>市场当天没有做选择</td><td>三条腿一起买，说明买的是「网络层」这个筐，不是路线判断</td></tr></tbody></table><div class="callout risk"><strong>操作含义</strong>：这两条路线在 2026–2028 的机架内市场是<b>此消彼长</b>的，不可能都对。8/4 的普涨说明市场目前是按主题买、还没按路线选边。<br><br>这意味着两件事：<b>一，现在同时持有 CRDO 和 COHR/LITE 不是分散，是对冲掉了自己的判断</b>；<b>二，路线的答案会在财报里给出——不是在管理层的措辞里，是在光模块厂商的「800G/1.6T 出货占比」和 CRDO 的「AEC 客户数」里</b>。在这个数字出来之前，这一层的仓位应该比第一层小。</div></section><section id="scenario"><h2>情景推演（未来 4–8 周）</h2><p class="note muted">权重是主观的，不是统计预测。每个情景都给确认信号和证伪触发。</p><table class="fixed-cols"><thead><tr><th>情景</th><th>权重</th><th>条件</th><th>确认信号</th><th>证伪触发</th></tr></thead><tbody><tr><td><b>基准 · 扩散继续但分化</b></td><td class="num ctr">50%</td><td>SMH 收复 50MA（595.94）失败但网络篮子守住 20MA；第二层里 MRVL/ALAB/CRDO 继续跑赢 ANET/CSCO</td><td>MRVL 8/27、CRDO 9/9 至少一家在数据中心/光互连口径上加速；扩散层距高点持续收窄</td><td>第二层集体跌回 50MA 下方，且 ANET 守住——说明是短期轮动不是叙事扩散</td></tr><tr class="row-bull"><td><b>多头 · 网络成为独立主线</b></td><td class="num ctr">25%</td><td>SMH 收复 595.94，网络篮子同步创阶段新高</td><td>ANET 下季毛利率企稳（≥63.4%）且营业利润率不低于指引上沿；ALAB Q3 兑现 $540–560M；CSCO 网络产品收入加速</td><td>ANET 毛利率继续下滑且 OM 跌破 48%——增长买不回定价权</td></tr><tr class="row-warn"><td><b>空头 · 只是财报日的一次性重定价</b></td><td class="num ctr">25%</td><td>SMH 跌破 8/4 起涨点，网络篮子回吐 8/4 涨幅的一半以上</td><td>光模块财报显示高速率占比未提升；NVDA Spectrum-X 大幅加速侵蚀第三方份额</td><td>扩散层在回调中距高点仍继续收窄——说明有真实承接</td></tr></tbody></table><div class="action-directive"><span class="ad-label">执行顺序</span><ul class="disc-list"><li class="disc-item"><b>先看基准</b>：SMH 能否收复 50MA 595.94。收不复，这条叙事只能按轮动做，不能按主线做。</li><li class="disc-item"><b>再看第二层是否继续跑赢第一层</b>：MRVL / ALAB / CRDO / COHR 相对 ANET / CSCO 的强弱，是「扩散」和「跟涨」的唯一区分标准。</li><li class="disc-item"><b>然后才看财报口径</b>：8/27 MRVL、9/9 CRDO 是这条线的两个硬闸门，要核验的是数据中心占比与光互连收入，<b>不是营收超预期本身</b>。</li><li class="disc-item"><b>不要用产品发布代替收入证据</b>。1.6T、100Tbps、液冷这些都是发布会语言，真正的证据是毛利率、递延收入和高速率出货占比。</li><li class="disc-item ad-invalidate"><strong>停止条件</strong>：SMH 跌破 8/4 低点（562.28）<b>且</b>扩散层集体失守 50MA → 这条叙事的仓位归零，回到常规扫描。</li></ul></div></section><section id="monitor"><h2>持续监测框架</h2><table><thead><tr><th>监测轴</th><th>核心指标</th><th>支持「网络是瓶颈」</th><th>支持「一次性重定价」</th><th>频率</th></tr></thead><tbody><tr><td>系统层定价权</td><td>ANET / CSCO 毛利率、营业利润率、递延收入</td><td>毛利率企稳、递延收入继续增长</td><td>毛利率连续两季下滑且 OM 同步走低</td><td>季度</td></tr><tr><td>连接层内容量</td><td>ALAB / CRDO 单机内容值、retimer 与 AEC 出货、毛利率</td><td>毛利率维持 70%+ 且环比增速两位数</td><td>毛利率向系统层靠拢</td><td>季度</td></tr><tr><td>光升级周期</td><td>COHR / LITE / FN 的 800G / 1.6T 出货占比</td><td>高速率占比逐季提升</td><td>只有总量增长、结构不变（价格战）</td><td>季度</td></tr><tr><td>标准与份额</td><td>UEC / ESUN 落地进度、Tomahawk 6 与 Ultra 出货、Spectrum-X 季度销售额</td><td>第三方以太网份额扩大</td><td>Spectrum-X 增速快于第三方，端到端方案通吃</td><td>季度 + 事件</td></tr><tr><td>相对强度</td><td>扩散层 vs 确认层、网络篮子 vs SMH</td><td>扩散层持续跑赢、距高点收窄</td><td>只有确认层强，第二层跟不上</td><td>每日/每周</td></tr></tbody></table><div class="callout co-method"><strong>反向信号</strong>：如果连续两个季度出现 —— （a）ANET 毛利率企稳且 OM 回到 50% 以上，（b）ALAB/CRDO 毛利率反而下滑，（c）光模块高速率占比不提升 —— 那就说明价值捕获的位置和本报告判断相反，应当把权重从连接层调回系统层。</div></section><section id="qa"><h2>质量检查</h2><table class="qa-table"><thead><tr><th>检查项</th><th>状态</th><th>处理</th></tr></thead><tbody><tr><td>价格与财报口径是否分开</td><td class="ctr">✓</td><td>8/4 盘中涨幅、盘后涨幅、区间涨幅三者分列，未混算</td></tr><tr><td>是否证明了强势不是 beta</td><td class="ctr">✓</td><td>对比 SPY +1.80% / QQQ +3.40% / SMH +5.55%，并用 VRT 缩量做反例</td></tr><tr><td>是否剔除了同题材噪音</td><td class="ctr">✓</td><td>MTSI（连接层但未跟上）、FN（Stage 1、卡 200MA）、AAOI（ATR 12%）单独标注，未计入扩散证据</td></tr><tr class="row-warn"><td>全年指引是否核实</td><td class="ctr">✗</td><td><b>未核实</b>。媒体转述有 $12.6B / $11.5B / $11.25B 三个版本，官方新闻稿未列全年指引。本报告全部推演只用已确认的 Q3 指引 $3.3B</td></tr><tr><td>财报日期是否标注来源</td><td class="ctr">✓</td><td>MRVL 8/27 为公司公告；CRDO 9/9 为媒体；CSCO/AVGO/NVDA/光模块组为惯例推断，已逐条标注</td></tr><tr><td>因果边界是否收住</td><td class="ctr">✓</td><td>未声称 8/4 的涨幅全部来自 AI 网络叙事；MRVL 当日有 FMS 2026 存储产品预告这一独立催化，已注明</td></tr><tr><td>是否有反面情形</td><td class="ctr">✓</td><td>NVDA Spectrum-X 作为反向读取项列入对照层；铜/光路线分歧单列一节</td></tr><tr class="row-warn"><td>是否已被财报证明</td><td class="ctr">✗</td><td><b>没有</b>。扩散层里只有 ALAB 已出财报，MRVL/CRDO/光模块组均未验证。本报告是研究假设，不是完成态结论</td></tr></tbody></table></section><section id="src"><h2>口径与来源</h2><p class="src-note"><b>行情</b>：长桥 OpenAPI 日 K（未复权），全部为 2026-08-04 收盘；盘后价来自 8/4 盘后报价快照。3 个月 = 63 个交易日，1 个月 = 21 个交易日，6 个月 = 126 个交易日。RSI 为 14 日；均线状态按收盘价与 20/50/200 日均线比较。「超额」以 SMH 当日涨跌为基准，非风险调整。</p><p class="src-note"><b>公司</b>：Arista 2026 Q2 新闻稿（2026-08-04，Business Wire）；Astera Labs 2026 Q2 新闻稿（2026-08-04，GlobeNewswire）；Marvell FY27 Q2 电话会公告；Broadcom 2026 Q1 电话会（2026-03-05）媒体报道；Nvidia 最近季度 Spectrum-X 披露。</p><p class="src-note"><b>行业</b>：Ultra Ethernet Consortium 1.0 规范（2025 年中）；OCP ESUN 工作组成员名单；Broadcom Tomahawk 6 / Tomahawk Ultra 产品资料。</p><p class="src-note"><b>限制</b>：本篮子没有对应的纯以太网 ETF，基准只能用 SMH，因此「超额」包含了网络与半导体其它子行业的结构差异，不是干净的行业中性收益。席位表为研究优先级，不是买入清单。所有情景权重为主观判断。</p></section>
+<footer class="source"><p>本报告为研究记录，不构成投资建议。数据截至 2026-08-04 收盘。
+<a href="../index.html">← 返回报告索引</a></p></footer>
+</main></body>
+</html>
