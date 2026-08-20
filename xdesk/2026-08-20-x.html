@@ -580,12 +580,25 @@ a:hover{text-decoration:underline}
 .chip.new{color:var(--green);background:var(--green-bg);border-color:#bfe0cd}
 
 .shots{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
-.shots a{display:block;line-height:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;
-  background:#f0f2f6}
+/* flex:0 0 auto 是必须的：默认的 flex-shrink 会在手机宽度下把并排的两张图
+   一路压到 min-width（实测压成 120px 宽，K 线图完全没法看）。禁止收缩之后
+   放不下就换行，这才是想要的行为。*/
+.shots a{flex:0 0 auto;display:block;line-height:0;max-width:100%;
+  border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#f0f2f6}
 /* 竖图（Kobeissi 那种长条信息图）按 max-height 缩会变成一条很窄的缩略图，
    所以多图卡片也给到 320px，单图 460px；真要看细节点开灯箱看原图。*/
-.shots img{max-height:320px;min-width:120px;max-width:100%;width:auto;display:block;cursor:zoom-in}
+.shots img{max-height:320px;max-width:100%;width:auto;height:auto;display:block;cursor:zoom-in}
 .shots.solo img{max-height:460px}
+
+/* 手机：时间列收窄、卡片留白减小，把宽度让给正文和图 */
+@media(max-width:520px){
+  .wrap{padding:16px 10px 40px}
+  .tw{gap:10px;padding:12px 12px}
+  .tw .when{flex:0 0 46px;font-size:11.5px}
+  .tw .txt{font-size:14px}
+  .shots img{max-height:260px}
+  .shots.solo img{max-height:360px}
+}
 .miss{font-size:12px;color:var(--muted);padding:8px 10px;border:1px dashed var(--line);
   border-radius:8px;margin-top:8px}
 
