@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="归档老师 2026-08-10《美股光通信深度专题》的叙事主线：需求闭环、六层价值链的利润分布、十二档质量排序与逐家财报门槛；并用长桥 8/10 收盘数据反过来检验这份排序，附我自己在这条链上的 6 笔持仓与本周三份财报的时间表。">
+  <title>光通信叙事主线（老师 8/10 专题归档 + 我方检验）｜2026-08-11</title>
+  <link rel="stylesheet" href="report-shared.css?v=20260811-optical-narrative">
+  <style>
+    /* 红绿二色规则（2026-07-06 定案，见 templates/report.css 注释）：不引入第三种色相，
+       中档一律用比 --red 浅的暖红。report-shared.css 里的 --amber 仍是棕黄，这里就地覆盖，
+       只作用于本页，不动共用样式表、不影响其余三份专题。 */
+    .optical-special{--amber:#b5574a;--amber-bg:#f7e3dd}
+    .optical-special .badge.amber,.optical-special .amber{color:var(--amber);background:var(--amber-bg)}
+    /* row-bull / row-warn 只存在于 templates/report.css，共用样式表没有，本页自带 */
+    .optical-special tr.row-bull td{background:var(--green-bg)}
+    .optical-special tr.row-warn td{background:var(--red-bg)}
+
+    .optical-special .lede{max-width:940px}
+    .optical-special .section-intro{max-width:960px;color:var(--muted);font-size:13px}
+    .optical-special .metric-strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:12px 0}
+    .optical-special .metric-strip>div{padding:12px 14px;border-radius:8px;background:#f2f1ed}
+    .optical-special .metric-strip span,.optical-special .metric-strip small{display:block;color:var(--muted);font-size:11.5px}
+    .optical-special .metric-strip strong{display:block;margin:4px 0 2px;font-size:20px;font-weight:500;font-variant-numeric:tabular-nums}
+    .optical-special .ctr{text-align:center}
+    .optical-special .nowrap{white-space:nowrap}
+    .optical-special td{vertical-align:top}
+    .optical-special td small{display:block;margin-top:4px;color:var(--muted);font-size:10.8px;line-height:1.45}
+    .optical-special .source-note{font-size:12px;color:var(--muted);line-height:1.7}
+
+    .optical-special .rank-table{min-width:1280px;table-layout:fixed}
+    .optical-special .rank-table th:nth-child(1){width:70px}.optical-special .rank-table th:nth-child(2){width:80px}
+    .optical-special .rank-table th:nth-child(3){width:78px}.optical-special .rank-table th:nth-child(4){width:150px}
+    .optical-special .rank-table th:nth-child(5){width:92px}.optical-special .rank-table th:nth-child(6){width:82px}
+    .optical-special .rank-table th:nth-child(7){width:82px}.optical-special .rank-table th:nth-child(8){width:98px}
+    .optical-special .rank-table th:nth-child(9){width:132px}.optical-special .rank-table th:nth-child(10){width:318px}
+    /* 均线列原来是一行 nowrap，table-layout:fixed 下内容会溢出压到右边那列上（Vic 8/11 截图）。
+       改成两行块级，各自 nowrap，列宽按最长的「50MA ▼ -12.33%」定。 */
+    .optical-special .ma-cell b{display:block;white-space:nowrap;font-size:11.5px;font-weight:600;line-height:1.5;font-variant-numeric:tabular-nums}
+    .optical-special .rank-table td{overflow-wrap:anywhere}
+
+    .optical-special .roundtrip-table{min-width:1060px;table-layout:fixed}
+    .optical-special .roundtrip-table th:nth-child(1){width:80px}.optical-special .roundtrip-table th:nth-child(2){width:96px}
+    .optical-special .roundtrip-table th:nth-child(3){width:96px}.optical-special .roundtrip-table th:nth-child(4){width:104px}
+    .optical-special .roundtrip-table th:nth-child(5){width:110px}.optical-special .roundtrip-table th:nth-child(6){width:96px}
+    .optical-special .roundtrip-table th:nth-child(7){width:380px}
+
+    .optical-special .gate-table{min-width:1240px;table-layout:fixed}
+    .optical-special .gate-table th:nth-child(1){width:80px}.optical-special .gate-table th:nth-child(2){width:110px}
+    .optical-special .gate-table th:nth-child(3){width:105px}.optical-special .gate-table th:nth-child(4){width:230px}
+    .optical-special .gate-table th:nth-child(5){width:230px}.optical-special .gate-table th:nth-child(6){width:230px}
+    .optical-special .gate-table th:nth-child(7){width:255px}
+
+    .optical-special .book-table{min-width:1160px;table-layout:fixed}
+    .optical-special .book-table th:nth-child(1){width:82px}.optical-special .book-table th:nth-child(2){width:96px}
+    .optical-special .book-table th:nth-child(3){width:70px}.optical-special .book-table th:nth-child(4){width:96px}
+    .optical-special .book-table th:nth-child(5){width:96px}.optical-special .book-table th:nth-child(6){width:110px}
+    .optical-special .book-table th:nth-child(7){width:120px}.optical-special .book-table th:nth-child(8){width:320px}
+
+    .optical-special .signal-table{min-width:1080px;table-layout:fixed}
+    .optical-special .signal-table th:nth-child(1){width:230px}.optical-special .signal-table th:nth-child(2){width:110px}
+    .optical-special .signal-table th:nth-child(3){width:340px}.optical-special .signal-table th:nth-child(4){width:340px}
+
+    .optical-special .layer-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:12px 0}
+    .optical-special .layer-card{padding:14px 15px;border:.5px solid var(--line);border-radius:10px;background:#fff}
+    .optical-special .layer-card h3{margin:7px 0 6px;font-size:15.5px}
+    .optical-special .layer-card p{margin:5px 0;color:var(--muted);font-size:12.3px;line-height:1.6}
+    .optical-special .layer-card .tickers{color:var(--text);font-weight:600}
+    .optical-special .layer-card .margin-tag{font-variant-numeric:tabular-nums}
+
+    @media(max-width:900px){.optical-special .layer-grid{grid-template-columns:1fr 1fr}}
+    @media(max-width:820px){.optical-special .metric-strip{grid-template-columns:1fr 1fr}}
+    @media(max-width:560px){.optical-special .metric-strip,.optical-special .layer-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body class="flat-report optical-special" data-report-type="special">
+<main class="wrap">
+  <header>
+    <div class="eyebrow">2026 年 8 月 11 日 · 主线专题 · 外部叙事归档 + 我方检验</div>
+    <h1>光通信：需求闭环 4.5/5，但 12 家里 11 家估值偏热——老师发报告的当天，全链自己先跌了一遍</h1>
+    <p class="muted lede">把老师 2026-08-10《美股光通信深度专题 v1.1》的叙事主线收进我自己的专题库：六层价值链的利润分布、十二档质量排序、逐家财报门槛。然后用长桥 8/10 收盘数据反过来检验这份排序——它到底是在识别质量，还是在复述已经涨过的价格。</p>
+    <div class="badges">
+      <span class="badge blue">外部叙事归档 · 来源：老师 8/10 报告</span>
+      <span class="badge blue">我方价格口径：2026-08-10 收盘</span>
+      <span class="badge green">需求闭环 4.5/5 已交叉验证</span>
+      <span class="badge red">估值 11/12 偏热～过热</span>
+      <span class="badge red">8/10 全链 -2%～-14%，同日 SPY -0.03%</span>
+      <span class="badge amber">本周三份财报：LITE / COHR / FN</span>
+    </div>
+  </header>
+
+  <nav class="report-toc" aria-label="专题目录">
+    <span class="toc-label">目录</span>
+    <a href="#answer">答案先行</a>
+    <a href="#chain">六层价值链</a>
+    <a href="#ranking">十二档排序</a>
+    <a href="#test">用价格检验排序</a>
+    <a href="#gates">财报门槛</a>
+    <a href="#book">我的持仓对照</a>
+    <a href="#signals">追踪与证伪</a>
+    <a href="#boundary">口径与边界</a>
+  </nav>
+
+  <section class="grid" aria-label="专题摘要">
+    <div class="card"><span>老师给需求闭环的评分</span><strong class="up">4.5 / 5</strong><small>四朵云 2026 资本开支 $735–760B；LightCounting Q1 光模块 +90% YoY。</small></div>
+    <div class="card"><span>估值维度得分 ≤2.5 的家数</span><strong class="dn">9 / 12</strong><small>COHR / AAOI / POET 三家给到 1.0，是整份排序的最低分项。</small></div>
+    <div class="card"><span>8/7 冲高 → 8/10 回吐</span><strong class="dn">两天净变动 ≈ 0</strong><small>COHR +13.44% → -14.24%；LITE +6.22% → -8.61%。</small></div>
+    <div class="card"><span>我在这条链上的持仓</span><strong>6 笔 · 5 个标的</strong><small>ANET / LITE / GLW / AAOI / MRVL×2，约 $19.7k；LITE、GLW 无止损。</small></div>
+  </section>
+
+  <section id="answer">
+    <div class="kicker">Answer first</div>
+    <h2>五条结论（前三条是老师的，后两条是我方检验加上去的）</h2>
+    <ol>
+      <li><strong>需求是真的，而且是三方对齐的，不是单一口径。</strong>四家云厂 2026 资本开支合计 $735–760B、LightCounting Q1 2026 光模块／AOC 销售约 $100 亿（+90% YoY）、美国数据中心用电从 2023 年 176 TWh 指向 2028 年 325–580 TWh——需求、订单、物理约束三层互相印证。老师给的分是 4.5/5，扣的 0.5 在「云资本开支不会全部流向光」和电网审批延迟。</li>
+      <li><strong>利润的位置跟直觉排序相反：不在模块厂。</strong>高速模拟／SerDes 毛利 60–68%、交换系统 60%+，而光模块是 10–68% 的巨大区间。垂直整合（InP 激光器、晶圆、封装）能控供应，但在扩产期会变成现金流陷阱——COHR、AAOI 都是营收上行但 FCF 为负。</li>
+      <li><strong>约束条件已经从需求换成估值。</strong>12 家里 11 家被评为「偏热」到「过热」，市场已经把 2027–2028 的持续上量提前定价。这句话的操作含义是：<strong>「达到指引」现在读作利空</strong>，必须超预期才算兑现。</li>
+      <li><strong>【我方检验】这份排序衡量的是质量，而最近五天涨的恰恰是质量最差的一批。</strong>老师评分与「距 52 周高」的 Spearman 相关是 <strong>+0.74</strong>（分数高的本来就离高点近），但与「近 5 日涨幅」是 <strong>-0.41</strong>——AAOI（2.83 分）5 日 +20.51%、POET（1.93 分）+16.30%、MTSI +15.98%，而 AVGO 只有 +7.69%、CIEN 是 -0.78%。<strong>不要拿这五天的强势当成这份排序被市场认可的证据，方向是反的。</strong></li>
+      <li><strong>【我方检验】8/10 那根 K 线，是这份叙事发布当天就被价格检验了一次的记录。</strong>同一天 SPY -0.03%、SMH -2.28%，而光通信链 COHR -14.24% / LITE -8.61% / FN -6.28% / CIEN -5.99%。这不是大盘 beta，是这条链自己的重定价；而且它精确地把 8/7 那根冲高吐了回去（见「用价格检验排序」段）。</li>
+    </ol>
+    <div class="callout warn"><strong>一句话（老师原文的收口）：</strong>外部出货、云资本开支与公司财报三者对齐；最弱的信号仍在估值与自由现金流。<br><strong>一句话（我加的）：</strong>需求那一层已经不需要再证明了，本周三份财报要回答的是第二层和第三层——毛利改善来自良率还是一次性，以及资本开支拉起来之后经营现金流跟不跟得上。</div>
+  </section>
+
+  <section id="chain">
+    <div class="kicker">Value chain map</div>
+    <h2>六层价值链：钱从哪进来，利润在哪一层沉淀</h2>
+    <p class="section-intro">这是老师报告的骨架，我原样收录，因为它解决的是「同一个需求故事，为什么不同公司的毛利差 6 倍」这个问题。毛利区间为老师报告口径。</p>
+    <div class="layer-grid">
+      <article class="layer-card">
+        <span class="badge blue">第 1 层</span>
+        <h3>光纤材料与激光器</h3>
+        <p class="tickers">GLW · COHR · LITE · MTSI · AAOI</p>
+        <p>供给稀缺性与良率控制是壁垒；InP 激光器、晶圆环节决定了后面所有人能不能拿到货。</p>
+      </article>
+      <article class="layer-card">
+        <span class="badge green">第 2 层 · 利润最厚</span>
+        <h3>模拟与 DSP</h3>
+        <p class="tickers">MTSI · MRVL · CRDO · AVGO</p>
+        <p>Driver、TIA、PAM4、SerDes。<span class="margin-tag">毛利 60–68%</span>，跨代 IP 与客户认证形成长期护城河。</p>
+      </article>
+      <article class="layer-card">
+        <span class="badge amber">第 3 层 · 近期瓶颈</span>
+        <h3>连接与封装</h3>
+        <p class="tickers">GLW · COHR · LITE · FN · POET</p>
+        <p>从实验室走到量产的卡点就在这里：高功率激光器、先进封装、规模化良率。</p>
+      </article>
+      <article class="layer-card">
+        <span class="badge amber">第 4 层 · 弹性最大</span>
+        <h3>光模块</h3>
+        <p class="tickers">COHR · LITE · AAOI · FN</p>
+        <p>800G→1.6T 换代，直接暴露在 ASP 与良率上。<span class="margin-tag">毛利 10–68%</span>——同一层里公司之间的差距比层与层之间还大。</p>
+      </article>
+      <article class="layer-card">
+        <span class="badge green">第 5 层</span>
+        <h3>交换与传输</h3>
+        <p class="tickers">AVGO · MRVL · ANET · CIEN</p>
+        <p>ASIC、路由、相干光。<span class="margin-tag">毛利 60%+</span>，系统层的定价权来自软件与生态锁定。</p>
+      </article>
+      <article class="layer-card">
+        <span class="badge blue">第 6 层</span>
+        <h3>超大规模客户</h3>
+        <p class="tickers">MSFT · GOOGL · META · AMZN</p>
+        <p>需求高度集中带来速度，也带来替换风险：四个买家决定 ASP，一旦价格松动可以迅速换供应商。</p>
+      </article>
+    </div>
+    <div class="callout"><strong>时间轴分工（老师口径）：</strong>近期瓶颈＝高功率激光器／先进封装／规模良率；中期战场＝CPO vs NPO vs LPO 的技术路线混战，目前<strong>没有赢家</strong>；长期护城河＝跨代 SerDes／DSP IP、客户认证与供应链规模。</div>
+    <p class="section-summary"><strong>本段结论：</strong>如果只记一句话——<strong>需求进入的是第 4 层，利润沉淀在第 2 层和第 5 层</strong>。这跟我 8/5 那份《AI 网络层》专题的结论（「增量预算是真的，但价值捕获在链路不在机箱」）是同一件事的两种说法，而老师的版本把「链路」进一步拆成了模拟／DSP 和封装两个完全不同的生意。</p>
+  </section>
+
+  <section id="ranking">
+    <div class="kicker">Quality ranking</div>
+    <h2>十二档排序：老师的评分 × 我方 8/10 收盘</h2>
+    <p class="section-intro">
+      左半边（评分与定位）全部来自老师报告，权重＝护城河 25% + 成长可见度 25% + 财务质量 20% + 估值安全边际 20% + 执行 10%。
+      右半边（收盘价起的六列）是我自己的长桥前复权日线，<strong>口径日一律 2026-08-10 收盘</strong>，不混任何盘前价。
+      两边是独立的两套数据，放在一起是为了做对照，不是老师报告里原有的表。
+    </p>
+    <div class="table-scroll">
+      <table class="report-data-table rank-table">
+        <thead>
+          <tr>
+            <th>排名</th><th>标的</th><th class="num">加权分</th><th>老师给的定位</th>
+            <th class="num">8/10 收盘</th><th class="num">当日%</th><th class="num">近5日%</th>
+            <th class="num">距52周高</th><th>20／50MA</th><th>老师的核心风险 → 我的读法</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="row-bull">
+            <td class="ctr">1</td><td><strong>AVGO</strong></td><td class="num">4.80</td><td>质量核心（交换 ASIC、SerDes）</td>
+            <td class="num">422.40</td><td class="num dn">-1.25%</td><td class="num up">+7.69%</td><td class="num dn">-14.67%</td>
+            <td class="ma-cell"><b class="up">20MA ▲ +7.27%</b><b class="up">50MA ▲ +6.95%</b></td>
+            <td>AI 半导体 &lt; $15.5B 即算未达。<small>全链唯一「评分第一 + 均线双上 + 距高点最浅」三者同时成立的；9/3 才财报，本周不是它的窗口。</small></td>
+          </tr>
+          <tr class="row-bull">
+            <td class="ctr">2</td><td><strong>ANET</strong></td><td class="num">4.38</td><td>质量核心（以太网交换）</td>
+            <td class="num">191.52</td><td class="num up">+1.51%</td><td class="num up">+3.59%</td><td class="num dn">-10.88%</td>
+            <td class="ma-cell"><b class="up">20MA ▲ +7.71%</b><b class="up">50MA ▲ +11.82%</b></td>
+            <td>1.6T 采用节奏落后。<small>8/10 全链下跌里<strong>唯一收红的</strong>（+1.51%）。它已经在 8/4 财报完成重估，现在的角色是主线确认器不是发现。</small></td>
+          </tr>
+          <tr>
+            <td class="ctr">3</td><td><strong>CRDO</strong></td><td class="num">4.25</td><td>高成长核心（AEC／SerDes 纯度）</td>
+            <td class="num">239.93</td><td class="num dn">-3.98%</td><td class="num up">+9.89%</td><td class="num dn">-22.27%</td>
+            <td class="ma-cell"><b class="up">20MA ▲ +9.70%</b><b class="up">50MA ▲ +1.38%</b></td>
+            <td>营收 &lt; $460M 或毛利 &lt; 66%。<small>第三个站上双均线的。9/2 财报，本周只是跟着链条波动。</small></td>
+          </tr>
+          <tr>
+            <td class="ctr">4</td><td><strong>GLW</strong></td><td class="num">4.13</td><td>材料与连接</td>
+            <td class="num">157.76</td><td class="num dn">-4.78%</td><td class="num up">+7.58%</td><td class="num dn">-41.95%</td>
+            <td class="ma-cell"><b class="up">20MA ▲ +3.18%</b><b class="dn">50MA ▼ -11.68%</b></td>
+            <td>核心销售 &lt; $4.9B 或光通信环比转负。<small><strong>我持有 40 股且没有止损。</strong>10/27 才财报，是这批里持有期最长、最需要一个结构止损位的一笔。</small></td>
+          </tr>
+          <tr>
+            <td class="ctr">5</td><td><strong>MTSI</strong></td><td class="num">4.10</td><td>高质量成长（模拟驱动）</td>
+            <td class="num">297.03</td><td class="num dn">-4.44%</td><td class="num up">+15.98%</td><td class="num dn">-29.09%</td>
+            <td class="ma-cell"><b class="up">20MA ▲ +8.67%</b><b class="dn">50MA ▼ -8.39%</b></td>
+            <td>营收 &lt; $405M 或毛利 &lt; 58%。<small>评分第 5、5 日涨幅却排第 3——质量分和短期动能在这只身上分叉最明显。</small></td>
+          </tr>
+          <tr>
+            <td class="ctr">6</td><td><strong>FN</strong></td><td class="num">4.03</td><td>量产核心（光模块代工）</td>
+            <td class="num">527.07</td><td class="num dn">-6.28%</td><td class="num up">+15.60%</td><td class="num dn">-29.62%</td>
+            <td class="ma-cell"><b class="up">20MA ▲ +7.68%</b><b class="dn">50MA ▼ -2.64%</b></td>
+            <td>经营利润率 &lt; 9.5% 或 FCF 再度转负。<small>Weinstein 阶段仍判 1（底部构筑），是 12 家里唯一「评分前六却还没进第 2 阶段」的。8/17 财报。</small></td>
+          </tr>
+          <tr>
+            <td class="ctr">7</td><td><strong>LITE</strong></td><td class="num">3.93</td><td>纯光高成长（800G／1.6T）</td>
+            <td class="num">813.51</td><td class="num dn">-8.61%</td><td class="num up">+4.31%</td><td class="num dn">-25.07%</td>
+            <td class="ma-cell"><b class="up">20MA ▲ +5.61%</b><b class="dn">50MA ▼ -0.43%</b></td>
+            <td>营收 &lt; $950M 或毛利 &lt; 44%。<small><strong>今晚（美东 8/11 盘后）就是财报，而我持有 1 股、没有止损。</strong>50MA 就贴在头上 -0.43%，财报会一次性决定它站上还是掉下去。</small></td>
+          </tr>
+          <tr>
+            <td class="ctr">8</td><td><strong>MRVL</strong></td><td class="num">3.70</td><td>平台成长（路由、DSP）</td>
+            <td class="num">208.56</td><td class="num dn">-4.65%</td><td class="num up">+7.63%</td><td class="num dn">-36.78%</td>
+            <td class="ma-cell"><b class="up">20MA ▲ +4.75%</b><b class="dn">50MA ▼ -13.45%</b></td>
+            <td>数据中心营收环比走平。<small>我两个账户各持一笔，是这条链上唯一两笔都浮盈的（+4.06% / +7.90%）。8/27 财报。</small></td>
+          </tr>
+          <tr class="row-warn">
+            <td class="ctr">9</td><td><strong>CIEN</strong></td><td class="num">3.53</td><td>系统修复（光传输）</td>
+            <td class="num">387.70</td><td class="num dn">-5.99%</td><td class="num dn">-0.78%</td><td class="num dn">-39.19%</td>
+            <td class="ma-cell"><b class="dn">20MA ▼ -1.02%</b><b class="dn">50MA ▼ -12.32%</b></td>
+            <td>营收 &lt; $1.55B 或毛利 &lt; 43.5%。<small><strong>12 家里唯一 5 日为负、也是唯一跌回 20MA 下方的</strong>——这条链里它是被落下的那一个，不是被错杀的那一个。</small></td>
+          </tr>
+          <tr class="row-warn">
+            <td class="ctr">10</td><td><strong>COHR</strong></td><td class="num">3.50</td><td>等待估值重置（纯光、高资本开支）</td>
+            <td class="num">325.15</td><td class="num dn">-14.24%</td><td class="num up">+12.84%</td><td class="num dn">-26.10%</td>
+            <td class="ma-cell"><b class="up">20MA ▲ +10.18%</b><b class="dn">50MA ▼ -4.91%</b></td>
+            <td>FY27 Q1 指引 &lt; $2.05B。<small>护城河 5.0、成长 5.0，但财务质量 2.5、估值 1.0——<strong>九个月 FCF 约 -$5.37 亿</strong>是老师全篇最硬的一个负面数字。8/12 财报。</small></td>
+          </tr>
+          <tr class="row-warn">
+            <td class="ctr">11</td><td><strong>AAOI</strong></td><td class="num">2.83</td><td>高风险弹性（制造）</td>
+            <td class="num">132.81</td><td class="num dn">-2.08%</td><td class="num up">+20.51%</td><td class="num dn">-43.16%</td>
+            <td class="ma-cell"><b class="up">20MA ▲ +21.17%</b><b class="dn">50MA ▼ -3.41%</b></td>
+            <td>营收 &lt; $250M 或毛利 &lt; 29%。<small><strong>评分倒数第二，5 日涨幅却是全链第一（+20.51%）</strong>，且距 20MA 已 +21.17%。我持有 10 股，止损 123。</small></td>
+          </tr>
+          <tr class="row-warn">
+            <td class="ctr">12</td><td><strong>POET</strong></td><td class="num">1.93</td><td>里程碑投机（硅光）</td>
+            <td class="num">8.56</td><td class="num dn">-3.93%</td><td class="num up">+16.30%</td><td class="num dn">-58.87%</td>
+            <td class="ma-cell"><b class="up">20MA ▲ +10.72%</b><b class="dn">50MA ▼ -12.33%</b></td>
+            <td>营收仍 &lt; $0.5M。<small>五个维度里三项给到 1.0–1.5。老师明确写它「按里程碑管理，不适合用叙事动能持有」——这句话我原样保留。</small></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout"><strong>一处我自己核过的算术：</strong>老师给 AVGO 的五维分我按 25/25/20/20/10 的权重回算，估值维度取 <strong>4.5</strong> 才等于公布的 4.80（取 5.0 会算出 4.90）。其余 11 家全部逐一对得上，所以表里我按 4.5 理解。这不影响排序，只是说明「AVGO 的估值安全边际」这一项在整份表里是唯一一个我没法从外部独立验证的高分。</div>
+    <p class="section-summary"><strong>本段结论：</strong>把评分和均线状态叠在一起看，这 12 家清楚地分成三段——<strong>AVGO／ANET／CRDO 已完成重估</strong>（评分前三 + 20／50MA 双上）、<strong>中间六家（GLW／MTSI／FN／LITE／MRVL／COHR）站上 20MA 但都还压在 50MA 下方</strong>（修复中，且全部要靠 8–9 月的财报裁决）、<strong>CIEN 掉队、AAOI／POET 是弹性交易不是持有标的</strong>。这个分段跟老师的「质量核心／纯成长／高 Beta」三档分法基本重合，唯一的分歧是 CIEN——老师把它放在「纯成长」的边缘，价格把它归到了掉队那一组。</p>
+  </section>
+
+  <section id="test">
+    <div class="kicker">Falsification test</div>
+    <h2>用价格反过来检验这份排序</h2>
+    <p class="section-intro">一份排序值不值得进池子，看的不是它讲得顺不顺，而是它跟已经发生的价格是什么关系。三个相关系数（Spearman 秩相关，n=12）＋一张两天来回表，全部用 8/10 收盘算。</p>
+    <div class="metric-strip">
+      <div><span>评分 vs 距 52 周高</span><strong class="up">ρ = +0.74</strong><small>分数高的本来就离高点近</small></div>
+      <div><span>评分 vs 8/10 单日涨跌</span><strong>ρ = +0.34</strong><small>高分的那天确实更抗跌，但很噪</small></div>
+      <div><span>评分 vs 近 5 日涨幅</span><strong class="dn">ρ = -0.41</strong><small>五天里涨得最猛的是分数最低的</small></div>
+      <div><span>同期 SPY／SMH（8/6→8/10）</span><strong>+0.58% ／ -0.36%</strong><small>光通信的波动不是大盘给的</small></div>
+    </div>
+    <div class="callout warn"><strong>ρ = +0.74 这个数字要怎么用：</strong>它说明这份排序有很大一部分是在<strong>复述已经发生的价格强弱</strong>，不是独立于价格的发现。这不是说它没价值——护城河、毛利结构、FCF 这些判断本身是有信息量的——但它意味着<strong>不能把「老师给了高分」当成「这只还没被市场发现」</strong>。真正独立于价格的部分，是他给出的那组财报门槛（见下一段），因为那些数字还没发生。</div>
+    <h3>8/7 冲高 → 8/10 回吐：两天走了一个来回</h3>
+    <div class="table-scroll">
+      <table class="report-data-table roundtrip-table">
+        <thead><tr><th>标的</th><th class="num">8/6 收盘</th><th class="num">8/7 收盘</th><th class="num">8/7 单日</th><th class="num">8/10 单日</th><th class="num">两日净</th><th>读法</th></tr></thead>
+        <tbody>
+          <tr class="row-warn"><td><strong>COHR</strong></td><td class="num">334.22</td><td class="num">379.13</td><td class="num up">+13.44%</td><td class="num dn">-14.24%</td><td class="num dn">-2.71%</td><td>全链振幅最大的一只，8/12 财报前先被抢跑、再被平掉。</td></tr>
+          <tr><td><strong>LITE</strong></td><td class="num">838.06</td><td class="num">890.17</td><td class="num up">+6.22%</td><td class="num dn">-8.61%</td><td class="num dn">-2.93%</td><td>财报当日标的，8/10 收在 50MA 下方 -0.43%。</td></tr>
+          <tr><td><strong>CRDO</strong></td><td class="num">230.43</td><td class="num">249.89</td><td class="num up">+8.45%</td><td class="num dn">-3.98%</td><td class="num up">+4.12%</td><td>回吐幅度最小的高涨幅股，相对强度真实。</td></tr>
+          <tr><td><strong>AAOI</strong></td><td class="num">124.22</td><td class="num">135.63</td><td class="num up">+9.19%</td><td class="num dn">-2.08%</td><td class="num up">+6.92%</td><td>两天净涨最多的，同时也是评分倒数第二的。</td></tr>
+          <tr><td><strong>POET</strong></td><td class="num">8.53</td><td class="num">8.91</td><td class="num up">+4.45%</td><td class="num dn">-3.93%</td><td class="num up">+0.35%</td><td>评分最低的一只，两天净变动几乎为零——弹性不等于趋势。</td></tr>
+          <tr><td><strong>GLW</strong></td><td class="num">157.18</td><td class="num">165.68</td><td class="num up">+5.41%</td><td class="num dn">-4.78%</td><td class="num up">+0.37%</td><td>整整两天等于没动。</td></tr>
+          <tr><td><strong>MTSI</strong></td><td class="num">301.64</td><td class="num">310.82</td><td class="num up">+3.04%</td><td class="num dn">-4.44%</td><td class="num dn">-1.53%</td><td>冲高幅度小于回吐，5 日 +15.98% 的涨幅主要发生在 8/7 之前。</td></tr>
+          <tr><td><strong>MRVL</strong></td><td class="num">210.54</td><td class="num">218.72</td><td class="num up">+3.89%</td><td class="num dn">-4.65%</td><td class="num dn">-0.94%</td><td>同上，冲高幅度和回吐幅度基本对称。</td></tr>
+          <tr><td><strong>FN</strong></td><td class="num">543.95</td><td class="num">562.38</td><td class="num up">+3.39%</td><td class="num dn">-6.28%</td><td class="num dn">-3.10%</td><td>回吐大于冲高，8/17 财报前先泄压。</td></tr>
+          <tr class="row-warn"><td><strong>CIEN</strong></td><td class="num">403.76</td><td class="num">412.39</td><td class="num up">+2.14%</td><td class="num dn">-5.99%</td><td class="num dn">-3.98%</td><td>两天净跌最多，与它 5 日为负、跌破 20MA 一致。</td></tr>
+          <tr class="row-bull"><td><strong>AVGO</strong></td><td class="num">420.57</td><td class="num">427.76</td><td class="num up">+1.71%</td><td class="num dn">-1.25%</td><td class="num up">+0.44%</td><td>波动最小，行为像大盘不像链条。</td></tr>
+          <tr class="row-bull"><td><strong>ANET</strong></td><td class="num">192.32</td><td class="num">188.67</td><td class="num dn">-1.90%</td><td class="num up">+1.51%</td><td class="num dn">-0.42%</td><td><strong>节奏跟全链完全相反</strong>：别人冲的那天它跌，别人跌的那天它涨。</td></tr>
+          <tr><td>SPY</td><td class="num">768.56</td><td class="num">773.26</td><td class="num up">+0.61%</td><td class="num dn">-0.03%</td><td class="num up">+0.58%</td><td>基准，两天几乎不动。</td></tr>
+          <tr><td>SMH</td><td class="num">571.48</td><td class="num">582.70</td><td class="num up">+1.96%</td><td class="num dn">-2.28%</td><td class="num dn">-0.36%</td><td>半导体整体也没解释力，光通信是自己在动。</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="section-summary"><strong>本段结论：</strong>8/7 那根不是重估，是财报周的抢跑仓位；8/10 原样还了回去，12 家里 8 家两日净变动落在 ±3% 以内，只有 CRDO（+4.12%）和 AAOI（+6.92%）真正留下了涨幅。<strong>所以「光通信链走强」这句话在 8/10 收盘之后已经不能再用 5 日涨幅来支撑了</strong>——真正还站得住的相对强度只有三个：ANET（逆节奏）、CRDO（回吐最小）、AVGO（低波动）。这三个恰好是老师排序的前三名，也是唯三站上 50MA 的。<strong>这是这份排序在价格上唯一一处真正被确认的地方，其余部分要等财报。</strong></p>
+  </section>
+
+  <section id="gates">
+    <div class="kicker">Earnings gates</div>
+    <h2>逐家财报门槛：老师给的 beat／警戒线</h2>
+    <p class="section-intro">
+      这一段是整份报告里对我最有用的部分，因为它是<strong>事前写死的、可证伪的数字</strong>，不依赖价格。
+      表格内容为老师报告口径，我没有改动任何阈值。财报日期栏：LITE 8/11、COHR 8/12、FN 8/17 三家我已用 Nasdaq 官方日历独立核对一致；
+      POET 8/12 是老师报告口径，Nasdaq 日历未收录（该日历只覆盖正式排定的财报日，历来会漏掉小市值与临时披露）。
+    </p>
+    <div class="table-scroll">
+      <table class="report-data-table gate-table">
+        <thead><tr><th>标的</th><th>财报日（美东）</th><th>季度</th><th>公司指引</th><th>老师的预测</th><th class="nowrap">Beat 条件</th><th>论点警戒线（Miss）</th></tr></thead>
+        <tbody>
+          <tr class="row-warn"><td><strong>LITE</strong></td><td><strong>08/11 盘后</strong><small>新加坡 8/12 凌晨</small></td><td>FY26 Q4</td><td>营收 $960M–1.01B；EPS $2.85–3.05</td><td>营收 $995M；EPS $3.05</td><td>营收 &gt; $950M <strong>且</strong> 毛利率 ≥ 44%</td><td>营收 &lt; $950M <strong>或</strong> 毛利率 &lt; 44%</td></tr>
+          <tr class="row-warn"><td><strong>COHR</strong></td><td><strong>08/12 盘后</strong></td><td>FY26 Q4</td><td>营收 $1.91–2.05B；毛利率 39–41%</td><td>营收 $2.03B；毛利率 40.3%；EPS $1.69</td><td>D&amp;C 增长 <strong>且</strong> 经营现金流转正</td><td>FY27 Q1 指引 &lt; $2.05B</td></tr>
+          <tr><td><strong>POET</strong></td><td>08/12<small>老师口径，未经日历核对</small></td><td>2026 Q2</td><td>上季：营收 $0.50M；净亏 -$12.3M</td><td>营收约 $0.7M；净亏 -$12～15M</td><td>批量出货 + 订单转化</td><td>营收 &lt; $0.5M <strong>且</strong> 里程碑延迟</td></tr>
+          <tr class="row-warn"><td><strong>FN</strong></td><td><strong>08/17</strong></td><td>FY26 Q4</td><td>营收 $1.25–1.29B；EPS $3.72–3.87</td><td>营收 $1.285B；EPS $3.85</td><td>光通信营收 + 资本开支可控 + FCF 转正</td><td>经营利润率 &lt; 9.5% <strong>或</strong> FCF 再度转负</td></tr>
+          <tr><td><strong>MRVL</strong></td><td>08/27</td><td>FY27 Q2</td><td>营收 $2.70B±5%；EPS $0.93±0.05</td><td>营收 $2.74B；EPS $0.95</td><td>光电 + 定制 XPU 同步加速</td><td>数据中心营收环比走平</td></tr>
+          <tr><td><strong>CRDO</strong></td><td>09/02</td><td>FY27 Q1</td><td>营收 $465–475M；毛利率 67–69%</td><td>营收 $473M；毛利率 68.3%</td><td>AEC + 新产品贡献</td><td>营收 &lt; $460M <strong>或</strong> 毛利率 &lt; 66%</td></tr>
+          <tr><td><strong>AVGO</strong></td><td>09/03</td><td>FY26 Q3</td><td>营收约 $29.4B；EBITDA 约 68%</td><td>营收 $29.6B；EBITDA 68.5%</td><td>AI 网络 + 定制芯片订单</td><td>AI 半导体 &lt; $15.5B</td></tr>
+          <tr><td><strong>CIEN</strong></td><td>09/03</td><td>FY26 Q3</td><td>营收 $1.625B±$50M；毛利率 45%±0.5%</td><td>营收 $1.65B；毛利率 45.2%</td><td>云 DCI + 光网络产品结构</td><td>营收 &lt; $1.55B <strong>或</strong> 毛利率 &lt; 43.5%</td></tr>
+          <tr><td><strong>MTSI</strong></td><td>—<small>老师报告未列</small></td><td>FY26 Q4</td><td>营收 $415–425M；EPS $1.97–2.03</td><td>营收 $423M；EPS $2.03</td><td>毛利率 60% + 订单延续</td><td>营收 &lt; $405M <strong>或</strong> 毛利率 &lt; 58%</td></tr>
+          <tr><td><strong>AAOI</strong></td><td>—<small>老师报告未列</small></td><td>2026 Q3</td><td>营收 $255–290M；EPS $0.11–0.26</td><td>营收 $275M；EPS $0.20</td><td>800G 量产良率 + 毛利修复</td><td>营收 &lt; $250M <strong>或</strong> 毛利率 &lt; 29%</td></tr>
+          <tr><td><strong>ANET</strong></td><td>已于 08/04 公布</td><td>2026 Q3 指引</td><td>Q2 已进入约 $3B 季度</td><td>约 $3.20B；non-GAAP 经营利润率约 47%</td><td>1.6T + AI 以太网加速</td><td>营收环比增长 &lt; 3%</td></tr>
+          <tr><td><strong>GLW</strong></td><td>10/27</td><td>2026 Q3</td><td>核心销售 $4.9–5.0B；核心 EPS $0.85–0.89</td><td>核心销售 $4.98B；核心 EPS $0.89</td><td>光通信双位数增长 + 太阳能盈利改善</td><td>核心销售 &lt; $4.9B <strong>或</strong> 光通信环比转负</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout"><strong>三层判读法（老师的方法论，本周直接拿来用）：</strong>①<strong>需求</strong>——800G／1.6T 出货与数据中心营收是否加速；②<strong>质量</strong>——毛利改善来自良率／产品结构，还是一次性项目；③<strong>现金</strong>——资本开支拉起来之后，经营现金流跟不跟得上盈利。<strong>本周这三份财报要看的重点全在第②③层，第①层已经不用再证明了。</strong></div>
+    <p class="section-summary"><strong>本段结论：</strong>LITE 的门槛最干净（营收 $950M + 毛利 44% 两条硬线），COHR 的门槛最不看当季看指引（FY27 Q1 &lt; $2.05B 就算未达），FN 的门槛干脆不看营收看现金流（经营利润率 9.5% 与 FCF 是否转正）。<strong>三家三种判据，正好对应老师说的「需求／质量／现金」三层——这周等于是把这条链的三个层次分三天各测一次。</strong></p>
+  </section>
+
+  <section id="book">
+    <div class="kicker">Position cross-check</div>
+    <h2>对照我自己的持仓：12 家里我占了 5 个</h2>
+    <p class="section-intro">持仓来自 tradebook，现价与 ATR 为长桥 2026-08-10 收盘口径。「距止损」按 ATR 归一（1×ATR 是我现在用的通用否决线，8/10 刚从固定 1.5% 改过来）。</p>
+    <div class="table-scroll">
+      <table class="report-data-table book-table">
+        <thead><tr><th>标的</th><th>账户</th><th class="num">股数</th><th class="num">成本</th><th class="num">8/10 收盘</th><th class="num">浮动盈亏</th><th class="num">距止损</th><th>老师排名 → 我该注意什么</th></tr></thead>
+        <tbody>
+          <tr class="row-warn"><td><strong>LITE</strong></td><td>moomoo</td><td class="num">1</td><td class="num">842.10</td><td class="num">813.51</td><td class="num dn">-3.40%</td><td class="dn"><strong>无止损</strong></td><td><strong>第 7／12（3.93）</strong>。<small><span class="badge red">待补失效条件</span> 今晚就是财报，而这笔既没有止损也没有事件退出规则。仓位只有 1 股、金额 $814，所以这不是风险问题是纪律问题——但门槛是现成的（营收 $950M／毛利 44%），可以直接当作论点失效条件写进去。</small></td></tr>
+          <tr class="row-warn"><td><strong>GLW</strong></td><td>longbridge</td><td class="num">40</td><td class="num">163.02</td><td class="num">157.76</td><td class="num dn">-3.23%</td><td class="dn"><strong>无止损</strong></td><td>第 4／12（4.13）。<small><span class="badge red">待补失效条件</span> $6,310，是我这条链上最大的一笔，也是没有止损的两笔之一。10/27 才财报，中间两个半月完全靠结构位守——50MA 在上方 -11.68% 处，20MA 在下方，短期最自然的失效位是 20MA。</small></td></tr>
+          <tr><td><strong>ANET</strong></td><td>moomoo</td><td class="num">25</td><td class="num">195.33</td><td class="num">191.52</td><td class="num dn">-1.95%</td><td class="num"><strong>2.10%</strong><small>= 0.37 ATR</small></td><td><strong>第 2／12（4.38）</strong>。<small><span class="badge amber">距止损 &lt;1 ATR</span> 止损 187.50 只在 0.37 ATR 外，以 ANET 5.70% 的日 ATR，这个距离随时会被正常波动扫掉。它同时是我持仓里老师评分最高的一只。</small></td></tr>
+          <tr><td><strong>MRVL</strong></td><td>longbridge</td><td class="num">19</td><td class="num">200.41</td><td class="num">208.56</td><td class="num up">+4.06%</td><td class="num"><strong>4.20%</strong><small>= 0.45 ATR</small></td><td>第 8／12（3.70）。<small><span class="badge amber">距止损 &lt;1 ATR</span> 止损 199.80 贴着成本，同样在 1 ATR 内（ATR 9.25%）。8/27 财报。</small></td></tr>
+          <tr><td><strong>MRVL</strong></td><td>moomoo</td><td class="num">12</td><td class="num">193.30</td><td class="num">208.56</td><td class="num up">+7.90%</td><td class="num">22.32%<small>= 2.41 ATR</small></td><td>同上。<small>这笔止损 162 反而放得过开——同一个标的两个账户两套止损，差了 5 倍 ATR。</small></td></tr>
+          <tr><td><strong>AAOI</strong></td><td>moomoo</td><td class="num">10</td><td class="num">137.03</td><td class="num">132.81</td><td class="num dn">-3.08%</td><td class="num">7.39%<small>= 0.59 ATR</small></td><td class="dn"><strong>第 11／12（2.83）</strong>。<small><span class="badge amber">距止损 &lt;1 ATR</span> 老师明确把它归为「按里程碑管理、不适合叙事动能持有」的高 Beta 档，财务质量 1.5、估值 1.0。而它是我这条链上 5 日涨幅最大的一只（+20.51%）、距 20MA 已 +21.17%。<strong>我持有的这只，恰好是老师排序里最不该长期持有的那一类。</strong></small></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout risk"><strong>持仓与排序的错位（这段是提醒，不是闸门）：</strong>我在这条链上的 6 笔里，评分最高的两只（AVGO 4.80、CRDO 4.25）一股没有，而评分倒数第二的 AAOI 有仓位；两笔无止损（LITE、GLW）都落在中段，三笔止损在 1 ATR 内（ANET 0.37、MRVL-LB 0.45、AAOI 0.59）。<strong>今晚 LITE 财报之前唯一值得做的一件事，是给 LITE 和 GLW 各写一条失效条件</strong>——LITE 可以直接用老师的营收／毛利双线，GLW 用 20MA。</div>
+    <p class="section-summary"><strong>本段结论：</strong>老师这份排序对我最直接的用处不是「买哪只」，而是<strong>把我已经持有的 5 只按质量重新排了一次序</strong>：ANET 是质量核心（该给它更宽的止损而不是 0.37 ATR）、MRVL／GLW／LITE 是修复中的第二层（要靠财报裁决）、AAOI 是里程碑交易（该有明确的退出日期而不是只有价格止损）。</p>
+  </section>
+
+  <section id="signals">
+    <div class="kicker">Tracking &amp; falsification</div>
+    <h2>未来 2–4 个季度的追踪信号</h2>
+    <div class="table-scroll">
+      <table class="report-data-table signal-table">
+        <thead><tr><th>信号</th><th class="ctr">当前状态</th><th>含义</th><th>我的验证口径</th></tr></thead>
+        <tbody>
+          <tr><td><strong>1.6T 从送样转为量产收入</strong></td><td class="ctr"><span class="badge amber">进行中</span></td><td>LITE／COHR／AAOI／FN 必须给出实际出货，不能只有认证。</td><td>本周三份财报的产品结构披露；只看营收不看认证公告。</td></tr>
+          <tr class="row-warn"><td><strong>毛利扩张能否传导到经营现金流</strong></td><td class="ctr"><span class="badge red">已背离</span></td><td>COHR、FN 出现 EPS 增长但 FCF 为负；连续两个季度即为红旗。</td><td>COHR 8/12、FN 8/17 的现金流量表——这是本周最重要的一格。</td></tr>
+          <tr><td><strong>客户集中度</strong></td><td class="ctr"><span class="badge amber">上升</span></td><td>四家云厂给速度，也给替换风险。</td><td>10-Q 的客户集中度披露；FN 尤其要看。</td></tr>
+          <tr><td><strong>CPO／NPO 对可插拔模块的挤压</strong></td><td class="ctr"><span class="badge blue">中期未决</span></td><td>赢家需要「激光器 + DSP／SerDes + 封装」或整机系统栈。</td><td>这条本季不会有答案，只做记录，不据此调仓。</td></tr>
+          <tr><td><strong>库存增速 vs 营收增速</strong></td><td class="ctr"><span class="badge blue">待数据</span></td><td>库存连续数季跑赢营收＝良率或吸收率有问题。</td><td>资产负债表逐季比对，从本周三份开始建序列。</td></tr>
+          <tr class="row-warn"><td><strong>估值对 FY29 倍数的依赖</strong></td><td class="ctr"><span class="badge red">风险上升</span></td><td>如果要拿 2029 年的数字才能justify入场，说明容错已经很薄。</td><td>老师给 9/12 家的估值维度 ≤2.5 分，这条已经成立。</td></tr>
+          <tr><td><strong>GLW 长约转化</strong>（Amazon／NVIDIA／Meta）</td><td class="ctr"><span class="badge blue">待兑现</span></td><td>需要实际光纤／连接器收入，不是公告加资本开支承诺。</td><td>10/27 GLW 财报的光通信分部环比。</td></tr>
+          <tr class="row-warn"><td><strong>$735–760B 云资本开支被下修</strong></td><td class="ctr"><span class="badge red">看门狗</span></td><td><strong>下修 &gt;10% ＝ 早期衰退信号，触发全链降级。</strong></td><td>四家云厂下一轮财报的 capex 指引；这是整条叙事的总开关。</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <h3>整条叙事的失效条件</h3>
+    <div class="action-directive">
+      <span class="ad-label">证伪顺序</span>
+      <ul class="ad-list">
+        <li class="ad-primary"><strong>先看现金：</strong>COHR 8/12、FN 8/17 的经营现金流。EPS 增长 + FCF 连续两季为负 → 这条链从「成长」降级为「资本开支陷阱」。</li>
+        <li class="ad-secondary"><strong>再看门槛：</strong>LITE 营收 $950M／毛利 44%、COHR FY27 Q1 指引 $2.05B、FN 经营利润率 9.5%——三条硬线，谁破谁的论点作废，不做「虽然但是」。</li>
+        <li class="ad-watch"><strong>然后看结构：</strong>中段六只（GLW／MTSI／FN／LITE／MRVL／COHR）能否站上 50MA。目前一只都没有，站上才算修复完成。</li>
+        <li class="ad-avoid"><strong>避免：</strong>用 5 日涨幅当作叙事被确认的证据——已经验证方向是反的（ρ = -0.41）；也避免拿 AAOI／POET 的弹性当作全链强度。</li>
+        <li class="ad-invalidate"><strong>总开关：云资本开支指引下修 &gt;10% → 整条叙事降级，不再区分层次。</strong></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="boundary">
+    <div class="kicker">Provenance</div>
+    <h2>口径与边界：哪些是老师的，哪些是我加的</h2>
+    <div class="table-scroll">
+      <table class="report-data-table report-cols-3">
+        <thead><tr><th>内容</th><th>来源</th><th>口径日 / 说明</th></tr></thead>
+        <tbody>
+          <tr><td>需求闭环三项外部数据、六层价值链、十二档评分与定位、逐家财报门槛、八条追踪信号</td><td><span class="badge blue">老师 8/10 报告</span></td><td>原文口径，我没有改动任何数字或阈值；本页做的是结构化摘录与转述，不是全文转载，完整论证请看原报告。</td></tr>
+          <tr><td>收盘价、当日／5 日／21 日涨跌、距 52 周高、20／50MA 距离、RSI、ATR、Weinstein 阶段</td><td><span class="badge green">长桥 OpenAPI（本地缓存）</span></td><td><strong>一律 2026-08-10 收盘，前复权。</strong>不含任何盘前价。</td></tr>
+          <tr><td>8/6／8/7 收盘与两日来回表</td><td><span class="badge green">Yahoo Finance 日线（交叉核对）</span></td><td>与长桥 8/10 数据独立对过一次：COHR -14.24%、LITE -8.61% 两源一致。</td></tr>
+          <tr><td>三个 Spearman 秩相关（+0.74／+0.34／-0.41）</td><td><span class="badge amber">我方计算</span></td><td>n=12，用老师的加权总分与我方 8/10 数据算；样本只有 12 只，只能读方向不能当统计检验。</td></tr>
+          <tr><td>LITE 8/11、COHR 8/12、FN 8/17 财报日</td><td><span class="badge green">Nasdaq 官方日历（独立核对）</span></td><td>与老师报告一致。POET 8/12 未在该日历中，保留老师口径并标注。</td></tr>
+          <tr><td>AVGO 估值维度按 4.5 理解</td><td><span class="badge amber">我方回算</span></td><td>按 25/25/20/20/10 权重反推得 4.80；其余 11 家五维分与总分全部对得上。</td></tr>
+          <tr><td>持仓、成本、止损</td><td><span class="badge green">tradebook</span></td><td>截至本页生成时。持仓只认 tradebook，不查 moomoo CSV、不调 MCP 持仓接口。</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout warn"><strong>这份专题不做的事：</strong>不给入场价、目标价与仓位。老师原报告本身也明确写了「这不是一份『买入所有光通信』的清单，而是一套分层风险分类」——我把这句话原样保留在这里。本页的用途是：把这条主线的<strong>可证伪门槛</strong>固定下来，让本周三份财报出来的时候，我是在对照一张事前写好的表，而不是当场找理由。</div>
+  </section>
+
+  <section class="sources">
+    <h2>资料来源</h2>
+    <ul>
+      <li><strong>叙事主线原始出处：</strong><a href="https://sintszkay.github.io/market-reports/reports/2026-08-10-optical-communications-deep-dive-special.html" target="_blank" rel="noopener">《美股光通信深度专题》2026-08-10（老师）</a>——六层价值链、十二档评分、逐家财报门槛与八条追踪信号均出自该报告。</li>
+      <li><strong>价格与技术指标：</strong>长桥 OpenAPI 前复权日线，本地缓存 <code>data/cache/market_20260811.json</code>（data_date = 2026-08-10）。</li>
+      <li><strong>独立交叉核对：</strong>Yahoo Finance 日线（8/6–8/10 收盘）；<a href="https://api.nasdaq.com/api/calendar/earnings" target="_blank" rel="noopener">Nasdaq 官方财报日历</a>（LITE 8/11、COHR 8/12、FN 8/17）。</li>
+      <li><strong>老师报告引用的第三方数据：</strong>LightCounting（Q1 2026 光模块／AOC 销售、2025 年约 30% 供给缺口）、Dell'Oro（800G+ 交换）、IEA 2026 更新与美国能源部（数据中心用电）——这些我没有独立核对，采用老师口径。</li>
+      <li><strong>关联专题：</strong><a href="2026-08-05-ai-network-fabric-special.html">《AI 网络层成为新瓶颈：Ethernet Fabric》2026-08-05</a>——本页的第二层／第五层分工与那份的「价值捕获在链路不在机箱」是同一条主线的延续。</li>
+    </ul>
+    <p class="source-note"><strong>限制：</strong>本页对老师报告的部分是结构化摘录与转述，不是完整论证的替代品；老师报告中引用的第三方行业数据（LightCounting／Dell'Oro／IEA／DOE）我未做独立核对。Spearman 相关系数样本仅 12 只，只用于判断方向。所有价格口径统一为 2026-08-10 收盘，8/11 及之后的行情、以及 LITE 8/11 盘后财报的结果均不在本页内——财报出来后在当日盘后报告里对账，不回头改本页数字。本报告不构成投资建议。</p>
+  </section>
+</main>
+<script src="report-runtime.js?v=20260811-optical-narrative"></script>
+</body>
+</html>
