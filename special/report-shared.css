@@ -964,3 +964,23 @@ body.flat-report{
   .flat-report .macro-policy-overview>div:last-child{border-bottom:0}
   .bar-row{grid-template-columns:88px 54px minmax(140px,1fr)}
 }
+
+/* ═══ 2026-08-22 排版对齐（Vic：「老师的空行和格式让我阅读很舒服，我总觉得我的报告字太多而且挤在一起」）
+   实测老师那份：line-height 1.95 / 17px / 字距 .015em / 段后 1.5rem / h3 上留白 3rem /
+   章节上下 4.5rem / 容器 60rem 且正文另限 34em；我们原来是 1.58 / 16px / 无字距 / 容器 1180px 无限宽。
+   🔴 根因是**行宽**不是行高：1180px 一行排 68 个中文字，是他的两倍。
+   我们的表列多，容器收窄会挤 —— 所以容器保持宽，只给正文限宽。 ═══ */
+:root{ --measure:38em; }
+body{ font-size:17px; line-height:1.9; letter-spacing:.015em; }
+p{ margin:0 0 1.5rem; max-width:var(--measure); }
+li{ margin:0 0 .6rem; max-width:var(--measure); }
+h1{ line-height:1.35; max-width:24em; letter-spacing:.01em; }
+h2{ line-height:1.5; margin:64px 0 26px; letter-spacing:.02em; }
+h3{ margin:44px 0 14px; letter-spacing:.03em; }
+section{ padding:8px 0 40px; }
+.section-intro{ max-width:var(--measure); }
+.callout{ padding:22px 24px; margin:20px 0 32px; }
+.callout p{ max-width:var(--measure); }
+th,td{ line-height:1.75; padding:13px 13px; }
+/* 表格不限宽 —— 限宽只作用于成段的文字 */
+table,.table-scroll,.grid,.card,.metric-strip{ max-width:none; }
