@@ -47,14 +47,27 @@
 }
 
 *{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
+
+/* 🔴 2026-08-23 Vic：「我的屏幕超级宽，能不能整体改宽点」。
+   **不能只把容器拉宽**——行宽一超过 45 个中文字阅读就开始累，
+   这也正是当初给日报定 38em 的原因（根因是行宽不是行高）。
+   做法是**容器和字号一起放大，行宽保持不变**：
+   全表尺寸都走 rem，只调根字号，容器、字号、间距、表格 min-width 一起等比放大。
+     根 16px → 容器 864px、正文 17px、一行约 47 字
+     根 17px → 容器 918px、正文 18.1px、一行仍约 47 字（≥1600px 屏）
+     根 18px → 容器 972px、正文 19.1px、一行仍约 47 字（≥2000px 屏）
+   在他那块 2000px 的屏上，版心比原来宽 170px、字大 2px，而行宽一个字没多。 */
+html{-webkit-text-size-adjust:100%;font-size:16px}
+@media (min-width:1600px){ html{font-size:17px} }
+@media (min-width:2000px){ html{font-size:18px} }
+
 body{
   margin:0;
   background:var(--paper);
   color:var(--ink);
   font-family:var(--serif);
   font-weight:400;
-  font-size:17px;
+  font-size:1.0625rem;      /* 根 16px 时正好 17px，跟着根一起放大 */
   line-height:1.95;
   letter-spacing:.015em;
 }
@@ -64,11 +77,10 @@ body{
    正文短出来的那一截读作留白。我们的专题几乎每节都跟着一张满宽的表，
    于是同一页上存在五种右边缘：正文 704 / 导语 34em / callout 776 / 卡片和表格 896——
    参差就是这么来的。
-   改法：**把容器收到正文该有的宽度，然后所有块都占满它**。
-   50rem 减去左右 2rem 内边距 = 736px，17px 中文一行约 43 个字，
-   跟老师那份的 41 个字基本一样——阅读宽度没变，但从此只有一条右边缘。
+   改法：**把容器收到正文该有的宽度，然后所有块都占满它**——从此只有一条右边缘。
+   宽度由上面那段的根字号联动控制。
    （表格全部验过放得下：七列表实测需要 735px。） */
-.wrap{max-width:50rem;margin:0 auto;padding:0 2rem 8rem}
+.wrap{max-width:54rem;margin:0 auto;padding:0 2rem 8rem}
 
 /* ---------- 报头 ---------- */
 header{padding:7rem 0 3.5rem;border-bottom:1px solid var(--rule)}
@@ -253,7 +265,7 @@ section#boundary .muted:last-child{
 
 /* ---------- 窄屏 ---------- */
 @media (max-width:640px){
-  body{font-size:16px}
+  body{font-size:1rem}
   .wrap{padding:0 1.35rem 5rem}
   header{padding:4rem 0 2.5rem}
   h1{max-width:none}
