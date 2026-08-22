@@ -40,6 +40,20 @@ a{color:var(--blue)}
 .result-miss{color:var(--red);background:var(--red-bg)}
 .result-partial{color:var(--amber);background:var(--amber-bg)}
 
+/* 2026-08-23：报告间格式漂移的补丁。日报走 templates/report.css（内联），专题走这份
+   report-shared.css，两份是手工同步的，`.ctr` / `tr.row-bull` / `tr.row-warn` 只加进了前者。
+   结果是 2026-08-22 那篇长端专题里的分组底色和居中列**全部静默失效**——页面照常渲染，
+   只是配色没上，肉眼很难发现。这里按 report.css 原样补齐。
+   注意 `.ctr` 要写成表内选择器：上面的 `.report-data-table td:not(.num):not(:last-child)`
+   特异性比裸 `.ctr` 高，只写 `.ctr{text-align:center}` 会被它盖掉。 */
+.ctr,.report-data-table th.ctr,.report-data-table td.ctr{text-align:center}
+tr.row-bull td{background:var(--green-bg)}
+tr.row-warn td{background:var(--red-bg)}
+/* 这两个是专题页自己发明的、report.css 里也没有的：正文导语、答案先行的编号列表。 */
+.lede{max-width:var(--measure);font-size:15px}
+.answer-list{max-width:var(--measure);padding-left:1.2em}
+.answer-list>li{margin:0 0 14px}
+
 .report-data-table{table-layout:fixed}
 .report-data-table th,.report-data-table td{padding-left:14px;padding-right:14px}
 .report-cols-3 th:first-child{width:22%}.report-cols-3 th:last-child{width:39%}
