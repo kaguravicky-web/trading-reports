@@ -570,6 +570,15 @@ a:hover{text-decoration:underline}
   border-radius:999px;border:1px solid var(--line);background:var(--panel);color:var(--muted)}
 .filters button.on{background:var(--blue);border-color:var(--blue);color:#fff}
 
+/* 🔤 2026-08-23 Vic：「x 的也没对齐」。跟索引页同一个病：
+   顶部 callout 来自 report.css 的 max-width:calc(--measure + 12em) = 850px，
+   而推文卡片 .tw 没限宽，撑满 1160 容器的 1120px —— **同一页两种盒子宽度**。
+   修法跟索引页一致：**限宽收在容器上，让所有盒子共用一条边**，不给盒子各自限宽。
+   算式：wrap 780 − padding 40 = 740 一条边；callout 取 min(850,740)=740，
+   推文卡片也是 740；卡片正文 = 740 − 32 padding − 62 时间列 − 14 gap = 632px，
+   14.5px 字号 → 每行约 43 字。 */
+.wrap{max-width:780px}
+
 .run{margin:0 0 26px}
 .run-bar{display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;padding:11px 16px;
   background:#e7ecf3;border:1px solid #d5dde7;border-radius:12px;margin-bottom:12px}
