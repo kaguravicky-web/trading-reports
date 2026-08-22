@@ -44,9 +44,9 @@ body{margin:0;background:linear-gradient(180deg,#fbfbfd 0,var(--bg) 300px);color
      · 表格层 = 走满容器，表本来就该宽
    两层**共用左边缘**，右边缘表格更长 —— 这是正常的编辑排版，不是没对齐。
    老师那份的正文参数一并照抄：17px / 行高 1.95 / 段后 24px。 */
-.wrap{max-width:1340px;margin:0 auto;padding:40px 32px 72px}
-:root{--measure:836px}          /* 老师 8/21 专题实测的段落宽度 */
-p,.callout,.outlook-list,.ad-list,.entry-legend{max-width:var(--measure)}
+.wrap{max-width:1200px;margin:0 auto;padding:40px 32px 72px}
+:root{--measure:none}   /* 2026-08-23 Vic：一个宽度贯到底，谁都不单独限宽 */
+p,.callout,.outlook-list,.ad-list,.entry-legend,table{max-width:none;width:100%}
 body{line-height:1.95}
 p{margin:0 0 24px}
 /* 表格：走满容器；数字列一律不许在数字和单位之间断开 */
@@ -612,6 +612,18 @@ th,td{padding:16px 16px;line-height:1.8}
 .iter-table td,.iter-table .it-lesson,.iter-table .it-rule{font-size:14.5px;line-height:1.85;padding:16px}
 .iter-table th{font-size:13px;padding:12px 16px}
 .brier-line{font-size:15px;line-height:1.9}
+
+/* 🔤 2026-08-23 定案（Vic：「我要改成一样宽，我需要报告右边对齐，不要再参考老师了，
+   我需要右边也对齐，所以区域左右一样宽才对」）。
+   前五轮一直在两个目标之间来回：一边想要老师那种舒服的正文行宽（836px），
+   一边想要宽表不被挤。折中的结果是**文字 836 / 表格 371~1276**，右边全是参差的。
+   **Vic 的判断是对的：一份报告的可读性，边缘整齐比单行字数更重要。**
+   现在只有一个宽度：容器 1200 − padding 64 = **内容 1136px**，
+   段落 / callout / 列表 / 全部表格一律 100%，左右两边都落在同一条线上。
+   （表格因此拿回 1136px，比 Vic 用了几周的那版 1120px 还宽一点，不会再挤。）
+   行距 1.95、段距 24px、td padding 16px 这些留白参数保留 —— 那几条本来就是对的。 */
+.wrap > *, .callout, table, .outlook-list, .ad-list, .grid, .checks{max-width:none;width:100%}
+h1{max-width:none}
 
 
 a{color:var(--blue);text-decoration:none}
