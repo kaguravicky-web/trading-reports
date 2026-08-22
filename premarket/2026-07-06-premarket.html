@@ -648,6 +648,40 @@ h1{max-width:none}
 .action-directive strong, .action-directive b,
 .callout.co-amber strong, .callout.co-amber b{font-weight:700}
 
+/* 🔤 2026-08-23 Vic：「周报感觉字体挺不统一的，和日报差很多」。
+   量下来主字号规格其实一样（表格 14/1.8、正文 17/1.95、H2 26）——
+   不统一来自**周报独有的四个小组件**：trend-tag 12px、risk-label 13.5px、
+   type-col 12.5px、strong.up 18px。它们夹在 14px 表格和 17px 正文之间，
+   一页里出现 5 个相邻但不相等的字号，读起来就是"花"。
+   收敛到共用的三档：标签 13px / 表格 14px / 正文 17px。 */
+.trend-tag,.risk-label{font-size:13px;line-height:1.8}
+.type-col{font-size:14px;line-height:1.8}
+strong.up,strong.down{font-size:inherit}
+
+/* 🔤 2026-08-23 Vic：「标签溢出了」。.toc 是 flex + overflow-x:auto 的单行横向滚动条，
+   章节一多就有一半藏在右边看不见（而且滚动条被 ::-webkit-scrollbar{height:0} 隐藏了，
+   连"可以滑"这个提示都没有）。改成允许换行：宁可占两行，也不要藏起来。 */
+.toc{flex-wrap:wrap;overflow-x:visible;row-gap:3px;padding-bottom:8px}
+
+/* 「本周五个核心结论」（Vic：「一堆黑字在一起一整块，又长又多」）。
+   builder 本来就支持「标题句|支撑句」拆成 kt-head / kt-body，只是我一直没用竖线，
+   五条全写成一整坨。这里把两层的视觉差拉开：标题句大一号，支撑句降到 15px 常规字重，
+   并且**支撑句里的粗体不再加粗**（一段里再嵌粗体就又变成黑块了）。 */
+.kt-head{font-weight:700;font-size:17.5px;line-height:1.9;display:block}
+.kt-body{margin-top:10px;color:var(--text);font-size:15px;line-height:1.95;font-weight:400}
+.kt-body strong,.kt-body b{font-weight:600}
+.kt-item{margin:0 0 30px}
+
+/* 回到顶部（Vic：「日报周报都增加中途 back to top」）——报告很长，
+   目录在顶部 sticky，但滚到一半想回去只能一直往上滑。 */
+#to-top{position:fixed;right:26px;bottom:26px;z-index:60;display:none;
+  width:44px;height:44px;border-radius:50%;border:1px solid var(--line);
+  background:#fff;color:var(--muted);font-size:18px;line-height:1;cursor:pointer;
+  box-shadow:0 8px 22px rgba(15,23,42,.14)}
+#to-top:hover{color:var(--blue);border-color:#c3d6f5}
+#to-top.on{display:block}
+@media(max-width:640px){#to-top{right:14px;bottom:14px}}
+
 </style>
 </head>
 <body data-report-type="premarket"><main class="wrap">
@@ -675,5 +709,5 @@ h1{max-width:none}
   目标/等待：仓位上限按纪律执行
 </div><h3 style="margin-top:24px">盘后对账清单</h3><table class="ledger-table fixed-cols"><colgroup><col style="width:34%"><col style="width:30%"><col style="width:11%"><col style="width:25%"></colgroup><thead><tr><th>今日预判</th><th>触发/阈值（可证伪）</th><th class="nowrap" style="text-align:center">事前概率</th><th class="nowrap">收盘核对</th></tr></thead><tbody><tr><td>半导体今日盘前反弹是真实企稳信号（情景A早期）</td><td>SMH开盘30分钟内是否维持涨幅（不被回吐超50%）；收盘是否重返20MA $617.88附近</td><td style="text-align:center"><span class="neg">缺</span></td><td class="pending">（盘后填）</td></tr><tr><td>ML Leader反转，ASX/STM符合领袖行为、率先企稳</td><td>两者今日收盘是否继续跑赢QQQ且不破位</td><td style="text-align:center"><span class="neg">缺</span></td><td class="pending">（盘后填）</td></tr><tr><td>risk-off轮动出现反转（避险股走平/回落）</td><td>KO/TLT收盘是否继续走弱、避险篮子是否整体转跌</td><td style="text-align:center"><span class="neg">缺</span></td><td class="pending">（盘后填）</td></tr><tr><td>攻守记分板即将满足全部升级条件</td><td>SPY收盘是否站上$748且QQQ收盘是否站上$728</td><td style="text-align:center"><span class="neg">缺</span></td><td class="pending">（盘后填）</td></tr><tr><td>维持医疗XLV/金融XLF仓位不变</td><td>两者今日收盘vs QQQ超额是否仍为正</td><td style="text-align:center"><span class="neg">缺</span></td><td class="pending">（盘后填）</td></tr><tr><td>不追半导体缺口的纪律</td><td>今日是否有半导体相关标的被计划外建仓（有=纪律失误）</td><td style="text-align:center"><span class="neg">缺</span></td><td class="pending">（盘后填）</td></tr></tbody></table></section>
 <footer class="source"><p>数据来源：LongBridge OpenAPI（真实持仓+盘前quote，2026-07-06美东06:40左右）、FRED（10Y/2Y/VIX官方数据，截至7/1）、investing.com（DXY/MOVE/VIX9D/期货ES-NQ-YM-RTY/黄金/铜/WTI/BTC/ETH/亚洲指数，均核对lastUpdateTime）、CNN官方Fear&amp;Greed接口（真实盘前）、Vic的Google Sheet（板块ETF/市场广度/50MA真实值）、Stockbee公开表（T2108/5日10日ratio）、Adanos Top100真实API、SEC 13D/13G官方atom订阅（今日早盘查询无新申报，属正常）、FINRA做空成交量/短仓API、iborrowdesk借券费率（ML Leader全部借券费率低于0.65%，无轧空压力）。X观点池本次用Claude in Chrome实际抓取（14账号组合搜索），筛出3条实质内容。13F/国会议员交易/轧空扫描均无触发标的。本报告不构成投资建议。</p></footer>
-</main></body>
+</main><button id="to-top" title="回到顶部" aria-label="回到顶部">&#8593;</button><script>(function(){var b=document.getElementById("to-top");function t(){b.classList.toggle("on",window.scrollY>600);}window.addEventListener("scroll",t,{passive:true});t();b.addEventListener("click",function(){window.scrollTo({top:0,behavior:"smooth"});});})();</script></body>
 </html>

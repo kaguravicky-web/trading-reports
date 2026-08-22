@@ -648,6 +648,40 @@ h1{max-width:none}
 .action-directive strong, .action-directive b,
 .callout.co-amber strong, .callout.co-amber b{font-weight:700}
 
+/* 🔤 2026-08-23 Vic：「周报感觉字体挺不统一的，和日报差很多」。
+   量下来主字号规格其实一样（表格 14/1.8、正文 17/1.95、H2 26）——
+   不统一来自**周报独有的四个小组件**：trend-tag 12px、risk-label 13.5px、
+   type-col 12.5px、strong.up 18px。它们夹在 14px 表格和 17px 正文之间，
+   一页里出现 5 个相邻但不相等的字号，读起来就是"花"。
+   收敛到共用的三档：标签 13px / 表格 14px / 正文 17px。 */
+.trend-tag,.risk-label{font-size:13px;line-height:1.8}
+.type-col{font-size:14px;line-height:1.8}
+strong.up,strong.down{font-size:inherit}
+
+/* 🔤 2026-08-23 Vic：「标签溢出了」。.toc 是 flex + overflow-x:auto 的单行横向滚动条，
+   章节一多就有一半藏在右边看不见（而且滚动条被 ::-webkit-scrollbar{height:0} 隐藏了，
+   连"可以滑"这个提示都没有）。改成允许换行：宁可占两行，也不要藏起来。 */
+.toc{flex-wrap:wrap;overflow-x:visible;row-gap:3px;padding-bottom:8px}
+
+/* 「本周五个核心结论」（Vic：「一堆黑字在一起一整块，又长又多」）。
+   builder 本来就支持「标题句|支撑句」拆成 kt-head / kt-body，只是我一直没用竖线，
+   五条全写成一整坨。这里把两层的视觉差拉开：标题句大一号，支撑句降到 15px 常规字重，
+   并且**支撑句里的粗体不再加粗**（一段里再嵌粗体就又变成黑块了）。 */
+.kt-head{font-weight:700;font-size:17.5px;line-height:1.9;display:block}
+.kt-body{margin-top:10px;color:var(--text);font-size:15px;line-height:1.95;font-weight:400}
+.kt-body strong,.kt-body b{font-weight:600}
+.kt-item{margin:0 0 30px}
+
+/* 回到顶部（Vic：「日报周报都增加中途 back to top」）——报告很长，
+   目录在顶部 sticky，但滚到一半想回去只能一直往上滑。 */
+#to-top{position:fixed;right:26px;bottom:26px;z-index:60;display:none;
+  width:44px;height:44px;border-radius:50%;border:1px solid var(--line);
+  background:#fff;color:var(--muted);font-size:18px;line-height:1;cursor:pointer;
+  box-shadow:0 8px 22px rgba(15,23,42,.14)}
+#to-top:hover{color:var(--blue);border-color:#c3d6f5}
+#to-top.on{display:block}
+@media(max-width:640px){#to-top{right:14px;bottom:14px}}
+
 </style>
 </head>
 <body data-report-type="premarket"><main class="wrap">
@@ -701,5 +735,5 @@ h1{max-width:none}
   目标/等待：—
 </div><h3 style="margin-top:24px">盘后对账清单</h3><table class="ledger-table fixed-cols"><colgroup><col style="width:34%"><col style="width:30%"><col style="width:11%"><col style="width:25%"></colgroup><thead><tr><th>今日预判</th><th>触发/阈值（可证伪）</th><th class="nowrap" style="text-align:center">事前概率</th><th class="nowrap">收盘核对</th></tr></thead><tbody><tr><td><strong>T2108 今日止跌（收盘 ≥44.15）</strong></td><td></td><td style="text-align:center"><span class="prob-live">50%</span></td><td class="pending">（盘后填）</td></tr><tr><td><strong>VOO 今日收回进攻线 705.94 上方</strong></td><td></td><td style="text-align:center"><span class="prob-live">40%</span></td><td class="pending">（盘后填）</td></tr><tr><td><strong>SMH 今日收盘距 50MA 不再走远且连续第二天收涨</strong>（≥−1.29 ATR 且 T-1 &gt;0，两个都要满足）</td><td></td><td style="text-align:center"><span class="prob-live">40%</span></td><td class="pending">（盘后填）</td></tr><tr><td><strong>IBIT 今日收盘仍在 20MA 上方</strong>（加密这条线是不是只有一天）</td><td></td><td style="text-align:center"><span class="prob-live">60%</span></td><td class="pending">（盘后填）</td></tr></tbody></table><p class="brier-line"><strong>事前概率盘前写下就固定，盘后不许改。</strong><br>🔗<strong>这一节和上面的情景表是一套东西</strong>（2026-08-21 你定的）：情景说「如果 A 就做 X」，台账说「A 会不会发生、我给多少」。所以三条 claim 对应的正是情景的分水岭——T2108 止跌和 VOO 收回进攻线是情景一的两个条件，IBIT 那条是加密线的存续。<br>📌<strong>为什么二元事件还要给 %</strong>：不给的话只能算命中率，而命中率会被送分题拉高（2026-08-08 你抓过一次「的确是自己评的太好了」）。有概率才能算 Brier，它专门惩罚「给了高置信度还错」，送分题给 0.9 且中几乎不加分。<br>💡<strong>8/20 那份就是活证据</strong>：两条都给 0.6，IBIT 大中、XBI 大错。只写「是/否」的话我看到的是「一对一错」就翻篇了；因为有概率，才逼出「<strong>政策级催化能过夜、单一事件级第二天回吐</strong>」这条现在已经写进规则的发现。<br><strong>成本也说清楚</strong>：单日概率是噪音，所以 2026-08-17 起统计已搬到周报，这里只记录不下判语。<br>📉<strong>从 5 条砍到 4 条</strong>：砍掉的是「涨4%+ ≥ 跌4%+」（跟 T2108 是同一批数据的不同切法）和 XLE 那条（情景表已覆盖）。<br>✍️<strong>本来想砍到 3 条，查了才发现框架有条下限：真预测每份至少 4 条</strong>（`RECON_MIN_MARKET`，2026-08-08 那次审计立的——27 条里只有 10 条是真预测）。<strong>它防的正是「真预测太少」，不为了迁就我自己的提议去降它。</strong><br>留下 SMH 那条的理由：<strong>它连错三天，校准价值最高</strong>，而且今天写成了双条件，不会再被「逆势收涨」这种擦边球满足。</p></section>
 <footer class="source"><p>LongBridge 收盘数据（data_date 2026-08-20，含为财报股/候选补入的 40 余只） · Stockbee 市场广度表（2026-08-20） · X 观点池 ＝ xdesk 2026-08-21 第 1 轮（output/xdesk/2026-08-21-x.html，15 账号全扫，未重新扫 X） · Nasdaq 财报日历（cache/earnings_calendar_20260821.json） · cache/setups_20260821.json（方法2）· cache/semis_scan_20260821.json · tradebook.json（持仓只认这一个来源）· data/setup_track.json · data/x_watch.json</p></footer>
-</main></body>
+</main><button id="to-top" title="回到顶部" aria-label="回到顶部">&#8593;</button><script>(function(){var b=document.getElementById("to-top");function t(){b.classList.toggle("on",window.scrollY>600);}window.addEventListener("scroll",t,{passive:true});t();b.addEventListener("click",function(){window.scrollTo({top:0,behavior:"smooth"});});})();</script></body>
 </html>

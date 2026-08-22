@@ -648,6 +648,40 @@ h1{max-width:none}
 .action-directive strong, .action-directive b,
 .callout.co-amber strong, .callout.co-amber b{font-weight:700}
 
+/* 🔤 2026-08-23 Vic：「周报感觉字体挺不统一的，和日报差很多」。
+   量下来主字号规格其实一样（表格 14/1.8、正文 17/1.95、H2 26）——
+   不统一来自**周报独有的四个小组件**：trend-tag 12px、risk-label 13.5px、
+   type-col 12.5px、strong.up 18px。它们夹在 14px 表格和 17px 正文之间，
+   一页里出现 5 个相邻但不相等的字号，读起来就是"花"。
+   收敛到共用的三档：标签 13px / 表格 14px / 正文 17px。 */
+.trend-tag,.risk-label{font-size:13px;line-height:1.8}
+.type-col{font-size:14px;line-height:1.8}
+strong.up,strong.down{font-size:inherit}
+
+/* 🔤 2026-08-23 Vic：「标签溢出了」。.toc 是 flex + overflow-x:auto 的单行横向滚动条，
+   章节一多就有一半藏在右边看不见（而且滚动条被 ::-webkit-scrollbar{height:0} 隐藏了，
+   连"可以滑"这个提示都没有）。改成允许换行：宁可占两行，也不要藏起来。 */
+.toc{flex-wrap:wrap;overflow-x:visible;row-gap:3px;padding-bottom:8px}
+
+/* 「本周五个核心结论」（Vic：「一堆黑字在一起一整块，又长又多」）。
+   builder 本来就支持「标题句|支撑句」拆成 kt-head / kt-body，只是我一直没用竖线，
+   五条全写成一整坨。这里把两层的视觉差拉开：标题句大一号，支撑句降到 15px 常规字重，
+   并且**支撑句里的粗体不再加粗**（一段里再嵌粗体就又变成黑块了）。 */
+.kt-head{font-weight:700;font-size:17.5px;line-height:1.9;display:block}
+.kt-body{margin-top:10px;color:var(--text);font-size:15px;line-height:1.95;font-weight:400}
+.kt-body strong,.kt-body b{font-weight:600}
+.kt-item{margin:0 0 30px}
+
+/* 回到顶部（Vic：「日报周报都增加中途 back to top」）——报告很长，
+   目录在顶部 sticky，但滚到一半想回去只能一直往上滑。 */
+#to-top{position:fixed;right:26px;bottom:26px;z-index:60;display:none;
+  width:44px;height:44px;border-radius:50%;border:1px solid var(--line);
+  background:#fff;color:var(--muted);font-size:18px;line-height:1;cursor:pointer;
+  box-shadow:0 8px 22px rgba(15,23,42,.14)}
+#to-top:hover{color:var(--blue);border-color:#c3d6f5}
+#to-top.on{display:block}
+@media(max-width:640px){#to-top{right:14px;bottom:14px}}
+
 </style>
 </head>
 <body data-report-type="premarket"><main class="wrap">
@@ -696,5 +730,5 @@ h1{max-width:none}
   目标/等待：—
 </div><h3 style="margin-top:24px">盘后对账清单</h3><table class="ledger-table fixed-cols"><colgroup><col style="width:34%"><col style="width:30%"><col style="width:11%"><col style="width:25%"></colgroup><thead><tr><th>今日预判</th><th>触发/阈值（可证伪）</th><th class="nowrap" style="text-align:center">事前概率</th><th class="nowrap">收盘核对</th></tr></thead><tbody><tr><td><strong>T2108 今日收回 50 上方</strong>（升级的最后一条）</td><td>Stockbee 表</td><td style="text-align:center"><span class="prob-live">40%</span></td><td class="pending">（盘后填）</td></tr><tr><td><strong>QQQ 今日收回进攻线 718.79 上方</strong></td><td>收盘价 vs 718.79</td><td style="text-align:center"><span class="prob-live">45%</span></td><td class="pending">（盘后填）</td></tr><tr><td><strong>SMH 今日收盘距 50MA 不再走远</strong>（即 ≥ −1.34 ATR）</td><td>收盘 vs 50MA 的 ATR 倍数</td><td style="text-align:center"><span class="prob-live">55%</span></td><td class="pending">（盘后填）</td></tr><tr><td><strong>XBI 今日收盘守住 8/19 当日低点 168.83</strong>（生物科技是不是一日行情）</td><td>XBI 收盘 vs 8/19 低点</td><td style="text-align:center"><span class="prob-live">60%</span></td><td class="pending">（盘后填）</td></tr><tr><td><strong>IBIT 今日收盘守住 8/19 当日低点 36.68</strong>（白宫峰会跳空 +5.96% 是不是一日行情；ETHB 同日 +9.96%，加密相关股票开盘直接吃这个结果）</td><td></td><td style="text-align:center"><span class="prob-live">60%</span></td><td class="pending">（盘后填）</td></tr></tbody></table><p class="brier-line"><strong>事前概率盘前写下就固定，盘后不许改。</strong>今天四条全是真预测，<strong>纪律条目已按你昨天的要求从台账里删掉</strong>（它不是预测，判 hit/miss 没有信息量）。<br>🎯<strong>今天刻意避开了昨天那种送分题</strong>：昨天的「T2108 仍 &lt;50」连续两天贴着同一个数不动，问它没有信息量。<strong>今天反过来问「能不能收回 50」（0.4）</strong> —— 同一个指标，有区分度的问法。<br><strong>四条的难度分布</strong>：0.40 / 0.45 / 0.55 / 0.60，<strong>没有一条 ≥0.85</strong>。<br><strong>最该盯的是 XBI 那条</strong>：它验证的是「8/19 的广度改善到底是普遍修复，还是 MRNA 一个事件的外溢」——<strong>这个问题的答案决定下周怎么做，不只是明天。</strong></p></section>
 <footer class="source"><p>LongBridge 收盘数据（data_date 2026-08-19） · Stockbee 市场广度表 · federalreserve.gov FOMC 纪要原文 ＋ home.treasury.gov 新闻稿 sb0607 · MRNA 事件：公司公告 ＋ 一线财经交叉确认（Phase 3 达标 ＋ FDA 批准，两条独立事件） · Nasdaq 财报日历（cache/earnings_calendar_20260820.json） · tradebook.json（持仓只认这一个来源） · reference/fomc_minutes_20260729.md</p></footer>
-</main></body>
+</main><button id="to-top" title="回到顶部" aria-label="回到顶部">&#8593;</button><script>(function(){var b=document.getElementById("to-top");function t(){b.classList.toggle("on",window.scrollY>600);}window.addEventListener("scroll",t,{passive:true});t();b.addEventListener("click",function(){window.scrollTo({top:0,behavior:"smooth"});});})();</script></body>
 </html>
