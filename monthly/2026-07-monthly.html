@@ -6,6 +6,12 @@
 <title>2026-07 月总结｜7月：日内是唯一赚钱的口径，波段和跟单都在亏</title>
 <style>
 :root{
+  /* 🔤 2026-08-22 Vic：「老师的空行和格式让我阅读很舒服，我总觉得我的报告字太多而且挤在一起」
+     实测两边参数：他 line-height 1.95 / 17px / 字距 .015em / 段后 1.5rem / 章节上下 4.5rem，
+     容器 60rem，正文另限 34em；我们是 1.58 / 16px / 无字距 / 浏览器默认段距 / 容器 1160px 无限宽。
+     🔴 **根因是行宽不是行高**：1160px 容器一行排 70+ 个中文字，是他的两倍，眼睛回扫距离翻倍。
+     我们的表比他多且列宽，容器收到 960px 会挤——所以**容器保持宽，只给正文段落限宽**。 */
+  --measure:38em;      /* 正文一行的最大宽度，约 38 个中文字 */
   --bg:#f5f5f7;--panel:#fff;--text:#1a1f2e;--muted:#6b7280;--line:#e6e8ec;
   --blue:#2563eb;--green:#2e7d5c;--amber:#b5574a;--red:#a3422b;
   --green-bg:#e8f3ec;--red-bg:#faeeea;--amber-bg:#f7e3dd;--blue-bg:#eaf2ff;
@@ -18,14 +24,33 @@
 *{box-sizing:border-box}
 body{margin:0;background:linear-gradient(180deg,#fbfbfd 0,var(--bg) 300px);color:var(--text);
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft JhengHei","PingFang SC",Arial,sans-serif;
-  line-height:1.58}
-.wrap{max-width:1160px;margin:0 auto;padding:32px 16px 52px}
+  font-size:17px;line-height:1.9;letter-spacing:.015em}
+/* 🔤 2026-08-23 第三次修正（Vic：「盘后和一周总结的对齐继续修下」）。
+   前两版都在给元素**各自**限宽，结果一页三条边：裸段落 646px（38em）、
+   callout 850px（38em+12em）、表格 1120px。**问题从来不是「太宽」，是「不齐」。**
+   这次不猜了 —— 直接量了 Vic 说读着舒服的那份（老师 2026-08-21 专题）：
+     容器 .wrap 960px · 表格 896px · 段落 784~836px · **右缘全部 1081，一条边**
+     正文 17px / 行高 1.95 / 段距 24px · 每行约 49 个中文字
+   **他的正文比我的宽，不比我的窄。**让他好读的是「所有东西共用一条边」，
+   不是「文字很窄」。所以：容器收到 960、左右 padding 32（→ 内容 896px 与他一致），
+   段落和 callout 的 max-width 全部取消，由容器统一定边。 */
+.wrap{max-width:960px;margin:0 auto;padding:40px 32px 72px}
 header,.panel{background:rgba(255,255,255,.94);border:1px solid var(--line);border-radius:18px;
   box-shadow:var(--shadow);padding:24px;margin-bottom:18px}
 .eyebrow{font-size:13px;font-weight:800;color:var(--blue);margin-bottom:8px}
-h1{font-size:32px;line-height:1.2;margin:0}
-h2{font-size:23px;margin:30px 0 12px;scroll-margin-top:72px}
-h3{font-size:18px;margin:20px 0 8px}
+h1{font-size:34px;line-height:1.35;margin:0 0 18px;max-width:24em;letter-spacing:.01em}
+h2{font-size:26px;line-height:1.5;margin:64px 0 26px;scroll-margin-top:72px;letter-spacing:.02em}
+h3{font-size:18.5px;margin:44px 0 14px;letter-spacing:.03em}
+/* 正文限宽：只作用于成段的文字，表格/卡片/网格不受影响（它们要用满宽度）。
+   段后 1.5rem 是老师那份的值——空行本身就是格式。 */
+/* 2026-08-22 二次修正（Vic：「很多地方换行都奇怪」）：限宽加在文字上会让
+   callout 盒子 1120px 宽而文字停在 646px，右边留一大片空背景，看着像断错行。
+   2026-08-23 三次修正：**索性谁都不限，全部交给容器**（见上面 .wrap 的注释）。
+   段后 1.5rem ≈ 25.5px，老师那份是 24px —— 空行本身就是格式。 */
+p{margin:0 0 1.5rem;max-width:none}
+.callout p,.callout div,.callout li,.co-item,.outlook-list li,.ad-list li,
+.entry-legend .co-item{max-width:none}
+li{margin:0 0 .55rem}
 .muted,.note{color:var(--muted)}
 .note{font-size:13px}
 
@@ -52,7 +77,7 @@ h3{font-size:18px;margin:20px 0 8px}
 
 table{width:100%;border-collapse:separate;border-spacing:0;background:var(--panel);border:1px solid var(--line);
   border-radius:14px;overflow:hidden;margin:10px 0 12px;font-size:14px;box-shadow:0 8px 20px rgba(15,23,42,.04)}
-th,td{border-bottom:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top}
+th,td{border-bottom:1px solid var(--line);padding:13px 13px;text-align:left;vertical-align:top;line-height:1.75}
 tr:last-child td{border-bottom:0}
 /* 2026-07-27 Vic："第一行增加颜色，白色突兀"——表头原来是近乎白的#f8fafc，
    跟深蓝组标题行放一起显得没有分量。加深成灰蓝，作为表头有存在感又不抢组标题的色。*/
@@ -68,7 +93,7 @@ tr.row-bull td{background:var(--green-bg)}
 tr.row-warn td{background:var(--red-bg)}
 
 .callout{background:var(--blue-bg);border:1px solid var(--line);border-left:5px solid var(--blue);border-radius:12px;
-  padding:14px 16px;margin:12px 0 18px}
+  padding:22px 24px;margin:20px 0 32px;max-width:none}
 .callout.ok{border-left-color:var(--green);background:#fff}
 .callout.warn{border-left-color:var(--amber);background:#fff}
 .callout.risk{border-left-color:var(--red);background:#fff}
@@ -98,7 +123,7 @@ tr.row-warn td{background:var(--red-bg)}
 .action-directive{border-left:3px solid #d9b64a;background:#fff8e1;padding:12px 16px;margin:14px 0 24px}
 .ad-label{color:#9a7b0b;font-weight:800}
 .ad-list{list-style:none;padding:0;margin:8px 0 0}
-.ad-list li{margin:6px 0}
+.ad-list li{margin:0 0 14px}
 .ad-primary::before{content:"\25CF ";color:#9a7b0b}
 .ad-watch::before{content:"\25CE ";color:var(--blue)}
 .ad-avoid::before{content:"\2717 ";color:var(--red)}
@@ -124,6 +149,17 @@ tr.row-warn td{background:var(--red-bg)}
 
 .source{font-size:12px;color:var(--muted)}
 .placeholder{color:var(--muted);font-style:italic}
+
+/* 空节三态（2026-08-07 Vic：「没扫出来不要空着，放"无"，这样就不会漏掉」）。
+   三态而非一个"无"：无=跑了没有 / 暂停=主动停用 / 数据缺=源不可用——含义完全不同。
+   配色守 CONTEXT 语义：中性灰=无、蓝=状态说明、浅红=有问题。不引入黄色。 */
+.empty-state{display:flex;align-items:baseline;gap:9px;margin:8px 0 4px;flex-wrap:wrap}
+.empty-tag{flex:none;display:inline-block;padding:2px 10px;border-radius:999px;
+  font-size:12px;font-weight:700;letter-spacing:.02em}
+.empty-note{color:var(--muted);font-size:13px;line-height:1.6}
+.es-none{background:var(--panel-2,#eceff3);color:var(--muted)}
+.es-parked{background:var(--blue-bg,#e6eefc);color:var(--blue,#2563eb)}
+.es-nodata{background:var(--red-bg,#f7e3dd);color:var(--red,#a3422b)}
 .kicker{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:18px 0 2px}
 
 /* 盘后/一周复盘共用组件（借鉴sintszkay示例站点的report-shared.css） */
@@ -236,9 +272,21 @@ tr.row-warn td{background:var(--red-bg)}
 .cal-table th{background:#1f3a5f;color:#fff;font-size:12px;text-align:center;padding:6px 4px;white-space:nowrap}
 .cal-table td{vertical-align:top;padding:8px 6px;font-size:12.5px;line-height:1.6}
 .cal-list{list-style:none;padding:0;margin:0}
-.cal-list li{margin:0 0 6px;padding-left:.8em;text-indent:-.8em}
-.cal-list li::before{content:"·";color:var(--muted);margin-right:.4em}
+/* 2026-08-20 Vic：「圆点干脆改成 emoji 吧，区分个股宏观 …… 不要都用箭靶」。
+   统一的「·」退役 → 类型图标（render_report.CAL_ICON）；
+   **重要性不再占一个 emoji**，改成字重＋左侧色条 —— 一格里三条挂 🎯 等于没标。 */
+.cal-list li.cal-i{margin:0 0 6px;padding-left:1.5em;text-indent:-1.5em}
+.cal-ic{display:inline-block;width:1.15em;margin-right:.35em;
+  font-size:11.5px;text-indent:0;line-height:1;opacity:.85}
+.cal-list li.cal-i.hot{font-weight:700;text-indent:-1.5em;
+  border-left:3px solid var(--red);padding-left:calc(1.5em - 3px);margin-left:-6px}
+.cal-list li.cal-i.hot .cal-ic{opacity:1}
 .cal-none{color:var(--muted)}
+.cal-legend{margin:6px 0 0;font-size:11px;color:var(--muted);display:flex;
+  flex-wrap:wrap;gap:2px 14px}
+.cal-lg i{font-style:normal;margin-right:.3em}
+.cal-lg-hot i{display:inline-block;width:3px;height:.85em;vertical-align:-1px;
+  background:var(--red);margin-right:.45em}
 
 /* X观点池：账号名 + 该账号多条bullet（2026-07-27 Vic：同一账号只出现一次名字）*/
 .x-acct{margin:0 0 12px}
@@ -261,10 +309,25 @@ tr.row-mute td{background:#f4f5f7;color:var(--muted)}
 
 /* 2026-07-27 Vic："加bullet对齐吧，参考我老师用的bullet point"——老师用 • 做并列项标记
    （核心結論那种有顺序的才用1./2./3.）。悬挂缩进让续行与首行文字左边缘对齐。*/
-.co-list{margin-top:6px}
-.co-item{padding-left:1.25em;text-indent:-1.25em;margin:0 0 5px}
+/* 🔴 2026-08-20 Vic：「点点又来了，不如你写成 I. II. III. 排序写，
+   这样看起来更有主次和逻辑」——小结里的项目符号换成罗马数字序号。
+   **序号自带次序，圆点不带**：一段小结里几条本来就有主次（先说什么、再说什么），
+   圆点把它们拍平成并列。co-head（冒号结尾的分组小标题）不参与编号也不缩进。 */
+.co-list{margin-top:6px;counter-reset:coitem}
+/* 🔤 2026-08-22：条目间距 5px → 18px。报告的正文主要不在 <p> 里，而在这些条目里，
+   5px 是「挤在一起」最直接的来源（老师那份的段后是 1.5rem=24px）。 */
+.co-item{padding-left:2.1em;text-indent:-2.1em;margin:0 0 18px}
 .co-item:last-child{margin-bottom:0}
-.co-item::before{content:"•";color:var(--muted);margin-right:.6em}
+.co-item::before{counter-increment:coitem;content:counter(coitem,upper-roman) ".";
+  color:var(--muted);margin-right:.6em;font-variant-numeric:tabular-nums}
+.co-item.co-head{padding-left:0;text-indent:0}
+.co-item.co-head::before{counter-increment:none;content:""; margin-right:0}
+/* co-sub = 附在上一条下面的子项（原文以 · / - 开头）。**不参与罗马数字编号**，
+   否则「4 个并列结论 + 1 组附注」会被拍平成 9 条并列，编号反而消灭层级。 */
+.co-item.co-sub{padding-left:3.5em;text-indent:-1.2em;margin:0 0 10px;
+  font-size:12.6px;color:var(--ink,inherit)}
+.co-item.co-sub::before{counter-increment:none;content:"–";margin-right:.5em;
+  color:var(--muted);font-weight:400}
 
 table.fixed-cols{table-layout:fixed}
 table.fixed-cols td{overflow-wrap:anywhere}
@@ -384,9 +447,9 @@ table.movers td:nth-child(n+5){font-size:12.8px;line-height:1.6}
 .src-note{margin:8px 0 0;font-size:12px;color:var(--muted);line-height:1.7}
 
 /* 2026-07-28 Vic：明日前瞻给个白底，容易阅读 */
-.outlook-list{background:#fff;border:1px solid var(--line);border-radius:8px;
+.outlook-list{max-width:none;background:#fff;border:1px solid var(--line);border-radius:8px;
   margin:10px 0 0;padding:14px 16px 14px 38px;list-style-position:outside}
-.outlook-list li{margin:0 0 11px;line-height:1.8}
+.outlook-list li{margin:0 0 20px;line-height:1.9}
 .outlook-list li:last-child{margin-bottom:0}
 
 /* 2026-07-28 Vic：方法论块用黄色，跟蓝色的「小结」区分（黄=怎么做/规则，蓝=发生了什么） */
@@ -402,6 +465,112 @@ table.movers td:nth-child(n+5){font-size:12.8px;line-height:1.6}
 /* 2026-08-01：仓位治理标题（缺持有理由/止损的仓位单列一节，硬性规则） */
 .gov-head{color:#c0392b}
 
+/* 2026-08-11：今日退出执行表标题（Vic 点名要出的标的，「单独拉一张」）。
+   跟 .gov-head 同色系但用较浅那档红——它是「已决定要出」不是「缺东西」，
+   不该跟仓位治理抢注意力。配色沿用 --amber（2026-07-06 起 = 浅红，不是黄）。 */
+.exit-head{color:#b5574a}
+
+
+/* 2026-08-06：离散度卡片 + 闸门表副行（Vic：「（盘前+0.33%）字样直接换一行」）*/
+td .sub{font-size:11.5px;color:var(--muted);line-height:1.5;margin-top:2px}
+td .big{font-size:19px;font-weight:600;color:var(--text);line-height:1.35;margin:2px 0}
+.callout.co-amber{background:#fff8e1;border-left-color:#d9b64a}
+.callout.co-amber>strong{color:#9a7b0b}
+.callout.co-green{background:#eef8f2;border-left-color:#2e7d5c}
+.callout.co-green>strong{color:#2e7d5c}
+.callout.co-blue{background:#eef4fd;border-left-color:#2563eb}
+.callout.co-blue>strong{color:#2563eb}
+
+/* 对账事前概率（2026-08-08）：prob-live = 真正有不确定性的判断（40–80%），
+   prob-anchor = 框架级防线（>=85%，每份限1条），prob-disc = 纪律条目不计分。
+   刻意不用红绿——概率高低不是好坏，是难度；红绿留给「对账」和 Brier 两列。 */
+.prob-live   { font-weight:600; color:var(--text); }
+.prob-anchor { font-weight:600; color:var(--muted); border-bottom:1px dotted var(--line); }
+.prob-disc   { font-size:.82em; color:var(--muted); }
+tr.ledger-disc td { background:var(--bg); color:var(--muted); }
+.brier-line { margin:10px 0 2px; font-size:.92em; color:var(--muted);
+              border-left:3px solid var(--line); padding-left:10px; }
+
+/* 离散度刻度条（2026-08-10 Vic：「这个表格我不会读」）——先给档位和人话，
+   再用一条三段刻度告诉他今天落在哪一段，最后才是原始数字。 */
+.disp-scale{margin:10px 0 14px}
+.disp-bar{position:relative;display:flex;height:10px;border-radius:6px;overflow:hidden}
+.disp-bar .seg{display:block;height:100%}
+.disp-bar .s-idx{background:#cfe6da}
+.disp-bar .s-mix{background:#d9e3f5}
+.disp-bar .s-stk{background:#f2ddd3}
+.disp-pin{position:absolute;top:-4px;width:3px;height:18px;background:var(--text);
+          border-radius:2px;transform:translateX(-1.5px)}
+.disp-ticks{display:flex;justify-content:space-between;margin-top:5px;
+            font-size:11.5px;color:var(--muted)}
+
+/* 2026-08-18 Vic：「小结还是有小点」——他圈的是「今晚要动的：」这种**小标题**，
+   它是分组标题不是条目，却和下面的条目一样挂了项目符号，读起来像漏了内容的空条目。
+   co-head = 冒号结尾的短行，取消悬挂缩进和符号、加粗留白。*/
+.co-head{padding-left:0;text-indent:0;margin:14px 0 10px;font-weight:600}
+/* 2026-08-18 Vic：「需要执行的仓位，在上面表格里也标识黄色底」——
+   红=风险（止损缺失/错值/缓冲不足），黄=今天要动手（peel/退出/移止损）。
+   两者分开：一个是「会被打掉」，一个是「该下单了」。*/
+tr.row-act td{background:var(--amber-bg,#fff6e0)}
+
+/* ══════════════════════════════════════════════════════════════════
+   2026-08-19 Vic 三条结构改动
+   ① 七只指数集中到一处（idx-chart / 表格在 03 指数闸门）
+   ② 信号灯从整块色卡改成表格（sig-table）——长文本上整块底色等于给整段涂色
+   ══════════════════════════════════════════════════════════════════ */
+
+/* ── ① 指数 ATR 横轴图 ───────────────────────────────────────────── */
+.idx-chart{margin:0 0 14px;padding:14px 16px 10px;background:var(--panel);
+  border:1px solid var(--line);border-radius:10px}
+.idx-svg{width:100%;height:auto;display:block;overflow:visible}
+.idx-svg .idx-track{stroke:var(--line);stroke-width:.5}
+.idx-svg .idx-gl{stroke-width:.45;stroke-dasharray:1.6 1.4}
+.idx-svg .idx-gl.gl-green{stroke:var(--green)}
+.idx-svg .idx-gl.gl-red{stroke:var(--red)}
+.idx-svg .idx-gl.gl-mid{stroke:var(--muted);stroke-dasharray:1 1.6}
+.idx-svg .idx-gl-lab{font-size:2.6px;font-weight:700;letter-spacing:.02em}
+.idx-svg .idx-gl-lab.gl-green{fill:var(--green)}
+.idx-svg .idx-gl-lab.gl-red{fill:var(--red)}
+.idx-svg .idx-gl-lab.gl-mid{fill:var(--muted)}
+.idx-svg .idx-tk{font-size:3.4px;font-weight:700;fill:var(--text)}
+.idx-svg .idx-ma50{stroke:var(--muted);stroke-width:.55}
+.idx-svg .idx-ma50-lab{font-size:2.2px;fill:var(--muted)}
+.idx-svg .idx-dot{stroke:var(--panel);stroke-width:.5}
+.idx-svg .idx-dot.dot-green{fill:var(--green)}
+.idx-svg .idx-dot.dot-amber{fill:var(--amber)}
+.idx-svg .idx-dot.dot-red{fill:var(--red)}
+.idx-svg .idx-dot.dot-ref{fill:var(--muted)}
+.idx-svg .idx-val{font-size:2.8px;font-weight:700}
+.idx-svg .idx-val.dot-green{fill:var(--green)}
+.idx-svg .idx-val.dot-amber{fill:var(--amber)}
+.idx-svg .idx-val.dot-red{fill:var(--red)}
+.idx-svg .idx-val.dot-ref{fill:var(--muted)}
+.idx-legend{margin:8px 0 0;font-size:12px;line-height:1.55;color:var(--muted)}
+.idx-legend b{color:var(--text)}
+
+/* ── ② 信号灯表格 ────────────────────────────────────────────────── */
+.sig-table{margin:0 0 14px}
+/* 2026-08-20 Vic：「我不喜欢中英重复」——维度列去掉中文，只留英文键名。
+   原来的 sig-en 小字副标题随中文一起退役。 */
+.sig-table td.sig-dim{white-space:nowrap;vertical-align:top;padding-top:11px;
+  font-size:11px;letter-spacing:.07em;font-weight:700;color:var(--muted)}
+/* 「挡位没有居中」——表头和格子一起居中，之前只有 td 居中，th 靠左，两行对不上。 */
+.sig-table th.sig-lv-h{text-align:center}
+.sig-table td.sig-lv{text-align:center;vertical-align:top;padding-top:11px;
+  font-weight:800;font-size:13px}
+/* 🔴 2026-08-19 Vic：「今日信号灯 染色全行吧，中得话就白色」——
+   底色从「只染档位那一格」改成**整行**，而且 **mid 不染色**。
+   mid 留白是这条规则的重点：四格里通常两三格是中档，
+   **只有 low / high 上色，颜色才重新变回信号**（同 8/18 持仓表、
+   8/19 A级候选表退役整行底色的那条：铺满 = 等于没标）。 */
+.sig-table tr.sig-row.low  > td{background:var(--green-bg)}
+.sig-table tr.sig-row.high > td{background:var(--red-bg)}
+.sig-table tr.sig-row.mid  > td{background:transparent}
+.sig-table td.sig-lv.low{color:var(--green)}
+.sig-table td.sig-lv.mid{color:var(--muted)}
+.sig-table td.sig-lv.high{color:var(--red)}
+.sig-table td.sig-txt{line-height:1.72;vertical-align:top}
+
 </style>
 </head>
 <body data-report-type="monthly"><main class="wrap">
@@ -412,7 +581,7 @@ table.movers td:nth-child(n+5){font-size:12.8px;line-height:1.6}
   <div class="badges"><span class="badge red">全月亏损</span><span class="badge red">动量因子史上最差月之一</span><span class="badge green">日内+362.55</span><span class="badge blue">框架新增5项</span></div>
 </header>
 <nav class="toc" aria-label="章节导航"><a href="#core">本月核心结论</a><a href="#market">一、本月行情</a><a href="#trades">二、交易复盘（全月）</a><a href="#system">三、系统对账</a><a href="#framework">四、本月框架进化总账</a><a href="#crossval">五、月度校验</a><a href="#nextmonth">六、下月计划</a></nav>
-<section id="core"><h2>本月核心结论</h2><div class="action-directive"><ol class="kt-list"><li class="kt-item"><span class="kt-head"><strong>7月唯一赚钱的口径是日内，而且是唯一胜率过半的。</strong></span><div class="kt-body">日内 15笔 <strong>+362.55、胜率73%</strong>；自主波段 33笔 <strong>-2204.70、胜率36%</strong>；跟单 25笔 <strong>-1008.27、胜率24%</strong>。<strong>全月合计 -2850.43。</strong></div></li><li class="kt-item"><span class="kt-head"><strong>亏损的形状是「小赢大亏」，不是「选错方向」。</strong></span><div class="kt-body">自主均单笔 -66.81、跟单 -40.33，而日内 +24.17。最大5笔亏损（RBRK -328.20 / SYK -262.80 / BRKR -252.24 / DUOL -244.47 / MAGS -229.50）全部是隔夜持有；<strong>最大盈利里3笔是跟单、1笔日内</strong>。</div></li><li class="kt-item"><span class="kt-head"><strong>市场层面的根因：7月是动量因子史上最差的月份之一。</strong></span><div class="kt-body">SMH <strong>-12.88%</strong>、XLK -5.53%、QQQ -5.13%，而 XOP <strong>+15.38%</strong>、XLE <strong>+12.76%</strong>。<strong>领导权从成长/半导体整体切换到能源</strong>——持有成长的隔夜仓被系统性惩罚。</div></li><li class="kt-item"><span class="kt-head"><strong>日度判断质量并不差：64%（90命中/11部分/40失误）。</strong></span><div class="kt-body"><strong>问题不在看不看得准，在于看准了也赚不到钱</strong>——没有延续性的行情里，隔夜持有把当天的正确判断还回去了。</div></li><li class="kt-item"><span class="kt-head"><strong>AI资本开支的定价机制在7月末翻转。</strong></span><div class="kt-body">MSFT 维持开支+beat → +15.51%；META 上调开支+EPS miss → -7.95%；GLW 砍光通信指引 → -12.10%。<strong>市场从奖励扩张改成奖励纪律</strong>，这是8月要带走的最重要一条。</div></li></ol></div><div class="callout"><strong>小结：</strong><strong>本月定位：一个「判断能力够、但交易结构不匹配市场」的月份。</strong> 日度命中率64%说明看得懂，但全月-2850.43说明拿法不对——<strong>日内赚的钱被隔夜持有还回去还倒贴</strong>。8月最该改的不是选股，是<strong>在没有延续性的行情里减少隔夜暴露</strong>；FTD框架就是为此建的：<strong>等市场级确认再上隔夜仓，其余时间只做日内</strong></div></section><section id="market"><h2>一、本月行情</h2><section class="grid"><div class="card"><span>VOO</span><strong class="up">+0.17%</strong><p class="note">月线基本持平，但月内最大回撤到670.63（7/29）</p></div><div class="card"><span>QQQ</span><strong class="dn">-5.13%</strong><p class="note">收687.99，距50MA仍-1.77ATR</p></div><div class="card"><span>SMH</span><strong class="dn">-12.88%</strong><p class="note"><strong>全场最弱</strong>；月内一度-20%后V型反弹</p></div><div class="card"><span>交易</span><strong class="dn">-2850.43</strong><p class="note">73笔平仓、胜率40%；<strong>日内+362.55是唯一正的口径</strong></p></div></section><h3>四周脉络</h3><table class="fixed-cols"><colgroup><col style="width:10%"><col style="width:18%"><col style="width:32%"><col style="width:40%"></colgroup><thead><tr><th class="">周</th><th class="">市场性质</th><th class="">关键数字</th><th class="">本周教训</th></tr></thead><tbody><tr><td>W28</td><td>地缘+AI capex双压</td><td>SMH破位，QQQ跌向690</td><td>ETF层面的谨慎掩盖了个股机会（NVDA/AMD逆势）</td></tr><tr><td>W29</td><td>去杠杆开始</td><td>T2108跌破50，降级档触发</td><td>「归因坏消息给宏观」是个坑，先看是不是公司事件</td></tr><tr><td>W30</td><td>半导体V型来回甩</td><td>QQQ跌破690防守线</td><td>「AI Capex过敏」成为定价新规则</td></tr><tr><td>W31</td><td><strong>四天四种市场</strong></td><td>分化→轮动→普跌→权重独舞→日内派发</td><td><strong>没有一种活过两天；日内+434.95而波段-150.29</strong></td></tr></tbody></table><h3>指数月度复盘</h3><table class="fixed-cols"><colgroup><col style="width:11%"><col style="width:11%"><col style="width:14%"><col style="width:16%"><col style="width:48%"></colgroup><thead><tr><th class="">Ticker</th><th class="num">7月%</th><th class="">距50MA(ATR)</th><th class="">20/50/200MA</th><th class="">月度判断</th></tr></thead><tbody><tr><td>RSP</td><td class="num up">+0.75%</td><td>1.62</td><td class="ma-cell"><span class="ma"><b class="up">20<i>▲</i></b><b class="up">50<i>▲</i></b><b class="up">200<i>▲</i></b></span></td><td><strong>+0.75% 月线最强</strong>，距50MA +1.62ATR——等权全月跑赢市值加权</td></tr><tr><td>DIA</td><td class="num up">+0.37%</td><td>1.19</td><td class="ma-cell"><span class="ma"><b class="up">20<i>▲</i></b><b class="up">50<i>▲</i></b><b class="up">200<i>▲</i></b></span></td><td>+0.37%，价值端全月抗跌</td></tr><tr><td>VOO</td><td class="num up">+0.17%</td><td>0.20</td><td class="ma-cell"><span class="ma"><b class="up">20<i>▲</i></b><b class="up">50<i>▲</i></b><b class="up">200<i>▲</i></b></span></td><td>+0.17%，月线基本持平但月内振幅大</td></tr><tr><td>IWM</td><td class="num dn">-2.71%</td><td>-0.29</td><td class="ma-cell"><span class="ma"><b class="dn">20<i>▼</i></b><b class="dn">50<i>▼</i></b><b class="up">200<i>▲</i></b></span></td><td>-2.71%，小盘全月弱于大盘</td></tr><tr><td>QQQE</td><td class="num dn">-3.33%</td><td>-0.97</td><td class="ma-cell"><span class="ma"><b class="dn">20<i>▼</i></b><b class="dn">50<i>▼</i></b><b class="up">200<i>▲</i></b></span></td><td>-3.33%，等权纳指跑赢QQQ的-5.13%——<strong>成长内部也是权重股更差</strong></td></tr><tr><td>QQQ</td><td class="num dn">-5.13%</td><td>-1.77</td><td class="ma-cell"><span class="ma"><b class="dn">20<i>▼</i></b><b class="dn">50<i>▼</i></b><b class="up">200<i>▲</i></b></span></td><td>-5.13%，距50MA -1.77ATR</td></tr><tr><td>SMH</td><td class="num dn">-12.88%</td><td>-1.99</td><td class="ma-cell"><span class="ma"><b class="dn">20<i>▼</i></b><b class="dn">50<i>▼</i></b><b class="up">200<i>▲</i></b></span></td><td><strong>-12.88% 全场最弱</strong>，月内一度-20%，V型反弹没能扭转月线</td></tr></tbody></table><h3>板块月度排名</h3><table class="fixed-cols"><colgroup><col style="width:8%"><col style="width:14%"><col style="width:12%"><col style="width:66%"></colgroup><thead><tr><th class="ctr">排名</th><th class="">板块</th><th class="num">7月%</th><th class="">读数</th></tr></thead><tbody><tr><td class="ctr">1</td><td>XOP 油气勘探</td><td class="num up">+15.38%</td><td><strong>全月冠军</strong>；地缘反复但能源需求叙事没坏</td></tr><tr><td class="ctr">2</td><td>XLE 能源</td><td class="num up">+12.76%</td><td>月末连涨四天、单边榜4/4分</td></tr><tr><td class="ctr">3</td><td>IHI 医疗器械</td><td class="num up">+5.06%</td><td>医疗内部唯一强的细分</td></tr><tr><td class="ctr">4</td><td>XLF 金融</td><td class="num up">+3.94%</td><td>全月稳定，月末距50MA曾到EXTREME档</td></tr><tr><td class="ctr">5</td><td>XSW 软件</td><td class="num up">+3.38%</td><td><strong>月末最后两周才发力</strong>（W31周涨7.79%）</td></tr><tr><td class="ctr">…</td><td>…</td><td class="num">…</td><td>…</td></tr><tr><td class="ctr">-6</td><td>XLY 可选消费</td><td class="num dn">-1.69%</td><td>AMZN财报后才反弹</td></tr><tr><td class="ctr">-5</td><td>ITA 国防</td><td class="num dn">-1.72%</td><td>月中曾是最强线，月末一天塌完（7/29 -3.56%）</td></tr><tr><td class="ctr">-4</td><td>XLI 工业</td><td class="num dn">-1.92%</td><td></td></tr><tr><td class="ctr">-3</td><td>XLK 科技</td><td class="num dn">-5.53%</td><td>被半导体拖累；但内部软件/硬件已分裂</td></tr><tr><td class="ctr">-2</td><td>XBI 生技</td><td class="num dn">-6.09%</td><td><strong>跌幅大但全月多数时间在50MA上方</strong>——跌幅≠结构坏</td></tr><tr><td class="ctr">-1</td><td>SMH 半导体</td><td class="num dn">-12.88%</td><td><strong>全月最弱</strong>，HBM出货放缓+中国供给冲击+去杠杆三重打击</td></tr></tbody></table><div class="callout"><strong>小结：</strong><div class="co-list"><div class="co-item"><strong>7月的领导权是从成长切到能源</strong>：XOP +15.38% / XLE +12.76% 对 SMH -12.88% / XLK -5.53%，价差接近28个百分点</div><div class="co-item"><strong>等权全月跑赢市值加权</strong>（RSP +0.75% vs VOO +0.17%、QQQE -3.33% vs QQQ -5.13%）——说明这不是「广度好」，而是<strong>权重股跌得更多</strong></div><div class="co-item"><strong>XBI是本月最容易误判的一只</strong>：月跌6.09%看着弱，但它多数时间在50MA上方，而所有科技ETF都在50MA下方</div></div></div></section><section id="trades"><h2>二、交易复盘（全月）</h2><h3>分口径统计（全月）</h3><table class="fixed-cols"><colgroup><col style="width:10%"><col style="width:8%"><col style="width:13%"><col style="width:9%"><col style="width:12%"><col style="width:48%"></colgroup><thead><tr><th class="">口径</th><th class="ctr">笔数</th><th class="num">合计盈亏</th><th class="ctr">胜率</th><th class="num">均单笔</th><th class="">读数</th></tr></thead><tbody><tr><td><strong>日内</strong></td><td class="ctr">15</td><td class="num"><strong>+362.55</strong></td><td class="ctr"><strong>73%</strong></td><td class="num"><strong>+24.17</strong></td><td><strong>唯一赚钱、也是唯一胜率过半的口径</strong></td></tr><tr><td>自主（波段）</td><td class="ctr">33</td><td class="num"><strong>-2204.70</strong></td><td class="ctr">36%</td><td class="num dn">-66.81</td><td>笔数最多、亏得最多；<strong>均单笔亏损是日内盈利的2.8倍</strong></td></tr><tr><td>跟单</td><td class="ctr">25</td><td class="num dn">-1008.27</td><td class="ctr"><strong>24%</strong></td><td class="num dn">-40.33</td><td>胜率全场最低；按框架规则不计入自主执行力统计，但钱是真亏的</td></tr><tr><td><strong>合计</strong></td><td class="ctr">73</td><td class="num"><strong>-2850.43</strong></td><td class="ctr">40%</td><td class="num dn">-39.05</td><td><strong>剔掉日内 = -3212.98</strong></td></tr></tbody></table><h3>最大盈亏各5笔</h3><table class="fixed-cols"><colgroup><col style="width:11%"><col style="width:13%"><col style="width:11%"><col style="width:11%"><col style="width:54%"></colgroup><thead><tr><th class="">TICKER</th><th class="num">盈亏</th><th class="num">%</th><th class="ctr">口径</th><th class="">读数</th></tr></thead><tbody><tr><td>SPGI</td><td class="num up">+286.89</td><td class="num up">+5.08%</td><td class="ctr">跟单</td><td>全月最大盈利，但是跟单不是自主判断</td></tr><tr><td>SOXL</td><td class="num up">+226.09</td><td class="num up">+1.19%</td><td class="ctr">日内</td><td>3倍ETF日内，<strong>单笔最大的自主盈利</strong></td></tr><tr><td>BLFS</td><td class="num up">+210.90</td><td class="num up">+6.20%</td><td class="ctr">跟单</td><td></td></tr><tr><td>PLTR</td><td class="num up">+146.20</td><td class="num up">+1.91%</td><td class="ctr">跟单</td><td></td></tr><tr><td>BE</td><td class="num up">+92.84</td><td class="num up">+2.99%</td><td class="ctr">自主</td><td><strong>自主波段全月最大盈利只有92.84</strong></td></tr><tr><td>RBRK</td><td class="num dn">-328.20</td><td class="num dn">-6.25%</td><td class="ctr">跟单</td><td>全月最大亏损</td></tr><tr><td>SYK</td><td class="num dn">-262.80</td><td class="num dn">-4.11%</td><td class="ctr">自主</td><td>7/14清仓，事后看是capitulation exit（卖在当日最低点附近）</td></tr><tr><td>BRKR</td><td class="num dn">-252.24</td><td class="num dn">-5.12%</td><td class="ctr">自主</td><td></td></tr><tr><td>DUOL</td><td class="num dn">-244.47</td><td class="num dn">-6.31%</td><td class="ctr">自主</td><td></td></tr><tr><td>MAGS</td><td class="num dn">-229.50</td><td class="num dn">-3.35%</td><td class="ctr">自主</td><td></td></tr></tbody></table><div class="callout co-warn"><div class="co-list"><div class="co-item"><strong>最刺眼的对比：自主波段全月最大单笔盈利只有 +92.84（BE），而最大5笔亏损全在 -229 ~ -328。</strong>盈亏比是彻底反的</div><div class="co-item"><strong>5笔最大亏损全部是隔夜持有的波段单</strong>，而最大盈利里3笔是跟单、1笔是日内——<strong>「自己判断 + 隔夜持有」这个组合在7月是净负贡献</strong></div><div class="co-item">日内15笔虽只赚362.55，但它是唯一胜率过半（73%）且均单笔为正的</div><div class="co-item"><strong>这不是选股问题</strong>——日度对账64%说明判断是够的，问题在持有方式与市场节奏不匹配</div></div></div></section><section id="system"><h2>三、系统对账</h2><table class="fixed-cols"><colgroup><col style="width:20%"><col style="width:16%"><col style="width:64%"></colgroup><thead><tr><th class="">指标</th><th class="">7月</th><th class="">说明</th></tr></thead><tbody><tr><td>日度对账</td><td><strong>64%</strong></td><td>90命中 / 11部分 / 40失误；周度区间 64%-74%</td></tr><tr><td>Setup A台账</td><td><strong>25条已判定</strong></td><td>hit 3 / partial 11 / miss 11——<strong>hit只占12%</strong></td></tr><tr><td>台账样本质量</td><td><strong>不合格</strong></td><td>62%集中在金融/保险、信号日集中在7/13-7/22十天；<strong>测的是「XLF那十天」不是「Setup A这个方法」</strong></td></tr><tr><td>窗口期检验</td><td><strong>3天不是问题</strong></td><td>D+1 +0.13% / D+3 -0.25% / D+5 -0.49% / D+10 -1.02%，<strong>拉长窗口只会更差</strong></td></tr><tr><td>失效位事故</td><td><strong>2起</strong></td><td>AJG（失效位高于信号日最低价，建仓即失效）、FIS（零缓冲，破0.15%判miss后涨15.5%）——已建强制校验</td></tr></tbody></table><div class="callout"><strong>小结：</strong><strong>判断质量（64%）和交易结果（-2850.43）严重脱节</strong>，这是7月最需要正视的一件事；Setup A台账首次达到可评估样本量并做了复盘，<strong>结论是「3天窗口不是问题、样本集中度才是」</strong>——8月的台账要刻意分散板块和时段，否则测出来的还是单一板块的表现</div></section><section id="framework"><h2>四、本月框架进化总账</h2><table class="iter-table"><thead><tr><th></th><th>本日迭代</th><th>修正规则（新）</th></tr></thead><tbody><tr><td class="it-bar it-good"></td><td class="it-lesson"><strong>格式QA闸门</strong>（7/28建，7月末已扩到16条）——起因是同一批格式问题反复提三次。</td><td class="it-rule">规则不写文档写成会失败的检查；渲染完自动跑。<strong>7月末新加的三条</strong>（badges渲染/表格列宽/仓位治理）都是跟周报对齐时才发现的静默丢失</td></tr><tr><td class="it-bar it-good"></td><td class="it-lesson"><strong>Follow-Through Day 框架</strong>（7/31建）——此前系统只有防守工具，没有「下降趋势结束了没有」的确认工具。</td><td class="it-rule">O&#x27;Neil规则：Day 1肉眼确认 → Day 2-3守住Day 1低点 → Day 4-7任一指数≥1.25%且放量=FTD</td></tr><tr><td class="it-bar it-good"></td><td class="it-lesson"><strong>反弹品类（第二种买法）</strong>（7/31建）——根因是原有Setup A-E全是「上升趋势中的回踩/突破」，反弹初期天然产不出信号（四天只出1个A级）。</td><td class="it-rule">ADR≥6% + 距25日高≤-15% + 已收复9EMA；<strong>FTD成立当天建1/3 starter仓、不等回踩</strong></td></tr><tr><td class="it-bar it-good"></td><td class="it-lesson"><strong>失效位两条硬规则 + 强制校验</strong>（7/30建）——21条台账复盘查出两个真实事故。</td><td class="it-rule">①失效位必须低于信号日最低价 ②至少留 max(0.5×ATR14, 1%) 缓冲；写台账前强制校验</td></tr><tr><td class="it-bar it-good"></td><td class="it-lesson"><strong>周报/月报接入渲染流水线</strong>（8/1建）——此前周报手写HTML，是唯一不过QA的报告。</td><td class="it-rule">全部报告统一走 JSON→渲染器→QA；本份月报是第一份</td></tr><tr><td class="it-bar it-bad"></td><td class="it-lesson"><strong>「每笔仓位都有持有理由」连续两周未做到</strong>：月末13笔持仓里4笔thesis是「待Vic补录」、2笔止损为空。</td><td class="it-rule"><strong>8/1起升级为硬性规则</strong>：不合规仓位在盘后报告标红单列一节，QA第16条强制检查</td></tr></tbody></table><div class="callout"><strong>小结：</strong>7月新增5项框架、修复1项纪律缺口；<strong>其中4项是月末最后四天集中建的</strong>——因为直到那时才看清「系统只会说不买」这个结构性问题</div></section><section id="crossval"><h2>五、月度校验</h2><div class="callout co-good"><strong>本月被验证的：</strong><div class="co-list"><div class="co-item"><strong>「不追垂直拉升第二天」</strong>——7/31 SNDK -5.09%、MU -5.90% 当日验证</div><div class="co-item"><strong>「盘前抢跑不改档位」</strong>——7月两次反方向验证（7/21让我们晚进场、7/27让我们躲开-4%）</div><div class="co-item"><strong>「资本纪律被奖励」</strong>——MSFT/META/GLW/KLAC 四个案例同向</div><div class="co-item"><strong>「软件与硬件已分裂」</strong>——月末连续四天，XSW/IGV 对 SMH</div></div></div><div class="callout co-warn"><strong>本月被推翻的：</strong><div class="co-list"><div class="co-item"><strong>「等回踩就有edge」被自己的数据推翻</strong>——实测n=22，3日内回踩9EMA占91%（等得到），但回踩组3日后平均 <strong>-0.2%</strong>、个案 -22.7%~+29.2%，<strong>单看个股是均值≈0的抛硬币</strong></div><div class="co-item"><strong>「轮动」框架被7/29推翻</strong>——原证伪条件只写了「若QQQ反而跑赢」，漏了「两边一起跌」</div><div class="co-item"><strong>「能源论点」一周内被地缘消息来回打两次</strong>（7/27停火作废→7/29导弹翻案），证明它的驱动是头条不是结构</div></div></div><div class="callout co-method"><strong>带进下月的判断规则：</strong><div class="co-list"><div class="co-item"><strong>带进8月的三条判断规则</strong>：①<strong>降级档只看广度三条，价格腿收复不构成解除理由</strong>——7月有三次「价格好但广度坏」，每次下一步都是回吐</div><div class="co-item">②<strong>「跌幅」不能单独判强弱，必须配「距50MA」一起看</strong>——XBI月跌6.09%但在50MA上方，差点被误伤</div><div class="co-item">③<strong>没有市场级确认（FTD）之前，不上隔夜波段仓</strong>——这是7月-2850.43换来的最贵一条：判断力64%是够的，是持有方式不匹配</div></div></div></section><section id="nextmonth"><h2>六、下月计划</h2><h3>下月监控清单</h3><table class="fixed-cols"><colgroup><col style="width:20%"><col style="width:24%"><col style="width:18%"><col style="width:38%"></colgroup><thead><tr><th class="">信号名</th><th class="">阈值</th><th class="">当前值</th><th class="">触发动作</th></tr></thead><tbody><tr><td><strong>FTD 触发</strong></td><td>Day 4-7内任一指数≥1.25%且量&gt;前日</td><td>Day 2（8/4-8/7窗口）</td><td><strong>成立当天收盘建1/3 starter仓</strong>；先查反弹队列收盘区间中位数</td></tr><tr><td>FTD 重置线</td><td>QQQ 673.30 / VOO 675.21</td><td>687.99 / 686.65</td><td>任一跌破→计数归零，反弹计划作废</td></tr><tr><td>降级档解除</td><td>5日ratio ≥1.0 <strong>且</strong> VOO 站上677.26</td><td>0.98 / 686.65</td><td>只差0.02；<strong>两条同时才解除</strong></td></tr><tr><td>日内 vs 波段配比</td><td>本月日内+362.55 / 波段-2204.70</td><td>—</td><td><strong>FTD成立前只做日内</strong>；成立后才上波段，且先小仓</td></tr><tr><td>仓位治理</td><td>thesis或止损为空</td><td><strong>6笔不合规</strong></td><td>盘后标红单列，直到补齐</td></tr><tr><td>RATE-ALERT</td><td>10Y ≤4.50%</td><td><strong>4.745%</strong></td><td>维持冻结高Beta/长久期</td></tr></tbody></table><ol class="outlook-list"><li><strong>8月第一件事是 8/4-8/7 的 FTD 窗口。</strong> 反向信号：窗口内无合格FTD或跌破重置线 → <strong>8月上旬不上隔夜波段仓，只做日内</strong>。</li><li><strong>把7月的结构性教训变成配比规则</strong>：日内+362.55 vs 波段-2204.70。反向信号：若8月前两周波段仍是净负，<strong>把波段仓位上限降到总仓1/4</strong>。</li><li><strong>Setup A台账8月要刻意分散板块和时段</strong>——7月62%集中在金融/保险、10天内。反向信号：若8月样本又集中在单一板块，<strong>该月台账不做胜率评估</strong>。</li><li><strong>持仓治理：6笔不合规必须在8月第一周补齐</strong>。反向信号：若仍未补，<strong>新仓一律不建，直到存量补完</strong>。</li><li><strong>能源是7月冠军（XOP +15.38%）但本轮不做</strong>（只做科技的指令）。反向信号：若8/5后无新指令，<strong>恢复全板块扫描并把能源纳回候选</strong>。</li></ol><div class="callout co-method"><strong>核心立场：</strong><div class="co-list"><div class="co-item"><strong>8月的核心立场：先改拿法，再改选法。</strong> 7月日度判断64%、交易-2850.43——<strong>问题不在看不准，在于看准了拿不住/拿错方式</strong></div><div class="co-item">日内是唯一正贡献的口径，所以8月的默认状态是<strong>日内为主、FTD确认后才上隔夜</strong></div><div class="co-item">这不是变保守，是把仓位结构对齐到「没有延续性」这个已经被四周验证的市场性质上</div></div></div></section>
+<section id="core"><h2>本月核心结论</h2><div class="action-directive"><ol class="kt-list"><li class="kt-item"><span class="kt-head"><strong>7月唯一赚钱的口径是日内，而且是唯一胜率过半的。</strong></span><div class="kt-body">日内 15笔 <strong>+362.55、胜率73%</strong>；自主波段 33笔 <strong>-2204.70、胜率36%</strong>；跟单 25笔 <strong>-1008.27、胜率24%</strong>。<strong>全月合计 -2850.43。</strong></div></li><li class="kt-item"><span class="kt-head"><strong>亏损的形状是「小赢大亏」，不是「选错方向」。</strong></span><div class="kt-body">自主均单笔 -66.81、跟单 -40.33，而日内 +24.17。最大5笔亏损（RBRK -328.20 / SYK -262.80 / BRKR -252.24 / DUOL -244.47 / MAGS -229.50）全部是隔夜持有；<strong>最大盈利里3笔是跟单、1笔日内</strong>。</div></li><li class="kt-item"><span class="kt-head"><strong>市场层面的根因：7月是动量因子史上最差的月份之一。</strong></span><div class="kt-body">SMH <strong>-12.88%</strong>、XLK -5.53%、QQQ -5.13%，而 XOP <strong>+15.38%</strong>、XLE <strong>+12.76%</strong>。<strong>领导权从成长/半导体整体切换到能源</strong>——持有成长的隔夜仓被系统性惩罚。</div></li><li class="kt-item"><span class="kt-head"><strong>日度判断质量并不差：64%（90命中/11部分/40失误）。</strong></span><div class="kt-body"><strong>问题不在看不看得准，在于看准了也赚不到钱</strong>——没有延续性的行情里，隔夜持有把当天的正确判断还回去了。</div></li><li class="kt-item"><span class="kt-head"><strong>AI资本开支的定价机制在7月末翻转。</strong></span><div class="kt-body">MSFT 维持开支+beat → +15.51%；META 上调开支+EPS miss → -7.95%；GLW 砍光通信指引 → -12.10%。<strong>市场从奖励扩张改成奖励纪律</strong>，这是8月要带走的最重要一条。</div></li></ol></div><div class="callout"><strong>本月定位：</strong><strong>本月定位：一个「判断能力够、但交易结构不匹配市场」的月份。</strong> 日度命中率64%说明看得懂，但全月-2850.43说明拿法不对——<strong>日内赚的钱被隔夜持有还回去还倒贴</strong>。8月最该改的不是选股，是<strong>在没有延续性的行情里减少隔夜暴露</strong>；FTD框架就是为此建的：<strong>等市场级确认再上隔夜仓，其余时间只做日内</strong></div></section><section id="market"><h2>一、本月行情</h2><section class="grid"><div class="card"><span>VOO</span><strong class="up">+0.17%</strong><p class="note">月线基本持平，但月内最大回撤到670.63（7/29）</p></div><div class="card"><span>QQQ</span><strong class="dn">-5.13%</strong><p class="note">收687.99，距50MA仍-1.77ATR</p></div><div class="card"><span>SMH</span><strong class="dn">-12.88%</strong><p class="note"><strong>全场最弱</strong>；月内一度-20%后V型反弹</p></div><div class="card"><span>交易</span><strong class="dn">-2850.43</strong><p class="note">73笔平仓、胜率40%；<strong>日内+362.55是唯一正的口径</strong></p></div></section><h3>四周脉络</h3><table class="fixed-cols"><colgroup><col style="width:10%"><col style="width:18%"><col style="width:32%"><col style="width:40%"></colgroup><thead><tr><th class="">周</th><th class="">市场性质</th><th class="">关键数字</th><th class="">本周教训</th></tr></thead><tbody><tr><td>W28</td><td>地缘+AI capex双压</td><td>SMH破位，QQQ跌向690</td><td>ETF层面的谨慎掩盖了个股机会（NVDA/AMD逆势）</td></tr><tr><td>W29</td><td>去杠杆开始</td><td>T2108跌破50，降级档触发</td><td>「归因坏消息给宏观」是个坑，先看是不是公司事件</td></tr><tr><td>W30</td><td>半导体V型来回甩</td><td>QQQ跌破690防守线</td><td>「AI Capex过敏」成为定价新规则</td></tr><tr><td>W31</td><td><strong>四天四种市场</strong></td><td>分化→轮动→普跌→权重独舞→日内派发</td><td><strong>没有一种活过两天；日内+434.95而波段-150.29</strong></td></tr></tbody></table><h3>指数月度复盘</h3><table class="fixed-cols"><colgroup><col style="width:11%"><col style="width:11%"><col style="width:14%"><col style="width:16%"><col style="width:48%"></colgroup><thead><tr><th class="">Ticker</th><th class="num">7月%</th><th class="">距50MA(ATR)</th><th class="">20/50/200MA</th><th class="">月度判断</th></tr></thead><tbody><tr><td>RSP</td><td class="num up">+0.75%</td><td>1.62</td><td class="ma-cell"><span class="ma"><b class="up">20<i>▲</i></b><b class="up">50<i>▲</i></b><b class="up">200<i>▲</i></b></span></td><td><strong>+0.75% 月线最强</strong>，距50MA +1.62ATR——等权全月跑赢市值加权</td></tr><tr><td>DIA</td><td class="num up">+0.37%</td><td>1.19</td><td class="ma-cell"><span class="ma"><b class="up">20<i>▲</i></b><b class="up">50<i>▲</i></b><b class="up">200<i>▲</i></b></span></td><td>+0.37%，价值端全月抗跌</td></tr><tr><td>VOO</td><td class="num up">+0.17%</td><td>0.20</td><td class="ma-cell"><span class="ma"><b class="up">20<i>▲</i></b><b class="up">50<i>▲</i></b><b class="up">200<i>▲</i></b></span></td><td>+0.17%，月线基本持平但月内振幅大</td></tr><tr><td>IWM</td><td class="num dn">-2.71%</td><td>-0.29</td><td class="ma-cell"><span class="ma"><b class="dn">20<i>▼</i></b><b class="dn">50<i>▼</i></b><b class="up">200<i>▲</i></b></span></td><td>-2.71%，小盘全月弱于大盘</td></tr><tr><td>QQQE</td><td class="num dn">-3.33%</td><td>-0.97</td><td class="ma-cell"><span class="ma"><b class="dn">20<i>▼</i></b><b class="dn">50<i>▼</i></b><b class="up">200<i>▲</i></b></span></td><td>-3.33%，等权纳指跑赢QQQ的-5.13%——<strong>成长内部也是权重股更差</strong></td></tr><tr><td>QQQ</td><td class="num dn">-5.13%</td><td>-1.77</td><td class="ma-cell"><span class="ma"><b class="dn">20<i>▼</i></b><b class="dn">50<i>▼</i></b><b class="up">200<i>▲</i></b></span></td><td>-5.13%，距50MA -1.77ATR</td></tr><tr><td>SMH</td><td class="num dn">-12.88%</td><td>-1.99</td><td class="ma-cell"><span class="ma"><b class="dn">20<i>▼</i></b><b class="dn">50<i>▼</i></b><b class="up">200<i>▲</i></b></span></td><td><strong>-12.88% 全场最弱</strong>，月内一度-20%，V型反弹没能扭转月线</td></tr></tbody></table><h3>板块月度排名</h3><table class="fixed-cols"><colgroup><col style="width:8%"><col style="width:14%"><col style="width:12%"><col style="width:66%"></colgroup><thead><tr><th class="ctr">排名</th><th class="">板块</th><th class="num">7月%</th><th class="">读数</th></tr></thead><tbody><tr><td class="ctr">1</td><td>XOP 油气勘探</td><td class="num up">+15.38%</td><td><strong>全月冠军</strong>；地缘反复但能源需求叙事没坏</td></tr><tr><td class="ctr">2</td><td>XLE 能源</td><td class="num up">+12.76%</td><td>月末连涨四天、单边榜4/4分</td></tr><tr><td class="ctr">3</td><td>IHI 医疗器械</td><td class="num up">+5.06%</td><td>医疗内部唯一强的细分</td></tr><tr><td class="ctr">4</td><td>XLF 金融</td><td class="num up">+3.94%</td><td>全月稳定，月末距50MA曾到EXTREME档</td></tr><tr><td class="ctr">5</td><td>XSW 软件</td><td class="num up">+3.38%</td><td><strong>月末最后两周才发力</strong>（W31周涨7.79%）</td></tr><tr><td class="ctr">…</td><td>…</td><td class="num">…</td><td>…</td></tr><tr><td class="ctr">-6</td><td>XLY 可选消费</td><td class="num dn">-1.69%</td><td>AMZN财报后才反弹</td></tr><tr><td class="ctr">-5</td><td>ITA 国防</td><td class="num dn">-1.72%</td><td>月中曾是最强线，月末一天塌完（7/29 -3.56%）</td></tr><tr><td class="ctr">-4</td><td>XLI 工业</td><td class="num dn">-1.92%</td><td></td></tr><tr><td class="ctr">-3</td><td>XLK 科技</td><td class="num dn">-5.53%</td><td>被半导体拖累；但内部软件/硬件已分裂</td></tr><tr><td class="ctr">-2</td><td>XBI 生技</td><td class="num dn">-6.09%</td><td><strong>跌幅大但全月多数时间在50MA上方</strong>——跌幅≠结构坏</td></tr><tr><td class="ctr">-1</td><td>SMH 半导体</td><td class="num dn">-12.88%</td><td><strong>全月最弱</strong>，HBM出货放缓+中国供给冲击+去杠杆三重打击</td></tr></tbody></table><div class="callout"><div class="co-list"><div class="co-item"><strong>7月的领导权是从成长切到能源</strong>：XOP +15.38% / XLE +12.76% 对 SMH -12.88% / XLK -5.53%，价差接近28个百分点</div><div class="co-item"><strong>等权全月跑赢市值加权</strong>（RSP +0.75% vs VOO +0.17%、QQQE -3.33% vs QQQ -5.13%）——说明这不是「广度好」，而是<strong>权重股跌得更多</strong></div><div class="co-item"><strong>XBI是本月最容易误判的一只</strong>：月跌6.09%看着弱，但它多数时间在50MA上方，而所有科技ETF都在50MA下方</div></div></div></section><section id="trades"><h2>二、交易复盘（全月）</h2><h3>分口径统计（全月）</h3><table class="fixed-cols"><colgroup><col style="width:10%"><col style="width:8%"><col style="width:13%"><col style="width:9%"><col style="width:12%"><col style="width:48%"></colgroup><thead><tr><th class="">口径</th><th class="ctr">笔数</th><th class="num">合计盈亏</th><th class="ctr">胜率</th><th class="num">均单笔</th><th class="">读数</th></tr></thead><tbody><tr><td><strong>日内</strong></td><td class="ctr">15</td><td class="num"><strong>+362.55</strong></td><td class="ctr"><strong>73%</strong></td><td class="num"><strong>+24.17</strong></td><td><strong>唯一赚钱、也是唯一胜率过半的口径</strong></td></tr><tr><td>自主（波段）</td><td class="ctr">33</td><td class="num"><strong>-2204.70</strong></td><td class="ctr">36%</td><td class="num dn">-66.81</td><td>笔数最多、亏得最多；<strong>均单笔亏损是日内盈利的2.8倍</strong></td></tr><tr><td>跟单</td><td class="ctr">25</td><td class="num dn">-1008.27</td><td class="ctr"><strong>24%</strong></td><td class="num dn">-40.33</td><td>胜率全场最低；按框架规则不计入自主执行力统计，但钱是真亏的</td></tr><tr><td><strong>合计</strong></td><td class="ctr">73</td><td class="num"><strong>-2850.43</strong></td><td class="ctr">40%</td><td class="num dn">-39.05</td><td><strong>剔掉日内 = -3212.98</strong></td></tr></tbody></table><h3>最大盈亏各5笔</h3><table class="fixed-cols"><colgroup><col style="width:11%"><col style="width:13%"><col style="width:11%"><col style="width:11%"><col style="width:54%"></colgroup><thead><tr><th class="">TICKER</th><th class="num">盈亏</th><th class="num">%</th><th class="ctr">口径</th><th class="">读数</th></tr></thead><tbody><tr><td>SPGI</td><td class="num up">+286.89</td><td class="num up">+5.08%</td><td class="ctr">跟单</td><td>全月最大盈利，但是跟单不是自主判断</td></tr><tr><td>SOXL</td><td class="num up">+226.09</td><td class="num up">+1.19%</td><td class="ctr">日内</td><td>3倍ETF日内，<strong>单笔最大的自主盈利</strong></td></tr><tr><td>BLFS</td><td class="num up">+210.90</td><td class="num up">+6.20%</td><td class="ctr">跟单</td><td></td></tr><tr><td>PLTR</td><td class="num up">+146.20</td><td class="num up">+1.91%</td><td class="ctr">跟单</td><td></td></tr><tr><td>BE</td><td class="num up">+92.84</td><td class="num up">+2.99%</td><td class="ctr">自主</td><td><strong>自主波段全月最大盈利只有92.84</strong></td></tr><tr><td>RBRK</td><td class="num dn">-328.20</td><td class="num dn">-6.25%</td><td class="ctr">跟单</td><td>全月最大亏损</td></tr><tr><td>SYK</td><td class="num dn">-262.80</td><td class="num dn">-4.11%</td><td class="ctr">自主</td><td>7/14清仓，事后看是capitulation exit（卖在当日最低点附近）</td></tr><tr><td>BRKR</td><td class="num dn">-252.24</td><td class="num dn">-5.12%</td><td class="ctr">自主</td><td></td></tr><tr><td>DUOL</td><td class="num dn">-244.47</td><td class="num dn">-6.31%</td><td class="ctr">自主</td><td></td></tr><tr><td>MAGS</td><td class="num dn">-229.50</td><td class="num dn">-3.35%</td><td class="ctr">自主</td><td></td></tr></tbody></table><div class="callout co-warn"><div class="co-list"><div class="co-item"><strong>最刺眼的对比：自主波段全月最大单笔盈利只有 +92.84（BE），而最大5笔亏损全在 -229 ~ -328。</strong>盈亏比是彻底反的</div><div class="co-item"><strong>5笔最大亏损全部是隔夜持有的波段单</strong>，而最大盈利里3笔是跟单、1笔是日内——<strong>「自己判断 + 隔夜持有」这个组合在7月是净负贡献</strong></div><div class="co-item">日内15笔虽只赚362.55，但它是唯一胜率过半（73%）且均单笔为正的</div><div class="co-item"><strong>这不是选股问题</strong>——日度对账64%说明判断是够的，问题在持有方式与市场节奏不匹配</div></div></div></section><section id="system"><h2>三、系统对账</h2><table class="fixed-cols"><colgroup><col style="width:20%"><col style="width:16%"><col style="width:64%"></colgroup><thead><tr><th class="">指标</th><th class="">7月</th><th class="">说明</th></tr></thead><tbody><tr><td>日度对账</td><td><strong>64%</strong></td><td>90命中 / 11部分 / 40失误；周度区间 64%-74%</td></tr><tr><td>Setup A台账</td><td><strong>25条已判定</strong></td><td>hit 3 / partial 11 / miss 11——<strong>hit只占12%</strong></td></tr><tr><td>台账样本质量</td><td><strong>不合格</strong></td><td>62%集中在金融/保险、信号日集中在7/13-7/22十天；<strong>测的是「XLF那十天」不是「Setup A这个方法」</strong></td></tr><tr><td>窗口期检验</td><td><strong>3天不是问题</strong></td><td>D+1 +0.13% / D+3 -0.25% / D+5 -0.49% / D+10 -1.02%，<strong>拉长窗口只会更差</strong></td></tr><tr><td>失效位事故</td><td><strong>2起</strong></td><td>AJG（失效位高于信号日最低价，建仓即失效）、FIS（零缓冲，破0.15%判miss后涨15.5%）——已建强制校验</td></tr></tbody></table><div class="callout"><strong>判断质量（64%）和交易结果（-2850.43）严重脱节</strong>，这是7月最需要正视的一件事；Setup A台账首次达到可评估样本量并做了复盘，<strong>结论是「3天窗口不是问题、样本集中度才是」</strong>——8月的台账要刻意分散板块和时段，否则测出来的还是单一板块的表现</div></section><section id="framework"><h2>四、本月框架进化总账</h2><table class="iter-table"><thead><tr><th></th><th>本日迭代</th><th>修正规则（新）</th></tr></thead><tbody><tr><td class="it-bar it-good"></td><td class="it-lesson"><strong>格式QA闸门</strong>（7/28建，7月末已扩到16条）——起因是同一批格式问题反复提三次。</td><td class="it-rule">规则不写文档写成会失败的检查；渲染完自动跑。<strong>7月末新加的三条</strong>（badges渲染/表格列宽/仓位治理）都是跟周报对齐时才发现的静默丢失</td></tr><tr><td class="it-bar it-good"></td><td class="it-lesson"><strong>Follow-Through Day 框架</strong>（7/31建）——此前系统只有防守工具，没有「下降趋势结束了没有」的确认工具。</td><td class="it-rule">O&#x27;Neil规则：Day 1肉眼确认 → Day 2-3守住Day 1低点 → Day 4-7任一指数≥1.25%且放量=FTD</td></tr><tr><td class="it-bar it-good"></td><td class="it-lesson"><strong>反弹品类（第二种买法）</strong>（7/31建）——根因是原有Setup A-E全是「上升趋势中的回踩/突破」，反弹初期天然产不出信号（四天只出1个A级）。</td><td class="it-rule">ADR≥6% + 距25日高≤-15% + 已收复9EMA；<strong>FTD成立当天建1/3 starter仓、不等回踩</strong></td></tr><tr><td class="it-bar it-good"></td><td class="it-lesson"><strong>失效位两条硬规则 + 强制校验</strong>（7/30建）——21条台账复盘查出两个真实事故。</td><td class="it-rule">①失效位必须低于信号日最低价 ②至少留 max(0.5×ATR14, 1%) 缓冲；写台账前强制校验</td></tr><tr><td class="it-bar it-good"></td><td class="it-lesson"><strong>周报/月报接入渲染流水线</strong>（8/1建）——此前周报手写HTML，是唯一不过QA的报告。</td><td class="it-rule">全部报告统一走 JSON→渲染器→QA；本份月报是第一份</td></tr><tr><td class="it-bar it-bad"></td><td class="it-lesson"><strong>「每笔仓位都有持有理由」连续两周未做到</strong>：月末13笔持仓里4笔thesis是「待Vic补录」、2笔止损为空。</td><td class="it-rule"><strong>8/1起升级为硬性规则</strong>：不合规仓位在盘后报告标红单列一节，QA第16条强制检查</td></tr></tbody></table><div class="callout">7月新增5项框架、修复1项纪律缺口；<strong>其中4项是月末最后四天集中建的</strong>——因为直到那时才看清「系统只会说不买」这个结构性问题</div></section><section id="crossval"><h2>五、月度校验</h2><div class="callout co-good"><strong>本月被验证的：</strong><div class="co-list"><div class="co-item"><strong>「不追垂直拉升第二天」</strong>——7/31 SNDK -5.09%、MU -5.90% 当日验证</div><div class="co-item"><strong>「盘前抢跑不改档位」</strong>——7月两次反方向验证（7/21让我们晚进场、7/27让我们躲开-4%）</div><div class="co-item"><strong>「资本纪律被奖励」</strong>——MSFT/META/GLW/KLAC 四个案例同向</div><div class="co-item"><strong>「软件与硬件已分裂」</strong>——月末连续四天，XSW/IGV 对 SMH</div></div></div><div class="callout co-warn"><strong>本月被推翻的：</strong><div class="co-list"><div class="co-item"><strong>「等回踩就有edge」被自己的数据推翻</strong>——实测n=22，3日内回踩9EMA占91%（等得到），但回踩组3日后平均 <strong>-0.2%</strong>、个案 -22.7%~+29.2%，<strong>单看个股是均值≈0的抛硬币</strong></div><div class="co-item"><strong>「轮动」框架被7/29推翻</strong>——原证伪条件只写了「若QQQ反而跑赢」，漏了「两边一起跌」</div><div class="co-item"><strong>「能源论点」一周内被地缘消息来回打两次</strong>（7/27停火作废→7/29导弹翻案），证明它的驱动是头条不是结构</div></div></div><div class="callout co-method"><strong>带进下月的判断规则：</strong><div class="co-list"><div class="co-item"><strong>带进8月的三条判断规则</strong>：①<strong>降级档只看广度三条，价格腿收复不构成解除理由</strong>——7月有三次「价格好但广度坏」，每次下一步都是回吐</div><div class="co-item">②<strong>「跌幅」不能单独判强弱，必须配「距50MA」一起看</strong>——XBI月跌6.09%但在50MA上方，差点被误伤</div><div class="co-item">③<strong>没有市场级确认（FTD）之前，不上隔夜波段仓</strong>——这是7月-2850.43换来的最贵一条：判断力64%是够的，是持有方式不匹配</div></div></div></section><section id="nextmonth"><h2>六、下月计划</h2><h3>下月监控清单</h3><table class="fixed-cols"><colgroup><col style="width:20%"><col style="width:24%"><col style="width:18%"><col style="width:38%"></colgroup><thead><tr><th class="">信号名</th><th class="">阈值</th><th class="">当前值</th><th class="">触发动作</th></tr></thead><tbody><tr><td><strong>FTD 触发</strong></td><td>Day 4-7内任一指数≥1.25%且量&gt;前日</td><td>Day 2（8/4-8/7窗口）</td><td><strong>成立当天收盘建1/3 starter仓</strong>；先查反弹队列收盘区间中位数</td></tr><tr><td>FTD 重置线</td><td>QQQ 673.30 / VOO 675.21</td><td>687.99 / 686.65</td><td>任一跌破→计数归零，反弹计划作废</td></tr><tr><td>降级档解除</td><td>5日ratio ≥1.0 <strong>且</strong> VOO 站上677.26</td><td>0.98 / 686.65</td><td>只差0.02；<strong>两条同时才解除</strong></td></tr><tr><td>日内 vs 波段配比</td><td>本月日内+362.55 / 波段-2204.70</td><td>—</td><td><strong>FTD成立前只做日内</strong>；成立后才上波段，且先小仓</td></tr><tr><td>仓位治理</td><td>thesis或止损为空</td><td><strong>6笔不合规</strong></td><td>盘后标红单列，直到补齐</td></tr><tr><td>RATE-ALERT</td><td>10Y ≤4.50%</td><td><strong>4.745%</strong></td><td>维持冻结高Beta/长久期</td></tr></tbody></table><ol class="outlook-list"><li><strong>8月第一件事是 8/4-8/7 的 FTD 窗口。</strong> 反向信号：窗口内无合格FTD或跌破重置线 → <strong>8月上旬不上隔夜波段仓，只做日内</strong>。</li><li><strong>把7月的结构性教训变成配比规则</strong>：日内+362.55 vs 波段-2204.70。反向信号：若8月前两周波段仍是净负，<strong>把波段仓位上限降到总仓1/4</strong>。</li><li><strong>Setup A台账8月要刻意分散板块和时段</strong>——7月62%集中在金融/保险、10天内。反向信号：若8月样本又集中在单一板块，<strong>该月台账不做胜率评估</strong>。</li><li><strong>持仓治理：6笔不合规必须在8月第一周补齐</strong>。反向信号：若仍未补，<strong>新仓一律不建，直到存量补完</strong>。</li><li><strong>能源是7月冠军（XOP +15.38%）但本轮不做</strong>（只做科技的指令）。反向信号：若8/5后无新指令，<strong>恢复全板块扫描并把能源纳回候选</strong>。</li></ol><div class="callout co-method"><strong>核心立场：</strong><div class="co-list"><div class="co-item"><strong>8月的核心立场：先改拿法，再改选法。</strong> 7月日度判断64%、交易-2850.43——<strong>问题不在看不准，在于看准了拿不住/拿错方式</strong></div><div class="co-item">日内是唯一正贡献的口径，所以8月的默认状态是<strong>日内为主、FTD确认后才上隔夜</strong></div><div class="co-item">这不是变保守，是把仓位结构对齐到「没有延续性」这个已经被四周验证的市场性质上</div></div></div></section>
 <footer class="source"><p>LongPort OpenAPI · Stockbee Market Monitor · Vic宏观Google Sheet · data/tradebook.json · data/setup_track.json · O&#x27;Neil FTD框架</p></footer>
 </main></body>
 </html>

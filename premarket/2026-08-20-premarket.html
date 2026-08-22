@@ -6,6 +6,12 @@
 <title>2026-08-20 美股盘前监控｜广度一天翻三倍、而半导体还在独跌——今天多了一个新方法：Episodic Pivot</title>
 <style>
 :root{
+  /* 🔤 2026-08-22 Vic：「老师的空行和格式让我阅读很舒服，我总觉得我的报告字太多而且挤在一起」
+     实测两边参数：他 line-height 1.95 / 17px / 字距 .015em / 段后 1.5rem / 章节上下 4.5rem，
+     容器 60rem，正文另限 34em；我们是 1.58 / 16px / 无字距 / 浏览器默认段距 / 容器 1160px 无限宽。
+     🔴 **根因是行宽不是行高**：1160px 容器一行排 70+ 个中文字，是他的两倍，眼睛回扫距离翻倍。
+     我们的表比他多且列宽，容器收到 960px 会挤——所以**容器保持宽，只给正文段落限宽**。 */
+  --measure:38em;      /* 正文一行的最大宽度，约 38 个中文字 */
   --bg:#f5f5f7;--panel:#fff;--text:#1a1f2e;--muted:#6b7280;--line:#e6e8ec;
   --blue:#2563eb;--green:#2e7d5c;--amber:#b5574a;--red:#a3422b;
   --green-bg:#e8f3ec;--red-bg:#faeeea;--amber-bg:#f7e3dd;--blue-bg:#eaf2ff;
@@ -18,14 +24,33 @@
 *{box-sizing:border-box}
 body{margin:0;background:linear-gradient(180deg,#fbfbfd 0,var(--bg) 300px);color:var(--text);
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft JhengHei","PingFang SC",Arial,sans-serif;
-  line-height:1.58}
-.wrap{max-width:1160px;margin:0 auto;padding:32px 16px 52px}
+  font-size:17px;line-height:1.9;letter-spacing:.015em}
+/* 🔤 2026-08-23 第三次修正（Vic：「盘后和一周总结的对齐继续修下」）。
+   前两版都在给元素**各自**限宽，结果一页三条边：裸段落 646px（38em）、
+   callout 850px（38em+12em）、表格 1120px。**问题从来不是「太宽」，是「不齐」。**
+   这次不猜了 —— 直接量了 Vic 说读着舒服的那份（老师 2026-08-21 专题）：
+     容器 .wrap 960px · 表格 896px · 段落 784~836px · **右缘全部 1081，一条边**
+     正文 17px / 行高 1.95 / 段距 24px · 每行约 49 个中文字
+   **他的正文比我的宽，不比我的窄。**让他好读的是「所有东西共用一条边」，
+   不是「文字很窄」。所以：容器收到 960、左右 padding 32（→ 内容 896px 与他一致），
+   段落和 callout 的 max-width 全部取消，由容器统一定边。 */
+.wrap{max-width:960px;margin:0 auto;padding:40px 32px 72px}
 header,.panel{background:rgba(255,255,255,.94);border:1px solid var(--line);border-radius:18px;
   box-shadow:var(--shadow);padding:24px;margin-bottom:18px}
 .eyebrow{font-size:13px;font-weight:800;color:var(--blue);margin-bottom:8px}
-h1{font-size:32px;line-height:1.2;margin:0}
-h2{font-size:23px;margin:30px 0 12px;scroll-margin-top:72px}
-h3{font-size:18px;margin:20px 0 8px}
+h1{font-size:34px;line-height:1.35;margin:0 0 18px;max-width:24em;letter-spacing:.01em}
+h2{font-size:26px;line-height:1.5;margin:64px 0 26px;scroll-margin-top:72px;letter-spacing:.02em}
+h3{font-size:18.5px;margin:44px 0 14px;letter-spacing:.03em}
+/* 正文限宽：只作用于成段的文字，表格/卡片/网格不受影响（它们要用满宽度）。
+   段后 1.5rem 是老师那份的值——空行本身就是格式。 */
+/* 2026-08-22 二次修正（Vic：「很多地方换行都奇怪」）：限宽加在文字上会让
+   callout 盒子 1120px 宽而文字停在 646px，右边留一大片空背景，看着像断错行。
+   2026-08-23 三次修正：**索性谁都不限，全部交给容器**（见上面 .wrap 的注释）。
+   段后 1.5rem ≈ 25.5px，老师那份是 24px —— 空行本身就是格式。 */
+p{margin:0 0 1.5rem;max-width:none}
+.callout p,.callout div,.callout li,.co-item,.outlook-list li,.ad-list li,
+.entry-legend .co-item{max-width:none}
+li{margin:0 0 .55rem}
 .muted,.note{color:var(--muted)}
 .note{font-size:13px}
 
@@ -52,7 +77,7 @@ h3{font-size:18px;margin:20px 0 8px}
 
 table{width:100%;border-collapse:separate;border-spacing:0;background:var(--panel);border:1px solid var(--line);
   border-radius:14px;overflow:hidden;margin:10px 0 12px;font-size:14px;box-shadow:0 8px 20px rgba(15,23,42,.04)}
-th,td{border-bottom:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top}
+th,td{border-bottom:1px solid var(--line);padding:13px 13px;text-align:left;vertical-align:top;line-height:1.75}
 tr:last-child td{border-bottom:0}
 /* 2026-07-27 Vic："第一行增加颜色，白色突兀"——表头原来是近乎白的#f8fafc，
    跟深蓝组标题行放一起显得没有分量。加深成灰蓝，作为表头有存在感又不抢组标题的色。*/
@@ -68,7 +93,7 @@ tr.row-bull td{background:var(--green-bg)}
 tr.row-warn td{background:var(--red-bg)}
 
 .callout{background:var(--blue-bg);border:1px solid var(--line);border-left:5px solid var(--blue);border-radius:12px;
-  padding:14px 16px;margin:12px 0 18px}
+  padding:22px 24px;margin:20px 0 32px;max-width:none}
 .callout.ok{border-left-color:var(--green);background:#fff}
 .callout.warn{border-left-color:var(--amber);background:#fff}
 .callout.risk{border-left-color:var(--red);background:#fff}
@@ -98,7 +123,7 @@ tr.row-warn td{background:var(--red-bg)}
 .action-directive{border-left:3px solid #d9b64a;background:#fff8e1;padding:12px 16px;margin:14px 0 24px}
 .ad-label{color:#9a7b0b;font-weight:800}
 .ad-list{list-style:none;padding:0;margin:8px 0 0}
-.ad-list li{margin:6px 0}
+.ad-list li{margin:0 0 14px}
 .ad-primary::before{content:"\25CF ";color:#9a7b0b}
 .ad-watch::before{content:"\25CE ";color:var(--blue)}
 .ad-avoid::before{content:"\2717 ";color:var(--red)}
@@ -289,7 +314,9 @@ tr.row-mute td{background:#f4f5f7;color:var(--muted)}
    **序号自带次序，圆点不带**：一段小结里几条本来就有主次（先说什么、再说什么），
    圆点把它们拍平成并列。co-head（冒号结尾的分组小标题）不参与编号也不缩进。 */
 .co-list{margin-top:6px;counter-reset:coitem}
-.co-item{padding-left:2.1em;text-indent:-2.1em;margin:0 0 5px}
+/* 🔤 2026-08-22：条目间距 5px → 18px。报告的正文主要不在 <p> 里，而在这些条目里，
+   5px 是「挤在一起」最直接的来源（老师那份的段后是 1.5rem=24px）。 */
+.co-item{padding-left:2.1em;text-indent:-2.1em;margin:0 0 18px}
 .co-item:last-child{margin-bottom:0}
 .co-item::before{counter-increment:coitem;content:counter(coitem,upper-roman) ".";
   color:var(--muted);margin-right:.6em;font-variant-numeric:tabular-nums}
@@ -297,7 +324,7 @@ tr.row-mute td{background:#f4f5f7;color:var(--muted)}
 .co-item.co-head::before{counter-increment:none;content:""; margin-right:0}
 /* co-sub = 附在上一条下面的子项（原文以 · / - 开头）。**不参与罗马数字编号**，
    否则「4 个并列结论 + 1 组附注」会被拍平成 9 条并列，编号反而消灭层级。 */
-.co-item.co-sub{padding-left:3.5em;text-indent:-1.2em;margin:0 0 3px;
+.co-item.co-sub{padding-left:3.5em;text-indent:-1.2em;margin:0 0 10px;
   font-size:12.6px;color:var(--ink,inherit)}
 .co-item.co-sub::before{counter-increment:none;content:"–";margin-right:.5em;
   color:var(--muted);font-weight:400}
@@ -420,9 +447,9 @@ table.movers td:nth-child(n+5){font-size:12.8px;line-height:1.6}
 .src-note{margin:8px 0 0;font-size:12px;color:var(--muted);line-height:1.7}
 
 /* 2026-07-28 Vic：明日前瞻给个白底，容易阅读 */
-.outlook-list{background:#fff;border:1px solid var(--line);border-radius:8px;
+.outlook-list{max-width:none;background:#fff;border:1px solid var(--line);border-radius:8px;
   margin:10px 0 0;padding:14px 16px 14px 38px;list-style-position:outside}
-.outlook-list li{margin:0 0 11px;line-height:1.8}
+.outlook-list li{margin:0 0 20px;line-height:1.9}
 .outlook-list li:last-child{margin-bottom:0}
 
 /* 2026-07-28 Vic：方法论块用黄色，跟蓝色的「小结」区分（黄=怎么做/规则，蓝=发生了什么） */
@@ -480,7 +507,7 @@ tr.ledger-disc td { background:var(--bg); color:var(--muted); }
 /* 2026-08-18 Vic：「小结还是有小点」——他圈的是「今晚要动的：」这种**小标题**，
    它是分组标题不是条目，却和下面的条目一样挂了项目符号，读起来像漏了内容的空条目。
    co-head = 冒号结尾的短行，取消悬挂缩进和符号、加粗留白。*/
-.co-head{padding-left:0;text-indent:0;margin:2px 0 4px;font-weight:600}
+.co-head{padding-left:0;text-indent:0;margin:14px 0 10px;font-weight:600}
 /* 2026-08-18 Vic：「需要执行的仓位，在上面表格里也标识黄色底」——
    红=风险（止损缺失/错值/缓冲不足），黄=今天要动手（peel/退出/移止损）。
    两者分开：一个是「会被打掉」，一个是「该下单了」。*/
@@ -575,7 +602,7 @@ tr.row-act td{background:var(--amber-bg,#fff6e0)}
       NET(2.14) 收盘位置只有 27% 和 15%，是全天最差的两只；≤1.0ATR 那批除 FTNT 外都收在 68% 以上。
       <b>n=9，一天的样本，不是回测结论</b>——但足以说明固定百分比在高波动票上是失效的。</span></div>
   </div>
-</div><div class="callout"><div class="co-list"><div class="co-item">🎯<strong>方法2 今天下钻 XLY ＋ XLC（票池 315 ＝ watchlist 252 ＋ 两板块成分 70，去重后），扫出 177 只带 setup 标签。</strong></div><div class="co-item"><strong>今天的筛选主要卡在「位置」而不是「形态」</strong> —— 这是 8/19 普涨带来的新问题：<strong>139 只距 9EMA &lt;3%，但其中大部分的板块已经 EXTREME</strong>。</div><div class="co-item"><strong>最终 A 级 5 只（按止损从近到远）</strong>：KDP 1.03 · VZ 1.21 · SLB 1.26 · SOFI 1.28 · DIS 1.86 ATR。</div><div class="co-item"><strong>分布刻意分散</strong>：XLP 1 · XLC 2 · XLE 1 · ARKK 1 —— 没让 5 只全押生物科技（那是今天涨最多的，也是位置最贵的）。</div><div class="co-item">🎯<strong>五只有一个共同特征：量比都在 0.56~0.75 的缩量区</strong>（除 DIS 0.71）。<strong>在一个涨 4%+ 有 546 只的日子里，这些是没跟着放量冲的票</strong> —— 它们的回踩还没被情绪定价。</div><div class="co-item"><strong>其余方法</strong>：方法9（EP）今天<strong>首次产出实货</strong>，见「催化剂在手」</div><div class="co-item">方法1（Leader vs 防御篮子）见联合信号</div><div class="co-item">方法6 的 13D/13G 今日零新增</div><div class="co-item">方法3/4 已退役</div><div class="co-item">方法7 自 8/07 暂停</div><div class="co-item"><strong>方法8（你的肉眼票）今天还没有输入</strong>。</div></div></div></section><section id="scenario"><h2>今日情景分析</h2><div class="callout">
+</div><div class="callout"><div class="co-list"><div class="co-item">🎯<strong>方法2 今天下钻 XLY ＋ XLC（票池 315 ＝ watchlist 252 ＋ 两板块成分 70，去重后），扫出 177 只带 setup 标签。</strong></div><div class="co-item"><strong>今天的筛选主要卡在「位置」而不是「形态」</strong> —— 这是 8/19 普涨带来的新问题：<strong>139 只距 9EMA &lt;3%，但其中大部分的板块已经 EXTREME</strong>。</div><div class="co-item"><strong>最终 A 级 5 只（按止损从近到远）</strong>：KDP 1.03 · VZ 1.21 · SLB 1.26 · SOFI 1.28 · DIS 1.86 ATR。</div><div class="co-item"><strong>分布刻意分散</strong>：XLP 1 · XLC 2 · XLE 1 · ARKK 1 —— 没让 5 只全押生物科技（那是今天涨最多的，也是位置最贵的）。</div><div class="co-item">🎯<strong>五只有一个共同特征：量比都在 0.56~0.75 的缩量区</strong>（除 DIS 0.71）。<strong>在一个涨 4%+ 有 546 只的日子里，这些是没跟着放量冲的票</strong> —— 它们的回踩还没被情绪定价。</div><div class="co-item"><strong>其余方法</strong>：方法9（EP）今天<strong>首次产出实货</strong>，见「催化剂在手」</div><div class="co-item">方法1（Leader vs 防御篮子）见联合信号</div><div class="co-item">方法6 的 13D/13G 今日零新增</div><div class="co-item">方法3/4 已退役</div><div class="co-item">方法7 自 8/07 暂停</div><div class="co-item"><strong>方法8（你的肉眼票）今天还没有输入</strong>。</div></div></div></section><section id="wrapup"><h2>今日定位</h2><div class="action-directive"><ol class="kt-list"><li class="kt-item"><span class="kt-head"><strong>广度一天翻了三倍，但 T2108 纹丝不动</strong></span><div class="kt-body">涨 4%+ 家数 167 → <strong>546</strong>、比值 0.50:1 → 2.94:1、10日 ratio 重回 <strong>1.44</strong>；而 T2108 47.94 → <strong>47.85</strong>。<strong>低位股在大反弹，中期均线结构还没修 —— 降级档位不解除。</strong></div></li><li class="kt-item"><span class="kt-head"><strong>升级只差 T2108 一条</strong></span><div class="kt-body">两条升级条件里 10日 ratio 已经回来了。<strong>它收回 50 的那天就是 2/2</strong>，那时才轮到加仓。今天不抢跑。</div></li><li class="kt-item"><span class="kt-head"><strong>今天多了一个方法：Episodic Pivot，而且第一个样本就在眼前</strong></span><div class="kt-body">MRNA <strong>+176.97%、量比 37 倍</strong> —— 三期黑色素瘤达标 ＋ FDA 批流感疫苗。<strong>EP 认催化剂不认形态</strong>，因为这种爆发在 T-1 收盘上什么都看不到。</div></li><li class="kt-item"><span class="kt-head"><strong>但整个生物科技复合体没有一个便宜的入口</strong></span><div class="kt-body">MRNA RSI 92.2、MRK 83.1、BNTX 80.7、IBB 80.2，<strong>全部收在当日最高附近</strong>。<strong>唯一有执行价值的是 MRK，做法是等回踩不是今天追。</strong></div></li><li class="kt-item"><span class="kt-head"><strong>今天的约束是位置不是方向</strong></span><div class="kt-body">8/19 普涨把 XLE 5.30 / XLV 4.93 / XSW 4.32 / GLD 4.29 / XBI 4.12 ATR 全推到 EXTREME。<strong>A 级五只刻意挑的是没跟着放量冲的票</strong>（量比 0.56~0.75）。</div></li><li class="kt-item"><span class="kt-head"><strong>半导体仍然不碰，而且理由又多了一条</strong></span><div class="kt-body">SMH 距 50MA 从 −0.96 走到 <strong>−1.34 ATR（在走远）</strong>；FOMC 纪要昨晚<strong>专门点名 AI 板块的举债融资和重定价风险</strong>。推翻它需要收回 585.69 且放量。</div></li><li class="kt-item"><span class="kt-head"><strong>财政部在放水、美联储在收紧</strong></span><div class="kt-body">长端回购上限翻倍把 30 年期压下约 10bp，而纪要有 <strong>3 票要求加息</strong>。<strong>这两股力量迟早要分胜负，现在只是财政部先兑现。</strong></div></li></ol></div></section><section id="scenario"><h2>今日情景 · 对账台账</h2><div class="callout">
   <strong>T2108 收回 50，升级凑齐 2/2</strong><span style="float:right;font-weight:800;font-size:15px">35%</span><div style="height:6px;background:#eceef1;border-radius:999px;margin:6px 0 8px"><div style="height:6px;width:35%;background:var(--blue);border-radius:999px"></div></div>
   触发：Stockbee 的 T2108 收在 50 上方（现 47.85），10日 ratio 维持 &gt;1.35<br>
   执行：🎯<strong>这是唯一允许把仓位加回来的情景。</strong>先把 A 级五只按半仓建起来（降级档位仍在当天生效），<strong>收盘确认升级之后再谈补足</strong> —— <strong>不许盘中抢跑</strong>（7/21 立的规矩，至今 3/3）。<br>
@@ -590,7 +617,7 @@ tr.row-act td{background:var(--amber-bg,#fff6e0)}
   触发：IBB / XBI 收盘跌破 8/19 当日低点，同时跌 4%+ 家数回到 300 以上<br>
   执行：<strong>停止新建。</strong>MRNA 那根 +177% 是单一事件驱动的，<strong>如果它第二天就大幅回吐，说明 8/19 的广度改善有相当部分是这一个事件的外溢，不是普遍修复</strong>。那时 T2108 没修好这件事就从「唯一瑕疵」变成「真相」。<br>
   目标/等待：—
-</div></section><section id="wrapup"><h2>今日定位</h2><div class="action-directive"><ol class="kt-list"><li class="kt-item"><span class="kt-head"><strong>广度一天翻了三倍，但 T2108 纹丝不动</strong></span><div class="kt-body">涨 4%+ 家数 167 → <strong>546</strong>、比值 0.50:1 → 2.94:1、10日 ratio 重回 <strong>1.44</strong>；而 T2108 47.94 → <strong>47.85</strong>。<strong>低位股在大反弹，中期均线结构还没修 —— 降级档位不解除。</strong></div></li><li class="kt-item"><span class="kt-head"><strong>升级只差 T2108 一条</strong></span><div class="kt-body">两条升级条件里 10日 ratio 已经回来了。<strong>它收回 50 的那天就是 2/2</strong>，那时才轮到加仓。今天不抢跑。</div></li><li class="kt-item"><span class="kt-head"><strong>今天多了一个方法：Episodic Pivot，而且第一个样本就在眼前</strong></span><div class="kt-body">MRNA <strong>+176.97%、量比 37 倍</strong> —— 三期黑色素瘤达标 ＋ FDA 批流感疫苗。<strong>EP 认催化剂不认形态</strong>，因为这种爆发在 T-1 收盘上什么都看不到。</div></li><li class="kt-item"><span class="kt-head"><strong>但整个生物科技复合体没有一个便宜的入口</strong></span><div class="kt-body">MRNA RSI 92.2、MRK 83.1、BNTX 80.7、IBB 80.2，<strong>全部收在当日最高附近</strong>。<strong>唯一有执行价值的是 MRK，做法是等回踩不是今天追。</strong></div></li><li class="kt-item"><span class="kt-head"><strong>今天的约束是位置不是方向</strong></span><div class="kt-body">8/19 普涨把 XLE 5.30 / XLV 4.93 / XSW 4.32 / GLD 4.29 / XBI 4.12 ATR 全推到 EXTREME。<strong>A 级五只刻意挑的是没跟着放量冲的票</strong>（量比 0.56~0.75）。</div></li><li class="kt-item"><span class="kt-head"><strong>半导体仍然不碰，而且理由又多了一条</strong></span><div class="kt-body">SMH 距 50MA 从 −0.96 走到 <strong>−1.34 ATR（在走远）</strong>；FOMC 纪要昨晚<strong>专门点名 AI 板块的举债融资和重定价风险</strong>。推翻它需要收回 585.69 且放量。</div></li><li class="kt-item"><span class="kt-head"><strong>财政部在放水、美联储在收紧</strong></span><div class="kt-body">长端回购上限翻倍把 30 年期压下约 10bp，而纪要有 <strong>3 票要求加息</strong>。<strong>这两股力量迟早要分胜负，现在只是财政部先兑现。</strong></div></li></ol></div><h3 style="margin-top:24px">盘后对账清单</h3><table class="ledger-table fixed-cols"><colgroup><col style="width:34%"><col style="width:30%"><col style="width:11%"><col style="width:25%"></colgroup><thead><tr><th>今日预判</th><th>触发/阈值（可证伪）</th><th class="nowrap" style="text-align:center">事前概率</th><th class="nowrap">收盘核对</th></tr></thead><tbody><tr><td><strong>T2108 今日收回 50 上方</strong>（升级的最后一条）</td><td>Stockbee 表</td><td style="text-align:center"><span class="prob-live">40%</span></td><td class="pending">（盘后填）</td></tr><tr><td><strong>QQQ 今日收回进攻线 718.79 上方</strong></td><td>收盘价 vs 718.79</td><td style="text-align:center"><span class="prob-live">45%</span></td><td class="pending">（盘后填）</td></tr><tr><td><strong>SMH 今日收盘距 50MA 不再走远</strong>（即 ≥ −1.34 ATR）</td><td>收盘 vs 50MA 的 ATR 倍数</td><td style="text-align:center"><span class="prob-live">55%</span></td><td class="pending">（盘后填）</td></tr><tr><td><strong>XBI 今日收盘守住 8/19 当日低点 168.83</strong>（生物科技是不是一日行情）</td><td>XBI 收盘 vs 8/19 低点</td><td style="text-align:center"><span class="prob-live">60%</span></td><td class="pending">（盘后填）</td></tr><tr><td><strong>IBIT 今日收盘守住 8/19 当日低点 36.68</strong>（白宫峰会跳空 +5.96% 是不是一日行情；ETHB 同日 +9.96%，加密相关股票开盘直接吃这个结果）</td><td></td><td style="text-align:center"><span class="prob-live">60%</span></td><td class="pending">（盘后填）</td></tr></tbody></table><p class="brier-line"><strong>事前概率盘前写下就固定，盘后不许改。</strong>今天四条全是真预测，<strong>纪律条目已按你昨天的要求从台账里删掉</strong>（它不是预测，判 hit/miss 没有信息量）。<br>🎯<strong>今天刻意避开了昨天那种送分题</strong>：昨天的「T2108 仍 &lt;50」连续两天贴着同一个数不动，问它没有信息量。<strong>今天反过来问「能不能收回 50」（0.4）</strong> —— 同一个指标，有区分度的问法。<br><strong>四条的难度分布</strong>：0.40 / 0.45 / 0.55 / 0.60，<strong>没有一条 ≥0.85</strong>。<br><strong>最该盯的是 XBI 那条</strong>：它验证的是「8/19 的广度改善到底是普遍修复，还是 MRNA 一个事件的外溢」——<strong>这个问题的答案决定下周怎么做，不只是明天。</strong></p></section>
+</div><h3 style="margin-top:24px">盘后对账清单</h3><table class="ledger-table fixed-cols"><colgroup><col style="width:34%"><col style="width:30%"><col style="width:11%"><col style="width:25%"></colgroup><thead><tr><th>今日预判</th><th>触发/阈值（可证伪）</th><th class="nowrap" style="text-align:center">事前概率</th><th class="nowrap">收盘核对</th></tr></thead><tbody><tr><td><strong>T2108 今日收回 50 上方</strong>（升级的最后一条）</td><td>Stockbee 表</td><td style="text-align:center"><span class="prob-live">40%</span></td><td class="pending">（盘后填）</td></tr><tr><td><strong>QQQ 今日收回进攻线 718.79 上方</strong></td><td>收盘价 vs 718.79</td><td style="text-align:center"><span class="prob-live">45%</span></td><td class="pending">（盘后填）</td></tr><tr><td><strong>SMH 今日收盘距 50MA 不再走远</strong>（即 ≥ −1.34 ATR）</td><td>收盘 vs 50MA 的 ATR 倍数</td><td style="text-align:center"><span class="prob-live">55%</span></td><td class="pending">（盘后填）</td></tr><tr><td><strong>XBI 今日收盘守住 8/19 当日低点 168.83</strong>（生物科技是不是一日行情）</td><td>XBI 收盘 vs 8/19 低点</td><td style="text-align:center"><span class="prob-live">60%</span></td><td class="pending">（盘后填）</td></tr><tr><td><strong>IBIT 今日收盘守住 8/19 当日低点 36.68</strong>（白宫峰会跳空 +5.96% 是不是一日行情；ETHB 同日 +9.96%，加密相关股票开盘直接吃这个结果）</td><td></td><td style="text-align:center"><span class="prob-live">60%</span></td><td class="pending">（盘后填）</td></tr></tbody></table><p class="brier-line"><strong>事前概率盘前写下就固定，盘后不许改。</strong>今天四条全是真预测，<strong>纪律条目已按你昨天的要求从台账里删掉</strong>（它不是预测，判 hit/miss 没有信息量）。<br>🎯<strong>今天刻意避开了昨天那种送分题</strong>：昨天的「T2108 仍 &lt;50」连续两天贴着同一个数不动，问它没有信息量。<strong>今天反过来问「能不能收回 50」（0.4）</strong> —— 同一个指标，有区分度的问法。<br><strong>四条的难度分布</strong>：0.40 / 0.45 / 0.55 / 0.60，<strong>没有一条 ≥0.85</strong>。<br><strong>最该盯的是 XBI 那条</strong>：它验证的是「8/19 的广度改善到底是普遍修复，还是 MRNA 一个事件的外溢」——<strong>这个问题的答案决定下周怎么做，不只是明天。</strong></p></section>
 <footer class="source"><p>LongBridge 收盘数据（data_date 2026-08-19） · Stockbee 市场广度表 · federalreserve.gov FOMC 纪要原文 ＋ home.treasury.gov 新闻稿 sb0607 · MRNA 事件：公司公告 ＋ 一线财经交叉确认（Phase 3 达标 ＋ FDA 批准，两条独立事件） · Nasdaq 财报日历（cache/earnings_calendar_20260820.json） · tradebook.json（持仓只认这一个来源） · reference/fomc_minutes_20260729.md</p></footer>
 </main></body>
 </html>

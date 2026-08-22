@@ -1,0 +1,238 @@
+/* ============================================================================
+   report-paper.css —— 专题报告的「纸面」版式  2026-08-23
+   ----------------------------------------------------------------------------
+   Vic 2026-08-23：「老师的专题报告阅读太舒服了，你能不能格式也试着改一样的，
+   好的话专题格式我们都改了。」
+
+   照 sintszkay.github.io/market-reports 那篇 2026-08-21 长端专题的样式重写。
+   他那份的骨架是**四件事**，缺一件就不是那个味道：
+     ① 衬线正文 17px / 行高 1.95 / 字距 .015em，正文限宽 44rem（约 41 个中文字）
+     ② 所有「元信息」走等宽字体 + 大字距 + 全大写：眉标、章节标签、表头、数字、脚注
+     ③ **没有盒子**。不要卡片、不要圆角、不要阴影——只有 1px 横线分节
+     ④ 暖纸底 #F6F3EC + 单一砖红强调色
+
+   **字体是实测过的，不是猜的**（2026-08-23 用 canvas 宽度法在这台机器上探）：
+     Noto Serif TC ✓  Noto Serif SC ✓  JetBrains Mono ✓
+     Songti TC ✗  Source Han Serif TC ✗   ← 老师栈里的这两个本机没有，但不影响
+   所以 Vic 在桌面看到的就是老师设计的原样。报告是 zh-Hans，所以把 **SC 放在 TC 前面**。
+   手机端多半没有这两个字体、会退回系统衬线——老师那份在手机上也一样，Vic 认可现状。
+
+   **跟老师不一样的地方（我们有他没有的东西）：**
+   - `.badge`：他没有徽章。做成描边不填色、等宽小字，颜色只走语义，不抢正文。
+   - `.up/.dn`：他只有一个强调色；交易报告必须分正负。跌沿用砖红，涨用同明度的松绿。
+   - `tr.row-bull/row-warn`：他没有底色行，但我们全站用了 685 处。改成**极淡的暖色带**
+     ＋首格 2px 竖线，读起来是「这一行被标注了」，不是「这一行被涂色了」。
+   - `.report-toc`：他没有目录。压成等宽小字的一行，夹在两条细线之间。
+
+   用法：专题页 `<link rel="stylesheet" href="report-paper.css">` 替掉 report-shared.css，
+   HTML 一个字都不用改——两边的 class 词汇表是同一套。
+   ========================================================================== */
+
+:root{
+  --paper:#F6F3EC;
+  --paper-2:#EFEAE0;
+  --ink:#2E2B27;
+  --ink-2:#6B655C;
+  --ink-3:#948D82;
+  --brick:#9C4A2F;          /* 强调色，同时兼任「跌」 */
+  --brick-soft:#C08A73;
+  --pine:#4A6B52;           /* 「涨」——跟砖红同明度，在纸底上不跳 */
+  --ochre:#8A6A2F;          /* 中性提示 */
+  --rule:#DCD5C8;
+  --tint-warn:#F3E8E2;      /* 比 paper-2 再暖一点点 */
+  --tint-bull:#EAEFE6;
+  --measure:44rem;
+  --serif:"Noto Serif SC","Noto Serif TC","Source Han Serif SC","Songti SC",serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Consolas,Menlo,monospace;
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--serif);
+  font-weight:400;
+  font-size:17px;
+  line-height:1.95;
+  letter-spacing:.015em;
+}
+
+.wrap{max-width:60rem;margin:0 auto;padding:0 2rem 8rem}
+
+/* ---------- 报头 ---------- */
+header{padding:7rem 0 3.5rem;border-bottom:1px solid var(--rule)}
+.eyebrow{
+  font-family:var(--mono);
+  font-size:.68rem;letter-spacing:.28em;text-transform:uppercase;
+  color:var(--brick);margin:0 0 2.5rem;line-height:2;
+}
+h1{
+  font-size:clamp(2.1rem,5vw,3.1rem);
+  font-weight:600;line-height:1.35;letter-spacing:.01em;
+  margin:0 0 1.5rem;max-width:22em;
+}
+.lede,header .muted{
+  font-size:1.06rem;color:var(--ink-2);max-width:34em;
+  margin:0 0 2.5rem;line-height:2.05;
+}
+
+/* 徽章：描边不填色。老师那份没有这个元素，这是我们自己的，压到最轻。 */
+.badges{display:flex;flex-wrap:wrap;gap:.6rem;margin:2rem 0 0}
+.badge{
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;line-height:1.6;
+  padding:.3rem .7rem;border:1px solid var(--rule);color:var(--ink-2);
+  background:none;border-radius:0;white-space:normal;
+}
+.badge.red{color:var(--brick);border-color:var(--brick-soft)}
+.badge.green{color:var(--pine);border-color:#A9BCA9}
+.badge.amber{color:var(--ochre);border-color:#C9B489}
+.badge.blue{color:var(--ink-2);border-color:var(--rule)}
+
+/* ---------- 目录 ---------- */
+.report-toc{
+  display:flex;flex-wrap:wrap;align-items:baseline;gap:.4rem 1.6rem;
+  padding:1.35rem 0;margin:0;
+  border-bottom:1px solid var(--rule);
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.14em;line-height:2;
+}
+.report-toc .toc-label{color:var(--ink-3);text-transform:uppercase;letter-spacing:.24em}
+.report-toc a{
+  color:var(--ink-2);text-decoration:none;
+  border-bottom:1px solid transparent;padding-bottom:.1rem;
+}
+.report-toc a:hover{border-bottom-color:var(--brick);color:var(--brick)}
+
+/* ---------- 摘要栏（原 .grid/.card）---------- */
+/* 老师的对应物是 header 里那排 .meta：标签在上、数字在下，没有盒子。 */
+section.grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(13rem,1fr));
+  gap:2.5rem 3rem;padding:3.5rem 0;border-bottom:1px solid var(--rule);
+}
+.card{background:none;border:0;border-radius:0;box-shadow:none;padding:0;margin:0}
+.card>span{
+  display:block;font-family:var(--mono);font-size:.66rem;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);
+  margin:0 0 .9rem;line-height:1.8;
+}
+.card>strong{
+  display:block;font-family:var(--mono);font-size:1.7rem;font-weight:500;
+  line-height:1.15;letter-spacing:.01em;color:var(--ink);
+}
+.card>strong.up{color:var(--pine)}
+.card>strong.dn{color:var(--brick)}
+.card>small{
+  display:block;margin-top:1rem;font-size:.82rem;color:var(--ink-2);line-height:1.95;
+}
+
+/* ---------- 章节 ---------- */
+section{padding:4.5rem 0;border-bottom:1px solid var(--rule)}
+section:last-of-type{border-bottom:none;padding-bottom:0}
+.kicker{
+  font-family:var(--mono);
+  font-size:.68rem;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--ink-3);margin:0 0 1.75rem;line-height:2;
+}
+h2{
+  font-size:clamp(1.35rem,3vw,1.7rem);font-weight:600;
+  margin:0 0 2rem;letter-spacing:.02em;line-height:1.6;
+}
+h3{font-size:1.03rem;font-weight:600;margin:3rem 0 1rem;letter-spacing:.03em}
+
+p{margin:0 0 1.5rem;max-width:var(--measure)}
+.section-intro{max-width:var(--measure)}
+strong{font-weight:600;color:var(--ink)}
+em{font-style:normal;color:var(--brick);font-weight:600}
+u{text-decoration:none;color:var(--brick);font-weight:600}
+small{font-size:.85em;color:var(--ink-2)}
+.muted{color:var(--ink-2)}
+a{color:var(--brick)}
+code{font-family:var(--mono);font-size:.85em;background:var(--paper-2);padding:.1em .35em}
+
+/* ---------- 答案先行（原 ol.answer-list）---------- */
+/* 老师的 .verdict：等宽序号 01/02 走砖红，条目之间用横线分开，没有项目符号。 */
+.answer-list{list-style:none;padding:0;margin:0;counter-reset:verdict;max-width:none}
+.answer-list>li{
+  display:grid;grid-template-columns:2.5rem 1fr;gap:1.25rem;
+  padding:1.6rem 0;border-top:1px solid var(--rule);margin:0;
+  max-width:calc(var(--measure) + 3.75rem);
+}
+.answer-list>li:last-child{border-bottom:1px solid var(--rule)}
+.answer-list>li::before{
+  counter-increment:verdict;content:counter(verdict,decimal-leading-zero);
+  font-family:var(--mono);font-size:.72rem;color:var(--brick);
+  letter-spacing:.08em;padding-top:.5rem;
+}
+
+/* ---------- 提示块（原 .callout）---------- */
+/* 老师的 .note：纸色底、直角、无边框。宽度收到「正文宽 + 左右内边距」，
+   否则文字会排到 60rem，跟正文的 44rem 对不齐。 */
+.callout{
+  background:var(--paper-2);border:0;border-left:0;border-radius:0;
+  padding:2rem 2.25rem;margin:2.5rem 0;
+  max-width:calc(var(--measure) + 4.5rem);
+}
+.callout p{margin:0 0 1.1rem;max-width:none}
+.callout p:last-child{margin-bottom:0}
+.callout .muted{color:var(--ink-2)}
+
+/* ---------- 表格 ---------- */
+.table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 0 1.5rem}
+table,.report-data-table{
+  width:100%;border-collapse:collapse;margin:0;
+  font-size:.9rem;table-layout:auto;
+}
+th{
+  font-family:var(--mono);font-size:.64rem;font-weight:500;
+  text-transform:uppercase;letter-spacing:.18em;color:var(--ink-3);
+  text-align:left;padding:0 1rem .9rem 0;border-bottom:1px solid var(--ink);
+  white-space:nowrap;
+}
+td{
+  padding:1rem 1rem 1rem 0;border-bottom:1px solid var(--rule);
+  vertical-align:top;line-height:1.8;
+}
+th:last-child,td:last-child{padding-right:0}
+th.num,td.num{font-family:var(--mono);white-space:nowrap;text-align:right}
+th.ctr,td.ctr{text-align:center}
+.up{color:var(--pine)}
+.dn{color:var(--brick)}
+
+/* 标注行：极淡的暖色带 + 首格 2px 竖线。老师没有这个元素，见文件头说明。 */
+tr.row-warn td{background:var(--tint-warn)}
+tr.row-bull td{background:var(--tint-bull)}
+tr.row-warn td:first-child,tr.row-bull td:first-child{padding-left:.7rem}
+tr.row-warn td:first-child{box-shadow:inset 2px 0 0 var(--brick-soft)}
+tr.row-bull td:first-child{box-shadow:inset 2px 0 0 #A9BCA9}
+
+/* 老师那套按列数分配宽度的规则不搬：纸面版用 auto 布局，让内容自己定列宽。 */
+.report-cols-3,.report-cols-4,.report-cols-5,.report-cols-6,.report-cols-7{table-layout:auto}
+.report-cols-6,.report-cols-7{min-width:46rem}
+
+/* ---------- 结尾来源 ---------- */
+section#boundary .muted:last-child{
+  font-family:var(--mono);font-size:.66rem;color:var(--ink-3);
+  letter-spacing:.06em;line-height:2.2;margin-top:2.5rem;max-width:none;
+}
+
+/* ---------- 窄屏 ---------- */
+@media (max-width:640px){
+  body{font-size:16px}
+  .wrap{padding:0 1.35rem 5rem}
+  header{padding:4rem 0 2.5rem}
+  h1{max-width:none}
+  section{padding:3.25rem 0}
+  section.grid{gap:2rem;padding:2.5rem 0}
+  .callout{padding:1.5rem 1.35rem}
+  .answer-list>li{grid-template-columns:2rem 1fr;gap:.9rem}
+  table,.report-data-table{font-size:.85rem}
+  .report-cols-3,.report-cols-4,.report-cols-5{min-width:34rem}
+  .report-cols-6,.report-cols-7{min-width:44rem}
+}
+
+@media print{
+  body{background:#fff}
+  section{page-break-inside:avoid}
+  .report-toc{display:none}
+}

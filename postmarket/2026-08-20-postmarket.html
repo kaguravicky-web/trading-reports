@@ -25,7 +25,16 @@
 body{margin:0;background:linear-gradient(180deg,#fbfbfd 0,var(--bg) 300px);color:var(--text);
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft JhengHei","PingFang SC",Arial,sans-serif;
   font-size:17px;line-height:1.9;letter-spacing:.015em}
-.wrap{max-width:1160px;margin:0 auto;padding:40px 20px 72px}
+/* 🔤 2026-08-23 第三次修正（Vic：「盘后和一周总结的对齐继续修下」）。
+   前两版都在给元素**各自**限宽，结果一页三条边：裸段落 646px（38em）、
+   callout 850px（38em+12em）、表格 1120px。**问题从来不是「太宽」，是「不齐」。**
+   这次不猜了 —— 直接量了 Vic 说读着舒服的那份（老师 2026-08-21 专题）：
+     容器 .wrap 960px · 表格 896px · 段落 784~836px · **右缘全部 1081，一条边**
+     正文 17px / 行高 1.95 / 段距 24px · 每行约 49 个中文字
+   **他的正文比我的宽，不比我的窄。**让他好读的是「所有东西共用一条边」，
+   不是「文字很窄」。所以：容器收到 960、左右 padding 32（→ 内容 896px 与他一致），
+   段落和 callout 的 max-width 全部取消，由容器统一定边。 */
+.wrap{max-width:960px;margin:0 auto;padding:40px 32px 72px}
 header,.panel{background:rgba(255,255,255,.94);border:1px solid var(--line);border-radius:18px;
   box-shadow:var(--shadow);padding:24px;margin-bottom:18px}
 .eyebrow{font-size:13px;font-weight:800;color:var(--blue);margin-bottom:8px}
@@ -34,11 +43,11 @@ h2{font-size:26px;line-height:1.5;margin:64px 0 26px;scroll-margin-top:72px;lett
 h3{font-size:18.5px;margin:44px 0 14px;letter-spacing:.03em}
 /* 正文限宽：只作用于成段的文字，表格/卡片/网格不受影响（它们要用满宽度）。
    段后 1.5rem 是老师那份的值——空行本身就是格式。 */
-/* 🔴 2026-08-22 二次修正（Vic：「很多地方换行都奇怪」）：限宽必须加在**盒子**上，
-   不能加在盒子里的文字上。第一版给 .co-item / li / p 直接加 max-width，结果是
-   callout 盒子仍 1120px 宽、文字停在 646px，**右边留 474px 空背景**，看起来像断错行。
-   实测 28 个盒子中招。现在：裸段落（没有盒子）仍限宽，盒子里的文字不限、改限盒子本身。 */
-p{margin:0 0 1.5rem;max-width:var(--measure)}
+/* 2026-08-22 二次修正（Vic：「很多地方换行都奇怪」）：限宽加在文字上会让
+   callout 盒子 1120px 宽而文字停在 646px，右边留一大片空背景，看着像断错行。
+   2026-08-23 三次修正：**索性谁都不限，全部交给容器**（见上面 .wrap 的注释）。
+   段后 1.5rem ≈ 25.5px，老师那份是 24px —— 空行本身就是格式。 */
+p{margin:0 0 1.5rem;max-width:none}
 .callout p,.callout div,.callout li,.co-item,.outlook-list li,.ad-list li,
 .entry-legend .co-item{max-width:none}
 li{margin:0 0 .55rem}
@@ -84,7 +93,7 @@ tr.row-bull td{background:var(--green-bg)}
 tr.row-warn td{background:var(--red-bg)}
 
 .callout{background:var(--blue-bg);border:1px solid var(--line);border-left:5px solid var(--blue);border-radius:12px;
-  padding:22px 24px;margin:20px 0 32px;max-width:calc(var(--measure) + 12em)}
+  padding:22px 24px;margin:20px 0 32px;max-width:none}
 .callout.ok{border-left-color:var(--green);background:#fff}
 .callout.warn{border-left-color:var(--amber);background:#fff}
 .callout.risk{border-left-color:var(--red);background:#fff}
@@ -438,7 +447,7 @@ table.movers td:nth-child(n+5){font-size:12.8px;line-height:1.6}
 .src-note{margin:8px 0 0;font-size:12px;color:var(--muted);line-height:1.7}
 
 /* 2026-07-28 Vic：明日前瞻给个白底，容易阅读 */
-.outlook-list{max-width:calc(var(--measure) + 12em);background:#fff;border:1px solid var(--line);border-radius:8px;
+.outlook-list{max-width:none;background:#fff;border:1px solid var(--line);border-radius:8px;
   margin:10px 0 0;padding:14px 16px 14px 38px;list-style-position:outside}
 .outlook-list li{margin:0 0 20px;line-height:1.9}
 .outlook-list li:last-child{margin-bottom:0}
