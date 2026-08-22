@@ -141,7 +141,13 @@ tr.row-warn td{background:var(--red-bg)}
    条目间距 10px → 26px。 */
 .action-directive{border-left:3px solid #d9b64a;background:#fff8e1;
   padding:22px 26px;margin:14px 0 28px}
-.action-directive strong,.action-directive b{font-weight:400;color:#6b5410}
+/* 2026-08-23 Vic 修正上一版：「强调你放同色，需要强调就加粗体」。
+   上一版我把 strong 改成常规字重、再用 #6b5410 深色区分 —— **等于用颜色代替粗体**，
+   结果框里出现两种黄褐色，比原来更花。他要的是：**全框同一个颜色，强调只用粗体。**
+   所以 color 回到继承（跟正文同色），font-weight 回到 700；
+   真正治「很难读」的是把底色上的文字统一成正文的深色，不是拿掉粗体。 */
+.action-directive,.action-directive .kt-item{color:var(--text)}
+.action-directive strong,.action-directive b{font-weight:700;color:inherit}
 .ad-label{color:#9a7b0b;font-weight:800}
 .ad-list{list-style:none;padding:0;margin:8px 0 0}
 .ad-list li{margin:0 0 14px}
@@ -710,6 +716,11 @@ a:hover{text-decoration:underline}
   background:var(--panel);color:var(--muted)}
 @media print{.filters,#lb{display:none}}
 
+
+.action-directive, .action-directive *,
+.callout.co-amber, .callout.co-amber *{color:var(--text)}
+.action-directive strong, .action-directive b,
+.callout.co-amber strong, .callout.co-amber b{font-weight:700}
 </style>
 <div class="wrap">
 <header><div class="eyebrow">xdesk</div><h1>X 盘中简报</h1>

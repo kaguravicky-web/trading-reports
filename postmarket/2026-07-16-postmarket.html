@@ -137,8 +137,21 @@ tr.row-warn td{background:var(--red-bg)}
 .tb-list{margin:8px 0 0;padding-left:20px}
 .tb-list li{margin:5px 0;font-size:13px}
 
-.action-directive{border-left:3px solid #d9b64a;background:#fff8e1;padding:22px 26px;margin:14px 0 28px}.action-directive strong,.action-directive b{font-weight:400;color:#6b5410}
-.ad-label{color:#9a7b0b;font-weight:800}
+/* 🔤 2026-08-23 Vic：「周报的黄字不要粗体，很难读，每条稍微空的大一些」。
+   这个黄框里我几乎每句都加了 ** —— 当一段话有一半是粗体，粗体就不再是强调，
+   而是噪音；叠在 #fff8e1 的暖底上对比度又低，整块糊成一片。
+   做法：**框内不再渲染粗体**（strong 回到常规字重，仅用深一点的颜色区分），
+   条目间距 10px → 26px。 */
+.action-directive{border-left:3px solid #d9b64a;background:#fff8e1;
+  padding:22px 26px;margin:14px 0 28px}
+/* 2026-08-23 Vic 修正上一版：「强调你放同色，需要强调就加粗体」。
+   上一版我把 strong 改成常规字重、再用 #6b5410 深色区分 —— **等于用颜色代替粗体**，
+   结果框里出现两种黄褐色，比原来更花。他要的是：**全框同一个颜色，强调只用粗体。**
+   所以 color 回到继承（跟正文同色），font-weight 回到 700；
+   真正治「很难读」的是把底色上的文字统一成正文的深色，不是拿掉粗体。 */
+.action-directive,.action-directive .kt-item{color:var(--text)}
+.action-directive strong,.action-directive b{font-weight:700;color:inherit}
+.ad-label{color:inherit;font-weight:800}
 .ad-list{list-style:none;padding:0;margin:8px 0 0}
 .ad-list li{margin:0 0 14px}
 .ad-primary::before{content:"\25CF ";color:#9a7b0b}
@@ -151,7 +164,8 @@ tr.row-warn td{background:var(--red-bg)}
    共用同一个黄色box，但不再加●前缀：box的背景色+行间距已经是一层强调，不需要再叠bullet。 */
 .disc-list{list-style:none;padding:0;margin:8px 0 0}
 .disc-list li.disc-item{margin:9px 0;line-height:1.62}
-.disc-list li.disc-item strong{color:#8a6a10}
+/* 2026-08-23 Vic：「强调你放同色，需要强调就加粗体」——这条曾用颜色代替粗体，取消。 */
+.disc-list li.disc-item strong{color:inherit;font-weight:700}
 
 /* 导航栏：Chrome标签页样式（2026-07-27 Vic："不要蓝底，我要白底，但是chrome那种标签页格式"）——
    白底容器 + 底部一条基线；每个标签上圆角、三面描边、坐在基线上，hover/当前项把底边"打开"接进内容区。*/
@@ -492,7 +506,7 @@ table.movers td:nth-child(n+5){font-size:12.8px;line-height:1.6}
 td .sub{font-size:11.5px;color:var(--muted);line-height:1.5;margin-top:2px}
 td .big{font-size:19px;font-weight:600;color:var(--text);line-height:1.35;margin:2px 0}
 .callout.co-amber{background:#fff8e1;border-left-color:#d9b64a}
-.callout.co-amber>strong{color:#9a7b0b}
+.callout.co-amber>strong{color:inherit}
 .callout.co-green{background:#eef8f2;border-left-color:#2e7d5c}
 .callout.co-green>strong{color:#2e7d5c}
 .callout.co-blue{background:#eef4fd;border-left-color:#2563eb}
@@ -624,6 +638,15 @@ th,td{padding:16px 16px;line-height:1.8}
    行距 1.95、段距 24px、td padding 16px 这些留白参数保留 —— 那几条本来就是对的。 */
 .wrap > *, .callout, table, .outlook-list, .ad-list, .grid, .checks{max-width:none;width:100%}
 h1{max-width:none}
+
+/* 🔤 2026-08-23 收口（Vic：「强调你放同色，需要强调就加粗体」）。
+   黄框里历史上累积了三处用颜色做强调的规则（.disc-item strong / .ad-label /
+   .co-amber>strong），加上我上一版加的 #6b5410，一个框里能出现四种黄褐色。
+   **强调只用字重，颜色一律继承正文。**这一段放最后，防止将来又有更具体的规则盖回去。 */
+.action-directive, .action-directive *,
+.callout.co-amber, .callout.co-amber *{color:var(--text)}
+.action-directive strong, .action-directive b,
+.callout.co-amber strong, .callout.co-amber b{font-weight:700}
 
 </style>
 </head>
