@@ -46,7 +46,7 @@ a{color:var(--blue)}
    只是配色没上，肉眼很难发现。这里按 report.css 原样补齐。
    注意 `.ctr` 要写成表内选择器：上面的 `.report-data-table td:not(.num):not(:last-child)`
    特异性比裸 `.ctr` 高，只写 `.ctr{text-align:center}` 会被它盖掉。 */
-.ctr,.report-data-table th.ctr,.report-data-table td.ctr{text-align:center}
+.ctr{text-align:center}
 tr.row-bull td{background:var(--green-bg)}
 tr.row-warn td{background:var(--red-bg)}
 /* 这两个是专题页自己发明的、report.css 里也没有的：正文导语、答案先行的编号列表。 */
@@ -64,6 +64,11 @@ tr.row-warn td{background:var(--red-bg)}
 .report-data-table th.num,.report-data-table td.num{text-align:right}
 .report-data-table th:not(.num):not(:last-child),.report-data-table td:not(.num):not(:last-child){text-align:left}
 .report-data-table th:last-child,.report-data-table td:last-child{padding-left:18px}
+/* 表内的 .ctr 必须写到这里、而且要带 .flat-report：上面那条
+   `.report-data-table td:not(.num):not(:last-child){text-align:left}` 是 (0,3,1)，
+   裸 `.ctr` (0,1,0) 和 `.report-data-table td.ctr` (0,2,1) 都盖不住它。
+   这条同为 (0,3,1) 但声明在后，靠源码顺序取胜。 */
+.flat-report .report-data-table th.ctr,.flat-report .report-data-table td.ctr{text-align:center}
 .flat-report .macro-review-table{min-width:920px;table-layout:fixed}
 .flat-report .macro-review-table th:nth-child(1){width:26%}
 .flat-report .macro-review-table th:nth-child(2),
