@@ -3,6 +3,12 @@
 <title>X 盘中简报</title>
 <style>
 :root{
+  /* 🔤 2026-08-22 Vic：「老师的空行和格式让我阅读很舒服，我总觉得我的报告字太多而且挤在一起」
+     实测两边参数：他 line-height 1.95 / 17px / 字距 .015em / 段后 1.5rem / 章节上下 4.5rem，
+     容器 60rem，正文另限 34em；我们是 1.58 / 16px / 无字距 / 浏览器默认段距 / 容器 1160px 无限宽。
+     🔴 **根因是行宽不是行高**：1160px 容器一行排 70+ 个中文字，是他的两倍，眼睛回扫距离翻倍。
+     我们的表比他多且列宽，容器收到 960px 会挤——所以**容器保持宽，只给正文段落限宽**。 */
+  --measure:38em;      /* 正文一行的最大宽度，约 38 个中文字 */
   --bg:#f5f5f7;--panel:#fff;--text:#1a1f2e;--muted:#6b7280;--line:#e6e8ec;
   --blue:#2563eb;--green:#2e7d5c;--amber:#b5574a;--red:#a3422b;
   --green-bg:#e8f3ec;--red-bg:#faeeea;--amber-bg:#f7e3dd;--blue-bg:#eaf2ff;
@@ -15,14 +21,24 @@
 *{box-sizing:border-box}
 body{margin:0;background:linear-gradient(180deg,#fbfbfd 0,var(--bg) 300px);color:var(--text);
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft JhengHei","PingFang SC",Arial,sans-serif;
-  line-height:1.58}
-.wrap{max-width:1160px;margin:0 auto;padding:32px 16px 52px}
+  font-size:17px;line-height:1.9;letter-spacing:.015em}
+.wrap{max-width:1160px;margin:0 auto;padding:40px 20px 72px}
 header,.panel{background:rgba(255,255,255,.94);border:1px solid var(--line);border-radius:18px;
   box-shadow:var(--shadow);padding:24px;margin-bottom:18px}
 .eyebrow{font-size:13px;font-weight:800;color:var(--blue);margin-bottom:8px}
-h1{font-size:32px;line-height:1.2;margin:0}
-h2{font-size:23px;margin:30px 0 12px;scroll-margin-top:72px}
-h3{font-size:18px;margin:20px 0 8px}
+h1{font-size:34px;line-height:1.35;margin:0 0 18px;max-width:24em;letter-spacing:.01em}
+h2{font-size:26px;line-height:1.5;margin:64px 0 26px;scroll-margin-top:72px;letter-spacing:.02em}
+h3{font-size:18.5px;margin:44px 0 14px;letter-spacing:.03em}
+/* 正文限宽：只作用于成段的文字，表格/卡片/网格不受影响（它们要用满宽度）。
+   段后 1.5rem 是老师那份的值——空行本身就是格式。 */
+/* 🔴 2026-08-22 二次修正（Vic：「很多地方换行都奇怪」）：限宽必须加在**盒子**上，
+   不能加在盒子里的文字上。第一版给 .co-item / li / p 直接加 max-width，结果是
+   callout 盒子仍 1120px 宽、文字停在 646px，**右边留 474px 空背景**，看起来像断错行。
+   实测 28 个盒子中招。现在：裸段落（没有盒子）仍限宽，盒子里的文字不限、改限盒子本身。 */
+p{margin:0 0 1.5rem;max-width:var(--measure)}
+.callout p,.callout div,.callout li,.co-item,.outlook-list li,.ad-list li,
+.entry-legend .co-item{max-width:none}
+li{margin:0 0 .55rem}
 .muted,.note{color:var(--muted)}
 .note{font-size:13px}
 
@@ -49,7 +65,7 @@ h3{font-size:18px;margin:20px 0 8px}
 
 table{width:100%;border-collapse:separate;border-spacing:0;background:var(--panel);border:1px solid var(--line);
   border-radius:14px;overflow:hidden;margin:10px 0 12px;font-size:14px;box-shadow:0 8px 20px rgba(15,23,42,.04)}
-th,td{border-bottom:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top}
+th,td{border-bottom:1px solid var(--line);padding:13px 13px;text-align:left;vertical-align:top;line-height:1.75}
 tr:last-child td{border-bottom:0}
 /* 2026-07-27 Vic："第一行增加颜色，白色突兀"——表头原来是近乎白的#f8fafc，
    跟深蓝组标题行放一起显得没有分量。加深成灰蓝，作为表头有存在感又不抢组标题的色。*/
@@ -65,7 +81,7 @@ tr.row-bull td{background:var(--green-bg)}
 tr.row-warn td{background:var(--red-bg)}
 
 .callout{background:var(--blue-bg);border:1px solid var(--line);border-left:5px solid var(--blue);border-radius:12px;
-  padding:14px 16px;margin:12px 0 18px}
+  padding:22px 24px;margin:20px 0 32px;max-width:calc(var(--measure) + 12em)}
 .callout.ok{border-left-color:var(--green);background:#fff}
 .callout.warn{border-left-color:var(--amber);background:#fff}
 .callout.risk{border-left-color:var(--red);background:#fff}
@@ -95,7 +111,7 @@ tr.row-warn td{background:var(--red-bg)}
 .action-directive{border-left:3px solid #d9b64a;background:#fff8e1;padding:12px 16px;margin:14px 0 24px}
 .ad-label{color:#9a7b0b;font-weight:800}
 .ad-list{list-style:none;padding:0;margin:8px 0 0}
-.ad-list li{margin:6px 0}
+.ad-list li{margin:0 0 14px}
 .ad-primary::before{content:"\25CF ";color:#9a7b0b}
 .ad-watch::before{content:"\25CE ";color:var(--blue)}
 .ad-avoid::before{content:"\2717 ";color:var(--red)}
@@ -286,7 +302,9 @@ tr.row-mute td{background:#f4f5f7;color:var(--muted)}
    **序号自带次序，圆点不带**：一段小结里几条本来就有主次（先说什么、再说什么），
    圆点把它们拍平成并列。co-head（冒号结尾的分组小标题）不参与编号也不缩进。 */
 .co-list{margin-top:6px;counter-reset:coitem}
-.co-item{padding-left:2.1em;text-indent:-2.1em;margin:0 0 5px}
+/* 🔤 2026-08-22：条目间距 5px → 18px。报告的正文主要不在 <p> 里，而在这些条目里，
+   5px 是「挤在一起」最直接的来源（老师那份的段后是 1.5rem=24px）。 */
+.co-item{padding-left:2.1em;text-indent:-2.1em;margin:0 0 18px}
 .co-item:last-child{margin-bottom:0}
 .co-item::before{counter-increment:coitem;content:counter(coitem,upper-roman) ".";
   color:var(--muted);margin-right:.6em;font-variant-numeric:tabular-nums}
@@ -294,7 +312,7 @@ tr.row-mute td{background:#f4f5f7;color:var(--muted)}
 .co-item.co-head::before{counter-increment:none;content:""; margin-right:0}
 /* co-sub = 附在上一条下面的子项（原文以 · / - 开头）。**不参与罗马数字编号**，
    否则「4 个并列结论 + 1 组附注」会被拍平成 9 条并列，编号反而消灭层级。 */
-.co-item.co-sub{padding-left:3.5em;text-indent:-1.2em;margin:0 0 3px;
+.co-item.co-sub{padding-left:3.5em;text-indent:-1.2em;margin:0 0 10px;
   font-size:12.6px;color:var(--ink,inherit)}
 .co-item.co-sub::before{counter-increment:none;content:"–";margin-right:.5em;
   color:var(--muted);font-weight:400}
@@ -417,9 +435,9 @@ table.movers td:nth-child(n+5){font-size:12.8px;line-height:1.6}
 .src-note{margin:8px 0 0;font-size:12px;color:var(--muted);line-height:1.7}
 
 /* 2026-07-28 Vic：明日前瞻给个白底，容易阅读 */
-.outlook-list{background:#fff;border:1px solid var(--line);border-radius:8px;
+.outlook-list{max-width:calc(var(--measure) + 12em);background:#fff;border:1px solid var(--line);border-radius:8px;
   margin:10px 0 0;padding:14px 16px 14px 38px;list-style-position:outside}
-.outlook-list li{margin:0 0 11px;line-height:1.8}
+.outlook-list li{margin:0 0 20px;line-height:1.9}
 .outlook-list li:last-child{margin-bottom:0}
 
 /* 2026-07-28 Vic：方法论块用黄色，跟蓝色的「小结」区分（黄=怎么做/规则，蓝=发生了什么） */
@@ -477,7 +495,7 @@ tr.ledger-disc td { background:var(--bg); color:var(--muted); }
 /* 2026-08-18 Vic：「小结还是有小点」——他圈的是「今晚要动的：」这种**小标题**，
    它是分组标题不是条目，却和下面的条目一样挂了项目符号，读起来像漏了内容的空条目。
    co-head = 冒号结尾的短行，取消悬挂缩进和符号、加粗留白。*/
-.co-head{padding-left:0;text-indent:0;margin:2px 0 4px;font-weight:600}
+.co-head{padding-left:0;text-indent:0;margin:14px 0 10px;font-weight:600}
 /* 2026-08-18 Vic：「需要执行的仓位，在上面表格里也标识黄色底」——
    红=风险（止损缺失/错值/缓冲不足），黄=今天要动手（peel/退出/移止损）。
    两者分开：一个是「会被打掉」，一个是「该下单了」。*/
@@ -617,5 +635,5 @@ a:hover{text-decoration:underline}
 <header><div class="eyebrow">xdesk</div><h1>X 盘中简报</h1>
 <div class="note" style="margin-top:8px">一天一页，当天多轮扫描追加进同一页，最新一轮在最上面。</div>
 </header>
-<div class="tw"><div class="when">08-22<i>周六</i></div><div class="body"><a href="2026-08-22-x.html" style="font-weight:800;font-size:15px">2026-08-22 X 盘中简报</a><div class="note">1 轮 · 29 条 · 20 张图</div></div></div><div class="tw"><div class="when">08-21<i>周五</i></div><div class="body"><a href="2026-08-21-x.html" style="font-weight:800;font-size:15px">2026-08-21 X 盘中简报</a><div class="note">1 轮 · 41 条 · 18 张图</div></div></div><div class="tw"><div class="when">08-20<i>周四</i></div><div class="body"><a href="2026-08-20-x.html" style="font-weight:800;font-size:15px">2026-08-20 X 盘中简报</a><div class="note">3 轮 · 103 条 · 24 张图</div></div></div>
+<div class="tw"><div class="when">08-23<i>周日</i></div><div class="body"><a href="2026-08-23-x.html" style="font-weight:800;font-size:15px">2026-08-23 X 盘中简报</a><div class="note">1 轮 · 58 条 · 25 张图</div></div></div><div class="tw"><div class="when">08-22<i>周六</i></div><div class="body"><a href="2026-08-22-x.html" style="font-weight:800;font-size:15px">2026-08-22 X 盘中简报</a><div class="note">1 轮 · 29 条 · 20 张图</div></div></div><div class="tw"><div class="when">08-21<i>周五</i></div><div class="body"><a href="2026-08-21-x.html" style="font-weight:800;font-size:15px">2026-08-21 X 盘中简报</a><div class="note">1 轮 · 41 条 · 18 张图</div></div></div><div class="tw"><div class="when">08-20<i>周四</i></div><div class="body"><a href="2026-08-20-x.html" style="font-weight:800;font-size:15px">2026-08-20 X 盘中简报</a><div class="note">3 轮 · 103 条 · 24 张图</div></div></div>
 </div>
