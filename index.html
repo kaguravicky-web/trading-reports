@@ -34,7 +34,24 @@ body{margin:0;background:linear-gradient(180deg,#fbfbfd 0,var(--bg) 300px);color
    **他的正文比我的宽，不比我的窄。**让他好读的是「所有东西共用一条边」，
    不是「文字很窄」。所以：容器收到 960、左右 padding 32（→ 内容 896px 与他一致），
    段落和 callout 的 max-width 全部取消，由容器统一定边。 */
-.wrap{max-width:960px;margin:0 auto;padding:40px 32px 72px}
+/* 🔤 2026-08-23 第四次（Vic：「我看出你的报告整个改窄了，位置不够，但是我老师的报告
+   一点也不窄的……用他的段落宽度和间距，注意换行，表格可以拉宽的呀」）。
+   **第三次把整页收到 960 是过头了**：文字确实变舒服了，但 8~9 列的持仓表被挤到
+   「6.94 / %」「已 / 触发」「【mentor / 跟单】机械 / 跟随，无个 / 人logic」这种断法 —— 反而更难读。
+   **对齐 ≠ 所有东西同宽。**正确的拆法是分两层：
+     · 文字层（段落 / callout / 列表）= 老师实测的 836px，**盒子和盒内文字同宽**，
+       所以不会再出现「宽盒子 + 窄文字」那种空背景（那才是 8/22 真正的病）
+     · 表格层 = 走满容器，表本来就该宽
+   两层**共用左边缘**，右边缘表格更长 —— 这是正常的编辑排版，不是没对齐。
+   老师那份的正文参数一并照抄：17px / 行高 1.95 / 段后 24px。 */
+.wrap{max-width:1340px;margin:0 auto;padding:40px 32px 72px}
+:root{--measure:836px}          /* 老师 8/21 专题实测的段落宽度 */
+p,.callout,.outlook-list,.ad-list,.entry-legend{max-width:var(--measure)}
+body{line-height:1.95}
+p{margin:0 0 24px}
+/* 表格：走满容器；数字列一律不许在数字和单位之间断开 */
+table{max-width:none;width:100%}
+td.num,th.num,td.ctr,th.ctr{white-space:nowrap}
 header,.panel{background:rgba(255,255,255,.94);border:1px solid var(--line);border-radius:18px;
   box-shadow:var(--shadow);padding:24px;margin-bottom:18px}
 .eyebrow{font-size:13px;font-weight:800;color:var(--blue);margin-bottom:8px}
@@ -47,7 +64,7 @@ h3{font-size:18.5px;margin:44px 0 14px;letter-spacing:.03em}
    callout 盒子 1120px 宽而文字停在 646px，右边留一大片空背景，看着像断错行。
    2026-08-23 三次修正：**索性谁都不限，全部交给容器**（见上面 .wrap 的注释）。
    段后 1.5rem ≈ 25.5px，老师那份是 24px —— 空行本身就是格式。 */
-p{margin:0 0 1.5rem;max-width:none}
+p{margin:0 0 24px;max-width:var(--measure)}
 .callout p,.callout div,.callout li,.co-item,.outlook-list li,.ad-list li,
 .entry-legend .co-item{max-width:none}
 li{margin:0 0 .55rem}
@@ -93,7 +110,7 @@ tr.row-bull td{background:var(--green-bg)}
 tr.row-warn td{background:var(--red-bg)}
 
 .callout{background:var(--blue-bg);border:1px solid var(--line);border-left:5px solid var(--blue);border-radius:12px;
-  padding:22px 24px;margin:20px 0 32px;max-width:none}
+  padding:22px 24px;margin:20px 0 32px;max-width:var(--measure)}
 .callout.ok{border-left-color:var(--green);background:#fff}
 .callout.warn{border-left-color:var(--amber);background:#fff}
 .callout.risk{border-left-color:var(--red);background:#fff}
@@ -447,7 +464,7 @@ table.movers td:nth-child(n+5){font-size:12.8px;line-height:1.6}
 .src-note{margin:8px 0 0;font-size:12px;color:var(--muted);line-height:1.7}
 
 /* 2026-07-28 Vic：明日前瞻给个白底，容易阅读 */
-.outlook-list{max-width:none;background:#fff;border:1px solid var(--line);border-radius:8px;
+.outlook-list{max-width:var(--measure);background:#fff;border:1px solid var(--line);border-radius:8px;
   margin:10px 0 0;padding:14px 16px 14px 38px;list-style-position:outside}
 .outlook-list li{margin:0 0 20px;line-height:1.9}
 .outlook-list li:last-child{margin-bottom:0}
@@ -570,6 +587,17 @@ tr.row-act td{background:var(--amber-bg,#fff6e0)}
 .sig-table td.sig-lv.mid{color:var(--muted)}
 .sig-table td.sig-lv.high{color:var(--red)}
 .sig-table td.sig-txt{line-height:1.72;vertical-align:top}
+
+/* 🔤 2026-08-23 段间距对齐老师那份（Vic：「用他的段落宽度和间距」）。
+   量出来的病灶不在 p —— 这些报告的正文其实是 callout 里的 <div>/<li>，
+   实测**上 6px、下 0px**，段与段几乎贴在一起（这就是他说的「挤在一起」）。
+   老师那份段间 24px。这一段**故意放在文件最末尾**：前面两次都栽在
+   「新规则加在前面、旧的 max-width/margin 排在后面把它盖回去」。 */
+.callout p, .callout > div, .co-item, .outlook-list li, .ad-list li{
+  margin:0 0 24px; line-height:1.95}
+.callout p:last-child, .callout > div:last-child, .co-item:last-child{margin-bottom:0}
+.callout{padding:24px 28px}
+li{margin:0 0 24px; line-height:1.95}
 
 
 a{color:var(--blue);text-decoration:none}

@@ -79,10 +79,10 @@ h1{
 }
 
 /* 徽章：描边不填色。老师那份没有这个元素，这是我们自己的，压到最轻。 */
-.badges{display:flex;flex-wrap:wrap;gap:.6rem;margin:2rem 0 0}
+.badges{display:flex;flex-wrap:wrap;gap:.5rem;margin:1.75rem 0 0}
 .badge{
-  font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;line-height:1.6;
-  padding:.3rem .7rem;border:1px solid var(--rule);color:var(--ink-2);
+  font-family:var(--mono);font-size:.66rem;letter-spacing:.06em;line-height:1.55;
+  padding:.25rem .6rem;border:1px solid var(--rule);color:var(--ink-2);
   background:none;border-radius:0;white-space:normal;
 }
 .badge.red{color:var(--brick);border-color:var(--brick-soft)}
@@ -106,9 +106,11 @@ h1{
 
 /* ---------- 摘要栏（原 .grid/.card）---------- */
 /* 老师的对应物是 header 里那排 .meta：标签在上、数字在下，没有盒子。 */
+/* 四张摘要卡要能在 60rem 里并成一行：min 给到 13rem 加 3rem 间距会溢出、挤成两行。
+   10rem × 4 + 2.5rem × 3 = 平铺 800px < 896px 的可用宽度，稳。 */
 section.grid{
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(13rem,1fr));
-  gap:2.5rem 3rem;padding:3.5rem 0;border-bottom:1px solid var(--rule);
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(10rem,1fr));
+  gap:2.5rem;padding:3.5rem 0;border-bottom:1px solid var(--rule);
 }
 .card{background:none;border:0;border-radius:0;box-shadow:none;padding:0;margin:0}
 .card>span{
@@ -152,18 +154,28 @@ code{font-family:var(--mono);font-size:.85em;background:var(--paper-2);padding:.
 
 /* ---------- 答案先行（原 ol.answer-list）---------- */
 /* 老师的 .verdict：等宽序号 01/02 走砖红，条目之间用横线分开，没有项目符号。 */
+/* 🔴 2026-08-23 踩过的坑：这里**不能用 grid**。
+   老师的 .verdict 能用 grid，是因为他每个 li 里正好两个块级子元素
+   （<span class="n">01</span> + <p>…</p>）。我们的 li 是**混排内容**——
+   裸文本片段和 <strong> 交替，没有外层 <p>。放进 grid 容器后，
+   每一段裸文本、每一个 <strong> 都会各自变成一个匿名 grid item，
+   被塞进 2.5rem 那一列里，结果是**一行一个字**竖着流下来。
+   改成 position:relative + 绝对定位的序号：li 保持普通块级，文字正常流，
+   跟 li 里面写了什么结构完全无关——这份表要给所有专题用，不能挑markup。 */
 .answer-list{list-style:none;padding:0;margin:0;counter-reset:verdict;max-width:none}
 .answer-list>li{
-  display:grid;grid-template-columns:2.5rem 1fr;gap:1.25rem;
-  padding:1.6rem 0;border-top:1px solid var(--rule);margin:0;
+  position:relative;padding:1.6rem 0 1.6rem 3.75rem;margin:0;
+  border-top:1px solid var(--rule);
   max-width:calc(var(--measure) + 3.75rem);
 }
 .answer-list>li:last-child{border-bottom:1px solid var(--rule)}
 .answer-list>li::before{
   counter-increment:verdict;content:counter(verdict,decimal-leading-zero);
+  position:absolute;left:0;top:2.1rem;
   font-family:var(--mono);font-size:.72rem;color:var(--brick);
-  letter-spacing:.08em;padding-top:.5rem;
+  letter-spacing:.08em;line-height:1;
 }
+.answer-list>li>p{max-width:none}
 
 /* ---------- 提示块（原 .callout）---------- */
 /* 老师的 .note：纸色底、直角、无边框。宽度收到「正文宽 + 左右内边距」，
@@ -179,15 +191,21 @@ code{font-family:var(--mono);font-size:.85em;background:var(--paper-2);padding:.
 
 /* ---------- 表格 ---------- */
 .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 0 1.5rem}
+/* 🔴 2026-08-23 第二个坑：老师的表是 table-layout:auto，因为他的表最多四列、
+   每列内容长度接近。我们的专题表有六七列、而且「读法」那一列经常是整段话，
+   auto 布局会把长文本列撑到最大、把其它列饿到 30–60px，
+   中文就变成一行两三个字竖着下来（截图里的 8/22 那张对表就是）。
+   所以**保留 fixed 布局和按列数分配宽度**——这条不跟老师，跟原来的 report-shared.css。
+   数字列另外钉死 9%，剩下的宽度由文本列平分。 */
 table,.report-data-table{
   width:100%;border-collapse:collapse;margin:0;
-  font-size:.9rem;table-layout:auto;
+  font-size:.9rem;table-layout:fixed;
 }
 th{
   font-family:var(--mono);font-size:.64rem;font-weight:500;
   text-transform:uppercase;letter-spacing:.18em;color:var(--ink-3);
   text-align:left;padding:0 1rem .9rem 0;border-bottom:1px solid var(--ink);
-  white-space:nowrap;
+  line-height:1.7;
 }
 td{
   padding:1rem 1rem 1rem 0;border-bottom:1px solid var(--rule);
@@ -206,8 +224,20 @@ tr.row-warn td:first-child,tr.row-bull td:first-child{padding-left:.7rem}
 tr.row-warn td:first-child{box-shadow:inset 2px 0 0 var(--brick-soft)}
 tr.row-bull td:first-child{box-shadow:inset 2px 0 0 #A9BCA9}
 
-/* 老师那套按列数分配宽度的规则不搬：纸面版用 auto 布局，让内容自己定列宽。 */
-.report-cols-3,.report-cols-4,.report-cols-5,.report-cols-6,.report-cols-7{table-layout:auto}
+/* 数字列是 nowrap，fixed 布局下**放不下就直接溢出、不换行也不报错**——
+   量过实测最宽的内容：cols-4 是「−46.79%」57.2px、cols-6 是「5040 万股」70.7px、
+   cols-7 是「−16.58」49px，各自加 16px 右内边距才是该给的宽度。
+   （2026-08-23 第一版给了 9%＝43px 可用，上面三种全溢出，共 9 格。） */
+th.num{width:12%}
+.report-cols-6 th.num{width:14%}
+.report-cols-7 th.num{width:11%}
+.report-cols-3 th:first-child{width:22%}
+.report-cols-4 th:first-child{width:18%}
+.report-cols-5 th:first-child{width:15%}
+.report-cols-6 th:first-child{width:13%}
+/* 七列表第一列是分组标签（「L1 烧自己现金流」这种）。11% 只有 81px、
+   减掉右内边距剩 65px，中文一行只放三个字——就是 Vic 截图里那种竖排。给到 16%。 */
+.report-cols-7 th:first-child{width:16%}
 .report-cols-6,.report-cols-7{min-width:46rem}
 
 /* ---------- 结尾来源 ---------- */
@@ -225,8 +255,11 @@ section#boundary .muted:last-child{
   section{padding:3.25rem 0}
   section.grid{gap:2rem;padding:2.5rem 0}
   .callout{padding:1.5rem 1.35rem}
-  .answer-list>li{grid-template-columns:2rem 1fr;gap:.9rem}
+  .answer-list>li{padding-left:2.75rem}
+  .answer-list>li::before{top:1.9rem}
   table,.report-data-table{font-size:.85rem}
+  /* 窄屏容器收到 34rem，12% 的数字列只剩 49px，「−46.79%」量到 54px 会溢出。 */
+  th.num{width:14%}
   .report-cols-3,.report-cols-4,.report-cols-5{min-width:34rem}
   .report-cols-6,.report-cols-7{min-width:44rem}
 }
