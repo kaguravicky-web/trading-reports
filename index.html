@@ -597,15 +597,20 @@ header .badges{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
 .rpt h3{margin:0 0 5px;font-size:16.5px;line-height:1.42}
 .rpt h3 a{color:var(--text)}
 .rpt h3 a:hover{color:var(--blue);text-decoration:none}
-/* 🔤 2026-08-22 Vic：「索引页面的排版，单行长度你还是没有修」——
-   report.css / report-shared.css 都改了，**但索引页有自己的 EXTRA_CSS，漏了它**。
-   卡片是 flex，body 一路撑到 1160px 容器边，摘要一行排 80+ 个中文字。
-   跟报告同一条规则：限宽加在盒子里的文字上没有背景色副作用（.rpt-sum 没有自己的底色），
-   所以这里直接给文字限宽即可；卡片本身要保持宽（右边有「打开报告」按钮）。 */
-.rpt-sum{margin:0;font-size:13px;line-height:1.85;color:var(--muted);max-width:var(--measure)}
+/* 🔤 2026-08-23 Vic 第二次退回：「索引没修好」。
+   第一版（8/22）给 .rpt-sum 和 .rpt h3 各加了 max-width:var(--measure)，**这是错的两次**：
+   ① --measure 是 38em，em 按**各自字号**算 —— 标题 16.5px→627px、摘要 13px→494px，
+      同一张卡片上两条不同的折行边，徽章又跑到 880px。三条边全不齐，看着就是"没修"。
+   ② 更根本的：容器 1160px、卡片 1120px，里面塞一段 646px 的文字 ——
+      **这正是我在报告里判为错误的那个形态（宽盒子 + 窄文字），只是搬到了索引页。**
+   正确做法跟报告一致：**限宽收在盒子（卡片）上，让文字填满盒子**，不给文字单独限宽。
+   算式：wrap 780 − padding 40 − 卡片 padding 36 − 按钮 86 − gap 16 ≈ 602px 一条边，
+   标题 16.5px→36 字、摘要 14px→43 字，两者折在同一个像素位置。 */
+.wrap{max-width:780px}
+.rpt-body{max-width:none}
+.rpt h3{max-width:none}
+.rpt-sum{margin:0;font-size:14px;line-height:1.85;color:var(--muted);max-width:none}
 .rpt-sum strong{color:var(--text)}
-.rpt h3{max-width:var(--measure)}
-.rpt-body{padding-right:12px}
 .rpt .badges{display:flex;flex-wrap:wrap;gap:5px;margin-top:9px}
 .rpt-act{flex:0 0 auto}
 .btn{display:inline-block;padding:7px 14px;border-radius:9px;font-size:12.5px;font-weight:700;
