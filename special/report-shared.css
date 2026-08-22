@@ -972,15 +972,19 @@ body.flat-report{
    我们的表列多，容器收窄会挤 —— 所以容器保持宽，只给正文限宽。 ═══ */
 :root{ --measure:38em; }
 body{ font-size:17px; line-height:1.9; letter-spacing:.015em; }
+/* 🔴 二次修正：限宽加在**盒子**上，不加在盒子里的文字上。
+   第一版给文字加 max-width，结果盒子仍全宽、文字停在 646px，右边留一大片空背景，
+   看起来像断错行（盘前实测 28 个盒子中招）。裸段落没有盒子，限宽无副作用，保留。 */
 p{ margin:0 0 1.5rem; max-width:var(--measure); }
-li{ margin:0 0 .6rem; max-width:var(--measure); }
+li{ margin:0 0 .6rem; }
+.callout p,.callout div,.callout li,.co-item{ max-width:none; }
+.callout{ max-width:calc(var(--measure) + 12em); }
 h1{ line-height:1.35; max-width:24em; letter-spacing:.01em; }
 h2{ line-height:1.5; margin:64px 0 26px; letter-spacing:.02em; }
 h3{ margin:44px 0 14px; letter-spacing:.03em; }
 section{ padding:8px 0 40px; }
 .section-intro{ max-width:var(--measure); }
 .callout{ padding:22px 24px; margin:20px 0 32px; }
-.callout p{ max-width:var(--measure); }
 th,td{ line-height:1.75; padding:13px 13px; }
 /* 表格不限宽 —— 限宽只作用于成段的文字 */
 table,.table-scroll,.grid,.card,.metric-strip{ max-width:none; }

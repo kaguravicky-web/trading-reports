@@ -34,9 +34,14 @@ h2{font-size:26px;line-height:1.5;margin:64px 0 26px;scroll-margin-top:72px;lett
 h3{font-size:18.5px;margin:44px 0 14px;letter-spacing:.03em}
 /* 正文限宽：只作用于成段的文字，表格/卡片/网格不受影响（它们要用满宽度）。
    段后 1.5rem 是老师那份的值——空行本身就是格式。 */
+/* 🔴 2026-08-22 二次修正（Vic：「很多地方换行都奇怪」）：限宽必须加在**盒子**上，
+   不能加在盒子里的文字上。第一版给 .co-item / li / p 直接加 max-width，结果是
+   callout 盒子仍 1120px 宽、文字停在 646px，**右边留 474px 空背景**，看起来像断错行。
+   实测 28 个盒子中招。现在：裸段落（没有盒子）仍限宽，盒子里的文字不限、改限盒子本身。 */
 p{margin:0 0 1.5rem;max-width:var(--measure)}
-.callout p,.callout>div{max-width:var(--measure)}
-li{margin:0 0 .55rem;max-width:var(--measure)}
+.callout p,.callout div,.callout li,.co-item,.outlook-list li,.ad-list li,
+.entry-legend .co-item{max-width:none}
+li{margin:0 0 .55rem}
 .muted,.note{color:var(--muted)}
 .note{font-size:13px}
 
@@ -79,7 +84,7 @@ tr.row-bull td{background:var(--green-bg)}
 tr.row-warn td{background:var(--red-bg)}
 
 .callout{background:var(--blue-bg);border:1px solid var(--line);border-left:5px solid var(--blue);border-radius:12px;
-  padding:22px 24px;margin:20px 0 32px}
+  padding:22px 24px;margin:20px 0 32px;max-width:calc(var(--measure) + 12em)}
 .callout.ok{border-left-color:var(--green);background:#fff}
 .callout.warn{border-left-color:var(--amber);background:#fff}
 .callout.risk{border-left-color:var(--red);background:#fff}
@@ -109,7 +114,7 @@ tr.row-warn td{background:var(--red-bg)}
 .action-directive{border-left:3px solid #d9b64a;background:#fff8e1;padding:12px 16px;margin:14px 0 24px}
 .ad-label{color:#9a7b0b;font-weight:800}
 .ad-list{list-style:none;padding:0;margin:8px 0 0}
-.ad-list li{margin:0 0 14px;max-width:var(--measure)}
+.ad-list li{margin:0 0 14px}
 .ad-primary::before{content:"\25CF ";color:#9a7b0b}
 .ad-watch::before{content:"\25CE ";color:var(--blue)}
 .ad-avoid::before{content:"\2717 ";color:var(--red)}
@@ -302,7 +307,7 @@ tr.row-mute td{background:#f4f5f7;color:var(--muted)}
 .co-list{margin-top:6px;counter-reset:coitem}
 /* 🔤 2026-08-22：条目间距 5px → 18px。报告的正文主要不在 <p> 里，而在这些条目里，
    5px 是「挤在一起」最直接的来源（老师那份的段后是 1.5rem=24px）。 */
-.co-item{padding-left:2.1em;text-indent:-2.1em;margin:0 0 18px;max-width:var(--measure)}
+.co-item{padding-left:2.1em;text-indent:-2.1em;margin:0 0 18px}
 .co-item:last-child{margin-bottom:0}
 .co-item::before{counter-increment:coitem;content:counter(coitem,upper-roman) ".";
   color:var(--muted);margin-right:.6em;font-variant-numeric:tabular-nums}
@@ -433,9 +438,9 @@ table.movers td:nth-child(n+5){font-size:12.8px;line-height:1.6}
 .src-note{margin:8px 0 0;font-size:12px;color:var(--muted);line-height:1.7}
 
 /* 2026-07-28 Vic：明日前瞻给个白底，容易阅读 */
-.outlook-list{background:#fff;border:1px solid var(--line);border-radius:8px;
+.outlook-list{max-width:calc(var(--measure) + 12em);background:#fff;border:1px solid var(--line);border-radius:8px;
   margin:10px 0 0;padding:14px 16px 14px 38px;list-style-position:outside}
-.outlook-list li{margin:0 0 20px;line-height:1.9;max-width:var(--measure)}
+.outlook-list li{margin:0 0 20px;line-height:1.9}
 .outlook-list li:last-child{margin-bottom:0}
 
 /* 2026-07-28 Vic：方法论块用黄色，跟蓝色的「小结」区分（黄=怎么做/规则，蓝=发生了什么） */
