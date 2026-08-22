@@ -34,7 +34,24 @@ body{margin:0;background:linear-gradient(180deg,#fbfbfd 0,var(--bg) 300px);color
    **他的正文比我的宽，不比我的窄。**让他好读的是「所有东西共用一条边」，
    不是「文字很窄」。所以：容器收到 960、左右 padding 32（→ 内容 896px 与他一致），
    段落和 callout 的 max-width 全部取消，由容器统一定边。 */
-.wrap{max-width:960px;margin:0 auto;padding:40px 32px 72px}
+/* 🔤 2026-08-23 第四次（Vic：「我看出你的报告整个改窄了，位置不够，但是我老师的报告
+   一点也不窄的……用他的段落宽度和间距，注意换行，表格可以拉宽的呀」）。
+   **第三次把整页收到 960 是过头了**：文字确实变舒服了，但 8~9 列的持仓表被挤到
+   「6.94 / %」「已 / 触发」「【mentor / 跟单】机械 / 跟随，无个 / 人logic」这种断法 —— 反而更难读。
+   **对齐 ≠ 所有东西同宽。**正确的拆法是分两层：
+     · 文字层（段落 / callout / 列表）= 老师实测的 836px，**盒子和盒内文字同宽**，
+       所以不会再出现「宽盒子 + 窄文字」那种空背景（那才是 8/22 真正的病）
+     · 表格层 = 走满容器，表本来就该宽
+   两层**共用左边缘**，右边缘表格更长 —— 这是正常的编辑排版，不是没对齐。
+   老师那份的正文参数一并照抄：17px / 行高 1.95 / 段后 24px。 */
+.wrap{max-width:1200px;margin:0 auto;padding:40px 32px 72px}
+:root{--measure:none}   /* 2026-08-23 Vic：一个宽度贯到底，谁都不单独限宽 */
+p,.callout,.outlook-list,.ad-list,.entry-legend,table{max-width:none;width:100%}
+body{line-height:1.95}
+p{margin:0 0 24px}
+/* 表格：走满容器；数字列一律不许在数字和单位之间断开 */
+table{max-width:none;width:100%}
+td.num,th.num,td.ctr,th.ctr{white-space:nowrap}
 header,.panel{background:rgba(255,255,255,.94);border:1px solid var(--line);border-radius:18px;
   box-shadow:var(--shadow);padding:24px;margin-bottom:18px}
 .eyebrow{font-size:13px;font-weight:800;color:var(--blue);margin-bottom:8px}
@@ -47,7 +64,7 @@ h3{font-size:18.5px;margin:44px 0 14px;letter-spacing:.03em}
    callout 盒子 1120px 宽而文字停在 646px，右边留一大片空背景，看着像断错行。
    2026-08-23 三次修正：**索性谁都不限，全部交给容器**（见上面 .wrap 的注释）。
    段后 1.5rem ≈ 25.5px，老师那份是 24px —— 空行本身就是格式。 */
-p{margin:0 0 1.5rem;max-width:none}
+p{margin:0 0 24px;max-width:var(--measure)}
 .callout p,.callout div,.callout li,.co-item,.outlook-list li,.ad-list li,
 .entry-legend .co-item{max-width:none}
 li{margin:0 0 .55rem}
@@ -93,7 +110,7 @@ tr.row-bull td{background:var(--green-bg)}
 tr.row-warn td{background:var(--red-bg)}
 
 .callout{background:var(--blue-bg);border:1px solid var(--line);border-left:5px solid var(--blue);border-radius:12px;
-  padding:22px 24px;margin:20px 0 32px;max-width:none}
+  padding:22px 24px;margin:20px 0 32px;max-width:var(--measure)}
 .callout.ok{border-left-color:var(--green);background:#fff}
 .callout.warn{border-left-color:var(--amber);background:#fff}
 .callout.risk{border-left-color:var(--red);background:#fff}
@@ -120,7 +137,14 @@ tr.row-warn td{background:var(--red-bg)}
 .tb-list{margin:8px 0 0;padding-left:20px}
 .tb-list li{margin:5px 0;font-size:13px}
 
-.action-directive{border-left:3px solid #d9b64a;background:#fff8e1;padding:12px 16px;margin:14px 0 24px}
+/* 🔤 2026-08-23 Vic：「周报的黄字不要粗体，很难读，每条稍微空的大一些」。
+   这个黄框里我几乎每句都加了 ** —— 当一段话有一半是粗体，粗体就不再是强调，
+   而是噪音；叠在 #fff8e1 的暖底上对比度又低，整块糊成一片。
+   做法：**框内不再渲染粗体**（strong 回到常规字重，仅用深一点的颜色区分），
+   条目间距 10px → 26px。 */
+.action-directive{border-left:3px solid #d9b64a;background:#fff8e1;
+  padding:22px 26px;margin:14px 0 28px}
+.action-directive strong,.action-directive b{font-weight:400;color:#6b5410}
 .ad-label{color:#9a7b0b;font-weight:800}
 .ad-list{list-style:none;padding:0;margin:8px 0 0}
 .ad-list li{margin:0 0 14px}
@@ -302,7 +326,7 @@ tr.row-mute td{background:#f4f5f7;color:var(--muted)}
 
 /* 核心结论：编号 + 粗体标题句 + 支撑句（2026-07-27对标老师报告的「核心結論」格式）*/
 .kt-list{margin:10px 0 0;padding-left:1.4em}
-.kt-item{margin:0 0 10px}
+.kt-item{margin:0 0 26px}
 .kt-item:last-child{margin-bottom:0}
 .kt-head{font-weight:700}
 .kt-body{margin-top:3px;color:var(--text);font-size:13.5px;line-height:1.75}
@@ -447,7 +471,7 @@ table.movers td:nth-child(n+5){font-size:12.8px;line-height:1.6}
 .src-note{margin:8px 0 0;font-size:12px;color:var(--muted);line-height:1.7}
 
 /* 2026-07-28 Vic：明日前瞻给个白底，容易阅读 */
-.outlook-list{max-width:none;background:#fff;border:1px solid var(--line);border-radius:8px;
+.outlook-list{max-width:var(--measure);background:#fff;border:1px solid var(--line);border-radius:8px;
   margin:10px 0 0;padding:14px 16px 14px 38px;list-style-position:outside}
 .outlook-list li{margin:0 0 20px;line-height:1.9}
 .outlook-list li:last-child{margin-bottom:0}
@@ -570,6 +594,43 @@ tr.row-act td{background:var(--amber-bg,#fff6e0)}
 .sig-table td.sig-lv.mid{color:var(--muted)}
 .sig-table td.sig-lv.high{color:var(--red)}
 .sig-table td.sig-txt{line-height:1.72;vertical-align:top}
+
+/* 🔤 2026-08-23 段间距对齐老师那份（Vic：「用他的段落宽度和间距」）。
+   量出来的病灶不在 p —— 这些报告的正文其实是 callout 里的 <div>/<li>，
+   实测**上 6px、下 0px**，段与段几乎贴在一起（这就是他说的「挤在一起」）。
+   老师那份段间 24px。这一段**故意放在文件最末尾**：前面两次都栽在
+   「新规则加在前面、旧的 max-width/margin 排在后面把它盖回去」。 */
+.callout p, .callout > div, .co-item, .outlook-list li, .ad-list li{
+  margin:0 0 24px; line-height:1.95}
+.callout p:last-child, .callout > div:last-child, .co-item:last-child{margin-bottom:0}
+.callout{padding:24px 28px}
+li{margin:0 0 24px; line-height:1.95}
+
+/* 🔤 2026-08-23 第五轮（Vic：「看我标识，没有看到任何改动」+ 「你做完自己打开 html 检查下再给我」）。
+   他的箭头指的三处（闸门表说明列 / 灰色注释块 / 命中率表）全在**没被上一轮碰到的 70%** 里：
+   实测全页 13560 字中 9481 字（70%）仍是 12~15.6px / 行距 1.75，
+   只有 callout 那 4079 字换成了老师的 17px / 1.95。
+   但**不能把表格也改成 17px** —— 实测老师的 td 就是 14.4px，跟我的 14px 基本一致。
+   他整页 78% 的字在 17px，是因为他几乎没有表格（表内 560 字 vs 我 7794 字），不是字更大。
+   真正的差距是**行内留白**：他 td padding 16px、行高 1.8；我 13px。
+   还有灰色注释掉到 12px / 行距 1.7，比正文小太多，读起来是另一份文件。 */
+th,td{padding:16px 16px;line-height:1.8}
+.src-note,.note,.muted,small{font-size:14px;line-height:1.9}
+.iter-table td,.iter-table .it-lesson,.iter-table .it-rule{font-size:14.5px;line-height:1.85;padding:16px}
+.iter-table th{font-size:13px;padding:12px 16px}
+.brier-line{font-size:15px;line-height:1.9}
+
+/* 🔤 2026-08-23 定案（Vic：「我要改成一样宽，我需要报告右边对齐，不要再参考老师了，
+   我需要右边也对齐，所以区域左右一样宽才对」）。
+   前五轮一直在两个目标之间来回：一边想要老师那种舒服的正文行宽（836px），
+   一边想要宽表不被挤。折中的结果是**文字 836 / 表格 371~1276**，右边全是参差的。
+   **Vic 的判断是对的：一份报告的可读性，边缘整齐比单行字数更重要。**
+   现在只有一个宽度：容器 1200 − padding 64 = **内容 1136px**，
+   段落 / callout / 列表 / 全部表格一律 100%，左右两边都落在同一条线上。
+   （表格因此拿回 1136px，比 Vic 用了几周的那版 1120px 还宽一点，不会再挤。）
+   行距 1.95、段距 24px、td padding 16px 这些留白参数保留 —— 那几条本来就是对的。 */
+.wrap > *, .callout, table, .outlook-list, .ad-list, .grid, .checks{max-width:none;width:100%}
+h1{max-width:none}
 
 </style>
 </head>
