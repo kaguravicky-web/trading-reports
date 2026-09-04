@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="主线登记表：把 output/special 的专题报告和财报助手的市场叙事主线合成一张表。5 条在册主线，每条都挂着它的专题、财报证据与证伪条件。">
+  <title>主线登记表｜专题 × 财报叙事</title>
+  <meta name="updated" content="2026-09-04">
+  <link rel="stylesheet" href="special/report-paper.css?v=20260823-paper">
+  <style>
+  body.flat-report .wrap{max-width:1080px}
+  .theme{border-top:2px solid var(--ink,#111);padding:22px 0 26px}
+  .th-head{display:flex;gap:16px;align-items:flex-start;margin-bottom:12px}
+  .th-rank{flex:0 0 auto;width:42px;height:42px;border-radius:50%;background:#111;color:#fff;
+           display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:700}
+  .th-title{min-width:0;flex:1}
+  .th-title h2{margin:2px 0 8px;font-size:21px;line-height:1.35}
+  .th-sp{display:flex;flex-wrap:wrap;gap:8px;align-items:baseline;margin:0 0 16px;padding:10px 13px;
+         background:#f4f2ec;border-left:3px solid #111}
+  .lbl{flex:0 0 auto;font-size:11.5px;font-weight:700;letter-spacing:.08em;color:#6b6558}
+  a.sp-link{font-size:13px;font-weight:600;color:#111}
+  .sp-link.local{font-size:13px;font-weight:600;color:#6b6558}
+  .sp-link.local em{margin-left:7px;padding:1px 6px;border:.5px solid #d6d0c4;border-radius:4px;
+                    background:#fbfaf7;font-style:normal;font-weight:600;font-size:11px}
+  .th-body{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:0 26px}
+  .th-body section{padding:0 0 4px}
+  .th-body h3{margin:0 0 7px;font-size:12px;letter-spacing:.09em;color:#6b6558;text-transform:none}
+  .th-body p{margin:0 0 9px;font-size:13.2px;line-height:1.68}
+  .th-body .dis h3{color:#b42318}
+  .th-body .dis p{border-left:2px solid #f0c8c2;padding-left:10px}
+  .layers{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px;margin:14px 0 0}
+  .layers>div{border:.5px solid #ddd8cd;border-radius:7px;padding:9px 10px;background:#fff}
+  .layers span{display:block;font-size:12.5px;font-weight:700}
+  .layers small{display:block;margin:2px 0 6px;color:#6b6558;font-size:11px}
+  .th-foot{margin-top:16px;padding-top:13px;border-top:.5px solid #ddd8cd}
+  .th-foot p{margin:0 0 8px;font-size:12.5px}
+  .tk{display:inline-block;margin:0 4px 4px 0;padding:1px 6px;border:.5px solid #d6d0c4;border-radius:4px;
+      background:#fbfaf7;font-size:11.5px;font-variant-numeric:tabular-nums}
+  .watch .tk{background:#fff5df;border-color:#e6cf9a}
+  details summary{cursor:pointer;font-size:12px;color:#6b6558}
+  ul.srcs{margin:8px 0 0;padding-left:18px;font-size:12.2px;line-height:1.7}
+  ul.srcs .st{display:inline-block;min-width:62px;color:#6b6558;font-size:11px}
+  table.reg{width:100%;border-collapse:collapse;margin:10px 0 0;font-size:13px}
+  table.reg th,table.reg td{border-bottom:.5px solid #ddd8cd;padding:9px 10px;text-align:left;vertical-align:top}
+  table.reg td small{display:block;margin-top:3px;color:#6b6558;font-size:11.5px;line-height:1.5}
+  table.reg td:nth-child(2){white-space:nowrap;width:1%}
+</style>
+</head>
+<body class="flat-report" data-report-type="themes">
+<main class="wrap">
+  <header>
+    <div class="eyebrow"><a href="index.html">← 返回首页</a> · 主线登记表 · 2026-09-04 生成</div>
+    <h1>主线登记表</h1>
+    <p class="deck">专题和财报叙事本来就是同一件事，现在它们在同一张表上。</p>
+    <p class="muted lede">
+      这张表以前是两份：<strong>专题报告</strong>躺在 output/special 里按日期排，
+      <strong>叙事主线</strong>硬编码在财报助手 index.html 的 NARRATIVES 数组里，两边靠人脑对齐。
+      结果是 12 条叙事里只有 5 条真有专题支撑，另外 7 条是从财报自己凑的。
+      现在 <strong>data/themes.json 是唯一真相</strong>：一个主题＝一条主线＋它的专题＋它的财报证据＋它的证伪条件，
+      财报助手那边的数组由脚本生成，<u>不再手改</u>。
+    </p>
+    <div class="badges">
+      <span class="badge blue">在册主线 5</span>
+      <span class="badge amber">待写主线 2</span>
+      <span class="badge">背景／事件 3</span>
+      <span class="badge red">已下架 7</span>
+    </div>
+  </header>
+
+  <nav class="report-toc" aria-label="目录">
+    <span class="toc-label">目录</span>
+    <a href="#mrna-cancer-vaccine">1 mRNA个体化肿瘤疫苗</a><a href="#ai-network-fabric">2 AI网络层成为新瓶颈</a><a href="#optical-supply-chain">3 光通讯产业链</a><a href="#neocloud-compute-rental">4 AI算力租赁</a><a href="#ai-security-identity">5 AI安全、权限与审计成为必要开支</a>
+    <a href="#pending">待写主线</a>
+    <a href="#other">背景与事件</a>
+    <a href="#retired">已下架</a>
+  </nav>
+
+  <section id="live">
+    <div class="kicker">In force</div>
+    <h2>在册主线（5）</h2>
+    <p class="section-intro">按强度排序。每条都必须挂一篇专题 —— 主线只能从专题来，
+      不能从财报自行归纳（2026-09-03 定）。</p>
+  </section>
+
+  <article class="theme" id="mrna-cancer-vaccine">
+    <div class="th-head">
+      <div class="th-rank">1</div>
+      <div class="th-title">
+        <h2>mRNA个体化肿瘤疫苗：定价重心从疗效转向产能</h2>
+        <div class="badges">
+          <span class="badge blue">强度 10/10</span>
+          <span class="badge">快速强化</span>
+          <span class="badge">周期 当前至未来数季</span>
+          <span class="badge green">复盘 2026-09-03</span>
+        </div>
+      </div>
+    </div>
+    <div class="th-sp"><span class="lbl">专题</span><a class="sp-link" href="special/2026-08-30-mrna-manufacturing-special.html">2026-08-30《mRNA 个体化肿瘤疫苗深度：机制 × 结构 × 生产 × 股价复盘》（2026-09-02 更新）</a></div>
+    <div class="th-body">
+      <section><h3>论点</h3><p>8/19 的临床事件把 mRNA 个体化肿瘤疫苗从研究话题变成可交易主线。按「与事件的连结强度」分的六层结构，在事件当天几乎完美单调：一级当事人 +70.51%，往下逐层递减到五级 +7.65%。</p><p>但把起点挪到 8/19 收盘、看到 8/28，排序整个反转。一级 −11.05% 且 0/3 为正；二级「已披露关联的服务与制造」+4.64% 且 3/3 全正，是六层里唯一全员为正的一层。</p><p>所以这条线的定价重心已经从「有没有效」转到「能不能按时按量造出来」。把 4–6 周的个体化生产窗口拆成七步，三到四周花在 DNA 模板与 QC 放行上，真正合成 mRNA 只占两三天。</p></section>
+      <section><h3>证据（财报与产业数据）</h3><p>二级三只事件后全为正：PSNL +7.97%、TEM +4.56%、TMO +1.41%，对应定序鉴定、算法数据与耗材设备。同期一级三只全在还货：MRNA −20.87%、BNTX −9.76%、MRK −2.53%。</p><p>TEM 于 2026-07-20 宣布以每股 16.25 美元、企业价值约 15 亿美元收购 PSNL，标的正是 MRD 微小残留病灶监测。二级里最强的两只被并进同一个平台，监测与产能这两格开始并表。</p><p>生产链上市场只买了占时间最短的两格：LNP 递送（ARCT）与上游原料（MRVI）事件后仍为正；占掉大半窗口的 DNA 模板（TWST，−0.7%）与纯化放行（RGEN，−0.1%）被打回原地。</p><p>机制上这条线与检查点抑制剂互补而非替代：早期胰腺癌试验里疫苗诱导的 T 细胞约 98% 是治疗前在血液与肿瘤中都找不到的全新克隆，这解释了 8/19 当天 MRK 是跟涨而不是被抢生意。</p></section>
+      <section class="dis"><h3>证伪条件</h3><p>主闸门：二级三只（PSNL／TEM／TMO）任一跌回 8/19 收盘之下，且三只里不再有两只为正。这是结构原文写下的失效条件。</p><p>统计口径的修正：PSNL 与 TEM 不是两个独立样本。收购以股票对价为主，PSNL 价格已锚定 TEM 加一个并购价差，因此二级实际只有两个独立观察，「3/3 全正」应按 2/2 读。</p><p>若 TEM 收购 PSNL 因股东会或监管未获通过而终止，二级的样本结构与本条的核心证据都需要重取。</p></section>
+    </div>
+    
+    <div class="th-foot">
+      <p class="tickers"><span class="lbl">标的</span><span class="tk">MRNA</span><span class="tk">BNTX</span><span class="tk">MRK</span><span class="tk">PSNL</span><span class="tk">TEM</span><span class="tk">TMO</span><span class="tk">ARCT</span><span class="tk">MRVI</span><span class="tk">TWST</span><span class="tk">RGEN</span><span class="tk">NTLA</span><span class="tk">ILMN</span></p>
+      <p class="watch">盘前特别跟踪中：<span class="tk">ARCT</span><span class="tk">NTLA</span><span class="tk">PSNL</span><span class="tk">TEM</span></p>
+      <details><summary>其他来源 2 条</summary><ul class="srcs"><li><span class="st">公司公告</span><a href="https://www.tempus.com/news/pr/tempus-to-acquire-personalis-integrating-mrd/" target="_blank" rel="noopener">Tempus to Acquire Personalis（2026-07-20）</a></li><li><span class="st">公司公告</span><a href="https://www.stocktitan.net/sec-filings/PSNL/8-k-personalis-inc-reports-material-event-7dda0d5a33c7.html" target="_blank" rel="noopener">Personalis 8-K：每股 16.25 美元现金加股票对价</a></li></ul></details>
+    </div>
+  </article>
+  <article class="theme" id="ai-network-fabric">
+    <div class="th-head">
+      <div class="th-rank">2</div>
+      <div class="th-title">
+        <h2>AI网络层成为新瓶颈：Ethernet Fabric重定价</h2>
+        <div class="badges">
+          <span class="badge blue">强度 9/10</span>
+          <span class="badge">快速强化</span>
+          <span class="badge">周期 当前至未来数季</span>
+          <span class="badge green">复盘 2026-09-03</span>
+        </div>
+      </div>
+    </div>
+    <div class="th-sp"><span class="lbl">专题</span><a class="sp-link" href="special/2026-08-05-ai-network-fabric-special.html">2026-08-05《AI 网络层成为新瓶颈：Ethernet Fabric》</a></div>
+    <div class="th-body">
+      <section><h3>论点</h3><p>AI集群的性能不只取决于GPU数量，还取决于GPU之间、服务器之间、数据中心之间的数据交换效率。市场开始把高端以太网、后端AI fabric、NIC、交换机、遥测和网络软件视为AI基础设施的核心层。</p></section>
+      <section><h3>证据（财报与产业数据）</h3><p>ANET Q2收入与EPS明显超预期，Q3收入指引约33亿美元高于市场预期，股价盘后一度大涨两位数；管理层把网络称为AI基础设施的中枢神经系统。</p><p>ALAB Q2收入3.924亿美元、同比+104%，Q3收入指引5.5亿美元，验证rack-scale AI互连与fabric switch需求；CRDO与MRVL分别验证AEC高速连接、光互连DSP与交换硅需求。</p><p>AAOI数据中心收入1.077亿美元、同比+140%，800G出货环比翻倍；管理层称800G与1.6T需求到2027年中仍超过产能，Q3收入指引中点同比约+130%。</p><p>AEVA以高功率光源切入近封装光学并签下首个联合开发协议，说明光学瓶颈正在吸引新技术路线——但2027部署、2028量产且尚非生产订单，只能算高Beta前置信号。</p></section>
+      <section class="dis"><h3>证伪条件</h3><p>大型云厂商转向白牌/ODM显著压缩品牌网络设备份额，或AI集群网络需求无法持续带来高毛利率订单。</p></section>
+    </div>
+    
+    <div class="th-foot">
+      <p class="tickers"><span class="lbl">标的</span><span class="tk">ANET</span><span class="tk">ALAB</span><span class="tk">AAOI</span><span class="tk">CRDO</span><span class="tk">MRVL</span><span class="tk">AMD</span><span class="tk">NVDA</span><span class="tk">CSCO</span><span class="tk">AVGO</span><span class="tk">AEVA</span></p>
+      
+      <details><summary>其他来源 4 条</summary><ul class="srcs"><li><span class="st">市场反应</span><a href="https://www.investors.com/news/technology/arista-stock-anet-arista-earnings-q22026/" target="_blank" rel="noopener">IBD：AI Cloud Networking Growth Drives Arista Beat</a></li><li><span class="st">市场反应</span><a href="https://www.barrons.com/articles/arista-networks-earnings-stock-price-e421b3c3" target="_blank" rel="noopener">Barron&#x27;s：Arista stock surges after earnings</a></li><li><span class="st">SEC财报</span><a href="https://www.sec.gov/Archives/edgar/data/1158114/000168316826006055/aaoi_ex9901.htm" target="_blank" rel="noopener">AAOI Q2 2026 Results</a></li><li><span class="st">公司资料</span><a href="https://www.arista.com/en/23982-amd-webinar-series" target="_blank" rel="noopener">AMD and Arista AI networking webinar</a></li></ul></details>
+    </div>
+  </article>
+  <article class="theme" id="optical-supply-chain">
+    <div class="th-head">
+      <div class="th-rank">3</div>
+      <div class="th-title">
+        <h2>光通讯产业链：需求闭环已验证，最弱信号在估值与自由现金流</h2>
+        <div class="badges">
+          <span class="badge blue">强度 9/10</span>
+          <span class="badge">需求强化，估值容错收窄</span>
+          <span class="badge">周期 当前至未来2–4季</span>
+          <span class="badge green">复盘 2026-09-03</span>
+        </div>
+      </div>
+    </div>
+    <div class="th-sp"><span class="lbl">专题</span><a class="sp-link" href="special/2026-08-11-optical-communications-narrative-special.html">2026-08-11《光通信叙事主线（老师 8/10 专题归档 ＋ 我方检验）》（2026-09-03 更新）</a></div>
+    <div class="th-body">
+      <section><h3>论点</h3><p>AI集群把800G、1.6T、AEC、CPO与高速交换推进同一条需求曲线，但“需求真实”不等于“任何价格都值得买”。真正的研究问题是瓶颈在哪一层、现金何时回来、市场已经预支了多少年。</p><p>同一条需求链上的商业模型差异极大：高速类比与SerDes毛利约60%–68%、交换系统可维持60%以上、光模组约44%–48%、制造与组装只有10%–15%——利润最厚的环节不一定是光模组。垂直整合既是供应护城河也是现金黑洞：扩产先推高库存与资本开支，损益改善必须用现金流验证。</p><p>分层清单来自老师最新的产业链图示（上游材料→代工与测试→光源与模组→光电IC与封装→连接与网络），个别标的在图中标了不同底色，具体含义等老师完整报告出来再补充，本站暂不据此做核心/规避的区分。</p></section>
+      <section><h3>证据（财报与产业数据）</h3><p>外部数据五层同向，闭环强度4.5/5：四大云2026年资本开支合计约7350–7600亿美元；Dell&#x27;Oro统计2025 Q1以太网数据中心交换机销售增长逾40%、800G单季超10亿美元；LightCounting估算2026 Q1光收发器销售约100亿美元、增长逾90%，当前需求高于供应约30%；IEA指2025年数据中心用电增长17%。</p><p>2026-08-11至12出现同晚双端验证。供给端：LITE FY26 Q4收入10.1亿美元、同比+109%，非GAAP毛利率一次突破50%，FY27 Q1再指引12.25至12.75亿美元、环比+22%至+26%。需求端：CRWV积压订单1,040亿美元、同比+246%，合同电力从3.7扩到4.2吉瓦；NBIS收入同比+454%、调整后EBITDA利润率40.6%、年底ARR目标70至90亿美元。</p><p>但现金是另一回事。COHR FY26非GAAP毛利率40.2%、数据中心与通信+59%，全年自由现金流却是-10.234亿美元，库存同比+79.5%而收入仅+22.5%；CRWV账上350亿美元债务、调整后经营利润率仅5%；NBIS单季资本开支56.6亿美元，接近收入的10倍。</p><p>分层结论因此更精确：卡在物理瓶颈的一端在提价（LITE毛利率破50%并继续向上），垂直整合扩产的一端在垫钱（COHR毛利改善却烧掉10亿美元现金），做系统集成的一端在让价（CSCO FY27 Q1非GAAP毛利率只指引65%至66%，低于其历史水平）。需求端的强度没有被推翻，被推翻的是“需求强就等于股东回报好”这个默认假设。</p><p>2026-08-27 门槛裁决：MRVL数据中心收入21.72亿美元、环比+18%、同比+46%、占总收入79%，并上调FY2027与FY2028展望至约115亿与165亿美元——预登记门槛未触发。但分歧同步转移到毛利率：其Q3调整后毛利率指引57.5%至58.5%低于本季58.9%，与本主线「毛利扩张能否穿透」的关切同源。</p><p>口径说明：本条主线整理自老师的《光速之后｜美股光通讯产业链深度分析》v1.1（2026-08-10），闭环评分、毛利分层与下一季门槛均为该报告口径，本站未独立复核其估值快照。</p></section>
+      <section class="dis"><h3>证伪条件</h3><p>四大云资本开支合计指引下修逾10%，且云收入或backlog同步放慢。</p><p>外部出货仍高增，但LITE、FN、COHR、GLW、CIEN中多数连续两季低于行业增速。</p><p>连续两季存货增速显著快于收入（COHR本季已亮红灯，需第二季确认是否连续）。</p><p>EPS上升但自由现金流连续两季不改善——COHR FY26已触发，FN为下一个观察重点。</p><p>估值要改用FY29以后年份才能得到合理倍数；或1.6T只有认证与样品、没有量产收入比例。</p><p>近端逐条门槛：COHR FY27 Q1指引&lt;20.5亿（已过关，实际22–24亿）｜FN营益率&lt;9.5%或FCF再为负（08.17）｜MRVL数据中心收入环比不增（08.27，已裁决：环比+18%、同比+46%，未触发）｜CRDO收入&lt;4.6亿或毛利&lt;66%（09.02）｜AVGO AI半导体&lt;155亿（09.03）｜CIEN收入&lt;15.5亿或毛利&lt;43.5%（09.03）｜GLW核心销售&lt;49亿或光通信环比转负（10.27）。</p></section>
+    </div>
+    <div class="layers"><div><span>上游材料</span><small>基板与晶体</small><span class="tk">AXTI</span></div><div><span>代工与测试</span><small>矽光晶圆、量测</small><span class="tk">TSEM</span><span class="tk">GFS</span><span class="tk">FORM</span><span class="tk">AEHR</span><span class="tk">TSM</span><span class="tk">UMC</span><span class="tk">KLIC</span><span class="tk">AMKR</span><span class="tk">VECO</span></div><div><span>光源与模组</span><small>雷射、光模组</small><span class="tk">LITE</span><span class="tk">COHR</span><span class="tk">AAOI</span><span class="tk">POET</span><span class="tk">MKSI</span></div><div><span>光电IC与封装</span><small>DSP、TIA、代工</small><span class="tk">MTSI</span><span class="tk">MRVL</span><span class="tk">FN</span><span class="tk">CRDO</span><span class="tk">ALAB</span><span class="tk">SMTC</span></div><div><span>连接与网络</span><small>光纤、交换机、系统</small><span class="tk">GLW</span><span class="tk">AVGO</span><span class="tk">NVDA</span><span class="tk">CIEN</span><span class="tk">APH</span><span class="tk">ANET</span><span class="tk">CLS</span><span class="tk">CSCO</span></div></div>
+    <div class="th-foot">
+      <p class="tickers"><span class="lbl">标的</span><span class="tk">AXTI</span><span class="tk">TSEM</span><span class="tk">GFS</span><span class="tk">FORM</span><span class="tk">AEHR</span><span class="tk">TSM</span><span class="tk">UMC</span><span class="tk">KLIC</span><span class="tk">AMKR</span><span class="tk">VECO</span><span class="tk">LITE</span><span class="tk">COHR</span><span class="tk">AAOI</span><span class="tk">POET</span><span class="tk">MKSI</span><span class="tk">MTSI</span><span class="tk">MRVL</span><span class="tk">FN</span><span class="tk">CRDO</span><span class="tk">ALAB</span><span class="tk">SMTC</span><span class="tk">GLW</span><span class="tk">AVGO</span><span class="tk">NVDA</span><span class="tk">CIEN</span><span class="tk">APH</span><span class="tk">ANET</span><span class="tk">CLS</span><span class="tk">CSCO</span></p>
+      
+      <details><summary>其他来源 7 条</summary><ul class="srcs"><li><span class="st">外部研究</span><a href="https://sintszkay.github.io/market-reports/reports/2026-08-10-optical-communications-deep-dive-special.html" target="_blank" rel="noopener">老师：光速之后｜美股光通讯产业链深度分析 v1.1</a></li><li><span class="st">行业数据</span><a href="https://www.lightcounting.com/newsletter/en/june-2026-quarterly-market-update-375" target="_blank" rel="noopener">LightCounting 2026年6月季度更新</a></li><li><span class="st">行业数据</span><a href="https://www.lightcounting.com/newsletter/en/april-2026-market-forecast-379" target="_blank" rel="noopener">LightCounting 2026年4月市场预测</a></li><li><span class="st">行业数据</span><a href="https://www.prnewswire.com/news-releases/ai-investments-shield-ethernet-data-center-switch-market-from-tariff-disruptions-shattering-sales-records-according-to-delloro-group-302473912.html" target="_blank" rel="noopener">Dell&#x27;Oro：以太网数据中心交换机创纪录</a></li><li><span class="st">机构报告</span><a href="https://www.iea.org/news/data-centre-electricity-use-surged-in-2025-even-with-tightening-bottlenecks-driving-a-scramble-for-solutions" target="_blank" rel="noopener">IEA：2025年数据中心用电激增</a></li><li><span class="st">公司公告</span><a href="https://investor.corning.com/news-and-events/news/news-details/2026/Cornings-Strong-Second-Quarter-2026-Financial-Results1-Demonstrate-Progress-on-Recently-Upgraded-Springboard-Plan/default.aspx" target="_blank" rel="noopener">Corning 2026 Q2 Results</a></li><li><span class="st">公司公告</span><a href="https://www.coherent.com/news/press-releases/third-quarter-fiscal-year-2026-results" target="_blank" rel="noopener">Coherent FY26 Q3 Results</a></li></ul></details>
+    </div>
+  </article>
+  <article class="theme" id="neocloud-compute-rental">
+    <div class="th-head">
+      <div class="th-rank">4</div>
+      <div class="th-title">
+        <h2>AI算力租赁：用客户预付款建资产的一层</h2>
+        <div class="badges">
+          <span class="badge blue">强度 8.5/10</span>
+          <span class="badge">订单可见度极高，现金结构待验证</span>
+          <span class="badge">周期 当前至未来数季</span>
+          <span class="badge green">复盘 2026-09-03</span>
+        </div>
+      </div>
+    </div>
+    <div class="th-sp"><span class="lbl">专题</span><a class="sp-link" href="special/2026-08-27-neocloud-deepdive-special.html">2026-08-27《Neocloud 深度：基本面拆解 × 十个月股价复盘》</a></div>
+    <div class="th-body">
+      <section><h3>论点</h3><p>这一层既不卖芯片也不卖光模块——它买芯片、买电，再把算力按长约租出去。判据因此和其他AI主线完全不同：不看毛利率与份额，而看积压订单对收入的倍数、合同电力，以及客户预付款能覆盖多少资本开支。它是整条AI资本开支链上唯一一层订单可见度极高、而股东现金回收期极长的生意。</p></section>
+      <section><h3>证据（财报与产业数据）</h3><p>CRWV积压订单1,040亿美元、同比+246%，约为其全年收入指引的8倍，且不含Q3初新增的逾250亿美元承诺；合同电力从3.7吉瓦扩到4.2吉瓦，年底活跃电力目标上调至1.85吉瓦以上。需求可见度是全场最高的一层。</p><p>NBIS给出了这门生意能成立的机制：季内四笔单笔均超10亿美元的大单，客户预付款覆盖相关资本开支的50%至60%。这正是它敢在单季投入56.6亿美元资本开支、而经营现金流仍为正22.5亿美元的唯一原因。</p><p>代价写在资产负债表上：CRWV账上350亿美元债务、调整后经营利润率仅5%、GAAP净亏损扩大到6.26亿美元；NBIS全年资本开支指引200至250亿美元，而全年收入指引只有30至34亿美元，资本强度接近收入的7倍。</p><p>这一层与其他AI主线正交：光通讯是卖给AI的，电力与冷却是供给AI的，而这三家是买芯片、买电、再把算力租出去的买方。所以它们的证伪条件不该套用毛利率与份额，而应盯预付比例、合同电力与积压订单倍数。</p><p>IREN补上这一层第一个被卖的样本：转型订单侧已兑现（AI云全年收入从1,640万增至1.288亿美元、已签约ARR 40亿、交付微软首个50兆瓦液冷部署），盘后却跌8.45%。差别不在需求而在资金——FY2027资本开支指引250亿至300亿美元，对比本季1.372亿美元收入相差两个数量级，且未披露预付款覆盖比例。</p><p>APLD本站记录为84分共振确认（2026-07-27），但该条记录字段偏薄、缺少数字快照与业务拆解。本主线目前的硬证据主要来自CRWV与NBIS，APLD需在下季补齐后才计入交叉验证。</p></section>
+      <section class="dis"><h3>证伪条件</h3><p>新签大单的预付款覆盖比例低于50%——这是这门生意的生死线，一旦下滑，资本开支与收入之间的时间差会立刻变成现金缺口。</p><p>积压订单停止净增，或合同电力目标推迟、活跃电力爬坡落后于计划。</p><p>债务规模继续扩大，而调整后经营利润率无法脱离个位数。</p><p>客户集中度上升的同时，出现单一大客户的合约调整、缩量或交付延迟。</p><p>超大规模客户的AI资本开支整体下修，算力与电力采购节奏放缓。</p></section>
+    </div>
+    
+    <div class="th-foot">
+      <p class="tickers"><span class="lbl">标的</span><span class="tk">CRWV</span><span class="tk">NBIS</span><span class="tk">APLD</span><span class="tk">IREN</span></p>
+      
+      <details><summary>其他来源 4 条</summary><ul class="srcs"><li><span class="st">公司公告</span><a href="https://investors.coreweave.com/news/news-details/2026/CoreWeave-Reports-Strong-Second-Quarter-2026-Results/default.aspx" target="_blank" rel="noopener">CoreWeave Q2 2026 Results</a></li><li><span class="st">业绩会</span><a href="https://www.marketbeat.com/instant-alerts/coreweave-q2-earnings-call-highlights-2026-08-11/" target="_blank" rel="noopener">MarketBeat：CRWV Q2 业绩会要点</a></li><li><span class="st">SEC财报</span><a href="https://www.sec.gov/Archives/edgar/data/0001513845/000110465926059872/tm2614392d1_ex99-2.htm" target="_blank" rel="noopener">Nebius Group Q2 2026 结果（6-K 附件）</a></li><li><span class="st">业绩会</span><a href="https://za.investing.com/news/transcripts/earnings-call-transcript-nebius-beats-q2-2026-forecasts-shares-jump-165-93CH-4424564" target="_blank" rel="noopener">Nebius Q2 2026 业绩会文字稿</a></li></ul></details>
+    </div>
+  </article>
+  <article class="theme" id="ai-security-identity">
+    <div class="th-head">
+      <div class="th-rank">5</div>
+      <div class="th-title">
+        <h2>AI安全、权限与审计成为必要开支</h2>
+        <div class="badges">
+          <span class="badge blue">强度 8/10</span>
+          <span class="badge">强化</span>
+          <span class="badge">周期 中长期</span>
+          <span class="badge green">复盘 2026-09-03</span>
+        </div>
+      </div>
+    </div>
+    <div class="th-sp"><span class="lbl">专题</span><a class="sp-link" href="special/2026-08-03-cibr-xsw-narrative-special.html">2026-08-03《CIBR × XSW 成分股新叙事》</a></div>
+    <div class="th-body">
+      <section><h3>论点</h3><p>AI进入生产环境后，身份、权限、审计、日志、数据边界、提示词安全、模型路由和网络可观测性会从合规功能升级为基础设施预算。</p></section>
+      <section><h3>证据（财报与产业数据）</h3><p>IBM已确认快速变化的网络安全环境影响客户交易签约；围绕数据归属、缓存位置与提示词安全的讨论说明，AI部署越深入，安全与权限越靠近采购核心。</p><p>网络与边缘侧同步验证：NET收入+36%、10万美元以上大客户+27%、净留存率120%；AKAM安全收入+10%至6.04亿美元，同时云基础设施收入+39%。</p><p>OKTA提供目前最直接的会计层交叉验证：FY27 Q1收入仅+11%，但RPO +16%、cRPO +12%都快于当期收入确认——长约在累积。CEO把AI agent定义为组织内部正在出现的新员工，产生必须与人类用户一同被治理的身份。裁决点是cRPO：如果agentic identity是真需求，它应该先于收入加速。</p><p>2026-08-26 裁决：该预测兑现。OKTA cRPO同比+14%、较上季+12%加速，且快于收入约+11%，公司称是自FY25 Q4以来最大的cRPO超预期——领先指标确实先动了。但只算部分验证：Q3的cRPO指引回落到+11%至+12%，加速尚未证明连续。</p><p>同晚CRWD从预算侧给出更硬的证据：季内净新增ARR 3.328亿美元创纪录、同比+51%，公司据此把全年净新增ARR增长指引一次上调630个基点至中点34%。在安全行业，敢上调净新增ARR指引比上调收入指引分量更重。</p></section>
+      <section class="dis"><h3>证伪条件</h3><p>安全预算增速明显落后AI基础设施预算，或大型AI部署没有带动安全平台订单、RPO和续费改善。</p></section>
+    </div>
+    
+    <div class="th-foot">
+      <p class="tickers"><span class="lbl">标的</span><span class="tk">PANW</span><span class="tk">CRWD</span><span class="tk">FTNT</span><span class="tk">IBM</span><span class="tk">PLTR</span><span class="tk">ANET</span><span class="tk">NET</span><span class="tk">AKAM</span><span class="tk">OKTA</span></p>
+      
+      <details><summary>其他来源 5 条</summary><ul class="srcs"><li><span class="st">公司公告</span><a href="https://newsroom.ibm.com/2026-07-14-Arvind-Krishnas-Letter-to-IBM-Investors" target="_blank" rel="noopener">IBM CEO致投资者信</a></li><li><span class="st">媒体</span><a href="https://www.axios.com/2026/07/13/sovereign-ai-data-protection" target="_blank" rel="noopener">Axios：企业如何控制自己的AI大脑</a></li><li><span class="st">公司资料</span><a href="https://investors.arista.com/" target="_blank" rel="noopener">Arista AI networking overview</a></li><li><span class="st">SEC财报</span><a href="https://www.sec.gov/Archives/edgar/data/1086222/000108622226000083/exhibit991-q22026.htm" target="_blank" rel="noopener">Akamai Q2 2026 Results</a></li><li><span class="st">公司公告</span><a href="https://investor.okta.com/news-and-events/news-releases/news-details/2026/Okta-Announces-First-Quarter-Fiscal-Year-2027-Financial-Results/default.aspx" target="_blank" rel="noopener">Okta FY2027 Q1 Results</a></li></ul></details>
+    </div>
+  </article>
+
+  <section id="pending">
+    <div class="kicker">Gap</div>
+    <h2>专题已在，主线还没写（2）</h2>
+    <p class="section-intro">这两篇专题都自标「主线专题」，也都给了价格口径和分层，
+      但从来没有写成主线条目 —— 合并之前没人看得见这个缺口，因为两边根本不在同一张表上。</p>
+    <table class="reg"><thead><tr><th>主题</th><th>类型</th><th>专题</th></tr></thead>
+      <tbody><tr><td><strong>AI 债与影子借贷：风险按「谁扛 GPU 残值」排</strong><small>专题自标「主线专题」，已分出房东层／GPU 抵押层／出资方三层并给了价格口径（2026-08-21 收盘），但从未写成主线条目。</small></td><td><span class="badge blue">主线</span></td><td><span class="sp-link local">2026-08-23《AI 债与影子借贷深度：风险阶梯拆解》<em>仅本地 · 2026-08-23-ai-debt-shadow-borrowing-special.html</em></span></td></tr><tr><td><strong>长端的算术：股债同一发行体</strong><small>专题自标「主线专题」，发债组／自筹组分层已用价格验过（近 5 日跑输 9.2 个百分点），但从未写成主线条目。</small></td><td><span class="badge blue">主线</span></td><td><a class="sp-link" href="special/2026-08-22-us-long-end-yields-readthrough-special.html">2026-08-22《长端的算术：老师 8/21 专题归档 ＋ 我方价格检验》</a></td></tr></tbody></table>
+  </section>
+  <section id="other">
+    <div class="kicker">Filed</div>
+    <h2>背景与事件型专题（3）</h2>
+    <p class="section-intro">这几篇登记在册但不产生主线：要么是历史类比／宏观框架，
+      给别的主线当背景读；要么是窗口已过的单次事件。它们不排名、不进 NARRATIVES。</p>
+    <table class="reg"><thead><tr><th>主题</th><th>类型</th><th>专题</th></tr></thead>
+      <tbody><tr><td><strong>三次基础设施狂潮：铁路、光纤与 AI 算力</strong><small>历史类比与资本周期框架，给别的主线当背景读，本身不产生可证伪的交易主线。</small></td><td><span class="badge amber">背景</span></td><td><a class="sp-link" href="special/2026-08-03-ai-capital-cycles-special.html">2026-08-03《三次基础设施狂潮：铁路、光纤与 AI 算力》</a></td></tr><tr><td><strong>七月大型科技财报季</strong><small>单季财报季横向对比（11 家已公布 ＋ 7 家 AI 硬件预测），窗口已过。</small></td><td><span class="badge amber">事件</span></td><td><a class="sp-link" href="special/2026-07-31-mag7-tech-earnings-special.html">2026-07-31《七月大型科技财报季专题》</a></td></tr><tr><td><strong>NVDA GTC 产业链</strong><small>GTC Taipei 事件驱动，窗口已过。</small></td><td><span class="badge amber">事件</span></td><td><a class="sp-link" href="special/2026-06-01-nvda-gtc.html">2026-06-01《NVDA GTC 产业链深度分析》</a></td></tr></tbody></table>
+  </section>
+
+  <section id="retired">
+    <div class="kicker">Retired</div>
+    <h2>已下架（7）</h2>
+    <p class="section-intro">2026-09-04 下架的 7 条：主权AI、AI 电力与冷却、AI 应用层分化、
+      存储与设备层、先进封装与测试、国防 AI、消费金融。它们都没有专题支撑，是从财报自己凑出来的主线。
+      原文一次性存档在 <code>data/themes_retired_20260904.json</code>，不渲染、不排名、不复盘 ——
+      要复活必须先有专题。</p>
+  </section>
+
+  <section id="notes">
+    <div class="kicker">How it works</div>
+    <h2>怎么改</h2>
+    <p>改 <code>data/themes.json</code>，然后跑 <code>python scripts/build_themes.py</code>。
+      脚本会先跑闸门（专题文件不存在、主线没挂专题、rank 与强度不一致、超过 7 天没复盘、
+      单段超 220 字、有专题没登记 —— 任何一条都直接失败），
+      通过后重生成本页并把 NARRATIVES 写回财报助手的 index.html。
+      最后在财报助手仓库跑 <code>node check-narratives.js</code> 复核。</p>
+  </section>
+</main>
+</body>
+</html>
