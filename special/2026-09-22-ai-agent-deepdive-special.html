@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="updated" content="2026-09-22">
+  <meta name="description" content="AI Agent 产业链：Muse 每个用户配一台专属虚拟机，把算力需求从 GPU 往 CPU 和内存挪；CPU 三家已经跑到 9EMA 上方 14–20%。Amazon 封杀 Muse 的理由是 agent 隐藏身份——门禁层才是冲突点，而支付那一层价格还没动。">
+  <title>AI Agent 产业链深度：CPU 回归 × 门禁之争 × 各层定价｜2026-09-22</title>
+  <link rel="stylesheet" href="report-paper.css?v=20260823-paper">
+  <style>
+    #terms{border-top:2px solid var(--ink,#111);border-bottom:.5px solid #ddd8cd;padding:18px 0 14px;margin-bottom:26px}
+    #terms h2{margin:0 0 4px;font-size:17px}
+    #terms .lead{margin:0 0 14px;color:#6b6558;font-size:12.8px}
+    #terms dl{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:0 30px;margin:0}
+    #terms dt{margin:9px 0 0;font-size:13.5px;font-weight:700}
+    #terms dt em{margin-left:7px;color:#6b6558;font-style:normal;font-weight:400;font-size:11.5px}
+    #terms dd{margin:2px 0 0;color:#4a463e;font-size:12.8px;line-height:1.75}
+    #terms dd b{color:#111}
+  </style>
+</head>
+<body class="flat-report" data-report-type="special">
+<main class="wrap">
+  <header>
+    <div class="eyebrow">2026 年 9 月 22 日 · 行业专题 · AI Agent</div>
+    <h1>AI Agent 产业链深度：CPU 回归 × 门禁之争 × 各层定价</h1>
+    <p class="deck">Agent 把算力从 GPU 往 CPU 和内存挪，这一层的股价已经先跑到了最贵的位置；真正的冲突在门口——谁有权让 agent 进来，而管门的支付那一层价格还没动。</p>
+    <p class="muted lede">
+      9 月 8 日 Meta 发布个人 agent <strong>Muse</strong>，十天冲到美区 App Store 第一；9 月 20 日 Amazon 把它挡在商城门外；
+      9 月 21 日 Meta 单日 <strong>+11.43%</strong>、CPU 三家 <strong>+10% 到 +17%</strong>。
+      本篇从 Muse 的产品结构出发，按<strong>算力 → 门禁 → 支付 → 存储</strong>拆开这条链，
+      再用 <strong>2026-09-21 收盘</strong>给六层标的各算一遍位置。
+    </p>
+    <div class="badges">
+      <span class="badge blue">价格口径：2026-09-21 收盘 · 长桥前复权日线</span>
+      <span class="badge green">Muse 10 天 73 万次下载</span>
+      <span class="badge amber">CPU 核需求 3000 万 → 1.2 亿 / GW</span>
+      <span class="badge red">AMD / INTC / ARM 距 9EMA +14~20%</span>
+    </div>
+  </header>
+
+  <nav class="report-toc" aria-label="专题目录">
+    <span class="toc-label">目录</span>
+    <a href="#terms">读这篇需要的词</a>
+    <a href="#answer">四条结论</a>
+    <a href="#muse">Muse 到底新在哪</a>
+    <a href="#compute">算力：CPU 回来了</a>
+    <a href="#gate">门禁：谁让 agent 进门</a>
+    <a href="#memory">存储：叙事和价格在打架</a>
+    <a href="#tape">六层定价</a>
+    <a href="#signals">可证伪清单</a>
+    <a href="#notes">口径与来源</a>
+  </nav>
+
+  <section id="terms">
+    <h2>读这篇需要的词</h2>
+    <p class="lead">只收这一篇用到的。</p>
+    <dl>
+      <dt>Agent <em>vs 聊天机器人</em></dt>
+      <dd>聊天机器人<b>回答</b>问题；agent <b>替你做事</b>——打开网页、填表、下单、发邮件。
+          差别不在模型，在于它要<b>长时间占着一台电脑</b>去操作别人的网站。</dd>
+
+      <dt>Secure VM <em>专属虚拟机</em></dt>
+      <dd>Muse 给每个用户开一台独立的云端电脑，里面有自己的浏览器。
+          <b>这台电脑跑的是网页、表单、登录流程，主要吃 CPU 和内存，不是 GPU。</b></dd>
+
+      <dt>CPU:GPU 比例</dt>
+      <dd>数据中心里每块 GPU 配几颗 CPU。训练时代 CPU 只负责喂数据，比例很低；
+          agent 时代大量工作是「开浏览器、调接口、等网页」，<b>比例往 1:1 走</b>。</dd>
+
+      <dt>Web Bot Auth <em>机器人身份签名</em></dt>
+      <dd>让 agent 在访问网站时用<b>加密签名</b>证明「我是谁、代表谁」。
+          网站据此决定放不放行、收不收费。Cloudflare 主导，Visa 和 Mastercard 的 agent 支付协议都用它做认证。</dd>
+
+      <dt>Agentic Token <em>agent 专用卡号</em></dt>
+      <dd>发给 agent 的<b>受限</b>支付凭证：可设限额、限商户、限时间，持卡人随时一键吊销。
+          agent 拿不到你的真实卡号。</dd>
+
+      <dt>距 9EMA / 距 50MA（ATR）</dt>
+      <dd>价格偏离短期和中期均线多远。<b>距 9EMA 用百分比</b>，<b>距 50MA 用 ATR 倍数</b>——
+          后者把波动大小不同的票放到同一把尺上。</dd>
+    </dl>
+  </section>
+
+  <section class="grid" aria-label="专题摘要">
+    <div class="card"><span>Muse 上线到登顶</span><strong class="up">10 天</strong><small>9/8 发布，9/18 美区 App Store 第一，73 万次下载。</small></div>
+    <div class="card"><span>每 GW 需要的 CPU 核</span><strong class="up">×4</strong><small>3000 万核 → 1.2 亿核（Arm 估算）。</small></div>
+    <div class="card"><span>CPU 三家 5 日涨幅</span><strong class="up">+25% ~ +35%</strong><small>AMD +24.75% · INTC +25.30% · ARM +35.10%。</small></div>
+    <div class="card"><span>Visa / Mastercard 21 日</span><strong class="dn">+1.2% / −1.1%</strong><small>agent 支付协议已上线，股价没反应。</small></div>
+  </section>
+
+  <section id="answer">
+    <div class="kicker">Answer first</div>
+    <h2>四条结论</h2>
+    <ol class="answer-list">
+      <li>
+        <strong>Muse 真正的新东西不是模型，是「每人一台电脑」。</strong>
+        它给每个用户配一台带浏览器的专属虚拟机，替你登录、填表、下单。
+        <u>这种负载主要吃 CPU 和内存</u>——Arm 的估算是 agent 时代每 GW 数据中心需要的 CPU 核从 3000 万涨到 1.2 亿，
+        CPU:GPU 比例从很低走向 1:1 到 1:2。服务器 CPU 价格 3 月以来最多涨了 <strong>20%</strong>，英特尔部分订单交期拉到 <strong>6 个月</strong>。
+      </li>
+      <li>
+        <strong>CPU 这一层已经在价格里，而且是最贵的位置。</strong>
+        9/21 收盘 AMD、INTC、ARM 分别站在 9EMA 上方 <span class="up">+14.4%</span>、<span class="up">+14.7%</span>、<span class="up">+19.7%</span>，
+        折合约 <strong>3 到 4 个 ADR</strong>；RSI 74 到 78。AMD 离 52 周高点只差 0.2%，市值首次破万亿。
+        <u>逻辑是对的，价格已经先跑到了逻辑前面。</u>
+      </li>
+      <li>
+        <strong>冲突发生在门口，而门禁层只有一半被定价。</strong>
+        Amazon 9/20 封杀 Muse，理由是 <u>agent 访问时隐藏身份</u>。解决这个问题的就是 Web Bot Auth——
+        Visa 和 Mastercard 的 agent 支付协议都拿它做认证，Cloudflare、Akamai、AWS 已在生产环境验签。
+        身份安全那一侧（NET、OKTA、CRWD）已经贴着 52 周高点；<strong>支付那一侧（V、MA）21 日几乎没动，RSI 只有 39 和 32。</strong>
+      </li>
+      <li>
+        <strong>存储是这条链里叙事和价格打架最厉害的一层。</strong>
+        agent 的虚拟机要内存、要 SSD，道理上是需求端的增量。
+        但 9/21 半导体全线大涨那天，<strong>SNDK 反而 <span class="dn">−1.41%</span></strong>；
+        当晚宏碁 CEO 说 2027 年存储价格会下跌，长鑫开始量产新平台。<u>这一层的决定变量是供给，不是 agent。</u>
+      </li>
+    </ol>
+  </section>
+
+  <section id="muse">
+    <div class="kicker">The product</div>
+    <h2>Muse 到底新在哪</h2>
+    <p class="section-intro">过去两年的 AI 应用基本都是「你问它答」。Muse 是第一个把「替你操作别人的网站」做成大众消费品、而且真有人用的产品。</p>
+    <div class="table-scroll">
+      <table class="report-data-table report-cols-3">
+        <thead><tr><th>日期</th><th>事件</th><th>这件事说明了什么</th></tr></thead>
+        <tbody>
+          <tr><td><strong>9/8</strong></td><td>Muse 发布：网页、iOS、Android、WhatsApp 同步上线，仅限美国。免费起步，付费档 $20 / $100 每月</td><td>定价按<b>用量</b>收费——用得越多越贵，因为每个任务都在消耗一台虚拟机的时间</td></tr>
+          <tr><td><strong>9/8</strong></td><td>架构：每个用户一台 Muse Secure VM，带独立浏览器；对话和虚拟机数据<b>不进 Meta 广告系统</b></td><td>这是算力结构的变化：<u>一个活跃用户 ≈ 一台常开的云端电脑</u></td></tr>
+          <tr class="row-bull"><td><strong>9/18</strong></td><td>美区 App Store 总榜第一，上线 10 天约 73 万次下载，同类里超过 ChatGPT 和 Claude</td><td>消费者愿意把邮箱、日历、支付交给 agent——这是此前最大的未知数</td></tr>
+          <tr class="row-warn"><td><strong>9/20</strong></td><td>Amazon 在结账页对 Muse 弹窗拦截：「未经授权的 AI agent 访问违反使用条款」</td><td>第一次大平台对大型 agent 的正面封杀，理由是<b>隐藏身份、留存用户凭证</b></td></tr>
+          <tr class="row-bull"><td><strong>9/21</strong></td><td>META <span class="up">+11.43%</span>（741.25），2025 年 7 月以来最大单日涨幅；call 成交约 180 万张，2022 年 10 月以来最多</td><td>富国银行把目标价从 $640 上调到 $796，理由是重度用户会被迫付费</td></tr>
+          <tr><td><strong>9/23–24</strong></td><td>Meta Connect；主题演讲 9/23 16:00 PT（<b>SGT 9/24 07:00</b>），开发者专场讲 Muse 的构建路径</td><td>下一个硬信息点：付费转化、开发者接入、合作商户</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout">
+      <p><strong>73 万次下载放在 Meta 的用户盘子里很小，但方向比规模重要。</strong>
+         它回答的是「消费者肯不肯让 AI 拿着自己的账号去操作」——答案是肯。
+         一旦这一点成立，后面每一层的需求都是按<u>活跃 agent 数 × 每个 agent 占用的算力时长</u>来算的，而不是按聊天次数。</p>
+    </div>
+  </section>
+
+  <section id="compute">
+    <div class="kicker">Compute</div>
+    <h2>算力：CPU 回来了</h2>
+    <p class="section-intro">训练模型是 GPU 的活；让 agent 开浏览器、等网页、点按钮、调接口，是 CPU 的活。这一层的变化在 Muse 之前就已经在供应链里出现。</p>
+    <div class="table-scroll">
+      <table class="report-data-table report-cols-3">
+        <thead><tr><th>指标</th><th class="num">数字</th><th>读法</th></tr></thead>
+        <tbody>
+          <tr class="row-bull"><td><strong>每 GW 数据中心的 CPU 核</strong></td><td class="num up">3000 万<br>→ 1.2 亿</td><td>Arm 的估算，传统 AI 数据中心 vs agent 时代，<b>四倍</b></td></tr>
+          <tr><td>CPU:GPU 比例</td><td class="num up">→ 1:1 ~ 1:2</td><td>训练时代 CPU 配比很低；agent 让它回到接近对等</td></tr>
+          <tr class="row-warn"><td><strong>服务器 CPU 价格</strong></td><td class="num up">最多 +20%</td><td>3 月以来；英特尔、AMD 在 1Q26 末同时提价</td></tr>
+          <tr class="row-warn"><td>英特尔交期</td><td class="num">最长 6 个月</td><td>积压大量未交付订单，产能从消费级挪去至强</td></tr>
+          <tr><td>AMD 交期</td><td class="num">8 ~ 10 周</td><td>部分产品</td></tr>
+          <tr><td>新进入者</td><td class="num">—</td><td>英伟达 3/16 推出独立 Vera CPU 机架；Arm 3/25 推出自研 AGI CPU 和两款 CPU 机架</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><strong>这是一条供给已经跟不上的需求线</strong>，涨价和交期拉长是证据。
+       但也要看到它的另一面：<u>英伟达和 Arm 在 3 月就下场做 CPU 了</u>——高毛利、交期紧的市场一定会引来新产能，
+       这和存储那一篇讲的是同一个机制，只是时间点更早。</p>
+    <p><strong>CPU 三家不是同一个赌注。</strong>
+       AMD 是份额和性能都在上升的那一家，价格也最先到位（离 52 周高 0.2%）；
+       英特尔是产能最多、交期最长的那一家，涨价弹性最大，但离 52 周高还有 14.5%；
+       ARM 收的是授权费，吃的是「核数」而不是「颗数」，离 52 周高还有 28.7%，是三家里弹性最大、也最依赖叙事的一家。</p>
+  </section>
+
+  <section id="gate">
+    <div class="kicker">The gate</div>
+    <h2>门禁：谁让 agent 进门</h2>
+    <p class="section-intro">Agent 的价值在于替你操作别人的网站；而网站有权不让它进。Amazon 和 Meta 的冲突不是个案，是这条产业链的核心矛盾。</p>
+    <div class="table-scroll">
+      <table class="report-data-table report-cols-3">
+        <thead><tr><th>这一层</th><th>现在发生了什么</th><th>谁在收费站上</th></tr></thead>
+        <tbody>
+          <tr class="row-warn"><td><strong>平台拦截</strong></td><td>Amazon 9/20 封 Muse，此前已对 Perplexity 的购物机器人拿到临时禁令。理由：agent <b>不表明身份</b>、会留存用户凭证</td><td>大平台自己。Amazon 有自己的购物 agent，封别人等于护城河</td></tr>
+          <tr class="row-bull"><td><strong>身份认证</strong></td><td>Web Bot Auth：agent 用加密签名自证身份。Cloudflare、AWS WAF、Akamai、HUMAN、Vercel 已在<b>生产环境</b>验签；IETF 工作组成立但还没有采纳的标准文档</td><td><b>NET</b>、<b>AKAM</b>（网络边缘）；<b>OKTA</b>（Agent SSO，把 agent 当一等身份管理）</td></tr>
+          <tr><td><strong>默认规则</strong></td><td>Cloudflare 7 月把「屏蔽 AI 机器人」拆成搜索 / agent / 训练三类；<b>9/15 起新接入域名在带广告页面默认屏蔽 agent</b>。AI 机器人请求已超每周 100 亿次</td><td>网站主开始有「放行 / 收费 / 拒绝」的开关</td></tr>
+          <tr class="row-bull"><td><strong>支付</strong></td><td>Visa Intelligent Commerce、Mastercard Agent Pay 已上线，用 agentic token 发受限卡号，<b>认证层用的就是 Web Bot Auth</b>；另一条轨道是 Coinbase 的 x402 稳定币协议</td><td><b>V</b>、<b>MA</b>（卡组织）；<b>COIN</b>（x402）</td></tr>
+          <tr><td>规模估算</td><td>麦肯锡：到 2030 年美国由 agent 完成的交易约 1 万亿美元</td><td>——</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout">
+      <p><strong>Amazon 给出的封杀理由，恰好就是这套基础设施要解决的问题。</strong>
+         「agent 隐藏身份」→ 需要签名认证；「agent 留存用户凭证」→ 需要 agentic token 替代真实卡号。
+         <u>门禁之争越激烈，身份和支付这两层的必要性越强</u>——不管最后是 Meta 赢还是 Amazon 赢，
+         agent 都得先带着可验证的身份和受限的支付凭证才能进门。</p>
+    </div>
+    <p><strong>两侧的定价完全不同。</strong>身份安全那一侧已经涨过：NET、OKTA、CRWD 都在 52 周高点 1% 以内，21 日涨了 26% 到 43%。
+       支付那一侧没动：V 21 日 <span class="up">+1.15%</span>、MA <span class="dn">−1.08%</span>，RSI 39 和 32，都在 50MA 附近。
+       <strong>我们没有证据说明支付一侧「应该」涨</strong>——agent 交易目前只有数百笔受控测试，在卡组织的收入里可以忽略不计。
+       这里能说的只是：<u>这一层的故事已经发生，价格还没有表达它。</u></p>
+    <p><strong>被挤压的一侧：</strong>靠广告和页面浏览赚钱的网站。agent 不看广告，Cloudflare 默认屏蔽的恰好就是「带广告的页面」。
+       同时惠普给出 2027 年 PC 出货下降中个位数的假设——<u>如果活儿都在云端虚拟机里干，终端设备的换机理由会更少</u>。这一条目前只是推演。</p>
+  </section>
+
+  <section id="memory">
+    <div class="kicker">Memory</div>
+    <h2>存储：叙事和价格在打架</h2>
+    <p>每台 agent 虚拟机都要内存和 SSD，逻辑上存储是受益方，而且需求会跟着活跃 agent 数线性增长。
+       但 9/21 这一天把矛盾摆得很清楚：<strong>SMH <span class="up">+4.02%</span>、SOXX <span class="up">+4.93%</span>，MU 只有 <span class="up">+2.77%</span>，SNDK <span class="dn">−1.41%</span></strong>。
+       当晚宏碁 CEO 说「供应短缺问题已经消失」、2027 年存储价格会下跌，原因是长鑫开始量产新平台。</p>
+    <p><strong>这和 9/20 存储专题的结论是同一件事</strong>：这一层股价的决定变量是供给和资本开支，不是需求。
+       agent 能拉高需求的斜率，但压不住新产能。<u>在这条链上，存储不是「agent 标的」，是「周期标的」。</u></p>
+  </section>
+
+  <section id="tape">
+    <div class="kicker">The tape</div>
+    <h2>六层定价</h2>
+    <p class="section-intro">口径日 2026-09-21 收盘，长桥前复权日线。距 9EMA 用百分比，距 50MA 用 ATR 倍数。</p>
+    <div class="table-scroll">
+      <table class="report-data-table report-cols-7">
+        <thead><tr><th>标的 · 层</th><th class="num">收盘</th><th class="num">5 日</th><th class="num">21 日</th><th class="num">距 9EMA</th><th class="num">距 50MA</th><th class="num">距 52 周高</th></tr></thead>
+        <tbody>
+          <tr class="row-warn"><td><strong>AMD</strong><br><small>CPU</small></td><td class="num">615.52</td><td class="num up">+24.75%</td><td class="num up">+31.11%</td><td class="num up">+14.39%</td><td class="num">+4.64</td><td class="num">−0.2%</td></tr>
+          <tr class="row-warn"><td><strong>INTC</strong><br><small>CPU</small></td><td class="num">121.78</td><td class="num up">+25.30%</td><td class="num up">+32.18%</td><td class="num up">+14.71%</td><td class="num">+3.74</td><td class="num">−14.5%</td></tr>
+          <tr class="row-warn"><td><strong>ARM</strong><br><small>CPU</small></td><td class="num">322.90</td><td class="num up">+35.10%</td><td class="num up">+28.79%</td><td class="num up">+19.69%</td><td class="num">+3.50</td><td class="num">−28.7%</td></tr>
+          <tr><td><strong>META</strong><br><small>入口</small></td><td class="num">741.25</td><td class="num up">+11.45%</td><td class="num up">+35.91%</td><td class="num up">+10.32%</td><td class="num">+4.86</td><td class="num">−5.9%</td></tr>
+          <tr><td>GOOGL<br><small>入口</small></td><td class="num">354.97</td><td class="num up">+1.60%</td><td class="num up">+4.26%</td><td class="num up">+2.57%</td><td class="num">+1.19</td><td class="num">−13.0%</td></tr>
+          <tr><td>MSFT<br><small>入口</small></td><td class="num">501.61</td><td class="num dn">−0.75%</td><td class="num up">+4.25%</td><td class="num up">+0.88%</td><td class="num">+3.47</td><td class="num">−8.7%</td></tr>
+          <tr><td>AMZN<br><small>入口</small></td><td class="num">258.45</td><td class="num up">+1.94%</td><td class="num dn">−0.64%</td><td class="num up">+1.84%</td><td class="num">+0.44</td><td class="num">−10.0%</td></tr>
+          <tr><td><strong>NET</strong><br><small>身份 / 边缘</small></td><td class="num">351.67</td><td class="num up">+6.45%</td><td class="num up">+26.09%</td><td class="num up">+8.32%</td><td class="num">+3.08</td><td class="num">−0.2%</td></tr>
+          <tr><td><strong>OKTA</strong><br><small>身份 / 边缘</small></td><td class="num">191.33</td><td class="num up">+2.62%</td><td class="num up">+42.61%</td><td class="num up">+4.86%</td><td class="num">+3.95</td><td class="num">−0.7%</td></tr>
+          <tr><td>CRWD<br><small>身份 / 边缘</small></td><td class="num">249.35</td><td class="num up">+5.94%</td><td class="num up">+31.00%</td><td class="num up">+6.44%</td><td class="num">+3.06</td><td class="num">−0.4%</td></tr>
+          <tr><td>AKAM<br><small>身份 / 边缘</small></td><td class="num">117.41</td><td class="num up">+11.22%</td><td class="num up">+6.65%</td><td class="num up">+8.36%</td><td class="num">+0.69</td><td class="num">−29.0%</td></tr>
+          <tr><td>ZS<br><small>身份 / 边缘</small></td><td class="num">207.13</td><td class="num up">+8.03%</td><td class="num up">+18.39%</td><td class="num up">+8.60%</td><td class="num">+3.62</td><td class="num">−38.5%</td></tr>
+          <tr class="row-bull"><td><strong>V</strong><br><small>支付</small></td><td class="num">369.95</td><td class="num dn">−1.42%</td><td class="num up">+1.15%</td><td class="num dn">−0.31%</td><td class="num">+0.50</td><td class="num">−4.1%</td></tr>
+          <tr class="row-bull"><td><strong>MA</strong><br><small>支付</small></td><td class="num">567.65</td><td class="num dn">−1.18%</td><td class="num dn">−1.08%</td><td class="num dn">−0.39%</td><td class="num">+0.07</td><td class="num">−5.6%</td></tr>
+          <tr><td>COIN<br><small>支付</small></td><td class="num">201.05</td><td class="num up">+5.01%</td><td class="num up">+16.65%</td><td class="num up">+9.49%</td><td class="num">+2.59</td><td class="num">−50.0%</td></tr>
+          <tr><td>ANET<br><small>网络</small></td><td class="num">205.42</td><td class="num up">+9.38%</td><td class="num up">+11.79%</td><td class="num up">+3.94%</td><td class="num">+2.21</td><td class="num">−4.4%</td></tr>
+          <tr><td>ALAB<br><small>网络</small></td><td class="num">340.74</td><td class="num up">+32.56%</td><td class="num up">+17.29%</td><td class="num up">+15.22%</td><td class="num">+1.63</td><td class="num">−31.8%</td></tr>
+          <tr><td>CRDO<br><small>网络</small></td><td class="num">187.27</td><td class="num up">+24.77%</td><td class="num dn">−19.05%</td><td class="num up">+8.55%</td><td class="num">−1.96</td><td class="num">−39.3%</td></tr>
+          <tr><td>MU<br><small>存储</small></td><td class="num">1043.96</td><td class="num up">+12.98%</td><td class="num up">+7.15%</td><td class="num up">+6.05%</td><td class="num">+2.60</td><td class="num">−16.8%</td></tr>
+          <tr class="row-warn"><td><strong>SNDK</strong><br><small>存储</small></td><td class="num">1766.64</td><td class="num up">+13.83%</td><td class="num up">+10.37%</td><td class="num up">+6.36%</td><td class="num">+2.63</td><td class="num">−25.0%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><strong>四种位置，四种读法。</strong></p>
+    <p><strong>CPU 三家</strong>：5 日涨了 25% 到 35%，距 9EMA 14% 到 20%。AMD 贴着新高，INTC、ARM 还在修复前高的路上。
+       9EMA 分别在 <strong>538、106、270</strong> 附近——<u>离现价都有一段不小的距离</u>。</p>
+    <p><strong>身份 / 边缘</strong>：NET、OKTA、CRWD 三只同时贴着 52 周高点，21 日涨幅比 CPU 还大，但距 9EMA 只有 5% 到 8%——
+       <u>这是一个月慢慢走出来的，不是一天冲出来的</u>。AKAM、ZS 离高点还远，是这一层里没被带起来的。</p>
+    <p><strong>支付</strong>：V、MA 贴在 50MA 上，21 日 ±1%。这一层是整张表里唯一「故事已发生、价格没反应」的。</p>
+    <p><strong>入口</strong>：Muse 的收益目前只落在 META 一家身上；GOOGL、MSFT、AMZN 没有被 agent 叙事带动，AMZN 21 日还是负的。</p>
+  </section>
+
+  <section id="signals">
+    <div class="kicker">Falsification</div>
+    <h2>可证伪清单</h2>
+    <div class="table-scroll">
+      <table class="report-data-table report-cols-4">
+        <thead><tr><th>观测项</th><th>阈值 / 时点</th><th>现状（9/21）</th><th>为什么选它</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Meta Connect 披露</strong></td><td>9/23 16:00 PT（SGT 9/24 07:00）</td><td>只有下载量和榜单名次</td><td>付费转化和开发者接入是 Muse 能不能成为平台的硬数据；只给演示不给数字 = 叙事先于业务</td></tr>
+          <tr><td><strong>CPU 三家回踩 9EMA</strong></td><td>AMD 538 · INTC 106 · ARM 270</td><td>距 9EMA +14% ~ +20%</td><td>回踩守住 = 需求线被市场接受；一路不回踩 = 挤压行情，不是配置行情</td></tr>
+          <tr><td><strong>服务器 CPU 价格 / 交期</strong></td><td>英特尔、AMD 10 月下旬三季报</td><td>最多 +20%，英特尔交期最长 6 个月</td><td>涨价延续 = 需求线成立；交期缩短 = 供给追上来了</td></tr>
+          <tr><td><strong>第二个平台封杀</strong></td><td>任何一家大型电商或内容平台</td><td>只有 Amazon（Muse、Perplexity）</td><td>封杀扩散 → 身份认证层的必要性上升；Amazon 与 Meta 和解 → 门禁冲突降温</td></tr>
+          <tr><td><strong>卡组织披露 agent 交易</strong></td><td>V、MA 10 月下旬财报</td><td>数百笔受控测试</td><td>第一次给出量级 = 支付层开始有业务支撑；只字不提 = 这一层还只是协议</td></tr>
+          <tr><td><strong>存储现货价</strong></td><td>DDR5 / NAND 现货周环比</td><td>宏碁：2027 年存储价格下跌</td><td>现货继续转弱 = 存储按周期交易，agent 需求盖不住供给</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="notes">
+    <div class="kicker">Notes</div>
+    <h2>口径与来源</h2>
+    <p><strong>价格</strong>：全部为长桥前复权日线，口径日 2026-09-21 收盘，从日线序列中定位该日那一根计算。
+       9EMA 为 9 日指数均线；ATR 为 14 日真实波幅简单平均；ADR 为 20 日平均日内振幅；RSI 为 14 日。
+       SKHY 上市不足 60 个交易日，表中未列。</p>
+    <p><strong>边界</strong>：
+       ① 本篇只讨论 agent 这条需求线，不对任何标的给出入场建议；
+       ② 9/21 当天的涨幅里，Muse 之外还有贝森特称对华会谈「非常成功」、美方提议延长贸易协议等同日消息，<b>单日涨幅不能全部归因于 agent</b>；
+       ③ 当天大盘是明显的大市值行情：等权 ETF RSP 只涨 <span class="up">+0.56%</span>、IWM <span class="up">+0.52%</span>，比 SPY 的 <span class="up">+1.55%</span> 少约 1 个百分点。
+       本篇表里的强势标的都在这个窄行情里。</p>
+    <p><strong>来源</strong>：Meta 官方新闻稿（Muse 发布）；TechCrunch、Bloomberg、Axios（Muse 发布与架构）；
+       Yahoo Finance、Motley Fool、Quartz（9/21 股价与下载量、富国银行目标价）；
+       SiliconANGLE、GeekWire、The Register、TechCrunch（Amazon 封杀）；
+       TrendForce、Tom's Hardware（CPU 核需求、价格与交期）；
+       Cloudflare 官方博客（Web Bot Auth、AI 流量分类与默认规则）；
+       Visa、Mastercard 官方新闻稿，Forbes、American Banker（agent 支付）；Okta 官方新闻稿（Agent SSO）；
+       Meta Connect 官方日程。</p>
+  </section>
+</main>
+</body>
+</html>
