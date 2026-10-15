@@ -1,0 +1,768 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026-09-28 美股盘前监控｜纳指还在进攻区、T2108 只有 20.3 —— 但两个问题今天都答「有」：Foundary 12/13 只 RS 成群、回踩已收回 9 只</title>
+<style>
+:root{
+  /* 🔤 2026-08-22 Vic：「老师的空行和格式让我阅读很舒服，我总觉得我的报告字太多而且挤在一起」
+     实测两边参数：他 line-height 1.95 / 17px / 字距 .015em / 段后 1.5rem / 章节上下 4.5rem，
+     容器 60rem，正文另限 34em；我们是 1.58 / 16px / 无字距 / 浏览器默认段距 / 容器 1160px 无限宽。
+     🔴 **根因是行宽不是行高**：1160px 容器一行排 70+ 个中文字，是他的两倍，眼睛回扫距离翻倍。
+     我们的表比他多且列宽，容器收到 960px 会挤——所以**容器保持宽，只给正文段落限宽**。 */
+  --measure:38em;      /* 正文一行的最大宽度，约 38 个中文字 */
+  --bg:#f5f5f7;--panel:#fff;--text:#1a1f2e;--muted:#6b7280;--line:#e6e8ec;
+  --blue:#2563eb;--green:#2e7d5c;--amber:#b5574a;--red:#a3422b;
+  --green-bg:#e8f3ec;--red-bg:#faeeea;--amber-bg:#f7e3dd;--blue-bg:#eaf2ff;
+  --shadow:0 18px 48px rgba(15,23,42,.07);
+  --soft-green:#6f9e83;--soft-amber:#c48b80;--soft-red:#c48b80;
+}
+/* 2026-07-06：黄色试了两版(#ba7517/#9c7a0a)都被Vic认成棕色，改成红绿二色系统——
+   --amber不再是黄色，而是比--red浅的"暖红/浅砖红"，跟--red同属红色家族、只靠深浅区分"中/高"档，
+   不再引入第三种色相。以后不要再把--amber调回黄/棕色调。*/
+*{box-sizing:border-box}
+body{margin:0;background:linear-gradient(180deg,#fbfbfd 0,var(--bg) 300px);color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft JhengHei","PingFang SC",Arial,sans-serif;
+  font-size:17px;line-height:1.9;letter-spacing:.015em}
+/* 🔤 2026-08-23 第三次修正（Vic：「盘后和一周总结的对齐继续修下」）。
+   前两版都在给元素**各自**限宽，结果一页三条边：裸段落 646px（38em）、
+   callout 850px（38em+12em）、表格 1120px。**问题从来不是「太宽」，是「不齐」。**
+   这次不猜了 —— 直接量了 Vic 说读着舒服的那份（老师 2026-08-21 专题）：
+     容器 .wrap 960px · 表格 896px · 段落 784~836px · **右缘全部 1081，一条边**
+     正文 17px / 行高 1.95 / 段距 24px · 每行约 49 个中文字
+   **他的正文比我的宽，不比我的窄。**让他好读的是「所有东西共用一条边」，
+   不是「文字很窄」。所以：容器收到 960、左右 padding 32（→ 内容 896px 与他一致），
+   段落和 callout 的 max-width 全部取消，由容器统一定边。 */
+/* 🔤 2026-08-23 第四次（Vic：「我看出你的报告整个改窄了，位置不够，但是我老师的报告
+   一点也不窄的……用他的段落宽度和间距，注意换行，表格可以拉宽的呀」）。
+   **第三次把整页收到 960 是过头了**：文字确实变舒服了，但 8~9 列的持仓表被挤到
+   「6.94 / %」「已 / 触发」「【mentor / 跟单】机械 / 跟随，无个 / 人logic」这种断法 —— 反而更难读。
+   **对齐 ≠ 所有东西同宽。**正确的拆法是分两层：
+     · 文字层（段落 / callout / 列表）= 老师实测的 836px，**盒子和盒内文字同宽**，
+       所以不会再出现「宽盒子 + 窄文字」那种空背景（那才是 8/22 真正的病）
+     · 表格层 = 走满容器，表本来就该宽
+   两层**共用左边缘**，右边缘表格更长 —— 这是正常的编辑排版，不是没对齐。
+   老师那份的正文参数一并照抄：17px / 行高 1.95 / 段后 24px。 */
+.wrap{max-width:1200px;margin:0 auto;padding:40px 32px 72px}
+:root{--measure:none}   /* 2026-08-23 Vic：一个宽度贯到底，谁都不单独限宽 */
+p,.callout,.outlook-list,.ad-list,.entry-legend,table{max-width:none;width:100%}
+body{line-height:1.95}
+p{margin:0 0 24px}
+/* 表格：走满容器；数字列一律不许在数字和单位之间断开 */
+table{max-width:none;width:100%}
+td.num,th.num,td.ctr,th.ctr{white-space:nowrap}
+header,.panel{background:rgba(255,255,255,.94);border:1px solid var(--line);border-radius:18px;
+  box-shadow:var(--shadow);padding:24px;margin-bottom:18px}
+.eyebrow{font-size:13px;font-weight:800;color:var(--blue);margin-bottom:8px}
+h1{font-size:34px;line-height:1.35;margin:0 0 18px;max-width:24em;letter-spacing:.01em}
+h2{font-size:26px;line-height:1.5;margin:64px 0 26px;scroll-margin-top:72px;letter-spacing:.02em}
+h3{font-size:18.5px;margin:44px 0 14px;letter-spacing:.03em}
+/* 🔴 2026-08-25 Vic：「这次盘前字体大大小小的」。根因是渲染层给 5 个子标题写了
+   inline font-size:15px，同一页里 h3 有 18.5px 和 15px 两种长相。
+   那一层（标准板块 / 半导体细分 / 成分分布…）改用 h4，**样式只在这里定义一次**；
+   渲染层不再写任何 inline font-size。闸门：qa_report._no_inline_font_size。*/
+h4{font-size:15px;color:var(--muted);margin:22px 0 6px;letter-spacing:.03em;font-weight:700}
+/* 情景表右上角的概率角标 —— 原来写在渲染层的 inline style 里（2026-08-25 一并收口）*/
+.sc-prob{float:right;font-weight:800;font-size:15px}
+/* 正文限宽：只作用于成段的文字，表格/卡片/网格不受影响（它们要用满宽度）。
+   段后 1.5rem 是老师那份的值——空行本身就是格式。 */
+/* 2026-08-22 二次修正（Vic：「很多地方换行都奇怪」）：限宽加在文字上会让
+   callout 盒子 1120px 宽而文字停在 646px，右边留一大片空背景，看着像断错行。
+   2026-08-23 三次修正：**索性谁都不限，全部交给容器**（见上面 .wrap 的注释）。
+   段后 1.5rem ≈ 25.5px，老师那份是 24px —— 空行本身就是格式。 */
+p{margin:0 0 24px;max-width:var(--measure)}
+.callout p,.callout div,.callout li,.co-item,.outlook-list li,.ad-list li,
+.entry-legend .co-item{max-width:none}
+li{margin:0 0 .55rem}
+.muted,.note{color:var(--muted)}
+/* .note 的字号统一在文件末尾那条（14px），这里不再各写一份 */
+
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:18px 0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 15px;
+  box-shadow:0 8px 20px rgba(15,23,42,.04)}
+.card span{display:block;color:var(--muted);font-size:12px;font-weight:800}
+.card>strong{display:block;margin-top:4px;font-size:18px}
+
+.badge{display:inline-flex;align-items:center;border-radius:6px;padding:4px 9px;font-size:12.5px;
+  font-weight:700;letter-spacing:.01em;border:1px solid transparent;line-height:1.4}
+.card .badge{display:inline-flex;width:auto}
+.badge.amber,.amber{color:var(--amber);background:var(--amber-bg);border-color:#e8c3b8}
+.badge.blue,.blue{color:var(--blue);background:var(--blue-bg);border-color:#c3d6f5}
+.badge.green,.green{color:var(--green);background:var(--green-bg);border-color:#bfe0cd}
+.badge.red,.red{color:var(--red);background:var(--red-bg);border-color:#eccabf}
+
+/* Above MA(20/50/200) 三期限独立小标签，2026-07-21对标老师报告格式改版（原来是纯▲▼三字符文本） */
+.ma{white-space:nowrap;font-size:11.5px;font-weight:600}
+.ma b{display:inline-flex;align-items:center;gap:2px;margin-right:6px;color:var(--muted);font-weight:600}
+.ma b.up i{color:var(--green)}
+.ma b.dn i{color:var(--red)}
+.ma i{font-style:normal;font-size:12px}
+
+/* 🔴 2026-08-25 Vic：「表格和文本大小明显不同」「感觉就是和以前不一样了」。
+   根因是 8/23「排版第五轮」给 body 加了 font-size:17px（此前没写、走浏览器默认 16px），
+   **而表格一直是 14px 没跟着动** —— 差距从 2px 变成 3px。
+   现在把表格提到 15.5px（body 不动：17px/1.95 是照老师那份实测抄的，Vic 认可过）。
+   全页字号阶梯定在这一段，别让某个元素自己漂：
+     h1 34 · h2 26 · h3 18.5 · 正文 17 · 表格 td 15.5 · h4 15 · 表头 th 13.5 ·
+     note/muted/small 14 · badge 12.5 */
+table{width:100%;border-collapse:separate;border-spacing:0;background:var(--panel);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden;margin:10px 0 12px;font-size:15px;box-shadow:0 8px 20px rgba(15,23,42,.04)}
+/* 表头比单元格小一档：**中文表头最长、最容易把列撑开**（同 8/24「为什么要换行」那条）*/
+thead th{font-size:13.5px;letter-spacing:.02em}
+th,td{border-bottom:1px solid var(--line);padding:13px 13px;text-align:left;vertical-align:top;line-height:1.75}
+tr:last-child td{border-bottom:0}
+/* 2026-07-27 Vic："第一行增加颜色，白色突兀"——表头原来是近乎白的#f8fafc，
+   跟深蓝组标题行放一起显得没有分量。加深成灰蓝，作为表头有存在感又不抢组标题的色。*/
+th{background:#e7ecf3;color:#2c3e55;font-weight:800;border-bottom:1px solid #d5dde7}
+.num{text-align:right;font-variant-numeric:tabular-nums}
+.nowrap{white-space:nowrap}
+.ctr{text-align:center}
+.num.up{color:var(--green)}
+.num.dn{color:var(--red)}
+span.up{color:var(--green);font-weight:700}
+span.dn{color:var(--red);font-weight:700}
+tr.row-bull td{background:var(--green-bg)}
+tr.row-warn td{background:var(--red-bg)}
+
+.callout{background:var(--blue-bg);border:1px solid var(--line);border-left:5px solid var(--blue);border-radius:12px;
+  padding:22px 24px;margin:20px 0 32px;max-width:var(--measure)}
+.callout.ok{border-left-color:var(--green);background:#fff}
+.callout.warn{border-left-color:var(--amber);background:#fff}
+.callout.risk{border-left-color:var(--red);background:#fff}
+
+.checks{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:12px 0}
+.check{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 15px;
+  box-shadow:0 8px 20px rgba(15,23,42,.04)}
+.check span{display:block;color:var(--muted);font-size:12px;font-weight:800}
+.check strong{display:block;margin-top:4px}
+.check small{display:block;margin-top:4px;color:var(--muted)}
+.check.low{border-left:4px solid var(--green)}
+.check.mid{border-left:4px solid var(--amber)}
+.check.high{border-left:4px solid var(--red)}
+
+.regime-triggers{display:flex;gap:16px;margin:0 0 28px}
+.trigger-box{flex:1;padding:16px 20px;border-radius:8px}
+.trigger-upgrade{background:#e8f3ec;border-left:4px solid #2e7d5c}
+.trigger-downgrade{background:#faeeea;border-left:4px solid #a3422b}
+.tb-header{display:flex;align-items:baseline;gap:8px;margin-bottom:8px}
+.tb-arrow{font-size:18px}
+.tb-label{font-weight:800}
+.tb-sub{font-size:11px;color:var(--muted)}
+.tb-rule{font-size:11px;font-weight:800;color:var(--muted)}
+.tb-list{margin:8px 0 0;padding-left:20px}
+.tb-list li{margin:5px 0;font-size:13px}
+
+/* 🔤 2026-08-23 Vic：「周报的黄字不要粗体，很难读，每条稍微空的大一些」。
+   这个黄框里我几乎每句都加了 ** —— 当一段话有一半是粗体，粗体就不再是强调，
+   而是噪音；叠在 #fff8e1 的暖底上对比度又低，整块糊成一片。
+   做法：**框内不再渲染粗体**（strong 回到常规字重，仅用深一点的颜色区分），
+   条目间距 10px → 26px。 */
+.action-directive{border-left:3px solid #d9b64a;background:#fff8e1;
+  padding:22px 26px;margin:14px 0 28px}
+/* 2026-08-23 Vic 修正上一版：「强调你放同色，需要强调就加粗体」。
+   上一版我把 strong 改成常规字重、再用 #6b5410 深色区分 —— **等于用颜色代替粗体**，
+   结果框里出现两种黄褐色，比原来更花。他要的是：**全框同一个颜色，强调只用粗体。**
+   所以 color 回到继承（跟正文同色），font-weight 回到 700；
+   真正治「很难读」的是把底色上的文字统一成正文的深色，不是拿掉粗体。 */
+.action-directive,.action-directive .kt-item{color:var(--text)}
+.action-directive strong,.action-directive b{font-weight:700;color:inherit}
+.ad-label{color:inherit;font-weight:800}
+.ad-list{list-style:none;padding:0;margin:8px 0 0}
+.ad-list li{margin:0 0 14px}
+.ad-primary::before{content:"\25CF ";color:#9a7b0b}
+.ad-watch::before{content:"\25CE ";color:var(--blue)}
+.ad-avoid::before{content:"\2717 ";color:var(--red)}
+.ad-invalidate{border-top:1px dashed #ddc0b8;padding-top:8px;color:#6b6960;font-size:12.5px}
+.ad-invalidate strong{color:#a3422b}
+
+/* 核心纪律专用（2026-07-22 Vic："又有bullet又有**还有红绿灯,太多了"）——跟今日定位的ad-list
+   共用同一个黄色box，但不再加●前缀：box的背景色+行间距已经是一层强调，不需要再叠bullet。 */
+.disc-list{list-style:none;padding:0;margin:8px 0 0}
+.disc-list li.disc-item{margin:9px 0;line-height:1.62}
+/* 2026-08-23 Vic：「强调你放同色，需要强调就加粗体」——这条曾用颜色代替粗体，取消。 */
+.disc-list li.disc-item strong{color:inherit;font-weight:700}
+
+/* 导航栏：Chrome标签页样式（2026-07-27 Vic："不要蓝底，我要白底，但是chrome那种标签页格式"）——
+   白底容器 + 底部一条基线；每个标签上圆角、三面描边、坐在基线上，hover/当前项把底边"打开"接进内容区。*/
+.toc{position:sticky;top:0;z-index:20;display:flex;gap:3px;overflow-x:auto;
+  padding:8px 10px 0;margin-bottom:20px;background:#fff;
+  border-bottom:1px solid var(--line);box-shadow:0 6px 14px rgba(15,23,42,.05)}
+.toc::-webkit-scrollbar{height:0}
+.toc a{flex:0 0 auto;position:relative;bottom:-1px;padding:7px 14px;
+  color:var(--muted);font-size:12.5px;font-weight:600;text-decoration:none;white-space:nowrap;
+  background:#f4f5f7;border:1px solid var(--line);border-radius:9px 9px 0 0}
+.toc a:hover,.toc a:focus{background:#fff;color:var(--blue);border-bottom-color:#fff}
+
+.source{font-size:12px;color:var(--muted)}
+.placeholder{color:var(--muted);font-style:italic}
+
+/* 空节三态（2026-08-07 Vic：「没扫出来不要空着，放"无"，这样就不会漏掉」）。
+   三态而非一个"无"：无=跑了没有 / 暂停=主动停用 / 数据缺=源不可用——含义完全不同。
+   配色守 CONTEXT 语义：中性灰=无、蓝=状态说明、浅红=有问题。不引入黄色。 */
+.empty-state{display:flex;align-items:baseline;gap:9px;margin:8px 0 4px;flex-wrap:wrap}
+.empty-tag{flex:none;display:inline-block;padding:2px 10px;border-radius:999px;
+  font-size:12px;font-weight:700;letter-spacing:.02em}
+.empty-note{color:var(--muted);font-size:13px;line-height:1.6}
+.es-none{background:var(--panel-2,#eceff3);color:var(--muted)}
+.es-parked{background:var(--blue-bg,#e6eefc);color:var(--blue,#2563eb)}
+.es-nodata{background:var(--red-bg,#f7e3dd);color:var(--red,#a3422b)}
+.kicker{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:18px 0 2px}
+
+/* 盘后/一周复盘共用组件（借鉴sintszkay示例站点的report-shared.css） */
+.hitbar{display:flex;height:14px;border-radius:999px;overflow:hidden;margin:14px 0 6px;max-width:520px}
+.hitbar i{display:block;height:100%}
+.hitbar .h{background:var(--green)}.hitbar .p{background:var(--amber)}.hitbar .m{background:var(--red)}
+.hitbar-legend{font-size:12px;color:var(--muted)}
+.hitbar-legend b{color:var(--text)}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin:0 4px 0 12px;vertical-align:1px}
+.dot.h{background:var(--green)}.dot.p{background:var(--amber)}.dot.m{background:var(--red)}
+
+.result-badge{display:inline-flex;min-width:52px;justify-content:center;border-radius:999px;padding:3px 8px;font-size:11px;font-weight:700}
+.result-hit{color:var(--green);background:#e8f3ec}
+.result-partial{color:var(--amber);background:var(--amber-bg)}
+.result-miss{color:var(--red);background:#faeeea}
+.result-not-triggered{color:var(--muted);background:#eef0f3}
+
+.chart{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:16px 18px 10px;margin:12px 0;box-shadow:0 6px 16px rgba(15,23,42,.035)}
+.chart-title{font-size:12px;font-weight:700;color:var(--muted);margin:0 0 10px}
+.bar-row{display:grid;grid-template-columns:104px 62px 1fr;align-items:center;gap:8px;margin:5px 0}
+.bar-row .lbl{font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar-row .val{font-size:12.5px;font-weight:700;text-align:right;font-variant-numeric:tabular-nums}
+.bar-row .val.pos{color:var(--green)}.bar-row .val.neg{color:var(--red)}
+.bar-track{position:relative;height:18px;background:#f6f7f9;border-radius:4px}
+.bar-track .b{position:absolute;top:2px;bottom:2px;border-radius:3px}
+.bar-track .b.pos{background:var(--green);opacity:.75}
+.bar-track .b.neg{background:var(--red);opacity:.75}
+
+.rsi{display:inline-flex;align-items:center;gap:6px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.rsi i{display:block;width:46px;height:6px;border-radius:999px;background:#edeff2;position:relative;overflow:hidden}
+.rsi i b{position:absolute;left:0;top:0;bottom:0;border-radius:999px;background:#9aa4b2}
+.rsi.hot{color:#8f3323;font-weight:700}.rsi.hot i b{background:var(--red)}
+.rsi.cold{color:#246849;font-weight:700}.rsi.cold i b{background:var(--green)}
+
+.ma-state{display:inline-flex;align-items:center;justify-content:center;gap:3px;font-size:13px;font-weight:800;margin-right:6px}
+.ma-state.ma-up .ma-arrow{color:var(--green)}
+.ma-state.ma-down .ma-arrow{color:var(--red)}
+.ma-period{color:var(--muted);font-size:12px;font-weight:700}
+.ma-arrow{font-size:13px;line-height:1}
+
+.pct{display:flex;align-items:center;gap:8px;justify-content:flex-end}
+.pct i{display:block;width:72px;height:8px;border-radius:999px;background:#edeff2;position:relative;overflow:hidden}
+.pct i b{position:absolute;left:0;top:0;bottom:0;border-radius:999px;background:var(--blue);opacity:.7}
+.pct em{font-style:normal;font-variant-numeric:tabular-nums;font-weight:600;min-width:52px;text-align:right}
+
+.atr{display:inline-flex;align-items:center;gap:6px;white-space:nowrap;font-variant-numeric:tabular-nums;font-weight:600}
+.atr i{display:inline-flex;gap:2px}
+.atr i b{width:6px;height:12px;border-radius:2px;background:#e6e8ec}
+.atr.l1 i b:nth-child(-n+1),.atr.l2 i b:nth-child(-n+2){background:var(--amber)}
+.atr.l3 i b:nth-child(-n+3){background:var(--red)}
+.atr.l4 i b:nth-child(-n+4){background:var(--red)}
+.atr.l3,.atr.l4{color:#8f3323}
+
+/* 50MA ATR延伸条（2026-07-27新增，借鉴Vic老师报告的"距50MA(ATR)"可视化，见report_helpers.atr_extension_rows）。
+   4格分段条，方向决定色系（跌=红家族/涨=绿家族，不引入黄棕色，沿用项目既有红绿二色规则），
+   l0-l4按|距50MA(ATR)|幅度分级，级数越高填色越多、颜色越深。*/
+/* 2026-07-27 Vic："距离50ma atr那个4个点应该对齐的"——原来i和em都按内容自适应宽度，
+   数字位数不同（-0.75 vs -2.40 vs +1.66）就把方块推得左右错位。改成两段都定宽即可列对齐。*/
+.atr-cell{display:inline-flex;align-items:center;gap:8px;white-space:nowrap;font-variant-numeric:tabular-nums;font-weight:600}
+.atr-cell i{display:inline-flex;gap:2px;width:30px;flex:0 0 30px}
+.atr-cell i b{width:6px;height:12px;border-radius:2px;background:#e6e8ec;flex:0 0 6px}
+.atr-cell em{min-width:46px;text-align:right}
+.atr-cell.dn.l1 i b:nth-child(-n+1),.atr-cell.dn.l2 i b:nth-child(-n+2){background:var(--amber)}
+.atr-cell.dn.l3 i b:nth-child(-n+3),.atr-cell.dn.l4 i b:nth-child(-n+4){background:var(--red)}
+.atr-cell.dn.l3 em,.atr-cell.dn.l4 em{color:#8f3323}
+.atr-cell.up.l1 i b:nth-child(-n+1),.atr-cell.up.l2 i b:nth-child(-n+2){background:#bfe0cd}
+.atr-cell.up.l3 i b:nth-child(-n+3),.atr-cell.up.l4 i b:nth-child(-n+4){background:var(--green)}
+.atr-cell.up.l3 em,.atr-cell.up.l4 em{color:var(--green)}
+.atr-cell em{font-style:normal;margin-left:2px}
+
+/* 2026-07-27 Vic："第一组/第二组/第三组是同样的表格格式，他们应该都对齐的"
+   + "你表格标题不要换行呀"。fixed布局+colgroup定宽=多张同构表列宽一致；th一律不换行。*/
+/* 三表一致性检查（2026-07-27 Vic："如果不同向，一定要指出"）：
+   同向=低调淡绿（只是确认，不该抢注意力）；分歧=红框高亮（分歧才是这个模块的价值所在）*/
+.cc-box{margin-top:12px;padding:12px 14px;border-radius:8px;border:1px solid var(--line)}
+.cc-box.cc-aligned{background:var(--green-bg);border-color:#bfe0cd}
+.cc-box.cc-split{background:var(--red-bg);border-color:#eccabf}
+.cc-head{font-weight:700;margin-bottom:8px}
+.cc-box.cc-aligned .cc-head{color:var(--green)}
+.cc-box.cc-split .cc-head{color:var(--red)}
+.cc-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.cc-chip{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:700;background:#fff;border:1px solid var(--line)}
+.cc-chip.cc-bull{color:var(--green);border-color:#bfe0cd}
+.cc-chip.cc-bear{color:var(--red);border-color:#eccabf}
+.cc-chip.cc-neutral{color:var(--muted)}
+.cc-detail{font-size:13.5px;line-height:1.75}
+
+/* 分段小结：每条独立成行、续行悬挂缩进对齐首行文字左边缘
+   （2026-07-27 Vic："按; 分段落；段落开头缩进对齐"／"重点要分行，每行开头缩进对齐"）*/
+/* A级入场触发常驻说明（2026-07-27 Vic："一开始我会记不住，在A级表格下面增加注释"）*/
+.entry-legend{margin:4px 0 6px;padding:11px 14px;border-radius:8px;
+  background:#f6f7f9;border:1px solid var(--line);border-left:4px solid var(--muted)}
+.entry-legend .el-title{font-weight:700;color:var(--text);margin-bottom:6px;font-size:13.5px}
+.entry-legend .co-item{font-size:12.8px;line-height:1.8}
+.entry-legend b{color:var(--text)}
+
+/* A/B/C候选卡（2026-07-27 Vic："A/B/C级格式统一吧，A级绿色，B/C灰色或者浅绿色"）*/
+.wl-card{border-radius:8px;padding:10px 13px;margin:0 0 9px;border:1px solid var(--line)}
+.wl-card.wl-a{background:var(--green-bg);border-color:#bfe0cd}
+.wl-card.wl-c{background:#f6f7f9}
+.wl-head{font-size:14.5px;margin-bottom:5px}
+.wl-head strong{font-size:15px}
+.wl-line{font-size:13px;line-height:1.8;color:var(--text)}
+.wl-line b{color:var(--muted);font-weight:700}
+.src-chip{display:inline-block;margin-left:8px;padding:1px 8px;border-radius:999px;
+  background:#fff;border:1px solid var(--line);font-size:11.5px;font-weight:700;color:var(--muted)}
+
+/* 本周日历（2026-07-27 Vic："做成6列 5个工作日 加周末的日历样子"）*/
+.cal-table{table-layout:fixed;width:100%}
+.cal-table th{background:#1f3a5f;color:#fff;font-size:12px;text-align:center;padding:6px 4px;white-space:nowrap}
+.cal-table td{vertical-align:top;padding:8px 6px;font-size:12.5px;line-height:1.6}
+.cal-list{list-style:none;padding:0;margin:0}
+/* 2026-08-20 Vic：「圆点干脆改成 emoji 吧，区分个股宏观 …… 不要都用箭靶」。
+   统一的「·」退役 → 类型图标（render_report.CAL_ICON）；
+   **重要性不再占一个 emoji**，改成字重＋左侧色条 —— 一格里三条挂 🎯 等于没标。 */
+.cal-list li.cal-i{margin:0 0 6px;padding-left:1.5em;text-indent:-1.5em}
+.cal-ic{display:inline-block;width:1.15em;margin-right:.35em;
+  font-size:11.5px;text-indent:0;line-height:1;opacity:.85}
+/* 🔴 2026-08-27 Vic：「重要事件不用红色长条，改成加个 emoji ⭐」——
+   竖条撤掉。红色在别处都表示风险，而周历的「重要」只是分量、不带方向。 */
+.cal-list li.cal-i.hot{font-weight:700}
+.cal-list li.cal-i.hot .cal-ic{opacity:1}
+.cal-none{color:var(--muted)}
+.cal-legend{margin:6px 0 0;font-size:11px;color:var(--muted);display:flex;
+  flex-wrap:wrap;gap:2px 14px}
+.cal-lg i{font-style:normal;margin-right:.3em}
+.cal-lg-hot i{font-style:normal;margin-right:.15em}
+
+/* X观点池：账号名 + 该账号多条bullet（2026-07-27 Vic：同一账号只出现一次名字）*/
+.x-acct{margin:0 0 12px}
+.x-handle{font-weight:700;color:var(--blue);margin-bottom:3px}
+
+/* X观点池·压缩版（2026-08-24 Vic：「x 部分全部压缩成小总结，我直接在 x 报告里看就可以了」）。
+   逐账号 bullet 列表已在渲染层退役，这里只剩「被点名」代码行 + 一行来源/覆盖。
+   .x-acct/.x-handle 留着给 xdesk 页和历史报告用，不删。*/
+.x-roster{margin:10px 0 6px;line-height:2.1}
+.x-roster-l{font-size:12.5px;color:var(--muted);margin-right:.6em;letter-spacing:.04em}
+.x-chip{display:inline-block;padding:1px 8px;margin:0 6px 4px 0;border-radius:10px;
+  background:#eef3fa;border:1px solid #d3e0ef;color:var(--blue);
+  font-weight:700;font-size:12.5px;font-variant-numeric:tabular-nums}
+.x-meta{font-size:12.5px;color:var(--muted);margin:2px 0 4px}
+.x-meta a{color:var(--blue);text-decoration:none;font-weight:700}
+.x-meta a:hover{text-decoration:underline}
+
+/* 长表分区（2026-07-27 Vic："市宽表格很长了，能不能再分板块，格式上让我好读一些"）：
+   组标题=深蓝色带；组内数据行用.row-band上浅蓝底，跟白底的其它组区分开。*/
+tr.row-group td{background:#1f3a5f;color:#fff;font-weight:700;font-size:12.5px;
+  letter-spacing:.04em;padding:5px 10px}
+tr.row-band td{background:var(--blue-bg)}
+/* C级：灰底降权（2026-07-27 A/B/C三级共表，只靠底色区分）*/
+tr.row-mute td{background:#f4f5f7;color:var(--muted)}
+
+/* 核心结论：编号 + 粗体标题句 + 支撑句（2026-07-27对标老师报告的「核心結論」格式）*/
+.kt-list{margin:10px 0 0;padding-left:1.4em}
+.kt-item{margin:0 0 26px}
+.kt-item:last-child{margin-bottom:0}
+.kt-head{font-weight:700}
+.kt-body{margin-top:3px;color:var(--text);font-size:13.5px;line-height:1.75}
+
+/* 2026-07-27 Vic："加bullet对齐吧，参考我老师用的bullet point"——老师用 • 做并列项标记
+   （核心結論那种有顺序的才用1./2./3.）。悬挂缩进让续行与首行文字左边缘对齐。*/
+/* 🔴 2026-08-20 Vic：「点点又来了，不如你写成 I. II. III. 排序写，
+   这样看起来更有主次和逻辑」——小结里的项目符号换成罗马数字序号。
+   **序号自带次序，圆点不带**：一段小结里几条本来就有主次（先说什么、再说什么），
+   圆点把它们拍平成并列。co-head（冒号结尾的分组小标题）不参与编号也不缩进。 */
+.co-list{margin-top:6px;counter-reset:coitem}
+/* 🔤 2026-08-22：条目间距 5px → 18px。报告的正文主要不在 <p> 里，而在这些条目里，
+   5px 是「挤在一起」最直接的来源（老师那份的段后是 1.5rem=24px）。 */
+.co-item{padding-left:2.1em;text-indent:-2.1em;margin:0 0 18px}
+.co-item:last-child{margin-bottom:0}
+.co-item::before{counter-increment:coitem;content:counter(coitem,upper-roman) ".";
+  color:var(--muted);margin-right:.6em;font-variant-numeric:tabular-nums}
+.co-item.co-head{padding-left:0;text-indent:0}
+.co-item.co-head::before{counter-increment:none;content:""; margin-right:0}
+/* co-sub = 附在上一条下面的子项（原文以 · / - 开头）。**不参与罗马数字编号**，
+   否则「4 个并列结论 + 1 组附注」会被拍平成 9 条并列，编号反而消灭层级。 */
+.co-item.co-sub{padding-left:3.5em;text-indent:-1.2em;margin:0 0 10px;
+  font-size:12.6px;color:var(--ink,inherit)}
+.co-item.co-sub::before{counter-increment:none;content:"–";margin-right:.5em;
+  color:var(--muted);font-weight:400}
+
+table.fixed-cols{table-layout:fixed}
+table.fixed-cols td{overflow-wrap:anywhere}
+th{white-space:nowrap}
+
+.trend-tag{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap}
+.trend-tag.down{color:var(--red);background:var(--red-bg)}
+.trend-tag.critical{color:#6b7280;background:#f1f2f4}
+.trend-tag.strong{color:var(--green);background:var(--green-bg)}
+
+/* 今日信号灯：整块实心色标签，替代之前的大卡片 */
+.status-row{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+.status-tag{display:inline-flex;align-items:center;padding:6px 12px;border-radius:6px;font-size:13px;font-weight:700;color:#fff;white-space:nowrap}
+.status-tag.low{background:var(--green)}
+.status-tag.mid{background:var(--amber)}
+.status-tag.high{background:var(--red)}
+
+/* 今日信号灯：窄小浅色chip + 正文（2026-07-23 Vic："开头标签请用窄的小的浅红浅绿，不要占全行，
+   视觉冲击太强了"——推翻2026-07-22的整行实心色块方案，那个是为了解决"长文本撑成超宽单行"的问题，
+   但整行铺满实色视觉太重。现在chip只包住键名本身（窄/小/浅色背景+深色文字），正文跟在旁边正常
+   颜色换行，不再给整行上色。三档仍是 绿/浅红/深红，不引入黄色。*/
+.signal-blocks{display:flex;flex-direction:column;gap:8px;margin:14px 0 4px}
+.signal-block{display:flex;align-items:flex-start;gap:10px}
+.signal-block .sb-key{flex:0 0 auto;font-size:11px;font-weight:800;letter-spacing:.05em;
+  border-radius:999px;padding:3px 10px;text-align:center;white-space:nowrap;border:1px solid transparent}
+.signal-block .sb-text{font-size:13.5px;line-height:1.66;color:var(--text);flex:1}
+.signal-block .sb-text strong{color:var(--text);font-weight:800}
+.signal-block.low .sb-key{background:var(--green-bg);color:var(--green);border-color:#bfe0cd}
+.signal-block.mid .sb-key{background:var(--amber-bg);color:var(--amber);border-color:#e8c3b8}
+.signal-block.high .sb-key{background:var(--red-bg);color:var(--red);border-color:#eccabf}
+@media(max-width:720px){
+  .signal-block{flex-direction:column;gap:5px}
+}
+
+/* Premarket Movers：删掉价格列后（2026-07-22 Vic"给多点空间"），把省下的宽度分配给三个长文本列 */
+table.movers th:nth-child(1),table.movers td:nth-child(1){width:74px}
+table.movers th:nth-child(2),table.movers td:nth-child(2){width:92px}
+table.movers th:nth-child(3),table.movers td:nth-child(3){width:96px}
+table.movers th:nth-child(4),table.movers td:nth-child(4){width:82px}
+table.movers td:nth-child(n+5){font-size:12.8px;line-height:1.6}
+.discipline-line{font-size:15px;font-weight:700;background:#fff8e1;border:1px solid #ecdfae;border-radius:10px;padding:12px 14px;margin:8px 0 4px}
+
+/* 风险温度打分：5格严重度条，替代之前的四色卡片网格 */
+.risk-rows{display:flex;flex-direction:column;gap:2px;margin:10px 0}
+.risk-row{display:grid;grid-template-columns:200px 90px 1fr;align-items:center;gap:12px;padding:8px 4px;border-bottom:1px solid var(--line)}
+.risk-row:last-child{border-bottom:0}
+.risk-label{font-size:13.5px;font-weight:600}
+.risk-detail{font-size:12.5px;color:var(--muted)}
+.severity{display:inline-flex;gap:2px}
+.severity i{width:15px;height:9px;border-radius:2px;background:#eceef1;display:block}
+.severity.low i:nth-child(-n+2){background:var(--soft-green)}
+.severity.mid i:nth-child(-n+3){background:var(--soft-red)}
+.severity.high i{background:#8b1f10}
+#risk .hitbar .h{background:var(--soft-green)}
+#risk .hitbar .p{background:var(--soft-red)}
+#risk .hitbar .m{background:var(--amber)}
+@media(max-width:640px){.risk-row{grid-template-columns:1fr;gap:4px}}
+
+/* Setup / 机会扫描：方法分组标签 + Leader对比 */
+.method-tag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.04em;color:var(--blue);
+  background:var(--blue-bg);border:1px solid #c3d6f5;border-radius:5px;padding:3px 8px;margin:18px 0 4px}
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:10px 0}
+.compare-grid h4{margin:0 0 6px;font-size:14px;font-weight:800}
+.compare-grid h4 small{font-weight:600;color:var(--muted);font-size:12px}
+@media(max-width:760px){.compare-grid{grid-template-columns:1fr}}
+
+/* 对账清单：预判 vs 收盘核对 */
+.ledger-table td.pending{color:var(--muted);font-style:italic}
+
+/* 攻守记分板：统一表格，避免卡片+小结拆散的观感 */
+.scoreboard-table td.status-met{color:var(--green);font-weight:700;background:var(--green-bg)}
+.scoreboard-table td.status-unmet{color:var(--muted)}
+.scoreboard-table td.status-triggered{color:var(--red);font-weight:700;background:var(--red-bg)}
+.scoreboard-table td.status-safe{color:var(--green);font-weight:700;background:var(--green-bg)}
+.scoreboard-table td.type-col{color:var(--muted);font-size:12.5px;white-space:nowrap}
+
+@media(max-width:760px){.bar-row{grid-template-columns:88px 56px 1fr}}
+
+@media(max-width:900px){.grid,.checks{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:640px){
+  .wrap{padding:20px 12px 40px}
+  header{padding:18px}
+  h1{font-size:26px}
+  .grid,.checks{grid-template-columns:1fr}
+  .regime-triggers{flex-direction:column}
+  table{display:block;overflow-x:auto;white-space:nowrap}
+}
+
+
+
+/* 2026-07-28 Vic：本日迭代 = 左右对照（左迭代/右新规则），整表白底，
+   类别只靠最左那道细色条，不写「对/错/形态」字样 */
+.iter-table{width:100%;border-collapse:collapse;margin:10px 0;background:#fff;table-layout:fixed}
+.iter-table th{background:#e7ecf3;font-size:12.5px;font-weight:700;text-align:left;padding:7px 10px}
+.iter-table th:first-child{width:6px;padding:0}
+.iter-table td{background:#fff;border-top:1px solid var(--line);padding:10px;
+  vertical-align:top;font-size:13.5px;line-height:1.75}
+.iter-table .it-lesson{width:56%}
+.iter-table .it-rule{width:44%}
+.it-bar{width:6px;padding:0!important;border-top:none!important}
+.it-good{background:#2e7d4f!important}
+.it-bad{background:#c0392b!important}
+.it-adjust{background:#c9a227!important}
+.it-pattern{background:#5b6b7a!important}
+.it-none{color:var(--muted)}
+/* 修正规则里的状态色块沿用（如仍有旧数据渲染） */
+.corr-mark{display:inline-block;min-width:34px;font-size:11.5px;font-weight:800;
+  padding:1px 6px;border-radius:3px;text-align:center;margin-right:4px}
+.corr-keep{background:#e3f2e9;color:#2e7d4f}    .corr-adjust{background:#fdf1d8;color:#9a7b0b}
+.corr-fix{background:#fbe4e1;color:#c0392b}     .corr-reverse{background:#e8eaed;color:#5b6b7a}
+
+/* 2026-07-28 Vic：「延续 如果是 用绿色标签」 */
+.yn{display:inline-block;min-width:30px;padding:2px 9px;border-radius:4px;
+  font-size:12px;font-weight:800;text-align:center}
+.yn-yes{background:#e3f2e9;color:#2e7d4f}
+.yn-no{background:#eceef1;color:var(--muted)}
+.src-note{margin:8px 0 0;font-size:12px;color:var(--muted);line-height:1.7}
+
+/* 2026-07-28 Vic：明日前瞻给个白底，容易阅读 */
+.outlook-list{max-width:var(--measure);background:#fff;border:1px solid var(--line);border-radius:8px;
+  margin:10px 0 0;padding:14px 16px 14px 38px;list-style-position:outside}
+.outlook-list li{margin:0 0 20px;line-height:1.9}
+.outlook-list li:last-child{margin-bottom:0}
+
+/* 2026-07-28 Vic：方法论块用黄色，跟蓝色的「小结」区分（黄=怎么做/规则，蓝=发生了什么） */
+.callout.co-method{background:#fff8e1;border-left-color:#d9b64a}
+.callout.co-method>strong{color:#9a7b0b}
+
+/* 2026-08-01：周报的 Cross-validation 三色块（确认=绿 / 分歧=红 / 主结论=黄） */
+.callout.co-good{background:#f2f9f5;border-left-color:#2e7d4f}
+.callout.co-good>strong{color:#2e7d4f}
+.callout.co-warn{background:#fdf3f2;border-left-color:#c0392b}
+.callout.co-warn>strong{color:#c0392b}
+
+/* 2026-08-01：仓位治理标题（缺持有理由/止损的仓位单列一节，硬性规则） */
+.gov-head{color:#c0392b}
+
+/* 2026-08-11：今日退出执行表标题（Vic 点名要出的标的，「单独拉一张」）。
+   跟 .gov-head 同色系但用较浅那档红——它是「已决定要出」不是「缺东西」，
+   不该跟仓位治理抢注意力。配色沿用 --amber（2026-07-06 起 = 浅红，不是黄）。 */
+.exit-head{color:#b5574a}
+
+
+/* 2026-08-06：离散度卡片 + 闸门表副行（Vic：「（盘前+0.33%）字样直接换一行」）*/
+td .sub{font-size:11.5px;color:var(--muted);line-height:1.5;margin-top:2px}
+td .big{font-size:19px;font-weight:600;color:var(--text);line-height:1.35;margin:2px 0}
+.callout.co-amber{background:#fff8e1;border-left-color:#d9b64a}
+.callout.co-amber>strong{color:inherit}
+.callout.co-green{background:#eef8f2;border-left-color:#2e7d5c}
+.callout.co-green>strong{color:#2e7d5c}
+.callout.co-blue{background:#eef4fd;border-left-color:#2563eb}
+.callout.co-blue>strong{color:#2563eb}
+
+/* 对账事前概率（2026-08-08）：prob-live = 真正有不确定性的判断（40–80%），
+   prob-anchor = 框架级防线（>=85%，每份限1条），prob-disc = 纪律条目不计分。
+   刻意不用红绿——概率高低不是好坏，是难度；红绿留给「对账」和 Brier 两列。 */
+.prob-live   { font-weight:600; color:var(--text); }
+.prob-anchor { font-weight:600; color:var(--muted); border-bottom:1px dotted var(--line); }
+.prob-disc   { font-size:.82em; color:var(--muted); }
+tr.ledger-disc td { background:var(--bg); color:var(--muted); }
+.brier-line { margin:10px 0 2px; font-size:.92em; color:var(--muted);
+              border-left:3px solid var(--line); padding-left:10px; }
+
+/* 离散度刻度条（2026-08-10 Vic：「这个表格我不会读」）——先给档位和人话，
+   再用一条三段刻度告诉他今天落在哪一段，最后才是原始数字。 */
+.disp-scale{margin:10px 0 14px}
+.disp-bar{position:relative;display:flex;height:10px;border-radius:6px;overflow:hidden}
+.disp-bar .seg{display:block;height:100%}
+.disp-bar .s-idx{background:#cfe6da}
+.disp-bar .s-mix{background:#d9e3f5}
+.disp-bar .s-stk{background:#f2ddd3}
+.disp-pin{position:absolute;top:-4px;width:3px;height:18px;background:var(--text);
+          border-radius:2px;transform:translateX(-1.5px)}
+.disp-ticks{display:flex;justify-content:space-between;margin-top:5px;
+            font-size:11.5px;color:var(--muted)}
+
+/* 2026-08-18 Vic：「小结还是有小点」——他圈的是「今晚要动的：」这种**小标题**，
+   它是分组标题不是条目，却和下面的条目一样挂了项目符号，读起来像漏了内容的空条目。
+   co-head = 冒号结尾的短行，取消悬挂缩进和符号、加粗留白。*/
+.co-head{padding-left:0;text-indent:0;margin:14px 0 10px;font-weight:600}
+/* 2026-08-18 Vic：「需要执行的仓位，在上面表格里也标识黄色底」——
+   红=风险（止损缺失/错值/缓冲不足），黄=今天要动手（peel/退出/移止损）。
+   两者分开：一个是「会被打掉」，一个是「该下单了」。*/
+tr.row-act td{background:var(--amber-bg,#fff6e0)}
+
+/* ══════════════════════════════════════════════════════════════════
+   2026-08-19 Vic 三条结构改动
+   ① 七只指数集中到一处（idx-chart / 表格在 03 指数闸门）
+   ② 信号灯从整块色卡改成表格（sig-table）——长文本上整块底色等于给整段涂色
+   ══════════════════════════════════════════════════════════════════ */
+
+/* ── ① 指数 ATR 横轴图 ───────────────────────────────────────────── */
+.idx-chart{margin:0 0 14px;padding:14px 16px 10px;background:var(--panel);
+  border:1px solid var(--line);border-radius:10px}
+.idx-svg{width:100%;height:auto;display:block;overflow:visible}
+.idx-svg .idx-track{stroke:var(--line);stroke-width:.5}
+.idx-svg .idx-gl{stroke-width:.45;stroke-dasharray:1.6 1.4}
+.idx-svg .idx-gl.gl-green{stroke:var(--green)}
+.idx-svg .idx-gl.gl-red{stroke:var(--red)}
+.idx-svg .idx-gl.gl-mid{stroke:var(--muted);stroke-dasharray:1 1.6}
+.idx-svg .idx-gl-lab{font-size:2.6px;font-weight:700;letter-spacing:.02em}
+.idx-svg .idx-gl-lab.gl-green{fill:var(--green)}
+.idx-svg .idx-gl-lab.gl-red{fill:var(--red)}
+.idx-svg .idx-gl-lab.gl-mid{fill:var(--muted)}
+.idx-svg .idx-tk{font-size:3.4px;font-weight:700;fill:var(--text)}
+.idx-svg .idx-ma50{stroke:var(--muted);stroke-width:.55}
+.idx-svg .idx-ma50-lab{font-size:2.2px;fill:var(--muted)}
+.idx-svg .idx-dot{stroke:var(--panel);stroke-width:.5}
+.idx-svg .idx-dot.dot-green{fill:var(--green)}
+.idx-svg .idx-dot.dot-amber{fill:var(--amber)}
+.idx-svg .idx-dot.dot-red{fill:var(--red)}
+.idx-svg .idx-dot.dot-ref{fill:var(--muted)}
+.idx-svg .idx-val{font-size:2.8px;font-weight:700}
+.idx-svg .idx-val.dot-green{fill:var(--green)}
+.idx-svg .idx-val.dot-amber{fill:var(--amber)}
+.idx-svg .idx-val.dot-red{fill:var(--red)}
+.idx-svg .idx-val.dot-ref{fill:var(--muted)}
+.idx-legend{margin:8px 0 0;font-size:12px;line-height:1.55;color:var(--muted)}
+.idx-legend b{color:var(--text)}
+
+/* ── ② 信号灯表格 ────────────────────────────────────────────────── */
+.sig-table{margin:0 0 14px}
+/* 2026-08-20 Vic：「我不喜欢中英重复」——维度列去掉中文，只留英文键名。
+   原来的 sig-en 小字副标题随中文一起退役。 */
+.sig-table td.sig-dim{white-space:nowrap;vertical-align:top;padding-top:11px;
+  font-size:11px;letter-spacing:.07em;font-weight:700;color:var(--muted)}
+/* 「挡位没有居中」——表头和格子一起居中，之前只有 td 居中，th 靠左，两行对不上。 */
+.sig-table th.sig-lv-h{text-align:center}
+.sig-table td.sig-lv{text-align:center;vertical-align:top;padding-top:11px;
+  font-weight:800;font-size:13px}
+/* 🔴 2026-08-19 Vic：「今日信号灯 染色全行吧，中得话就白色」——
+   底色从「只染档位那一格」改成**整行**，而且 **mid 不染色**。
+   mid 留白是这条规则的重点：四格里通常两三格是中档，
+   **只有 low / high 上色，颜色才重新变回信号**（同 8/18 持仓表、
+   8/19 A级候选表退役整行底色的那条：铺满 = 等于没标）。 */
+.sig-table tr.sig-row.low  > td{background:var(--green-bg)}
+.sig-table tr.sig-row.high > td{background:var(--red-bg)}
+.sig-table tr.sig-row.mid  > td{background:transparent}
+.sig-table td.sig-lv.low{color:var(--green)}
+.sig-table td.sig-lv.mid{color:var(--muted)}
+.sig-table td.sig-lv.high{color:var(--red)}
+.sig-table td.sig-txt{line-height:1.72;vertical-align:top}
+
+/* 🔤 2026-08-23 段间距对齐老师那份（Vic：「用他的段落宽度和间距」）。
+   量出来的病灶不在 p —— 这些报告的正文其实是 callout 里的 <div>/<li>，
+   实测**上 6px、下 0px**，段与段几乎贴在一起（这就是他说的「挤在一起」）。
+   老师那份段间 24px。这一段**故意放在文件最末尾**：前面两次都栽在
+   「新规则加在前面、旧的 max-width/margin 排在后面把它盖回去」。 */
+.callout p, .callout > div, .co-item, .outlook-list li, .ad-list li{
+  margin:0 0 24px; line-height:1.95}
+.callout p:last-child, .callout > div:last-child, .co-item:last-child{margin-bottom:0}
+.callout{padding:24px 28px}
+li{margin:0 0 24px; line-height:1.95}
+
+/* 🔤 2026-08-23 第五轮（Vic：「看我标识，没有看到任何改动」+ 「你做完自己打开 html 检查下再给我」）。
+   他的箭头指的三处（闸门表说明列 / 灰色注释块 / 命中率表）全在**没被上一轮碰到的 70%** 里：
+   实测全页 13560 字中 9481 字（70%）仍是 12~15.6px / 行距 1.75，
+   只有 callout 那 4079 字换成了老师的 17px / 1.95。
+   但**不能把表格也改成 17px** —— 实测老师的 td 就是 14.4px，跟我的 14px 基本一致。
+   他整页 78% 的字在 17px，是因为他几乎没有表格（表内 560 字 vs 我 7794 字），不是字更大。
+   真正的差距是**行内留白**：他 td padding 16px、行高 1.8；我 13px。
+   还有灰色注释掉到 12px / 行距 1.7，比正文小太多，读起来是另一份文件。 */
+th,td{padding:16px 16px;line-height:1.8}
+.src-note,.note,.muted,small{font-size:14px;line-height:1.9}
+.iter-table td,.iter-table .it-lesson,.iter-table .it-rule{font-size:14.5px;line-height:1.85;padding:16px}
+.iter-table th{font-size:13px;padding:12px 16px}
+.brier-line{font-size:15px;line-height:1.9}
+
+/* 🔤 2026-08-23 定案（Vic：「我要改成一样宽，我需要报告右边对齐，不要再参考老师了，
+   我需要右边也对齐，所以区域左右一样宽才对」）。
+   前五轮一直在两个目标之间来回：一边想要老师那种舒服的正文行宽（836px），
+   一边想要宽表不被挤。折中的结果是**文字 836 / 表格 371~1276**，右边全是参差的。
+   **Vic 的判断是对的：一份报告的可读性，边缘整齐比单行字数更重要。**
+   现在只有一个宽度：容器 1200 − padding 64 = **内容 1136px**，
+   段落 / callout / 列表 / 全部表格一律 100%，左右两边都落在同一条线上。
+   （表格因此拿回 1136px，比 Vic 用了几周的那版 1120px 还宽一点，不会再挤。）
+   行距 1.95、段距 24px、td padding 16px 这些留白参数保留 —— 那几条本来就是对的。 */
+.wrap > *, .callout, table, .outlook-list, .ad-list, .grid, .checks{max-width:none;width:100%}
+h1{max-width:none}
+
+/* 🔤 2026-08-23 收口（Vic：「强调你放同色，需要强调就加粗体」）。
+   黄框里历史上累积了三处用颜色做强调的规则（.disc-item strong / .ad-label /
+   .co-amber>strong），加上我上一版加的 #6b5410，一个框里能出现四种黄褐色。
+   **强调只用字重，颜色一律继承正文。**这一段放最后，防止将来又有更具体的规则盖回去。 */
+.action-directive, .action-directive *,
+.callout.co-amber, .callout.co-amber *{color:var(--text)}
+.action-directive strong, .action-directive b,
+.callout.co-amber strong, .callout.co-amber b{font-weight:700}
+
+/* 🔤 2026-08-23 Vic：「周报感觉字体挺不统一的，和日报差很多」。
+   量下来主字号规格其实一样（表格 14/1.8、正文 17/1.95、H2 26）——
+   不统一来自**周报独有的四个小组件**：trend-tag 12px、risk-label 13.5px、
+   type-col 12.5px、strong.up 18px。它们夹在 14px 表格和 17px 正文之间，
+   一页里出现 5 个相邻但不相等的字号，读起来就是"花"。
+   收敛到共用的三档：标签 13px / 表格 14px / 正文 17px。 */
+.trend-tag,.risk-label{font-size:13px;line-height:1.8}
+.type-col{font-size:14px;line-height:1.8}
+strong.up,strong.down{font-size:inherit}
+
+/* 🔤 2026-08-23 Vic：「标签溢出了」。.toc 是 flex + overflow-x:auto 的单行横向滚动条，
+   章节一多就有一半藏在右边看不见（而且滚动条被 ::-webkit-scrollbar{height:0} 隐藏了，
+   连"可以滑"这个提示都没有）。改成允许换行：宁可占两行，也不要藏起来。 */
+.toc{flex-wrap:wrap;overflow-x:visible;row-gap:3px;padding-bottom:8px}
+
+/* 「本周五个核心结论」（Vic：「一堆黑字在一起一整块，又长又多」）。
+   builder 本来就支持「标题句|支撑句」拆成 kt-head / kt-body，只是我一直没用竖线，
+   五条全写成一整坨。这里把两层的视觉差拉开：标题句大一号，支撑句降到 15px 常规字重，
+   并且**支撑句里的粗体不再加粗**（一段里再嵌粗体就又变成黑块了）。 */
+.kt-head{font-weight:700;font-size:17.5px;line-height:1.9;display:block}
+.kt-body{margin-top:10px;color:var(--text);font-size:15px;line-height:1.95;font-weight:400}
+.kt-body strong,.kt-body b{font-weight:600}
+.kt-item{margin:0 0 30px}
+
+/* 回到顶部（Vic：「日报周报都增加中途 back to top」）——报告很长，
+   目录在顶部 sticky，但滚到一半想回去只能一直往上滑。 */
+#to-top{position:fixed;right:26px;bottom:26px;z-index:60;display:none;
+  width:44px;height:44px;border-radius:50%;border:1px solid var(--line);
+  background:#fff;color:var(--muted);font-size:18px;line-height:1;cursor:pointer;
+  box-shadow:0 8px 22px rgba(15,23,42,.14)}
+#to-top:hover{color:var(--blue);border-color:#c3d6f5}
+#to-top.on{display:block}
+@media(max-width:640px){#to-top{right:14px;bottom:14px}}
+
+/* 🔴 今日主线（2026-08-28 Vic：「我读盘前都没注意你判断了软件」）——
+   判断写在 04 新闻里、行动层只剩一句「不要抢」，等于没写。这一条排在标题正下方、
+   信号灯之前，固定三段：哪一层会被重定价 / 能不能碰 / 不能碰是被哪道闸门挡的。
+   配色沿用全局红绿二元（不引入第三种色相，见 2026-07-07 定案）。 */
+.mainline{border:1px solid var(--line);border-left:5px solid var(--red);border-radius:12px;
+  background:var(--panel);padding:14px 16px;margin:18px 0 6px}
+.mainline.ok{border-left-color:var(--green)}
+.mainline .ml-label{font-size:11px;font-weight:800;letter-spacing:.05em;color:var(--muted);
+  display:block;margin-bottom:6px}
+.mainline .ml-row{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;margin-bottom:4px}
+.mainline .ml-sector{font-size:17px;font-weight:800;color:var(--text)}
+.mainline .ml-flag{font-size:12px;font-weight:800;padding:2px 9px;border-radius:999px;
+  background:var(--red-bg);color:var(--red)}
+.mainline.ok .ml-flag{background:var(--green-bg);color:var(--green)}
+.mainline .ml-reason{font-size:15px;color:var(--text);max-width:var(--measure)}
+.mainline .ml-note{font-size:14px;color:var(--muted);margin-top:4px;max-width:var(--measure)}
+
+</style>
+</head>
+<body data-report-type="premarket"><main class="wrap">
+<header>
+  <div class="eyebrow">美股盘前监控 · 2026-09-28 · 2026-09-28 SGT 盘前 · 口径日 2026-09-25（上周五收盘）· 周末无美股交易日</div>
+  <h1>纳指还在进攻区、T2108 只有 20.3 —— 但两个问题今天都答「有」：Foundary 12/13 只 RS 成群、回踩已收回 9 只</h1>
+  <p class="muted note">半导体是唯一自己撑住的一层：SOXX 21/24、半导体设备 23/30、功率半导体 18/25 全部 RS 成群；周五领涨榜第一的光通信 7/21、均涨 +6.56%。</p>
+  <div class="badges"><span class="badge green">两问 ①有 ②有 —— 43 只名字都在 09 节表里</span><span class="badge green">主线五组：Foundary 92.3% · 生科 68.8% · 边缘计算 66.7% · 制冷 62.5% · Quantum 60.0%</span><span class="badge green">QQQ 进攻区上方 2.00% · VOO 只高出进攻线 0.10%</span><span class="badge red">IWM 降级区第十三天 · 防守线下方 0.96%</span><span class="badge amber">T2108 20.3 · 5 日 ratio 0.86 · 档位超卖区试单</span></div>
+</header>
+<div class="mainline ok"><span class="ml-label">今日主线</span><div class="ml-row"><span class="ml-sector"><strong>Foundary · 半导体制造</strong>（RS 占比 <strong>92.3%</strong>，12/13）：AMD · TSM · INTC · ASX · SWKS · AMKR · TSEM · GFS · ACLS · ENTG · VECO · UMC</span><span class="ml-flag">能碰</span></div><div class="ml-reason">12/13 只的 RS 线在自己的 21MA 上方，是所有组里最高的一个，第二名生科只有 68.8%。同一把尺量主线雷达，半导体那一片全部成群：<strong>SOXX 21/24、SMH 21/25、半导体设备与材料 23/30、功率半导体 18/25、半导体 49/69、EUV 16/24</strong>。周五领涨榜第一的也是这一片 —— 光通信 7/21 命中、均涨 +6.56%，功率半导体 4/25、均涨 +5.43%。回踩 9EMA 就买（SWKS 已收回、AXTI 已收回），跌破 50EMA 才算论点坏。</div><div class="ml-note"><strong>网安今天不在主线里</strong>：RS 占比 47.6%（10/21），已经低于 60% 的线。网安那几只（PANW / S / ZS / MA）位置到了、论点在身，但<strong>组没亮</strong> —— 买入区那张表今天起搬去盘后，盘前不再列。另外三组也亮了、但不选它们当今日主线：<strong>边缘计算 66.7%（ADI / TXN / MCHP / NXPI）、制冷 62.5%（NVT / JCI / TT）、Quantum 60.0%（IONQ / RGTI / QUBT）</strong>；边缘计算和 Foundary 是同一片半导体的下游、重复暴露，制冷只有 8 只成分太薄，Quantum 六只里三只昨天收在区间下半。NVT 已单独进候选表。</div></div>
+<nav class="toc" aria-label="章节导航"><a href="#signal">信号灯</a><a href="#risk">动能打分</a><a href="#breadthscore">市宽打分</a><a href="#ftd">FTD</a><a href="#macro">宏观</a><a href="#gate">指数闸门</a><a href="#news">消息</a><a href="#positions">持仓</a><a href="#wrapup">今日定位</a><a href="#movers">盘前异动</a><a href="#setup">机会扫描</a><a href="#pullback">Pullback</a></nav>
+<section id="news"><h2>01 宏观消息</h2><h3>A · 今日盘前重点消息</h3><ul style="padding-left:20px"><li style="margin:0 0 7px">🏛 <strong>贝森特对库德洛：希望联储「保持开放心态」，希望沃什更像 1990 年代中期的格林斯潘，而不是 2008 年在油价冲击里加息的欧洲央行。</strong>他的框架是「我们面对的是私人部门的需求冲击，而供给在增加」。这是周末唯一带政策含义的一条。</li><li style="margin:0 0 7px">📊 <strong>阿波罗：头部 10% 的 AI 客户占了模型推理支出的 99.5%、neocloud 支出的 99%</strong> —— 剩下 90% 的公司加起来只有 0.5% 和 1%。配合高盛那条「到 2030 年自带电厂供给全部数据中心的 25%」：<strong>这条线的需求极窄、而资本开支极重。</strong></li><li style="margin:0 0 7px">🧊 <strong>高盛：「美股拒绝为任何恐慌定价」</strong> —— GS 恐慌指数周五收在 1 以下，而情绪指标 −0.9、AAII 空头约 50%、<strong>70% 的标普成分股在 50 日线下</strong>；同时债券波动率（MOVE）在往上。<strong>这正是我们表上看到的东西</strong>：T2108 20.3、RS 线只有 21% 在 21MA 上，而 VIX 14.87。</li><li style="margin:0 0 7px">📉 <strong>Kobeissi：过去 6 个月标普 500 期货跑赢 10 年期国债期货 23.3 个百分点</strong>，2021 年以来最大、史上第 6 大。</li><li style="margin:0 0 7px">📅 <strong>本周</strong>：MU 周三（9/30）盘后财报 —— 存储是 DRAM 组的分母，那组五日 +3.86%。10/09 SPCX 再解禁 3.28 亿股。</li></ul><h3>B · 本周重大事件</h3><table class="cal-table"><thead><tr><th>周一 9/28</th><th>周二 9/29</th><th>周三 9/30</th><th>周四 10/1</th><th>周五 10/2</th><th>周末 / 下周</th></tr></thead><tbody><tr><td><ul class=cal-list><li class="cal-i"><span class="cal-ic" title="指数板块">📈</span>美股今晚开盘 · 周末无交易日</li></ul></td><td><span class=cal-none>—</span></td><td><ul class=cal-list><li class="cal-i hot"><span class="cal-ic" title="个股公司">🏢</span>⭐<strong>MU 盘后财报</strong> —— DRAM 组的分母</li></ul></td><td><span class=cal-none>—</span></td><td><span class=cal-none>—</span></td><td><ul class=cal-list><li class="cal-i"><span class="cal-ic" title="个股公司">🏢</span>10/9 SPCX 再解禁 3.28 亿股 · 10/24 MRNA 的 ESMO 数据</li></ul></td></tr></tbody></table><div class="cal-legend"><span class="cal-lg"><i>🏢</i>个股公司</span><span class="cal-lg"><i>📈</i>指数板块</span><span class="cal-lg cal-lg-hot"><i>⭐</i>＝重要</span></div></section><section id="macro"><h2>02 宏观环境</h2><h3>A · 离散度</h3><div class="callout co-green"><strong>指数主导（比值 1.10）</strong><div class="co-list"><div class="co-item"><strong>板块之间几乎没有分化。</strong> 十一个板块的收益挤在一条窄带里（横截面标准差 0.59），而指数自己动了 0.54%——<strong>板块的差异比指数的动作还小。</strong></div><div class="co-item"><strong>这种环境里，挑对板块赚不到多少超额收益，跟着指数走的性价比更高。</strong></div><div class="co-item"><strong>闸门 / 广度 / VIX 这类市场级信号现在是可用的</strong>——在「选股主导」档里它们的信息量极低。</div></div></div><div class="disp-scale"><div class="disp-bar"><i class="seg s-idx" style="width:33.3%"></i><i class="seg s-mix" style="width:33.3%"></i><i class="seg s-stk" style="width:33.4%"></i><b class="disp-pin" style="left:24.4%"></b></div><div class="disp-ticks"><span>指数主导 &lt;1.5</span><span>混合 1.5–3</span><span>选股主导 &gt;3</span></div></div><table class="fixed-cols"><tbody><tr><td><div class="sub">今天的比值</div><div class="big">1.10</div><div class="sub">一年 32 分位（中位 1.73）</div></td><td><div class="sub">板块横截面标准差</div><div class="big">0.59</div><div class="sub">一年 15 分位 · 中位 0.82</div></td><td><div class="sub">指数当日涨跌</div><div class="big">0.54%</div><div class="sub">比值的分母</div></td><td><div class="sub">隐含相关性 COR1M</div><div class="big">8.01</div><div class="sub">COR3M 10.32 · 越低=个股越各走各的</div></td></tr></tbody></table><div class="callout">见 12 节 A 小节：周五领涨集中在半导体那一片（光通信 7/21、功率半导体 4/25、半导体 10/71、半导体设备 3/30），<strong>按命中率排第一的是光通信 33%</strong>，不是只数最多的半导体。</div><h3>B · 其他资产</h3><div style="background:var(--card,#fff);border:1px solid var(--line,#e3e8ef);border-radius:8px;padding:10px 12px;margin:8px 0"><div style="margin:0 0 6px">🇯🇵 <strong>日本长端</strong>（财务省，基准日 2026-09-24，滞后 1–2 个工作日）：<strong>30Y 4.103%</strong>（+7.0bp） · <strong>20Y 4.141%</strong>（+6.9bp） · <strong>10Y 3.073%</strong>（+9.2bp）</div><div style="margin:0 0 6px">🇺🇸 <strong>美国利率与波动</strong>（Vic 宏观表，口径 2026-09-25）：<strong>VIX 14.87</strong>（5 日 +0.06） · <strong>10Y 5.184%</strong>（5 日 +19bp） · <strong>美元 UUP 28.62</strong>（5 日 +0.81%）（宏观表暂无 2Y / DXY）</div><div style="margin:0 0 6px">10 年期 <strong>5.184%</strong>，比周四那个 5.20% 的高点退了一点，但 5 日仍 +19bp；日本长端同向：30 年期 4.103%（+7.0bp）、10 年期 3.073%（+9.2bp）。VIX <strong>14.87</strong>（5 日 +0.06）—— 债市和广度都在喊，股票波动率一动不动，这个背离已经两周。美元 UUP 28.62（5 日 +0.81%）；贵金属跟着走弱：GLD 5 日 −1.93%、SLV −2.99%、GDX −2.73%。</div></div><div class="callout"><div class="co-list"><div class="co-item"><strong>利率高 ＋ 美元强 ＋ 广度烂 ＋ 纳指进攻区</strong> —— 这四件事同时成立，不是矛盾，是同一件事的两半：钱挤在半导体那一层。</div><div class="co-item">覆盖指令检查：广度档位是<strong>超卖区试单</strong>（不是禁新多），位置闸门只挡 IBIT（EXTREME）和 SMH/XLK/ARKG/MAGS（HIGH，只做回踩类）。</div></div></div><h3>C · 板块</h3><h4>标准板块</h4><table class="fixed-cols"><colgroup><col style="width:9%"><col style="width:7%"><col style="width:7%"><col style="width:13%"><col style="width:7%"><col style="width:11%"><col style="width:6%"><col style="width:8%"><col style="width:32%"></colgroup><thead><tr><th class="">Ticker</th><th class="num">T-1</th><th class="num">5日%</th><th class="">20/50/200MA</th><th class="">RS(1周)</th><th class="ctr">RS线</th><th class="ctr">RSI</th><th class="ctr">收盘区间%</th><th class="">判断</th></tr></thead><tbody><tr><td>XLI</td><td class="num up">+0.95%</td><td class="num up">+0.67%</td><td class="ma-cell"><span class="ma"><b class="dn">20<i>▼</i></b><b class="dn">50<i>▼</i></b><b class="dn">200<i>▼</i></b></span></td><td>-2.6</td><td class="ctr"><strong>破着</strong> -10%</td><td class="ctr">41</td><td class="ctr">70%</td><td></td></tr><tr><td>XLK</td><td class="num up">+0.80%</td><td class="num up">+3.64%</td><td class="ma-cell"><span class="ma"><b class="up">20<i>▲</i></b><b class="up">50<i>▲</i></b><b class="up">200<i>▲</i></b></span></td><td>+0.3</td><td class="ctr">↑ +3%</td><td class="ctr">66</td><td class="ctr">65%</td><td>十一只标准板块里唯一 RS 线在 21MA 上方的</td></tr><tr><td>XLF</td><td class="num up">+0.57%</td><td class="num dn">-1.48%</td><td class="ma-cell"><span class="ma"><b class="dn">20<i>▼</i></b><b class="dn">50<i>▼</i></b><b class="up">200<i>▲</i></b></span></td><td>-4.8</td><td class="ctr"><strong>破着</strong> -10%</td><td class="ctr">35 超卖</td><td class="ctr">92%</td><td>RSI 35 超卖，但 RS 线破得不算久</td></tr><tr><td>XLV</td><td class="num up">+0.49%</td><td class="num up">+1.76%</td><td class="ma-cell"><span class="ma"><b class="up">20<i>▲</i></b><b class="up">50<i>▲</i></b><b class="up">200<i>▲</i></b></span></td><td>-1.5</td><td class="ctr"><strong>破着</strong> -6%</td><td class="ctr">58</td><td class="ctr">88%</td><td></td></tr><tr><td>XLP</td><td class="num up">+0.44%</td><td class="num dn">-0.25%</td><td class="ma-cell"><span class="ma"><b class="dn">20<i>▼</i></b><b class="dn">50<i>▼</i></b><b class="dn">200<i>▼</i></b></span></td><td>-3.5</td><td class="ctr"><strong>破着</strong> -9%</td><td class="ctr">41</td><td class="ctr">88%</td><td></td></tr><tr><td>XLU</td><td class="num up">+0.38%</td><td class="num dn">-3.16%</td><td class="ma-cell"><span class="ma"><b class="dn">20<i>▼</i></b><b class="dn">50<i>▼</i></b><b class="dn">200<i>▼</i></b></span></td><td>-6.5</td><td class="ctr"><strong>破着</strong> -13%</td><td class="ctr">25 超卖</td><td class="ctr">81%</td><td>RSI 25，长久期那一头最惨</td></tr><tr><td>XLB</td><td class="num up">+0.24%</td><td class="num up">+0.08%</td><td class="ma-cell"><span class="ma"><b class="dn">20<i>▼</i></b><b class="dn">50<i>▼</i></b><b class="dn">200<i>▼</i></b></span></td><td>-3.2</td><td class="ctr"><strong>破着</strong> -11%</td><td class="ctr">39</td><td class="ctr">69%</td><td></td></tr><tr><td>XLY</td><td class="num up">+0.22%</td><td class="num dn">-0.20%</td><td class="ma-cell"><span class="ma"><b class="dn">20<i>▼</i></b><b class="dn">50<i>▼</i></b><b class="dn">200<i>▼</i></b></span></td><td>-3.5</td><td class="ctr"><strong>破着</strong> -10%</td><td class="ctr">40</td><td class="ctr">72%</td><td></td></tr><tr><td>XLRE</td><td class="num dn">-0.22%</td><td class="num dn">-1.46%</td><td class="ma-cell"><span class="ma"><b class="dn">20<i>▼</i></b><b class="dn">50<i>▼</i></b><b class="dn">200<i>▼</i></b></span></td><td>-4.8</td><td class="ctr"><strong>破着</strong> -11%</td><td class="ctr">29 超卖</td><td class="ctr">49%</td><td></td></tr><tr><td>XLE</td><td class="num dn">-0.89%</td><td class="num dn">-2.96%</td><td class="ma-cell"><span class="ma"><b class="dn">20<i>▼</i></b><b class="up">50<i>▲</i></b><b class="up">200<i>▲</i></b></span></td><td>-6.3</td><td class="ctr"><strong>破着</strong> -5%</td><td class="ctr">46</td><td class="ctr">57%</td><td>十一只标准板块里 RS 线破得最浅的</td></tr><tr><td>XLC</td><td class="num dn">-0.90%</td><td class="num up">+2.28%</td><td class="ma-cell"><span class="ma"><b class="up">20<i>▲</i></b><b class="up">50<i>▲</i></b><b class="dn">200<i>▼</i></b></span></td><td>-1.0</td><td class="ctr"><strong>破着</strong> -4%</td><td class="ctr">52</td><td class="ctr">43%</td><td></td></tr></tbody></table><h4>半导体细分</h4><table class="fixed-cols"><colgroup><col style="width:9%"><col style="width:7%"><col style="width:7%"><col style="width:13%"><col style="width:7%"><col style="width:11%"><col style="width:6%"><col style="width:8%"><col style="width:32%"></colgroup><thead><tr><th class="">Ticker</th><th class="num">T-1</th><th class="num">5日%</th><th class="">20/50/200MA</th><th class="">RS(1周)</th><th class="ctr">RS线</th><th class="ctr">RSI</th><th class="ctr">收盘区间%</th><th class="">判断</th></tr></thead><tbody><tr><td>DRAM</td><td class="num up">+1.96%</td><td class="num up">+3.86%</td><td class="ma-cell"><span class="ma"><b class="up">20<i>▲</i></b><b class="up">50<i>▲</i></b><b>200-<i>-</i></b></span></td><td>+0.6</td><td class="ctr">↑ +5%</td><td class="ctr">58</td><td class="ctr">64%</td><td>MU 周三盘后财报，这组的分母</td></tr><tr><td>EUV</td><td class="num up">+1.92%</td><td class="num up">+5.68%</td><td class="ma-cell"><span class="ma"><b class="up">20<i>▲</i></b><b class="up">50<i>▲</i></b><b>200-<i>-</i></b></span></td><td>+2.4</td><td class="ctr">↑ -2%</td><td class="ctr">56</td><td class="ctr">79%</td><td>距 50MA 只有 0.73 ATR —— 这一片里唯一位置还干净的</td></tr><tr><td>SOXX</td><td class="num up">+1.17%</td><td class="num up">+7.43%</td><td class="ma-cell"><span class="ma"><b class="up">20<i>▲</i></b><b class="up">50<i>▲</i></b><b class="up">200<i>▲</i></b></span></td><td>+4.1</td><td class="ctr">↑ +6%</td><td class="ctr">64</td><td class="ctr">64%</td><td>21/24 只 RS 成群，和 SMH 同一读数</td></tr><tr><td>SMH</td><td class="num up">+1.01%</td><td class="num up">+5.86%</td><td class="ma-cell"><span class="ma"><b class="up">20<i>▲</i></b><b class="up">50<i>▲</i></b><b class="up">200<i>▲</i></b></span></td><td>+2.6</td><td class="ctr">↑ +4%</td><td class="ctr">63</td><td class="ctr">58%</td><td>五日 +5.86% 领跑，但成分只有 32% 跑赢它</td></tr><tr><td>QTUM</td><td class="num up">+0.82%</td><td class="num up">+4.33%</td><td class="ma-cell"><span class="ma"><b class="up">20<i>▲</i></b><b class="up">50<i>▲</i></b><b class="up">200<i>▲</i></b></span></td><td>+1.0</td><td class="ctr">↑ -1%</td><td class="ctr">60</td><td class="ctr">50%</td><td>成分 50% 跑赢 ETF，真板块行情</td></tr><tr><td>MAGS</td><td class="num up">+0.18%</td><td class="num up">+3.09%</td><td class="ma-cell"><span class="ma"><b class="up">20<i>▲</i></b><b class="up">50<i>▲</i></b><b class="up">200<i>▲</i></b></span></td><td>-0.2</td><td class="ctr">↑ +3%</td><td class="ctr">66</td><td class="ctr">83%</td><td></td></tr><tr><td>AIQ</td><td class="num dn">-0.02%</td><td class="num up">+2.87%</td><td class="ma-cell"><span class="ma"><b class="up">20<i>▲</i></b><b class="up">50<i>▲</i></b><b class="up">200<i>▲</i></b></span></td><td>-0.4</td><td class="ctr"><strong>破着</strong> -0%</td><td class="ctr">61</td><td class="ctr">37%</td><td></td></tr></tbody></table><h4>软件细分</h4><table class="fixed-cols"><colgroup><col style="width:9%"><col style="width:7%"><col style="width:7%"><col style="width:13%"><col style="width:7%"><col style="width:11%"><col style="width:6%"><col style="width:8%"><col style="width:32%"></colgroup><thead><tr><th class="">Ticker</th><th class="num">T-1</th><th class="num">5日%</th><th class="">20/50/200MA</th><th class="">RS(1周)</th><th class="ctr">RS线</th><th class="ctr">RSI</th><th class="ctr">收盘区间%</th><th class="">判断</th></tr></thead><tbody><tr><td>ARKK</td><td class="num dn">-1.01%</td><td class="num up">+2.88%</td><td class="ma-cell"><span class="ma"><b class="up">20<i>▲</i></b><b class="up">50<i>▲</i></b><b class="up">200<i>▲</i></b></span></td><td>-0.4</td><td class="ctr">↑ +1%</td><td class="ctr">62</td><td class="ctr">42%</td><td>软件四只里唯一 RS 线还在上方的</td></tr><tr><td>IGV</td><td class="num dn">-1.06%</td><td class="num up">+1.59%</td><td class="ma-cell"><span class="ma"><b class="up">20<i>▲</i></b><b class="up">50<i>▲</i></b><b class="up">200<i>▲</i></b></span></td><td>-1.7</td><td class="ctr"><strong>破着</strong> -1%</td><td class="ctr">54</td><td class="ctr">8%</td><td>RS 线已破、收区间只有 8%</td></tr><tr><td>XSW</td><td class="num dn">-1.71%</td><td class="num dn">-0.76%</td><td class="ma-cell"><span class="ma"><b class="dn">20<i>▼</i></b><b class="up">50<i>▲</i></b><b class="up">200<i>▲</i></b></span></td><td>-4.1</td><td class="ctr"><strong>破着</strong> -7%</td><td class="ctr">46</td><td class="ctr">0%</td><td>收区间 0%，小盘软件在被卖</td></tr><tr><td>CIBR</td><td class="num dn">-2.17%</td><td class="num up">+1.08%</td><td class="ma-cell"><span class="ma"><b class="up">20<i>▲</i></b><b class="up">50<i>▲</i></b><b class="up">200<i>▲</i></b></span></td><td>-2.2</td><td class="ctr"><strong>刚破</strong> +3%</td><td class="ctr">55</td><td class="ctr">6%</td><td>昨天刚破 21MA，网安掉出主线就是从这儿看出来的</td></tr></tbody></table><h4>医疗细分</h4><table class="fixed-cols"><colgroup><col style="width:9%"><col style="width:7%"><col style="width:7%"><col style="width:13%"><col style="width:7%"><col style="width:11%"><col style="width:6%"><col style="width:8%"><col style="width:32%"></colgroup><thead><tr><th class="">Ticker</th><th class="num">T-1</th><th class="num">5日%</th><th class="">20/50/200MA</th><th class="">RS(1周)</th><th class="ctr">RS线</th><th class="ctr">RSI</th><th class="ctr">收盘区间%</th><th class="">判断</th></tr></thead><tbody><tr><td>IHI</td><td class="num up">+0.51%</td><td class="num dn">-0.33%</td><td class="ma-cell"><span class="ma"><b class="dn">20<i>▼</i></b><b class="dn">50<i>▼</i></b><b class="dn">200<i>▼</i></b></span></td><td>-3.6</td><td class="ctr"><strong>破着</strong> -11%</td><td class="ctr">41</td><td class="ctr">81%</td><td>医疗器械在 200MA 下方，和生科不是一回事</td></tr><tr><td>XLV</td><td class="num up">+0.49%</td><td class="num up">+1.76%</td><td class="ma-cell"><span class="ma"><b class="up">20<i>▲</i></b><b class="up">50<i>▲</i></b><b class="up">200<i>▲</i></b></span></td><td>-1.5</td><td class="ctr"><strong>破着</strong> -6%</td><td class="ctr">58</td><td class="ctr">88%</td><td></td></tr><tr><td>IBB</td><td class="num up">+0.25%</td><td class="num up">+2.55%</td><td class="ma-cell"><span class="ma"><b class="up">20<i>▲</i></b><b class="up">50<i>▲</i></b><b class="up">200<i>▲</i></b></span></td><td>-0.8</td><td class="ctr"><strong>破着</strong> -7%</td><td class="ctr">56</td><td class="ctr">82%</td><td>大盘生科没跟上小盘那一波</td></tr><tr><td>PPH</td><td class="num up">+0.22%</td><td class="num up">+0.16%</td><td class="ma-cell"><span class="ma"><b class="dn">20<i>▼</i></b><b class="dn">50<i>▼</i></b><b class="up">200<i>▲</i></b></span></td><td>-3.1</td><td class="ctr"><strong>破着</strong> -8%</td><td class="ctr">48</td><td class="ctr">89%</td><td></td></tr><tr><td>ARKG</td><td class="num dn">-0.32%</td><td class="num up">+3.33%</td><td class="ma-cell"><span class="ma"><b class="up">20<i>▲</i></b><b class="up">50<i>▲</i></b><b class="up">200<i>▲</i></b></span></td><td>+0.0</td><td class="ctr">↑ +3%</td><td class="ctr">69</td><td class="ctr">64%</td><td>六只里唯一 RS 线在上方，生科主线就在它下面</td></tr><tr><td>XBI</td><td class="num dn">-0.65%</td><td class="num dn">-1.08%</td><td class="ma-cell"><span class="ma"><b class="dn">20<i>▼</i></b><b class="dn">50<i>▼</i></b><b class="up">200<i>▲</i></b></span></td><td>-4.4</td><td class="ctr"><strong>破着</strong> -12%</td><td class="ctr">44</td><td class="ctr">36%</td><td>和 ARKG 反向：RS 线已破、收区间 36%</td></tr></tbody></table><h4>美元贬值篮子 · 加密与贵金属（BTC/ETH 用 IBIT/ETHB 代理）</h4><table class="fixed-cols"><colgroup><col style="width:9%"><col style="width:7%"><col style="width:7%"><col style="width:13%"><col style="width:7%"><col style="width:11%"><col style="width:6%"><col style="width:8%"><col style="width:32%"></colgroup><thead><tr><th class="">Ticker</th><th class="num">T-1</th><th class="num">5日%</th><th class="">20/50/200MA</th><th class="">RS(1周)</th><th class="ctr">RS线</th><th class="ctr">RSI</th><th class="ctr">收盘区间%</th><th class="">判断</th></tr></thead><tbody><tr><td>SLV</td><td class="num up">+0.90%</td><td class="num dn">-2.99%</td><td class="ma-cell"><span class="ma"><b class="dn">20<i>▼</i></b><b class="up">50<i>▲</i></b><b class="dn">200<i>▼</i></b></span></td><td>-6.3</td><td class="ctr"><strong>破着</strong> -10%</td><td class="ctr">48</td><td class="ctr">70%</td><td></td></tr><tr><td>GDX</td><td class="num up">+0.56%</td><td class="num dn">-2.73%</td><td class="ma-cell"><span class="ma"><b class="dn">20<i>▼</i></b><b class="up">50<i>▲</i></b><b class="up">200<i>▲</i></b></span></td><td>-6.0</td><td class="ctr"><strong>破着</strong> -13%</td><td class="ctr">47</td><td class="ctr">77%</td><td></td></tr><tr><td>GLD</td><td class="num up">+0.44%</td><td class="num dn">-1.93%</td><td class="ma-cell"><span class="ma"><b class="dn">20<i>▼</i></b><b class="dn">50<i>▼</i></b><b class="dn">200<i>▼</i></b></span></td><td>-5.2</td><td class="ctr"><strong>破着</strong> -11%</td><td class="ctr">45</td><td class="ctr">81%</td><td>RS 线已破，美元强的另一面</td></tr><tr><td>ETHB</td><td class="num dn">-0.14%</td><td class="num up">+2.03%</td><td class="ma-cell"><span class="ma"><b class="up">20<i>▲</i></b><b class="up">50<i>▲</i></b><b>200-<i>-</i></b></span></td><td>-1.3</td><td class="ctr">↑ +4%</td><td class="ctr">67</td><td class="ctr">57%</td><td></td></tr><tr><td>IBIT</td><td class="num dn">-0.50%</td><td class="num up">+3.37%</td><td class="ma-cell"><span class="ma"><b class="up">20<i>▲</i></b><b class="up">50<i>▲</i></b><b class="up">200<i>▲</i></b></span></td><td>+0.1</td><td class="ctr">↑ +2%</td><td class="ctr">64</td><td class="ctr">73%</td><td>位置 EXTREME（距 50MA 4.82 ATR），回踩类也要减半</td></tr><tr><td>BMNR</td><td class="num dn">-1.68%</td><td class="num up">+6.04%</td><td class="ma-cell"><span class="ma"><b class="up">20<i>▲</i></b><b class="up">50<i>▲</i></b><b class="up">200<i>▲</i></b></span></td><td>+2.7</td><td class="ctr">↑ +6%</td><td class="ctr">61</td><td class="ctr">44%</td><td></td></tr><tr><td>MSTR</td><td class="num dn">-1.86%</td><td class="num up">+3.05%</td><td class="ma-cell"><span class="ma"><b class="up">20<i>▲</i></b><b class="up">50<i>▲</i></b><b class="up">200<i>▲</i></b></span></td><td>-0.2</td><td class="ctr">↑ +23%</td><td class="ctr">64</td><td class="ctr">30%</td><td>RS 线 21 日 +23%，这一组里最强</td></tr><tr><td>COIN</td><td class="num dn">-2.06%</td><td class="num up">+0.44%</td><td class="ma-cell"><span class="ma"><b class="up">20<i>▲</i></b><b class="up">50<i>▲</i></b><b class="up">200<i>▲</i></b></span></td><td>-2.9</td><td class="ctr">↑ +2%</td><td class="ctr">57</td><td class="ctr">35%</td><td></td></tr><tr><td>CRCL</td><td class="num dn">-4.30%</td><td class="num dn">-3.03%</td><td class="ma-cell"><span class="ma"><b class="dn">20<i>▼</i></b><b class="up">50<i>▲</i></b><b class="up">200<i>▲</i></b></span></td><td>-6.3</td><td class="ctr"><strong>破着</strong> -6%</td><td class="ctr">51</td><td class="ctr">31%</td><td>RS 线已破、你两个账户都持有，今天判退出</td></tr><tr><td>PURR</td><td class="num dn">-8.80%</td><td class="num dn">-8.80%</td><td class="ma-cell"><span class="ma"><b class="up">20<i>▲</i></b><b class="up">50<i>▲</i></b><b class="up">200<i>▲</i></b></span></td><td>-12.1</td><td class="ctr">↑ +6%</td><td class="ctr">57</td><td class="ctr">15%</td><td>昨天 −8.80%，一天走完一个 ADR 的两倍</td></tr></tbody></table><h4>主题与国家</h4><table class="fixed-cols"><colgroup><col style="width:9%"><col style="width:7%"><col style="width:7%"><col style="width:13%"><col style="width:7%"><col style="width:11%"><col style="width:6%"><col style="width:8%"><col style="width:32%"></colgroup><thead><tr><th class="">Ticker</th><th class="num">T-1</th><th class="num">5日%</th><th class="">20/50/200MA</th><th class="">RS(1周)</th><th class="ctr">RS线</th><th class="ctr">RSI</th><th class="ctr">收盘区间%</th><th class="">判断</th></tr></thead><tbody><tr><td>JETS</td><td class="num up">+1.83%</td><td class="num up">+2.69%</td><td class="ma-cell"><span class="ma"><b class="up">20<i>▲</i></b><b class="dn">50<i>▼</i></b><b class="up">200<i>▲</i></b></span></td><td>-0.6</td><td class="ctr"><strong>破着</strong> -7%</td><td class="ctr">50</td><td class="ctr">83%</td><td>主线雷达里亮着的一组（6/9），但 RS 线还在破着</td></tr><tr><td>XHB</td><td class="num up">+1.57%</td><td class="num up">+2.58%</td><td class="ma-cell"><span class="ma"><b class="dn">20<i>▼</i></b><b class="dn">50<i>▼</i></b><b class="dn">200<i>▼</i></b></span></td><td>-0.7</td><td class="ctr"><strong>破着</strong> -11%</td><td class="ctr">45</td><td class="ctr">77%</td><td></td></tr><tr><td>TAN</td><td class="num up">+1.36%</td><td class="num dn">-3.50%</td><td class="ma-cell"><span class="ma"><b class="dn">20<i>▼</i></b><b class="dn">50<i>▼</i></b><b class="dn">200<i>▼</i></b></span></td><td>-6.8</td><td class="ctr"><strong>破着</strong> -14%</td><td class="ctr">36</td><td class="ctr">41%</td><td>全表破得最久的一只</td></tr><tr><td>NASA</td><td class="num up">+0.86%</td><td class="num up">+2.51%</td><td class="ma-cell"><span class="ma"><b class="up">20<i>▲</i></b><b class="up">50<i>▲</i></b><b>200-<i>-</i></b></span></td><td>-0.8</td><td class="ctr">↑ -1%</td><td class="ctr">54</td><td class="ctr">44%</td><td></td></tr><tr><td>KRE</td><td class="num up">+0.86%</td><td class="num dn">-1.09%</td><td class="ma-cell"><span class="ma"><b class="dn">20<i>▼</i></b><b class="dn">50<i>▼</i></b><b class="up">200<i>▲</i></b></span></td><td>-4.4</td><td class="ctr"><strong>破着</strong> -8%</td><td class="ctr">39</td><td class="ctr">51%</td><td>区域银行还在 200MA 下方</td></tr><tr><td>PAVE</td><td class="num up">+0.75%</td><td class="num up">+0.96%</td><td class="ma-cell"><span class="ma"><b class="dn">20<i>▼</i></b><b class="dn">50<i>▼</i></b><b class="dn">200<i>▼</i></b></span></td><td>-2.3</td><td class="ctr"><strong>破着</strong> -9%</td><td class="ctr">42</td><td class="ctr">72%</td><td></td></tr><tr><td>AIRR</td><td class="num up">+0.60%</td><td class="num dn">-1.33%</td><td class="ma-cell"><span class="ma"><b class="dn">20<i>▼</i></b><b class="dn">50<i>▼</i></b><b class="dn">200<i>▼</i></b></span></td><td>-4.6</td><td class="ctr"><strong>破着</strong> -11%</td><td class="ctr">36</td><td class="ctr">67%</td><td></td></tr><tr><td>COPX</td><td class="num up">+0.56%</td><td class="num dn">-0.63%</td><td class="ma-cell"><span class="ma"><b class="dn">20<i>▼</i></b><b class="up">50<i>▲</i></b><b class="up">200<i>▲</i></b></span></td><td>-3.9</td><td class="ctr"><strong>破着</strong> -13%</td><td class="ctr">47</td><td class="ctr">80%</td><td></td></tr><tr><td>ITA</td><td class="num up">+0.49%</td><td class="num dn">-0.01%</td><td class="ma-cell"><span class="ma"><b class="dn">20<i>▼</i></b><b class="dn">50<i>▼</i></b><b class="dn">200<i>▼</i></b></span></td><td>-3.3</td><td class="ctr"><strong>破着</strong> -14%</td><td class="ctr">31 超卖</td><td class="ctr">56%</td><td></td></tr><tr><td>IAK</td><td class="num up">+0.30%</td><td class="num dn">-3.22%</td><td class="ma-cell"><span class="ma"><b class="dn">20<i>▼</i></b><b class="dn">50<i>▼</i></b><b class="up">200<i>▲</i></b></span></td><td>-6.5</td><td class="ctr"><strong>破着</strong> -10%</td><td class="ctr">34 超卖</td><td class="ctr">80%</td><td></td></tr><tr><td>LIT</td><td class="num up">+0.29%</td><td class="num dn">-2.10%</td><td class="ma-cell"><span class="ma"><b class="dn">20<i>▼</i></b><b class="dn">50<i>▼</i></b><b class="dn">200<i>▼</i></b></span></td><td>-5.4</td><td class="ctr"><strong>破着</strong> -13%</td><td class="ctr">35 超卖</td><td class="ctr">65%</td><td></td></tr><tr><td>URA</td><td class="num up">+0.12%</td><td class="num dn">-1.78%</td><td class="ma-cell"><span class="ma"><b class="dn">20<i>▼</i></b><b class="dn">50<i>▼</i></b><b class="dn">200<i>▼</i></b></span></td><td>-5.1</td><td class="ctr"><strong>破着</strong> -19%</td><td class="ctr">40</td><td class="ctr">36%</td><td></td></tr><tr><td>DBA</td><td class="num dn">-0.04%</td><td class="num up">+1.39%</td><td class="ma-cell"><span class="ma"><b class="dn">20<i>▼</i></b><b class="up">50<i>▲</i></b><b class="up">200<i>▲</i></b></span></td><td>-1.9</td><td class="ctr"><strong>破着</strong> -5%</td><td class="ctr">49</td><td class="ctr">100%</td><td></td></tr><tr><td>MOO</td><td class="num dn">-0.08%</td><td class="num dn">-1.62%</td><td class="ma-cell"><span class="ma"><b class="dn">20<i>▼</i></b><b class="dn">50<i>▼</i></b><b class="up">200<i>▲</i></b></span></td><td>-4.9</td><td class="ctr"><strong>破着</strong> -7%</td><td class="ctr">40</td><td class="ctr">50%</td><td>农业这片老师在做（CF / MOS / DE），我们系统里只有这一行</td></tr><tr><td>OIH</td><td class="num dn">-0.13%</td><td class="num dn">-1.26%</td><td class="ma-cell"><span class="ma"><b class="dn">20<i>▼</i></b><b class="dn">50<i>▼</i></b><b class="up">200<i>▲</i></b></span></td><td>-4.6</td><td class="ctr"><strong>破着</strong> -7%</td><td class="ctr">39</td><td class="ctr">43%</td><td></td></tr><tr><td>KWEB</td><td class="num dn">-0.45%</td><td class="num dn">-1.01%</td><td class="ma-cell"><span class="ma"><b class="dn">20<i>▼</i></b><b class="dn">50<i>▼</i></b><b class="dn">200<i>▼</i></b></span></td><td>-4.3</td><td class="ctr"><strong>破着</strong> -11%</td><td class="ctr">39</td><td class="ctr">43%</td><td></td></tr><tr><td>FXI</td><td class="num dn">-0.82%</td><td class="num dn">-1.05%</td><td class="ma-cell"><span class="ma"><b class="dn">20<i>▼</i></b><b class="dn">50<i>▼</i></b><b class="dn">200<i>▼</i></b></span></td><td>-4.3</td><td class="ctr"><strong>破着</strong> -9%</td><td class="ctr">40</td><td class="ctr">39%</td><td></td></tr><tr><td>XOP</td><td class="num dn">-1.39%</td><td class="num dn">-4.40%</td><td class="ma-cell"><span class="ma"><b class="dn">20<i>▼</i></b><b class="dn">50<i>▼</i></b><b class="up">200<i>▲</i></b></span></td><td>-7.7</td><td class="ctr"><strong>破着</strong> -6%</td><td class="ctr">43</td><td class="ctr">70%</td><td></td></tr><tr><td>WGMI</td><td class="num dn">-3.21%</td><td class="num dn">-2.59%</td><td class="ma-cell"><span class="ma"><b class="up">20<i>▲</i></b><b class="dn">50<i>▼</i></b><b class="dn">200<i>▼</i></b></span></td><td>-5.9</td><td class="ctr">↑ +2%</td><td class="ctr">51</td><td class="ctr">19%</td><td>RS 线刚回到上方，而 HUT 今天判退出 —— 组和个股不同步</td></tr></tbody></table><div class="callout"><strong>RS 线那一列今天比 RS(1周) 更能分开两边</strong>：半导体细分六只里五只在 21MA 上方（DRAM +5% · EUV −2% · SMH +4% · QTUM −1% · MAGS +3%），而标准板块十一只里只有 XLK 一只在上方，XLI 破了 35 天、XLY 22 天、XLRE 21 天；QQQ 那一格写「基准」—— 它是 RS 线的分母，跟自己比没有相位。</div></section><section id="signal"><h2>03 今日信号灯</h2><table class="sig-table fixed-cols"><colgroup><col style="width:10%"><col style="width:7%"><col style="width:83%"></colgroup><thead><tr><th>维度</th><th class="sig-lv-h">档位</th><th>读数</th></tr></thead><tbody><tr class="sig-row mid"><td class="sig-dim">BIAS</td><td class="sig-lv mid">中</td><td class="sig-txt">指数三档分裂：QQQ 进攻区上方 <strong>2.00%</strong>、VOO 只高出进攻线 <strong>0.10%</strong>、IWM 降级区第十三天（防守线下方 0.96%）</td></tr><tr class="sig-row mid"><td class="sig-dim">RATES</td><td class="sig-lv mid">中</td><td class="sig-txt">10 年期 <strong>5.184%</strong>（5 日 +19bp），从周四 5.20% 的高点略退；日本长端还在往上：30 年期 4.103%（+7.0bp）、10 年期 3.073%（+9.2bp）</td></tr><tr class="sig-row mid"><td class="sig-dim">DXY</td><td class="sig-lv mid">中</td><td class="sig-txt">UUP <strong>28.62</strong>（5 日 +0.81%）</td></tr><tr class="sig-row high"><td class="sig-dim">BREADTH</td><td class="sig-lv high">高</td><td class="sig-txt">T2108 <strong>20.26</strong>，第四天 ≤21；但跌 4%+ 从 236 掉到 <strong>131</strong>，涨跌比 0.65 → <strong>1.10</strong></td></tr></tbody></table><div class="action-directive"><span class="ad-label">核心纪律</span><ul class="disc-list"><li class="disc-item">🧭 <strong>广度档位：超卖区试单</strong>（跌 4%+ 131  · 10 日 ratio 0.92  · T2108 20.26） —— <strong>超卖区，允许试单</strong>：回测 T2108&lt;25 之后标普 10 日均 +2.4%、胜 64%，<strong>但 5 日中位 −0.4%</strong> —— 分批、等 bar 触发，不追第一天。</li><li class="disc-item"><strong>TQQQ 和 AVGO 你已经在 18:24 平掉了</strong> —— 这两笔正是 9/24、9/25 两份报告点名的（TQQQ 连续三天无止损、AVGO 连续两天收破 EMA10）。<strong>现在 16 笔持仓，缺止损的 0 笔。</strong></li><li class="disc-item"><strong>必撤线内 8 笔</strong>（距止损 &lt;0.7 ATR）：HUT 0.15 · SPCX 0.40 · BB 0.59 · RBLX 0.59 · CRCL 两账户各 0.61 · HPE 0.68 · DELL 0.69 —— 今晚撤掉或挪宽，别让噪音替你平仓；ATEC 0.88、HOOD 0.71 在线外，看盘前动向。</li><li class="disc-item">🔍 <strong>D+1 回看</strong>：昨天点的必撤三笔 NOW / OKTA / AVGO <strong>全部已平</strong>，执行率 3/3。p14 今天还判了两笔收盘破 EMA10 要退出：<strong>CRCL 91.12（两个账户）· HUT 97.92</strong>。</li></ul></div></section><section id="gate"><h2>04 指数闸门</h2><h3>机械资金位</h3><table class="fixed-cols"><colgroup><col style="width:8%"><col style="width:10%"><col style="width:20%"><col style="width:20%"><col style="width:42%"></colgroup><thead><tr><th class="">标的</th><th class="num">收盘</th><th class="">CTA 触发位</th><th class="">gamma 翻转点</th><th class="">读数</th></tr></thead><tbody><tr class="row-warn"><td>SPY</td><td class="num">764.94</td><td>767.43（21 日 +0.3%）</td><td>这是 2026-09-28 的<strong>盘中</strong>快照（spot 767.12），不是 2026-09-25 收盘的持仓 —— 期权链拿不到历史快照，口径日不是当天时这一格没有可用数据</td><td>已在翻转点下方，交易商在放大波动；21 日已翻负，敞口 +0.30，涨回 767.43 才翻正</td></tr><tr class="row-warn"><td>QQQ</td><td class="num">734.60</td><td>735.66（63 日 +0.1%）</td><td>—</td><td>63 日已翻负，敞口 +0.61，涨回 735.66 才翻正</td></tr><tr><td>IWM</td><td class="num">279.04</td><td>294.98（21 日 +5.7%）</td><td>—</td><td>21 日已翻负，敞口 -0.27，涨回 294.98 才翻正</td></tr></tbody></table><p class="source">20 日已实现波动 SPY 11.2% · QQQ 16.5% · IWM 12.4%；SPY Call 墙 785 / Put 墙 765（剔除今天到期后 Put 墙 750），现价处 -60.3 亿美元 / 每 1%；翻转点盘中跌破就生效；CTA 触发位只认收盘； 这是 2026-09-28 的<strong>盘中</strong>快照（spot 767.12），不是 2026-09-25 收盘的持仓 —— 期权链拿不到历史快照，口径日不是当天时这一格没有可用数据。</p><div class="callout"><div class="co-list"><div class="co-item"><strong>强势可持有</strong>：QQQ（进攻区上方 2.00%、距 50MA 3.39 ATR、收区间 77%）、SMH（+5.86% 五日、2.53 ATR）。</div><div class="co-item"><strong>需确认</strong>：VOO 只高出进攻线 0.10% —— 一根小阴线就掉回去；QQQE 距 50MA +0.92 ATR，守稳未转强。</div><div class="co-item"><strong>暂避</strong>：IWM 防守线下方 0.96%、降级区第十三天；DIA −1.77 ATR、RSP −2.86 ATR。</div><div class="co-item"><strong>小结</strong>：七只里只有 QQQ / SMH / VOO 在 50MA 上方，<strong>等权的 RSP 和小盘的 IWM 仍在压力里</strong>。</div></div></div></section><section id="risk"><h2>05 今日动能打分</h2><div class="risk-rows"><div class="risk-row"><span class="risk-label">S&amp;P 500 overextension</span><span class="severity mid"><i></i><i></i><i></i><i></i><i></i></span><span class="risk-detail">VOO 距 50MA +1.74 ATR、<strong>QQQ +3.39</strong>、SMH +2.53、QQQE +0.92；DIA −1.77、IWM −3.28、RSP −2.86。</span></div><div class="risk-row"><span class="risk-label">Increasing downward momentum</span><span class="severity mid"><i></i><i></i><i></i><i></i><i></i></span><span class="risk-detail">五日：<strong>SMH +5.86% · QQQ +3.30% · QQQE +2.86%</strong>；VOO +1.28%、DIA +0.31%、<strong>RSP −0.19%、IWM −0.75%</strong>。</span></div><div class="risk-row"><span class="risk-label">Top range breakdown</span><span class="severity mid"><i></i><i></i><i></i><i></i><i></i></span><span class="risk-detail">VOO 只高出进攻线 0.10%（收区间 84%）；<strong>IWM 在防守线下方 0.96%，降级区第十三天</strong>。</span></div><div class="risk-row"><span class="risk-label">Technical deterioration</span><span class="severity high"><i></i><i></i><i></i><i></i><i></i></span><span class="risk-detail"><strong>XLU RSI 25、XLRE 29、ITA 31、IAK 34、XLF 35、LIT 35、IWM 35</strong> —— 七个在 36 以下，全在指数以外那半边。</span></div><div class="risk-row"><span class="risk-label">Market breadth worsening</span><span class="severity high"><i></i><i></i><i></i><i></i><i></i></span><span class="risk-detail"><strong>T2108 20.26 第四天 ≤21</strong>、5 日 ratio 0.86 仍在触发；<strong>RS 线全票池只有 21% 在 21MA 上方</strong>。</span></div><div class="risk-row"><span class="risk-label">VIX &gt;20 spike</span><span class="severity low"><i></i><i></i><i></i><i></i><i></i></span><span class="risk-detail">VIX <strong>14.87</strong>（5 日 +0.06）—— 债市和广度都在喊，股票波动率一动不动。</span></div><div class="risk-row"><span class="risk-label">利率外生冲击</span><span class="severity high"><i></i><i></i><i></i><i></i><i></i></span><span class="risk-detail"><strong>10 年期 5.184%（5 日 +19bp）</strong>；日本 30 年期 4.103%（+7.0bp）、10 年期 3.073%（+9.2bp），全球长端同向。</span></div><div class="risk-row"><span class="risk-label">地缘外生冲击</span><span class="severity low"><i></i><i></i><i></i><i></i><i></i></span><span class="risk-detail">周末没有新的地缘事件进来。上周五那条美伊分阶段协议的传闻，德黑兰当天就否认了。</span></div><div class="risk-row"><span class="risk-label">Theme momentum weakening</span><span class="severity mid"><i></i><i></i><i></i><i></i><i></i></span><span class="risk-detail"><strong>网安掉出主线</strong>：RS 占比 47.6%（10/21）。<strong>另一边阿波罗的数：头部 10% 的 AI 客户占了推理支出的 99.5%</strong> —— 这条线的需求极窄。</span></div></div><div class="callout">九项里 3 条 high（技术面 / 广度 / 利率），全部指向<strong>指数以外那半边</strong>；指数这半边的三条（overextension / momentum / range）都是 mid，而且方向相反 —— QQQ 距 50MA 3.39 ATR 是「强」不是「危」。<strong>这份清单今天不是一个方向的九票，是两个市场各自的读数。</strong></div></section><section id="breadthscore"><h2>06 市宽打分</h2><div class="callout">十项里 <strong>T2108 20.26 在超卖区、5 日 ratio 0.86 触发、比值 5 日斜率 −0.088 触发</strong>，三条降级项亮着；升级项 10 日 ratio 0.92 离 1.35 还差 32%。月度 ↑25%/↓25% 是 54/171、↑50%/↓50% 是 12/24 —— <strong>强的那头在收缩，不只是弱的那头在扩</strong>。</div><p class="source">🧭 <strong>你的 traction</strong>：最近 10 笔 <strong>胜率 50%</strong> · 均值 +0.41% · 当前连亏 <strong>1 笔</strong> —— 手感变差往往早于图上看得出来。</p><div class="callout">跌 4%+ 从 236 掉到 <strong>131</strong>、涨跌比从 0.65 翻到 <strong>1.10</strong> —— 这是四天里第一次不再单边。但 T2108 只从 20.14 动到 <strong>20.26</strong>，<strong>宽度没有回来</strong>，只是抛压停了。</div></section><section id="ftd"><h2>07 反弹确认 · Follow-Through Day</h2><p class="empty-state"><span class="empty-tag es-parked">暂停</span><span class="empty-note">? 起暂停追踪。恢复需重新肉眼确认 Day 1。</span></p></section><section id="positions"><h2>08 持仓提醒（明细见盘后）</h2><h3>今晚撤单清单（距止损 &lt;0.7ATR 必撤）</h3><table class="fixed-cols"><colgroup><col style="width:9%"><col style="width:11%"><col style="width:10%"><col style="width:10%"><col style="width:11%"><col style="width:12%"><col style="width:9%"><col style="width:28%"></colgroup><thead><tr><th class="">TICKER</th><th class="ctr">账户</th><th class="">现价</th><th class="">止损</th><th class="num">距止损%</th><th class="num">距止损/ATR</th><th class="num">盘前</th><th class="ctr">今晚处理</th></tr></thead><tbody><tr><td>ATEC</td><td class="ctr">longbridge</td><td>10.12</td><td>9.72</td><td class="num up">+3.95%</td><td class="num">0.88</td><td class="num">-</td><td class="ctr">看盘前动向</td></tr><tr><td>BB</td><td class="ctr">longbridge</td><td>8.21</td><td>7.93</td><td class="num up">+3.41%</td><td class="num">0.59</td><td class="num">-</td><td class="ctr"><strong>今晚撤单</strong></td></tr><tr><td>CRCL</td><td class="ctr">longbridge</td><td>89.00</td><td>85.00</td><td class="num up">+4.49%</td><td class="num">0.61</td><td class="num">-</td><td class="ctr"><strong>今晚撤单</strong></td></tr><tr><td>CRCL</td><td class="ctr">moomoo</td><td>89.00</td><td>85.00</td><td class="num up">+4.49%</td><td class="num">0.61</td><td class="num">-</td><td class="ctr"><strong>今晚撤单</strong></td></tr><tr><td>DELL</td><td class="ctr">moomoo</td><td>562.89</td><td>541.23</td><td class="num up">+3.85%</td><td class="num">0.69</td><td class="num">-</td><td class="ctr"><strong>今晚撤单</strong></td></tr><tr><td>HOOD</td><td class="ctr">longbridge</td><td>119.40</td><td>115.00</td><td class="num up">+3.69%</td><td class="num">0.71</td><td class="num">-</td><td class="ctr">看盘前动向</td></tr><tr><td>HPE</td><td class="ctr">longbridge</td><td>62.94</td><td>60.55</td><td class="num up">+3.80%</td><td class="num">0.68</td><td class="num">-</td><td class="ctr"><strong>今晚撤单</strong></td></tr><tr><td>HUT</td><td class="ctr">moomoo</td><td>96.82</td><td>95.63</td><td class="num up">+1.23%</td><td class="num">0.15</td><td class="num">-</td><td class="ctr"><strong>今晚撤单</strong></td></tr><tr><td>RBLX</td><td class="ctr">moomoo</td><td>46.44</td><td>45.00</td><td class="num up">+3.10%</td><td class="num">0.59</td><td class="num">-</td><td class="ctr"><strong>今晚撤单</strong></td></tr><tr><td>SPCX</td><td class="ctr">moomoo</td><td>148.68</td><td>146.00</td><td class="num up">+1.80%</td><td class="num">0.40</td><td class="num">-</td><td class="ctr"><strong>今晚撤单</strong></td></tr></tbody></table><div class="callout co-warn"><div class="co-list"><div class="co-item"><strong>必撤线（&lt;0.7 ATR）内 8 笔</strong>：HUT 0.15 · SPCX 0.40 · BB 0.59 · RBLX 0.59 · CRCL 两账户各 0.61 · HPE 0.68 · DELL 0.69</div><div class="co-item">HOOD 0.71、ATEC 0.88 在线外，看盘前动向</div><div class="co-item"><strong>这不是让你平仓，是让你今晚把过夜挂单撤掉或挪宽。</strong></div></div></div></section><section id="wrapup"><h2>09 今日定位</h2><table class="fixed-cols"><colgroup><col style="width:22%"><col style="width:8%"><col style="width:70%"></colgroup><thead><tr><th class="">问题</th><th class="ctr">答</th><th class="">凭什么（名字都在这里，自己去看图）</th></tr></thead><tbody><tr><td>① 有没有 setup？</td><td class="ctr"><strong>有</strong></td><td><strong>回踩已收回 9</strong>：ABCL AEHR AXTI DELL FEIM KSS NVAX SWKS WDC；<strong>你点名且扫描认出形态 6</strong>：AXTI CIBR CRWD HACK SDGR VEEV</td></tr><tr><td>② 有没有愿意回踩买的票？</td><td class="ctr"><strong>有</strong></td><td><strong>主线组里正在回踩 / 刚收回 3</strong>：ABCL AMBQ SWKS；<strong>主线组在跑 8</strong>（回踩＝加仓位置）：AMD ASX CDNA GRAL IOVA NTRA RVTY TXG</td></tr></tbody></table><div class="action-directive"><span class="ad-label">两问的结论</span><ul class="ad-list"><li class="ad-primary"><strong>两问至少一个是「有」→ 今天要做的是从上面这些名字里挑，不是解释市场为什么不行。</strong>下面的定位必须点名其中的票；如果判「不能碰」，必须写清这些票<strong>各自</strong>被哪道闸门挡的。</li></ul></div><div class="action-directive"><ol class="kt-list"><li class="kt-item"><span class="kt-head">两个问题今天都答「有」，那就不要再找理由说市场不行。</span><div class="kt-body">①回踩已收回 9 只 ＋ 你点名里 6 只过闸；②主线组里正在回踩 / 刚收回 3 只、在跑 8 只。<strong>一共 22 只，名字都在 09 节表里。</strong></div></li><li class="kt-item"><span class="kt-head"><strong>主线是 Foundary，92.3%（12/13）</strong>，第二名生科 68.8%。</span><div class="kt-body">半导体那一片用同一把尺全部成群：SOXX 21/24、半导体设备 23/30、功率半导体 18/25。回踩 9EMA 就买，跌破 50EMA 才算坏。</div></li><li class="kt-item"><span class="kt-head"><strong>持仓那一半你已经处理完了。</strong></span><div class="kt-body">TQQQ 和 AVGO 18:24 已平，昨天点的必撤三笔执行率 3/3。剩下的：CRCL 两账户和 HUT 收破 EMA10 要退出，必撤线内 8 笔。</div></li><li class="kt-item"><span class="kt-head">广度还在超卖区，<strong>档位是「试单」不是「满仓」</strong>。</span><div class="kt-body">T2108 20.26 第四天 ≤21、RS 线只有 21% 在 21MA 上；但跌 4%+ 从 236 掉到 131，抛压停了。按上限的一半起手。</div></li><li class="kt-item"><span class="kt-head"><strong>不是选股不对 —— 是选出来的没买。</strong></span><div class="kt-body">你的 setup 组 19 只 5 日中位 +6.09%、21 日 +11.74%（QQQ +3.30% / +4.76%）；而 18 笔持仓 5 日中位只有 +0.36%。<strong>名单和账本只重合 1 只</strong>。</div></li><li class="kt-item"><span class="kt-head"><strong>setup 供给这个读数今天不可比，是我造成的。</strong></span><div class="kt-body">我周末重拉板块成分，票池 818 → 957，55% 和上一个口径日的 45% 不是同一个分母，别读成「环境变好了」。</div></li></ol></div></section><section id="setup"><h2>10 机会扫描 / Setup（核心）</h2><span class="method-tag">方法1 · Market Leader</span><table class="fixed-cols"><colgroup><col style="width:10%"><col style="width:18%"><col style="width:22%"><col style="width:22%"><col style="width:28%"></colgroup><thead><tr><th class="">TICKER</th><th class="">Tight（5日）</th><th class="">20MA</th><th class="">50MA</th><th class="">结论</th></tr></thead><tbody><tr><td>CRDO</td><td>否（18.2% · 2.83 ATR）</td><td>企稳后已弹离（+2.2 ATR）</td><td>企稳（+0.1 ATR）</td><td>观察：50MA企稳，未 tight</td></tr><tr><td>PURR</td><td>否（16.4% · 1.83 ATR）</td><td>企稳（+0.4 ATR）</td><td>未回踩（+2.9 ATR）</td><td>观察：20MA企稳，未 tight</td></tr><tr><td>SWKS</td><td>tight（6.8% · 1.33 ATR）</td><td>未回踩（+1.8 ATR）</td><td>未回踩（+3.9 ATR）</td><td>观察：tight，均线未企稳</td></tr><tr><td>TWST</td><td>否（16.1% · 2.67 ATR）</td><td>未回踩（+3.4 ATR）</td><td>未回踩（+5.1 ATR）</td><td>不符合</td></tr><tr><td>DELL</td><td>否（11.0% · 1.96 ATR）</td><td>企稳后已弹离（+1.1 ATR）</td><td>未回踩（+2.8 ATR）</td><td>不符合</td></tr><tr><td>AMD</td><td>否（9.0% · 2.30 ATR）</td><td>未回踩（+4.1 ATR）</td><td>未回踩（+5.1 ATR）</td><td>不符合</td></tr><tr><td>INTC</td><td>否（10.2% · 2.00 ATR）</td><td>未回踩（+2.9 ATR）</td><td>未回踩（+3.8 ATR）</td><td>不符合</td></tr><tr><td>TXG</td><td>否（13.5% · 2.32 ATR）</td><td>未回踩（+3.0 ATR）</td><td>未回踩（+5.1 ATR）</td><td>不符合</td></tr><tr><td>TEM</td><td>否（12.5% · 2.21 ATR）</td><td>未回踩（+3.3 ATR）</td><td>未回踩（+5.3 ATR）</td><td>不符合</td></tr><tr><td>CRWD</td><td>否（13.1% · 2.73 ATR）</td><td>企稳后已弹离（+1.8 ATR）</td><td>未回踩（+3.3 ATR）</td><td>不符合</td></tr><tr><td>ARKG</td><td>否（7.1% · 2.03 ATR）</td><td>未回踩（+2.4 ATR）</td><td>未回踩（+4.4 ATR）</td><td>不符合</td></tr><tr><td>MRNA</td><td>否（21.9% · 3.40 ATR）</td><td>企稳后已弹离（+3.4 ATR）</td><td>未回踩（+6.9 ATR）</td><td>不符合</td></tr><tr><td>VEEV</td><td>否（8.9% · 2.89 ATR）</td><td>企稳后已弹离（+1.2 ATR）</td><td>未回踩（+4.5 ATR）</td><td>不符合</td></tr><tr><td>OKTA</td><td>否（16.4% · 3.22 ATR）</td><td>企稳后已弹离（+1.4 ATR）</td><td>未回踩（+3.7 ATR）</td><td>不符合</td></tr><tr><td>GTLB</td><td>否（8.2% · 1.87 ATR）</td><td>跌破（-0.6 ATR）</td><td>未回踩（+2.4 ATR）</td><td>不符合</td></tr><tr><td>NET</td><td>否（13.1% · 2.55 ATR）</td><td>企稳后已弹离（+1.8 ATR）</td><td>未回踩（+2.8 ATR）</td><td>不符合</td></tr></tbody></table><div class="callout co-method"><div class="co-list"><div class="co-item"><strong>16 只里 15 只的 RS 线还在 21MA 上方 —— 窄的那头没坏</strong></div><div class="co-item">而防御那边 XLU RSI 25、XLRE 29、XLP 的 RS 线还在破着，<strong>防御资产没有在接钱</strong></div><div class="co-item">16 只里<strong>只有 SWKS 一只 tight</strong>（5 日振幅 6.8% / 1.33 ATR），而它的均线还没企稳</div><div class="co-item">CRDO 和 PURR 是均线企稳但没 tight。<strong>两个条件同时满足的今天一只都没有。</strong>GTLB 是唯一 20MA 跌破的（−0.6 ATR），也是 RS 线唯一破线的那只。</div></div></div><span class="method-tag">方法2 · 强势板块全量Setup扫描</span><h3>第 1 步 · 今日 RS 最强 5 板块（候选只从这里面挑）</h3><table class="fixed-cols"><colgroup><col style="width:6%"><col style="width:9%"><col style="width:7%"><col style="width:14%"><col style="width:9%"><col style="width:9%"><col style="width:9%"><col style="width:11%"><col style="width:26%"></colgroup><thead><tr><th class="">排名</th><th class="">TICKER</th><th class="">RS(1周)</th><th class="">阶段</th><th class="num">5日%</th><th class="num">1月%</th><th class="num">RS(1周)</th><th class="">距50MA</th><th class="">延伸档位</th></tr></thead><tbody><tr><td>1</td><td>SOXX</td><td>+4.1</td><td>Stage 2 上升</td><td class="num up">+7.43%</td><td class="num up">+11.19%</td><td class="num up">+4.1</td><td>2.71×ATR</td><td>HIGH（只做回踩类）</td></tr><tr><td>2</td><td>SMH</td><td>+2.6</td><td>Stage 2 上升</td><td class="num up">+5.86%</td><td class="num up">+9.14%</td><td class="num up">+2.6</td><td>2.53×ATR</td><td>HIGH（只做回踩类）</td></tr><tr><td>3</td><td>EUV</td><td>+2.4</td><td>-</td><td class="num up">+5.68%</td><td class="num up">+2.34%</td><td class="num up">+2.4</td><td>0.73×ATR</td><td>ok</td></tr><tr><td>4</td><td>QTUM</td><td>+1.0</td><td>Stage 2 上升</td><td class="num up">+4.33%</td><td class="num up">+3.63%</td><td class="num up">+1.0</td><td>2.08×ATR</td><td>mild</td></tr><tr><td>5</td><td>DRAM</td><td>+0.6</td><td>-</td><td class="num up">+3.86%</td><td class="num up">+9.79%</td><td class="num up">+0.6</td><td>2.34×ATR</td><td>mild</td></tr></tbody></table><div class="callout"><div class="co-list"><div class="co-item"><strong>强势可持有</strong>：EUV（RS +2.4、距 50MA 只有 0.73 ATR —— 八只里唯一位置还干净的）、QTUM（+1.0、2.08 ATR）、DRAM（+0.6、2.34 ATR）。</div><div class="co-item"><strong>需确认</strong>：SMH +2.6 但 2.53 ATR、XLK +0.3 但 3.63 ATR —— 都标 HIGH，只做回踩类。</div><div class="co-item"><strong>暂避</strong>：IBIT 4.82 ATR（EXTREME，回踩类也要减半仓）、ARKG 4.40、MAGS 4.03。</div><div class="co-item"><strong>小结</strong>：八只里 RS 为正的有五只、全部在半导体那一片；<strong>位置还给得起的只有 EUV 一只</strong>。</div></div></div><h4>这 5 个板块的成分分布（ETF 单值 vs 成分）</h3><table class="fixed-cols"><colgroup><col style="width:9%"><col style="width:8%"><col style="width:8%"><col style="width:10%"><col style="width:9%"><col style="width:5%"><col style="width:51%"></colgroup><thead><tr><th class="">板块</th><th class="num">RS(1周)</th><th class="num">ETF%</th><th class="num">成分中位%</th><th class="ctr">跟上比例</th><th class="ctr">n</th><th class="">结论 / 上尾是谁</th></tr></thead><tbody><tr><td>SOXX<br>RS 最强 1</td><td class="num up">+4.1</td><td class="num up">+11.19%</td><td class="num up">+6.25%</td><td class="ctr">21%</td><td class="ctr">24</td><td><strong>成分没跟上</strong>：只有 21% 跑赢 ETF，中位数 +6.2% 却比 ETF 低 4.9 个点 —— <strong>这是少数票的行情，不是板块行情。</strong><br>上尾（P90 +25.1%）：<strong>INTC</strong> +39%、<strong>AMD</strong> +31%、<strong>ALAB</strong> +26%</td></tr><tr><td>SMH<br>RS 最强 2</td><td class="num up">+2.6</td><td class="num up">+9.14%</td><td class="num up">+6.27%</td><td class="ctr">32%</td><td class="ctr">25</td><td><strong>成分没跟上</strong>：只有 32% 跑赢 ETF，中位数 +6.3% 却比 ETF 低 2.9 个点 —— <strong>这是少数票的行情，不是板块行情。</strong><br>上尾（P90 +28.9%）：<strong>INTC</strong> +39%、<strong>SWKS</strong> +34%、<strong>AMD</strong> +31%</td></tr><tr><td>EUV<br>RS 最强 3</td><td class="num up">+2.4</td><td class="num up">+2.34%</td><td class="num up">+1.66%</td><td class="ctr">46%</td><td class="ctr">24</td><td>46% 的成分跑赢 ETF、中位数 +1.7%，没有明确方向。<br>上尾（P90 +16.4%）：<strong>OUST</strong> +22%、<strong>AXTI</strong> +21%、<strong>FORM</strong> +20%</td></tr><tr><td>QTUM<br>RS 最强 4</td><td class="num up">+1.0</td><td class="num up">+3.63%</td><td class="num up">+2.31%</td><td class="ctr">50%</td><td class="ctr">14</td><td><strong>成分跟上了</strong>：50% 的成分跑赢 ETF、中位数 +2.3% —— 这是真板块行情。<br>上尾（P90 +29.6%）：<strong>INTC</strong> +39%、<strong>QMCO</strong> +36%、<strong>IONQ</strong> +14%<br>口径：成分名单来自 moomoo「量子计算」板块（比发行商持仓宽）。</td></tr></tbody></table><div class="callout"><strong>SMH 是最强板块，但成分没跟上</strong>：只有 32% 跑赢 ETF、中位 +6.27% 比 ETF 低 2.9pt —— 这是权重股拉的，不是一片都在涨。<strong>QTUM 反过来</strong>：50% 的成分跑赢 ETF、中位 +2.31%，这个才是真板块行情。DRAM 算不了离散度（能交易的只有 6 只）。</div><h3>第 2 步 · 板块内 Setup 扫描</h3><table class="fixed-cols"><colgroup><col style="width:7%"><col style="width:12%"><col style="width:17%"><col style="width:14%"><col style="width:8%"><col style="width:7%"><col style="width:27%"><col style="width:8%"></colgroup><thead><tr><th class="">TICKER</th><th class="">状态</th><th class="">形态确认</th><th class="">ADR% · ATR区间</th><th class="num">RS(14日)</th><th class="num">RSI</th><th class="">结构数据</th><th class="ctr">评分</th></tr></thead><tbody><tr><td>NVDA</td><td>区间收紧</td><td>tight · pullback · 2 wick</td><td>ADR 1.97% · 收缩</td><td class="num dn">-2.6</td><td class="num">55</td><td>5日振幅 3.95%（1.52 ATR）· RSI 55.3；量 0.7×；三重底（更早还有一次低点）：217.2（09-10） → 再探 221.09（09-24），没破前低</td><td class="ctr">5</td></tr><tr><td>TSM</td><td>区间收紧</td><td>tight · 2 wick</td><td>ADR 1.93% · 收缩</td><td class="num up">+5.0</td><td class="num">62</td><td>5日振幅 3.99%（1.71 ATR）· RSI 62.5；双底：411.44（09-15） → 再探 440.6（09-24），没破前低</td><td class="ctr">3</td></tr><tr><td>SWKS</td><td>跟踪中（09-28 起）</td><td>tight · 2 wick</td><td>ADR 6.71% · 收缩</td><td class="num up">+20.3</td><td class="num">62</td><td>5日振幅 6.79%（1.33 ATR）· RSI 62.5；三重底（更早还有一次低点）：84.44（09-17） → 再探 88.09（09-22），没破前低</td><td class="ctr">3</td></tr><tr><td>LITE</td><td>跟踪中（09-24 起）</td><td>pullback · 2 wick</td><td>ADR 6.21% · 收缩</td><td class="num up">+6.5</td><td class="num">54</td><td>量 0.88×；三重底（更早还有一次低点）：832.11（09-15） → 再探 912.0（09-24），没破前低</td><td class="ctr">3</td></tr><tr><td>MSFT</td><td>距高 0.6%</td><td>tight 突破 · 2 wick</td><td>ADR 2.07% · 扩张</td><td class="num up">+2.9</td><td class="num">63</td><td>收紧 4 天（09-15~09-24）487.23~509.44 · 突破第 1 天 +1.32%；三重底（更早还有一次低点）：487.23（09-16） → 再探 491.22（09-24），没破前低</td><td class="ctr">3</td></tr><tr><td>PLTR</td><td>跟踪中（09-18 起）</td><td>tight 突破 · 2 wick</td><td>ADR 3.31% · 收缩</td><td class="num up">+8.4</td><td class="num">64</td><td>收紧 5 天（09-08~09-18）164.55~177.88 · 突破第 5 天 +6.63%；三重底（更早还有一次低点）：164.55（09-10） → 再探 168.96（09-16），没破前低</td><td class="ctr">3</td></tr><tr><td>QCOM</td><td>距高 1.9%</td><td>2 wick</td><td>ADR 5.38% · 收缩</td><td class="num up">+19.3</td><td class="num">68</td><td>三重底（更早还有一次低点）：175.97（09-18） → 再探 191.75（09-24），没破前低</td><td class="ctr">2</td></tr><tr><td>INTC</td><td>跟踪中（09-25 起）</td><td>2 wick</td><td>ADR 4.80% · 收缩</td><td class="num up">+28.0</td><td class="num">67</td><td>三重底（更早还有一次低点）：99.34（09-10） → 再探 119.44（09-23），没破前低</td><td class="ctr">2</td></tr></tbody></table><div class="callout">广度档位<strong>超卖区试单</strong>：单笔按表上仓位上限的一半起手、等 bar 触发再加，不追第一天。SMH / XLK / ARKG / MAGS 标 HIGH，这几片下钻出来的票<strong>只做回踩类</strong>；IBIT 标 EXTREME，回踩类也要减半。</div><span class="method-tag">方法5 · X trader setup提取</span><div class="callout">周末六条宏观全部指向同一件事：<strong>仓位和情绪很差，而价格不跌</strong>。高盛说「美股拒绝为任何恐慌定价」（恐慌指数 &lt;1、70% 标普成分在 50 日线下）、Kobeissi 说股债 6 个月价差史上第 6 大、阿波罗说 AI 推理支出 99.5% 集中在头部 10% 客户。<strong>没有一条是可交易的事件，全是背景。</strong></div><div class="x-roster"><span class="x-roster-l">被点名</span><span class="x-chip">STX</span><span class="x-chip">CLS</span><span class="x-chip">MU</span><span class="x-chip">ALAB</span><span class="x-chip">ORCL</span><span class="x-chip">SMCI</span><span class="x-chip">SDGR</span></div><div class="x-meta">宏观 6 条 · 个股 8 条 ｜ 来源：xdesk 2026-09-28（94 条原始、10 个账号），<strong>未重新扫 X</strong>——同一份落盘数据重跑结果一致，可对账。 ｜ <a href="../xdesk/2026-09-28-x.html">全文与图见 xdesk 当日页 →</a></div><span class="method-tag">方法8 · 轧空候选股扫描</span><p class="empty-state"><span class="empty-tag es-parked">暂停</span><span class="empty-note">每日扫描 2026-08-07 起暂停（iborrowdesk 借券费率源连续三周不可用；24 个交易日只产出过 1 次候选）。&lt;strong&gt;改为按需查证&lt;/strong&gt;——你点名哪只，用 FINRA 短仓 + 做空成交量现算。</span></p><span class="method-tag">方法9 · Episodic Pivot（催化剂在手 · 事前预案）</span><p class="empty-state"><span class="empty-tag es-none">无</span><span class="empty-note">今日没有已知催化剂在手（财报窗口 / 13F 新建仓 / 政策日程 / X 池点名，四条都空）。</span></p><div class="callout"><div class="co-list"><div class="co-item">四条口径逐条查过：<strong>持仓里本周有财报的 0 只</strong></div><div class="co-item">点名名单里本周有财报的 0 只</div><div class="co-item">已知日期的被迫买卖只有 SPCX 10/09 解禁（还有 11 天，不在本周）</div><div class="co-item">本周唯一的事件是 <strong>MU 周三盘后财报</strong> —— 你没有 MU，但它是 DRAM 组的分母，<strong>这一节不列它、日历里列了</strong>。</div></div></div><h3>setup 跟踪（你的 ＋ 老师的 · 持续跟踪，不按天重扫）</h3><table class="fixed-cols"><colgroup><col style="width:8%"><col style="width:5%"><col style="width:15%"><col style="width:10%"><col style="width:17%"><col style="width:37%"><col style="width:8%"></colgroup><thead><tr><th class="">TICKER</th><th class="ctr">RS</th><th class="">结构</th><th class="">关键位</th><th class="">支撑</th><th class="">本周观察重点</th><th class="ctr">评分</th></tr></thead><tbody><tr><td><strong>AMBQ</strong></td><td class="ctr">94</td><td>2 wick</td><td>71.26</td><td><strong>68.63</strong>&lt;br&gt;&lt;span class=&quot;sub&quot;&gt;昨低 · 幅 3.7% · 0.7 ATR · 仓位 ≤14%&lt;/span&gt;</td><td><strong>等</strong> · 最近 3 根里碰过 71.26 没收上去，收盘还差 2.1%</td><td class="ctr">B(2)</td></tr><tr><td><strong>ARM</strong></td><td class="ctr">91</td><td>2 wick</td><td>324.16</td><td><strong>310.08</strong>&lt;br&gt;&lt;span class=&quot;sub&quot;&gt;昨低 · 幅 4.3% · 0.7 ATR · 仓位 ≤12%&lt;/span&gt;</td><td><strong>playout D+3 · 回落</strong> · 09-22 收上 324.16 之后又掉回来，现价 310.32 —— 看是 fakeout 还是回踩续破　<strong>你没进</strong></td><td class="ctr">B(2)</td></tr><tr><td><strong>DE</strong></td><td class="ctr">77</td><td>pullback · 2 wick</td><td>695.05</td><td><strong>681.06</strong>&lt;br&gt;&lt;span class=&quot;sub&quot;&gt;昨低 · 幅 2.0% · 仓位 ≤25%&lt;/span&gt;</td><td><strong>playout D+3 · 回落</strong> · 09-22 收上 695.05 之后又掉回来，现价 690.46 —— 看是 fakeout 还是回踩续破　<strong>你没进</strong></td><td class="ctr">A(4)</td></tr><tr><td><strong>ESTC</strong></td><td class="ctr">83</td><td>tight · pullback</td><td>90.12</td><td><strong>87.37</strong>&lt;br&gt;&lt;span class=&quot;sub&quot;&gt;昨低 · 幅 3.1% · 仓位 ≤16%&lt;/span&gt;</td><td><strong>playout D+2 · 回落</strong> · 09-23 收上 90.12 之后又掉回来，现价 88.12 —— 看是 fakeout 还是回踩续破　<strong>你没进</strong></td><td class="ctr">A(5)</td></tr><tr><td><strong>KEEL</strong></td><td class="ctr">61</td><td>pullback</td><td>4.19</td><td><strong>3.73</strong>&lt;br&gt;&lt;span class=&quot;sub&quot;&gt;昨低 · 幅 11.0% · 1.5 ATR · 仓位 ≤5%&lt;/span&gt;</td><td><strong>等</strong> · 离关键位 4.19 还有 10.3%</td><td class="ctr">A(4)</td></tr><tr><td><strong>MRVI</strong></td><td class="ctr">90</td><td>2 wick</td><td>7.51</td><td><strong>7.25</strong>&lt;br&gt;&lt;span class=&quot;sub&quot;&gt;昨低 · 幅 3.6% · 仓位 ≤14%&lt;/span&gt;</td><td><strong>playout D+1 · 站住</strong> · 09-24 收上 7.51，现在还在上面、离 9EMA 0.6 ATR　<strong>你没进</strong></td><td class="ctr">B(2)</td></tr><tr><td><strong>MU</strong></td><td class="ctr">96</td><td>tight · 2 wick</td><td>1064.49</td><td><strong>1073.00</strong>&lt;br&gt;&lt;span class=&quot;sub&quot;&gt;昨低已在关键位上方&lt;/span&gt;</td><td><strong>playout D+3 · 站住</strong> · 09-22 收上 1064.49，现在还在上面、离 9EMA 0.8 ATR　<strong>你没进</strong></td><td class="ctr">B(2)</td></tr><tr><td><strong>NBIS</strong></td><td class="ctr">92</td><td>2 wick</td><td>237.96</td><td><strong>235.41</strong>&lt;br&gt;&lt;span class=&quot;sub&quot;&gt;昨低 · 幅 1.1% · 0.2 ATR · 仓位 ≤35%&lt;/span&gt;</td><td><strong>playout D+1 · 回落</strong> · 09-24 收上 237.96 之后又掉回来，现价 237.33 —— 看是 fakeout 还是回踩续破　<strong>你有仓</strong></td><td class="ctr">B(2)</td></tr><tr><td><strong>P</strong></td><td class="ctr">92</td><td>2 wick（登记时）</td><td>113.80</td><td><strong>122.30</strong>&lt;br&gt;&lt;span class=&quot;sub&quot;&gt;昨低已在关键位上方&lt;/span&gt;</td><td><strong>playout D+1 · 站住</strong> · 09-24 收上 113.80，现在还在上面、离 9EMA 2.0 ATR　<strong>你没进</strong></td><td class="ctr">B(2)</td></tr><tr><td><strong>PANW</strong></td><td class="ctr">89</td><td>pullback · 2 wick</td><td>383.12</td><td><strong>373.78</strong>&lt;br&gt;&lt;span class=&quot;sub&quot;&gt;昨低 · 幅 2.4% · 0.5 ATR · 仓位 ≤21%&lt;/span&gt;</td><td><strong>playout D+2 · 回落</strong> · 09-23 收上 383.12 之后又掉回来，现价 374.74 —— 看是 fakeout 还是回踩续破　<strong>你没进</strong></td><td class="ctr">A(4)</td></tr><tr><td><strong>QMCO</strong></td><td class="ctr">99</td><td>2 wick</td><td>26.50</td><td><strong>29.02</strong>&lt;br&gt;&lt;span class=&quot;sub&quot;&gt;昨低已在关键位上方&lt;/span&gt;</td><td><strong>playout D+1 · 站住</strong> · 09-24 收上 26.50，现在还在上面、离 9EMA 1.9 ATR　<strong>你没进</strong></td><td class="ctr">B(1)</td></tr><tr><td><strong>RPD</strong></td><td class="ctr">55</td><td>pullback·2 wick（登记时）</td><td>12.91</td><td><strong>11.60</strong>&lt;br&gt;&lt;span class=&quot;sub&quot;&gt;昨低 · 幅 10.2% · 仓位 ≤5%&lt;/span&gt;</td><td><strong>playout D+2 · 回落</strong> · 09-23 收上 12.91 之后又掉回来，现价 11.62 —— 看是 fakeout 还是回踩续破　<strong>你没进</strong></td><td class="ctr">B(2)</td></tr><tr><td><strong>SAIL</strong></td><td class="ctr">77</td><td>pullback · 2 wick</td><td>20.80</td><td><strong>20.62</strong>&lt;br&gt;&lt;span class=&quot;sub&quot;&gt;昨低 · 幅 0.9% · 仓位 ≤35%&lt;/span&gt;</td><td><strong>playout D+3 · 回落</strong> · 09-22 收上 20.80 之后又掉回来，现价 20.64 —— 看是 fakeout 还是回踩续破　<strong>你没进</strong></td><td class="ctr">A(4)</td></tr><tr><td><strong>SMCI</strong></td><td class="ctr">89</td><td>spring（登记时）</td><td>41.72</td><td><strong>41.90</strong>&lt;br&gt;&lt;span class=&quot;sub&quot;&gt;昨低已在关键位上方&lt;/span&gt;</td><td><strong>playout D+0 · 站住</strong> · 09-25 收上 41.72，现在还在上面、离 9EMA 1.1 ATR　<strong>你有仓</strong></td><td class="ctr">B(1)</td></tr><tr><td><strong>VEEV</strong></td><td class="ctr">82</td><td>tight 突破 · 2 wick</td><td>272.39</td><td><strong>275.91</strong>&lt;br&gt;&lt;span class=&quot;sub&quot;&gt;昨低已在关键位上方&lt;/span&gt;</td><td><strong>playout D+1 · 站住</strong> · 09-24 收上 272.39，现在还在上面、离 9EMA 1.3 ATR　<strong>你没进</strong></td><td class="ctr">B(2)</td></tr><tr><td><strong>NET</strong></td><td class="ctr">87</td><td>2 wick</td><td>357.10</td><td><strong>344.27</strong>&lt;br&gt;&lt;span class=&quot;sub&quot;&gt;昨低 · 幅 3.6% · 0.7 ATR · 仓位 ≤14%&lt;/span&gt;</td><td><strong>playout D+1 · 回落</strong> · 09-24 收上 357.10 之后又掉回来，现价 349.02 —— 看是 fakeout 还是回踩续破　<strong>你没进</strong></td><td class="ctr">B(2)</td></tr><tr><td><strong>LITE</strong></td><td class="ctr">95</td><td>pullback · 2 wick</td><td>1002.00</td><td><strong>913.29</strong>&lt;br&gt;&lt;span class=&quot;sub&quot;&gt;昨低 · 幅 8.9% · 1.4 ATR · 仓位 ≤6%&lt;/span&gt;</td><td><strong>等</strong> · 离关键位 1002.00 还有 6.4%</td><td class="ctr">B(3)</td></tr><tr><td><strong>ANET</strong></td><td class="ctr">81</td><td>tight · 2 wick</td><td>208.26</td><td><strong>205.53</strong>&lt;br&gt;&lt;span class=&quot;sub&quot;&gt;昨低 · 幅 1.3% · 0.4 ATR · 仓位 ≤35%&lt;/span&gt;</td><td><strong>等</strong> · 最近 3 根里碰过 208.26 没收上去，收盘还差 0.8%</td><td class="ctr">B(3)</td></tr><tr><td><strong>INFQ</strong></td><td class="ctr">77</td><td>2 wick</td><td>15.06</td><td><strong>14.08</strong>&lt;br&gt;&lt;span class=&quot;sub&quot;&gt;昨低 · 幅 6.5% · 1.1 ATR · 仓位 ≤8%&lt;/span&gt;</td><td><strong>等</strong> · 离关键位 15.06 还有 3.8%</td><td class="ctr">B(2)</td></tr><tr><td><strong>QRVO</strong></td><td class="ctr">84</td><td>tight·2 wick（登记时）</td><td>121.09</td><td><strong>115.54</strong>&lt;br&gt;&lt;span class=&quot;sub&quot;&gt;昨低 · 幅 4.6% · 仓位 ≤11%&lt;/span&gt;</td><td><strong>等</strong> · 离关键位 121.09 还有 2.6%</td><td class="ctr">B(2)</td></tr><tr><td><strong>IONQ</strong></td><td class="ctr">61</td><td>2 wick</td><td>46.55</td><td><strong>44.12</strong>&lt;br&gt;&lt;span class=&quot;sub&quot;&gt;昨低 · 幅 5.2% · 0.9 ATR · 仓位 ≤10%&lt;/span&gt;</td><td><strong>等</strong> · 最近 3 根里碰过 46.55 没收上去，收盘还差 2.4%</td><td class="ctr">B(2)</td></tr><tr><td><strong>RKLB</strong></td><td class="ctr">79</td><td>2 wick</td><td>75.46</td><td><strong>72.78</strong>&lt;br&gt;&lt;span class=&quot;sub&quot;&gt;昨低 · 幅 3.6% · 0.7 ATR · 仓位 ≤14%&lt;/span&gt;</td><td><strong>等</strong> · 离关键位 75.46 还有 2.0%</td><td class="ctr">B(2)</td></tr><tr><td><strong>AKAM</strong></td><td class="ctr">52</td><td>2 wick</td><td>128.46</td><td><strong>113.84</strong>&lt;br&gt;&lt;span class=&quot;sub&quot;&gt;昨低 · 幅 11.4% · 2.2 ATR · 仓位 ≤4%&lt;/span&gt;</td><td><strong>等</strong> · 最近 3 根里碰过 128.46 没收上去，收盘还差 12.7%</td><td class="ctr">B(3)</td></tr><tr><td><strong>AXTI</strong></td><td class="ctr">99</td><td>2 wick</td><td>81.50</td><td><strong>75.00</strong>&lt;br&gt;&lt;span class=&quot;sub&quot;&gt;昨低 · 幅 8.0% · 0.9 ATR · 仓位 ≤6%&lt;/span&gt;</td><td><strong>等</strong> · 离关键位 81.50 还有 3.2%</td><td class="ctr">B(2)</td></tr><tr><td><strong>CIBR</strong></td><td class="ctr">70</td><td>tight · pullback · 2 wick</td><td>104.25</td><td><strong>100.78</strong>&lt;br&gt;&lt;span class=&quot;sub&quot;&gt;昨低 · 幅 3.3% · 1.3 ATR · 仓位 ≤15%&lt;/span&gt;</td><td><strong>等</strong> · 离关键位 104.25 还有 3.3%</td><td class="ctr">A(5)</td></tr><tr><td><strong>CRWD</strong></td><td class="ctr">91</td><td>2 wick</td><td>263.87</td><td><strong>251.54</strong>&lt;br&gt;&lt;span class=&quot;sub&quot;&gt;昨低 · 幅 4.7% · 1.0 ATR · 仓位 ≤11%&lt;/span&gt;</td><td><strong>等</strong> · 离关键位 263.87 还有 4.7%</td><td class="ctr">B(2)</td></tr><tr><td><strong>GTLB</strong></td><td class="ctr">85</td><td>今天没扫到形态</td><td>50.67</td><td><strong>46.80</strong>&lt;br&gt;&lt;span class=&quot;sub&quot;&gt;昨低 · 幅 7.6% · 1.9 ATR · 仓位 ≤7%&lt;/span&gt;</td><td><strong>等</strong> · 离关键位 50.67 还有 8.2%</td><td class="ctr">B(1)</td></tr><tr><td><strong>HACK</strong></td><td class="ctr">71</td><td>tight · pullback · 2 wick</td><td>124.42</td><td><strong>117.87</strong>&lt;br&gt;&lt;span class=&quot;sub&quot;&gt;昨低 · 幅 5.3% · 1.8 ATR · 仓位 ≤9%&lt;/span&gt;</td><td><strong>等</strong> · 离关键位 124.42 还有 5.1%</td><td class="ctr">A(5)</td></tr><tr><td><strong>NVT</strong></td><td class="ctr">72</td><td>tight · 2 wick</td><td>164.52</td><td><strong>161.16</strong>&lt;br&gt;&lt;span class=&quot;sub&quot;&gt;昨低 · 幅 2.0% · 0.5 ATR · 仓位 ≤24%&lt;/span&gt;</td><td><strong>等</strong> · 最近 3 根里碰过 164.52 没收上去，收盘还差 0.1%</td><td class="ctr">B(3)</td></tr><tr><td><strong>RXT</strong></td><td class="ctr">99</td><td>2 wick</td><td>4.29</td><td><strong>3.96</strong>&lt;br&gt;&lt;span class=&quot;sub&quot;&gt;昨低 · 幅 7.6% · 1.0 ATR · 仓位 ≤7%&lt;/span&gt;</td><td><strong>等</strong> · 离关键位 4.29 还有 8.1%</td><td class="ctr">B(2)</td></tr><tr><td><strong>SDGR</strong></td><td class="ctr">95</td><td>2 wick</td><td>31.59</td><td><strong>27.69</strong>&lt;br&gt;&lt;span class=&quot;sub&quot;&gt;昨低 · 幅 12.4% · 2.2 ATR · 仓位 ≤4%&lt;/span&gt;</td><td><strong>等</strong> · 离关键位 31.59 还有 9.5%</td><td class="ctr">B(2)</td></tr><tr><td><strong>STM</strong></td><td class="ctr">86</td><td>tight · 2 wick</td><td>53.53</td><td><strong>51.22</strong>&lt;br&gt;&lt;span class=&quot;sub&quot;&gt;昨低 · 幅 4.3% · 1.3 ATR · 仓位 ≤12%&lt;/span&gt;</td><td><strong>等</strong> · 离关键位 53.53 还有 3.1%</td><td class="ctr">B(3)</td></tr><tr><td><strong>UCTT</strong></td><td class="ctr">93</td><td>今天没扫到形态</td><td>78.06</td><td><strong>76.41</strong>&lt;br&gt;&lt;span class=&quot;sub&quot;&gt;昨低 · 幅 2.1% · 0.4 ATR · 仓位 ≤24%&lt;/span&gt;</td><td><strong>等</strong> · 最近 3 根里碰过 78.06 没收上去，收盘还差 0.5%</td><td class="ctr">B(1)</td></tr><tr><td><strong>VIAV</strong></td><td class="ctr">90</td><td>2 wick</td><td>40.88</td><td><strong>37.43</strong>&lt;br&gt;&lt;span class=&quot;sub&quot;&gt;昨低 · 幅 8.4% · 1.5 ATR · 仓位 ≤6%&lt;/span&gt;</td><td><strong>等</strong> · 最近 3 根里碰过 40.88 没收上去，收盘还差 0.5%</td><td class="ctr">B(2)</td></tr></tbody></table><p class="source">行来自 setup 台账里<strong>还活着</strong>的条目（你的 moomoo setup 组 ＋ 老师点名，<strong>计分仍然分两桶</strong> —— 表合一张是版面，两个桶是度量），<strong>一个代码只留最早那条</strong>（＝形态出生那天），不是每天重扫一遍。「关键位」＝出生日往前 5 根的最高价（<strong>当场从 K 线算</strong>，不从登记时的文字里抠）；「支撑」＝登记时的失效位。「本周观察重点」前半截是机器判的动作（收破支撑→<strong>移除</strong>；站上关键位→<strong>追</strong>或<strong>等回踩</strong>；都没有→<strong>等</strong>；突破满 3 根、或连着两份名单里没有它 → <strong>结案出表</strong>），后半截才是手写。<strong>触发价和止损就在「关键位 / 支撑」两格里</strong> —— 原来那张「开盘前挂单价位」已经并进来。RS ＝ 1–99 百分位（四季加权收益在全票池 957 只里排名，和 RS(1周)/RS(14日)/RS线 是四个不同的数）。评分沿用我们自己的 A/B。口径日 2026-09-25。</p><p class="source"><strong>今天出表 16 只</strong>：CLF（还没 playout、也没失效，但连着 3 份名单里没有它 —— 按你放掉处理）；COIN（还没 playout、也没失效，但连着 5 份名单里没有它 —— 按你放掉处理）；HUT（还没 playout、也没失效，但连着 5 份名单里没有它 —— 按你放掉处理）；MSTR（还没 playout、也没失效，但连着 5 份名单里没有它 —— 按你放掉处理）；SPCX（还没 playout、也没失效，但连着 2 份名单里没有它 —— 按你放掉处理）；ALAB（还没 playout、也没失效，但连着 4 份名单里没有它 —— 按你放掉处理）；BB（还没 playout、也没失效，但连着 2 份名单里没有它 —— 按你放掉处理）；CORZ（还没 playout、也没失效，但连着 4 份名单里没有它 —— 按你放掉处理）；LABU（还没 playout、也没失效，但连着 4 份名单里没有它 —— 按你放掉处理）；FTNT（还没 playout、也没失效，但连着 2 份名单里没有它 —— 按你放掉处理）；SABR（还没 playout、也没失效，但连着 2 份名单里没有它 —— 按你放掉处理）；CRCL（还没 playout、也没失效，但连着 3 份名单里没有它 —— 按你放掉处理）… 等 16 只</p><h3>事件缺口延续（独立品类 · 不进 A/B/C）</h3><p class="empty-state"><span class="empty-tag es-none">无</span><span class="empty-note">今日无符合口径的候选（缺口 ≤5% + 具体催化 + 止损能放进 10%）。</span></p><h3>综合候选 · A/B/C 分级</h3><table class="fixed-cols"><colgroup><col style="width:7%"><col style="width:14%"><col style="width:26%"><col style="width:13%"><col style="width:12%"><col style="width:28%"></colgroup><thead><tr><th class="ctr">TICKER</th><th class="">板块</th><th class="">Setup</th><th class="">触发</th><th class="">失效</th><th class="">备注</th></tr></thead><tbody><tr class="row-group"><td colspan="6">A级 · 允许执行</td></tr><tr><td class="ctr">SWKS</td><td>Foundary（主线 92.3%）· 半导体</td><td><strong>回踩 9EMA 后已收回</strong>：tight（5 日振幅 6.8% / 1.33 ATR）· 2 wick 三重底，同位支撑是前高 88.05</td><td><strong>89.34 就是入场区</strong>（已收回 9EMA 87.74，距 +0.35 ATR）；高于 5 日高 92.80 不追</td><td><strong>83.85</strong>（信号日低 86.73 − 0.5 ATR · 名义 6.1%）</td><td>挂单止损是 <strong>86.56</strong>（bar 低）；失效位留了缓冲，两个数不是一件事。RS(14) +20.3、ADR 6.36%。</td></tr><tr class="row-group"><td colspan="6">B级 · 观察为主</td></tr><tr><td class="ctr">AXTI</td><td>光纤传输 59.1% · EUV</td><td><strong>已收回 9EMA 73.02</strong>：2 wick 三重底 64.55（09-10）→ 再探 69.60（09-24）没破前低</td><td><strong>78.94</strong>（现价）；这只已经离 9EMA +0.85 ATR，<strong>入场偏晚</strong></td><td><strong>71.81</strong>（信号日低 75.00 − 0.5 ATR · 名义 9.0%）</td><td>挂单止损 <strong>74.85</strong>（bar 低）。RS(14) +27.7 全表第二强，但 ADR 8.69% 最大、仓位上限只有 10%。</td></tr><tr><td class="ctr">NVT</td><td>制冷（主线 62.5%）</td><td><strong>tight · 2 wick</strong>：双底 146.03（09-16），5 日振幅 4.43%（1.13 ATR）</td><td><strong>站上 164.52</strong>（昨高，离收盘只有 0.1%）</td><td><strong>157.91</strong>（昨低 161.16 − 0.5 ATR · 名义 4.0%）</td><td>挂单止损 <strong>161.16</strong>（昨低，0.52 ATR，仓位上限 24%）。<strong>RS(14) 只有 +5.0</strong> —— 靠位置不靠强度。</td></tr></tbody></table><div class="entry-legend">
+  <div class="el-title">入场触发一律看「bar」，不看价位</div>
+  <div class="co-list">
+    <div class="co-item"><b>pullback / spring —— 收回bar</b>：出现一根<b>收盘站回9EMA上方</b>且
+      <b>收盘位置≥60%</b>的K线，在该bar收盘或次日开盘进；止损放该bar低点下方。
+      <b>不要等「贴着均线不破」的干净回踩</b>，那种形态多数时候不会出现。</div>
+    <div class="co-item"><b>tight —— 突破bar</b>：<b>收盘</b>站上突破位 且
+      <b>量≥1.5×20日均量</b>才算数。<b>不要把单子挂在突破点</b>——挂单会在每一次假突破都成交，
+      这正是Base Breakout实测胜率仅27%的来源。</div>
+    <div class="co-item"><b>shakeout+burst</b>：等开盘后<b>第一根放量动量bar</b>，
+      止损放洗盘低点下方；报告只给结构位，入场时机由盘中人工执行。</div>
+    <div class="co-item"><b>2 wick</b>：<b>加分结构，不是入场形态</b>——它没有自己的触发bar，
+      只在和 pullback / tight 同时出现时抬高评分（评分函数里不单独计入结构数）。</div>
+    <div class="co-item"><b>通用否决</b>：<b>开盘跳空高开超过 1×ATR(14) 即视为追高</b>，当日放弃；
+      触发bar量能低于0.8×20日均量视为无买盘跟进，不进。<br>
+      <span class="muted">2026-08-10 Vic：「这条删了吧，要看atr的」——原来写的是固定 1.5%。
+      8/7 那天 9 只跳空样本里，固定 1.5% <b>把 9 只全部否决</b>，包括当天涨 19.14% 的 WOLF
+      （它的缺口只有 0.15ATR）。按 ATR 排开分界线很干净：缺口 ≥1.2ATR 的 AAOI(1.23) 和
+      NET(2.14) 收盘位置只有 27% 和 15%，是全天最差的两只；≤1.0ATR 那批除 FTNT 外都收在 68% 以上。
+      <b>n=9，一天的样本，不是回测结论</b>——但足以说明固定百分比在高波动票上是失效的。</span></div>
+  </div>
+</div><div class="callout"><div class="co-list"><div class="co-item"><strong>今天不缺形态，缺的是位置干净的形态。</strong>回踩表 12 只里 9 只已收回 9EMA —— 周五是普涨那天，所以「已收回」这个状态今天的含金量比平时低，真正属主线组的只有 SWKS（Foundary）和 ABCL（生科）两只。</div><div class="co-item">三只候选按位置排：<strong>NVT 离触发 0.1%、止损 0.52 ATR</strong>（最省）；<strong>SWKS 已在入场区、距 9EMA 只有 0.35 ATR</strong>；<strong>AXTI 最强但已经 +0.85 ATR</strong>。</div><div class="co-item"><strong>AMBQ / INFQ / RXT / KEEL / CRDO 五只同时被做空体检量出形态</strong> —— 你点名名单里的票，进场要更小更晚。</div><div class="co-item"><strong>这张表的「失效位」比你今晚要挂的止损宽</strong>：挂单用 bar 低点（SWKS 86.56 · AXTI 74.85 · NVT 161.16），失效位另留 0.5 ATR 缓冲，台账按后者判 hit/miss。<strong>被噪音扫掉止损 ≠ 论点错了</strong>，两个数分开看。</div></div></div></section><section id="shortscan"><h2>11 short setup 扫描（只做提示，不是让你去做空）</h2><div class="callout">11 只里 <strong>8 只判「成立」、3 只「嫌疑」</strong>（AMBQ / INFQ / QCOM 只有 3/6）。 <strong>AMBQ、INFQ、RXT、KEEL、CRDO 五只同时出现在你的点名名单里</strong> —— 同一只票被多头的尺和空头的尺同时量出形态，这不是让你去做空，是<strong>给这几只挑红旗</strong>：进场要更小、更晚；全场 9EMA 刚上穿 20EMA 的一批已被硬否决挡掉（AKAM / ASML / AMAT / ALAB / ADI 都是这么出局的）。</div><table class="fixed-cols"><colgroup><col style="width:7%"><col style="width:6%"><col style="width:11%"><col style="width:10%"><col style="width:9%"><col style="width:8%"><col style="width:8%"><col style="width:8%"><col style="width:33%"></colgroup><thead><tr><th class="">TICKER</th><th class="ctr">命中</th><th class="ctr">MACD</th><th class="ctr">KDJ</th><th class="ctr">Lower High</th><th class="">距 50MA</th><th class="">涨/跌量比</th><th class="num">距52周高</th><th class="">为什么标它</th></tr></thead><tbody><tr><td>KOID</td><td class="ctr">5/6</td><td class="ctr">金叉 +0.20</td><td class="ctr">J 99 K&gt;D</td><td class="ctr">yes</td><td>-0.38×ATR</td><td>1.00</td><td class="num dn">-15.72%</td><td>趋势 · 更低高点 · 反弹到阻力 · RS 为负 · 深度回撤</td></tr><tr><td>MCD</td><td class="ctr">5/6</td><td class="ctr">死叉 -1.44</td><td class="ctr">J 13 K&lt;D</td><td class="ctr">yes</td><td>-5.01×ATR</td><td>0.69</td><td class="num dn">-29.44%</td><td>趋势 · 更低高点 · 反弹缩量 · RS 为负 · 深度回撤</td></tr><tr><td>ON</td><td class="ctr">5/6</td><td class="ctr">金叉 +1.05</td><td class="ctr">J 107 K&gt;D</td><td class="ctr">yes</td><td>-0.15×ATR</td><td>0.83</td><td class="num dn">-42.78%</td><td>趋势 · 更低高点 · 反弹到阻力 · 反弹缩量 · 深度回撤</td></tr><tr><td>CRDO</td><td class="ctr">4/6</td><td class="ctr">金叉 +6.50</td><td class="ctr">J 115 K&gt;D</td><td class="ctr">—</td><td>0.07×ATR</td><td>0.82</td><td class="num dn">-31.65%</td><td>趋势 · 反弹到阻力 · 反弹缩量 · 深度回撤</td></tr><tr><td>HON</td><td class="ctr">4/6</td><td class="ctr">金叉 +2.54</td><td class="ctr">J 108 K&gt;D</td><td class="ctr">yes</td><td>拆股存疑</td><td>1.24</td><td class="num">拆股存疑</td><td>趋势 · 更低高点 · RS 为负 · 深度回撤</td></tr><tr><td>KEEL</td><td class="ctr">4/6</td><td class="ctr">金叉 +0.07</td><td class="ctr">J 64 K&lt;D</td><td class="ctr">yes</td><td>0.36×ATR</td><td>1.01</td><td class="num dn">-48.44%</td><td>趋势 · 更低高点 · RS 为负 · 深度回撤</td></tr><tr><td>MRVL</td><td class="ctr">4/6</td><td class="ctr">金叉 +3.55</td><td class="ctr">J 95 K&gt;D</td><td class="ctr">yes</td><td>3.06×ATR</td><td>0.82</td><td class="num dn">-20.58%</td><td>趋势 · 更低高点 · 反弹缩量 · 深度回撤</td></tr><tr><td>RXT</td><td class="ctr">4/6</td><td class="ctr">金叉 +0.13</td><td class="ctr">J 79 K&lt;D</td><td class="ctr">yes</td><td>0.39×ATR</td><td>0.88</td><td class="num dn">-53.84%</td><td>趋势 · 更低高点 · 反弹缩量 · 深度回撤</td></tr><tr><td>AMBQ</td><td class="ctr">3/6</td><td class="ctr">金叉 +1.36</td><td class="ctr">J 80 K&gt;D</td><td class="ctr">yes</td><td>1.50×ATR</td><td>1.59</td><td class="num dn">-23.82%</td><td>趋势 · 更低高点 · 深度回撤</td></tr><tr><td>INFQ</td><td class="ctr">3/6</td><td class="ctr">金叉 +0.09</td><td class="ctr">J 86 K&gt;D</td><td class="ctr">yes</td><td>2.53×ATR</td><td>1.11</td><td class="num dn">-47.24%</td><td>趋势 · 更低高点 · 深度回撤</td></tr><tr><td>QCOM</td><td class="ctr">3/6</td><td class="ctr">金叉 +2.13</td><td class="ctr">J 90 K&gt;D</td><td class="ctr">yes</td><td>3.74×ATR</td><td>1.08</td><td class="num dn">-21.58%</td><td>趋势 · 更低高点 · 深度回撤</td></tr></tbody></table></section><section id="pullback"><h2>12 主线 · 钱在哪</h2><p class="source"><strong>Martin 法：能碰。</strong>核心纪律第一条的广度档位只管原方法，不压这一节；这里的仓位按「单笔风险 ÷ 止损」算（上限大盘 35%、小盘 25%）。</p><h3>A · 主线：Foundary、生科、边缘计算、制冷、Quantum —— 能碰</h3><table class="fixed-cols"><colgroup><col style="width:14%"><col style="width:13%"><col style="width:9%"><col style="width:9%"><col style="width:10%"><col style="width:45%"></colgroup><thead><tr><th class="">主题组</th><th class="ctr">RS线在上 / 组内</th><th class="ctr">RS占比</th><th class="ctr">新高占比</th><th class="ctr">延伸</th><th class="">RS 线在上方的票</th></tr></thead><tbody><tr><td><strong>Foundary</strong></td><td class="ctr">12 / 13</td><td class="ctr">92.3%</td><td class="ctr">23%（3/13）</td><td class="ctr">2 / 3（最远 4.2）</td><td>ACLS AMD AMKR ASX ENTG GFS INTC SWKS TSEM TSM UMC VECO</td></tr><tr><td><strong>生科</strong></td><td class="ctr">11 / 16</td><td class="ctr">68.8%</td><td class="ctr">50%（8/16）</td><td class="ctr">7 / 8（最远 5.1）</td><td>ABCL ABSI ADPT AMRX CDNA GRAL IOVA NTRA RVTY SDGR TXG</td></tr><tr><td><strong>边缘计算</strong></td><td class="ctr">6 / 9</td><td class="ctr">66.7%</td><td class="ctr">0%（0/9）</td><td class="ctr">0 / 0</td><td>ADI AMBQ LFUS MCHP NXPI TXN</td></tr><tr><td><strong>制冷</strong></td><td class="ctr">5 / 8</td><td class="ctr">62.5%</td><td class="ctr">12%（1/8）</td><td class="ctr">1 / 1（最远 2.1）</td><td>FIX JCI MOD NVT TT</td></tr><tr><td><strong>Quantum</strong></td><td class="ctr">6 / 10</td><td class="ctr">60.0%</td><td class="ctr">10%（1/10）</td><td class="ctr">1 / 1（最远 2.8）</td><td>ARQQ INFQ IONQ QMCO QUBT RGTI</td></tr></tbody></table><p class="source">口径（2026-09-27 换尺）：你的 moomoo 主题组里 <strong>≥60% 的成员 RS 线在自己 21MA 上方＝主线</strong>，覆盖不足 8 只不判。换掉的是「≥40% 收在 52 周高 5% 以内」—— 新高尺把光纤传输 / Quantum / 边缘计算 / 机器人判成 0%，而它们过半成员在跑赢 QQQ（那几个组早跌过一轮、正在重建基底）。<strong>新高占比留作读数</strong>：它回答「涨到哪了」，RS 占比回答「强不强」。<strong>主线里的票回调就买，浅回踩就进、不等深回调</strong> —— 领导板块不太深回调；下面「在跑」那张表里板块列写「主线·」的就是这些组的票（回踩候选表 2026-09-28 已删）。口径日 2026-09-25。</p><h3>B · 主线雷达：你主题组之外、RS 占比过线的板块 —— 只提醒，算不算主线你定</h3><table class="fixed-cols"><colgroup><col style="width:12%"><col style="width:9%"><col style="width:10%"><col style="width:7%"><col style="width:7%"><col style="width:18%"><col style="width:37%"></colgroup><thead><tr><th class="">板块</th><th class="">来源</th><th class="ctr">RS线在上 / 成分</th><th class="ctr">RS占比</th><th class="ctr">上资金榜</th><th class="">和你的主题组</th><th class="">RS 线在上方的票</th></tr></thead><tbody><tr><td><strong>SOXX</strong></td><td>ETF 成分</td><td class="ctr">21 / 24</td><td class="ctr">88%</td><td class="ctr">0 / 9 天</td><td><strong>你没有这个组</strong></td><td>ADI ALAB AMAT AMD CRDO ENTG INTC KLAC LRCX MCHP MPWR MRVL …</td></tr><tr><td><strong>半导体设备与材料</strong></td><td>资金榜板块</td><td class="ctr">23 / 30</td><td class="ctr">77%</td><td class="ctr">3 / 9 天</td><td><strong>你没有这个组</strong></td><td>ACLS ACMR AEHR AMAT AMBA AMKR ASYS ATOM AXTI CAMT COHU ENTG …</td></tr><tr><td><strong>功率半导体</strong></td><td>资金榜板块</td><td class="ctr">18 / 25</td><td class="ctr">72%</td><td class="ctr">3 / 9 天</td><td><strong>你没有这个组</strong></td><td>ACLS ADI AOSL APH ARW AVT ETN FLEX KN MCHP MRAAY NVT …</td></tr></tbody></table><p class="source">尺子和上面主线块同一把（RS 占比 ≥60%），量的是你没建组的名单：「钱去了哪些板块」当天下钻的 moomoo 板块 ＋ ETF 成分清单（去掉宽基和 11 个 SPDR 行业），成分不到 6 只不算。「上资金榜」＝近 9 个口径日里这个板块（或它对应的 ETF）上过「钱去了哪些板块」几天。<strong>成员重叠 ≥70% 的合并成一组、只留最细的那个</strong>：SMH → SOXX、半导体 → SOXX。</p><h3>C · 在跑：主线领涨股 ＋ 暴涨好多天的（ADR ≥5%，离 9EMA >1×ATR）</h3><table class="fixed-cols"><colgroup><col style="width:10%"><col style="width:16%"><col style="width:13%"><col style="width:11%"><col style="width:13%"><col style="width:23%"><col style="width:14%"></colgroup><thead><tr><th class="">TICKER</th><th class="">板块</th><th class="num">10日涨幅</th><th class="ctr">几倍 ADR</th><th class="">距 9EMA</th><th class="">9EMA（等回到这里）</th><th class="">ADR</th></tr></thead><tbody><tr><td><strong>GRAL</strong></td><td>主线·生科</td><td class="num up">+63.6%</td><td class="ctr">8.7×</td><td>+3.10 ATR</td><td>102.38</td><td>7.3%</td></tr><tr><td><strong>CDNA</strong></td><td>主线·生科</td><td class="num up">+26.7%</td><td class="ctr">5.1×</td><td>+2.38 ATR</td><td>56.90</td><td>5.2%</td></tr><tr><td><strong>IOVA</strong></td><td>主线·生科</td><td class="num up">+27.9%</td><td class="ctr">4.9×</td><td>+1.33 ATR</td><td>10.23</td><td>5.7%</td></tr><tr><td><strong>TXG</strong></td><td>主线·生科</td><td class="num up">+25.0%</td><td class="ctr">3.6×</td><td>+1.45 ATR</td><td>78.50</td><td>6.9%</td></tr><tr><td><strong>SECZ</strong></td><td>IGV</td><td class="num up">+93.0%</td><td class="ctr">8.2×</td><td>+2.46 ATR</td><td>12.92</td><td>11.3%</td></tr><tr><td><strong>TEM</strong></td><td>AIQ</td><td class="num up">+44.1%</td><td class="ctr">6.3×</td><td>+1.63 ATR</td><td>77.13</td><td>7.0%</td></tr><tr><td><strong>VICR</strong></td><td>-</td><td class="num up">+42.5%</td><td class="ctr">6.2×</td><td>+1.92 ATR</td><td>247.70</td><td>6.9%</td></tr><tr><td><strong>CAI</strong></td><td>IBB</td><td class="num up">+31.4%</td><td class="ctr">6.0×</td><td>+1.07 ATR</td><td>30.41</td><td>5.2%</td></tr><tr><td><strong>TWST</strong></td><td>IBB</td><td class="num up">+43.7%</td><td class="ctr">6.0×</td><td>+1.71 ATR</td><td>164.01</td><td>7.3%</td></tr><tr><td><strong>MRNA</strong></td><td>XLV</td><td class="num up">+38.1%</td><td class="ctr">5.2×</td><td>+1.82 ATR</td><td>175.49</td><td>7.3%</td></tr></tbody></table><p class="source">离 9EMA 超过 1×ATR，市值 ≥$20 亿。<strong>属于主线的，浅回踩就可以进</strong>（领导股不太深回调，等回到 9EMA 可能等不到）；不在主线里的，等它回到「9EMA」那一列附近、振幅收紧 —— <strong>回踩这一段你自己看图</strong>。另有 7 只未列入（按几倍 ADR 排序截断）。</p><h3>D · 钱去了哪些板块（2026-09-25 领涨 75 只）</h3><table class="fixed-cols"><colgroup><col style="width:17%"><col style="width:11%"><col style="width:9%"><col style="width:9%"><col style="width:14%"><col style="width:40%"></colgroup><thead><tr><th class="">板块</th><th class="ctr">领涨 / 成分</th><th class="ctr">命中率</th><th class="num">均涨</th><th class="">对应 ETF</th><th class="">领涨成员（按涨幅）</th></tr></thead><tbody><tr><td><strong>光通信</strong></td><td class="ctr">7 / 21</td><td class="ctr">33%</td><td class="num up">+6.56%</td><td>-</td><td>MXL VIAV CRDO TSEM FN GFS AXTI</td></tr><tr><td><strong>稳定币概念</strong></td><td class="ctr">3 / 15</td><td class="ctr">20%</td><td class="num up">+4.33%</td><td>-</td><td>PYPL SMFG MUFG</td></tr><tr><td><strong>功率半导体</strong></td><td class="ctr">4 / 25</td><td class="ctr">16%</td><td class="num up">+5.43%</td><td>-</td><td>ACLS ON MCHP WOLF</td></tr></tbody></table><p class="source">领涨＝涨幅 ≥4%、≥$3、市值 ≥3 亿、成交额 ≥2000 万。按「板块里有几成在领涨」排，不按只数 —— 大概念随便一天都有十几只在涨。均涨明显高于对应 ETF ＝ 钱在进二线，ETF 还没反映。快票池今日新增：AESI VIAV NUTX ALHC AGL PWP</p></section>
+<footer class="source"><p>价格：长桥前复权日线，口径日 2026-09-25（cache market_20260928，195 只：fetch 121 ＋ add_to_cache 补 74）
+持仓：tradebook.json（定稿前重读，16 笔 / 两账户；你 18:24 平掉的 TQQQ、AVGO 已剔除）· 板块成分：plates.json（周末重拉）＋ ETF_Holdings.csv ＋ etf_holdings.json
+广度：Stockbee · 长端：财务省（基准日 2026-09-24，滞后 1–2 个工作日）＋ Vic 宏观表（暂无 2Y / DXY）
+X：xdesk 2026-09-28 一轮 94 条 / 10 个账号，窗口 9/26 11:00 – 9/28 11:13 SGT（覆盖整个周末，未重新扫 X）</p></footer>
+</main><button id="to-top" title="回到顶部" aria-label="回到顶部">&#8593;</button><script>(function(){var b=document.getElementById("to-top");function t(){b.classList.toggle("on",window.scrollY>600);}window.addEventListener("scroll",t,{passive:true});t();b.addEventListener("click",function(){window.scrollTo({top:0,behavior:"smooth"});});})();</script></body>
+</html>

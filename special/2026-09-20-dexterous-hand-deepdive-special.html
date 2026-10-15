@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="updated" content="2026-09-20">
+  <meta name="description" content="灵巧手的瓶颈已经从驱动挪到触觉、数据和量产一致性：驱动路线在收敛到直驱与单向拉绳，触觉可用数据几乎为零、直接接进模型反而掉成功率。ADI 与 TKR 今年都涨了约四成，但剥掉行业因子后与人形机器人 ETF 的偏相关只有 +0.01 到 +0.22。">
+  <title>灵巧手深度：驱动与触觉路线拆解 × ADI / TKR 股价复盘｜2026-09-20</title>
+  <link rel="stylesheet" href="report-paper.css?v=20260823-paper">
+  <style>
+    tr.row-group td{padding-top:14px;font-weight:700;color:#6b6558;
+                    border-top:1px solid #ddd8cd;background:transparent}
+  </style>
+</head>
+<body class="flat-report" data-report-type="special">
+<main class="wrap">
+  <header>
+    <div class="eyebrow">2026 年 9 月 20 日 · 未来主线专题 · 灵巧手与触觉</div>
+    <h1>灵巧手深度：驱动与触觉路线拆解 × ADI / TKR 股价复盘</h1>
+    <p class="deck">手的瓶颈已经从「能不能动」挪到「能不能感觉、能不能批量做得一样」；ADI 和 TKR 今年约四成的涨幅，几乎都不是灵巧手给的。</p>
+    <p class="muted lede">
+      人形机器人会走路已经不稀奇，真正决定它能干什么的是手。
+      本篇把灵巧手拆成三层——<strong>驱动</strong>、<strong>触觉</strong>、<strong>数据与模型</strong>——看每一层卡在哪里、价值落在谁手上，
+      再用长桥 <strong>2026-09-18 收盘</strong>检验 ADI 和 TKR 的股价里到底有没有灵巧手。
+    </p>
+    <div class="badges">
+      <span class="badge blue">价格口径：2026-09-18 收盘 · 长桥前复权日线</span>
+      <span class="badge green">ADI 年初至今 +39.8%</span>
+      <span class="badge green">TKR 年初至今 +40.5%</span>
+      <span class="badge red">人形 ETF HUMN −1.1% · TSLA −19.0%</span>
+      <span class="badge amber">剥掉行业因子后偏相关 ≤ 0.22</span>
+    </div>
+  </header>
+
+  <nav class="report-toc" aria-label="专题目录">
+    <span class="toc-label">目录</span>
+    <a href="#answer">答案先行</a>
+    <a href="#hard">手为什么难</a>
+    <a href="#drive">驱动路线</a>
+    <a href="#tactile">触觉路线</a>
+    <a href="#data">数据与模型</a>
+    <a href="#volume">量产节奏</a>
+    <a href="#pool">票池</a>
+    <a href="#tape">股价复盘</a>
+    <a href="#signals">可证伪清单</a>
+    <a href="#notes">口径与来源</a>
+  </nav>
+
+  <section class="grid" aria-label="专题摘要">
+    <div class="card"><span>可用的触觉训练数据</span><strong class="dn">≈ 0</strong><small>泛化门槛约 10 万小时；目前最大的真机数据集约 1 万小时。</small></div>
+    <div class="card"><span>最贵的一只灵巧手</span><strong>15 万美元</strong><small>开源版 300 美元；一整台会走路的宇树 G1 约 1.6 万美元。</small></div>
+    <div class="card"><span>ADI 下半年</span><strong class="dn">−5.1%</strong><small>同期 SOXX −16.7%；上半年只涨了 SOXX 的四成。</small></div>
+    <div class="card"><span>TKR 上半年</span><strong class="up">+73.8%</strong><small>同期 XLI +20.0%；下半年反过来多跌近 11 个百分点。</small></div>
+  </section>
+
+  <section id="answer">
+    <div class="kicker">Answer first</div>
+    <h2>四条结论</h2>
+    <ol class="answer-list">
+      <li>
+        <strong>瓶颈已经换了位置。</strong>
+        驱动路线在收敛到直驱和单向拉绳两条，手「能动」基本解决；卡住的是三件更慢的事：
+        触觉可用数据几乎为零、把触觉直接接进模型反而<u>掉成功率</u>、传感器批量做不一致。
+        所以 2026 至 2027 年触觉先在工业窄场景上量，通用家务要等算法的泛化突破，
+        按数据积累的速度看是<strong>三到五年后</strong>的事。
+      </li>
+      <li>
+        <strong>两条驱动路线对上游的含义正好相反。</strong>
+        直驱让每个关节配一个微电机和一套高减速比齿轮，部件数随自由度线性增长；
+        单向拉绳把电机移到小臂，手里只剩绳、弹簧和编码器。
+        特斯拉走的是后者，下一代还在把电机往小臂挪。
+        <strong>押微驱动的，本质上是押直驱路线赢。</strong>
+      </li>
+      <li>
+        <strong>ADI 在这条链上是卡位，不是收入。</strong>
+        它养着一个专做灵巧操作的 AI 团队，研究站在「视觉和触觉必须联合训练」一侧；
+        但今年的涨幅来自模拟周期和数据中心，剥掉半导体因子后跟人形机器人 ETF 的偏相关只有 <u>+0.01 到 +0.22</u>。
+        灵巧手对它是一张<strong>没被定价的期权</strong>。
+      </li>
+      <li>
+        <strong>TKR 的产品在关节，不在手指。</strong>
+        官方人形产品页只列髋、膝、踝、肩、腕、腰。
+        股价里带一点人形因子（偏相关 +0.11 到 +0.19），是这组里唯一不接近零的；
+        但托住它的是有机增长 4% 左右的轴承主业和两位数增长的精密传动，<strong>不是人形叙事</strong>。
+      </li>
+    </ol>
+  </section>
+
+  <section id="hard">
+    <div class="kicker">Why hands</div>
+    <h2>手为什么比整机难</h2>
+    <p class="section-intro">
+      控制一只手比控制一整台会走路的机器人难一个数量级。难处不在关节多，而在手<strong>必须靠接触干活</strong>。
+    </p>
+    <p>
+      人手 27 个自由度；灵巧手 6 个起步，高端做到 20 以上。夹爪抓东西只需要算两个接触点，
+      五指手有十个以上，有的还互相对抗，计算量不是线性增加。
+      传统机器人的设计原则是尽量避免接触——接触就是碰撞、就是损伤；手恰好反过来，
+      于是寿命、抗冲击、可维护这几件事同时成了问题。
+    </p>
+    <div class="table-scroll">
+      <table class="report-data-table report-cols-3">
+        <thead><tr><th>产品</th><th>价格</th><th>说明</th></tr></thead>
+        <tbody>
+          <tr><td><strong>宇树 G1 整机</strong></td><td>约 1.6 万美元</td><td>会走路的整台人形，作价格参照。</td></tr>
+          <tr class="row-warn"><td><strong>Shadow Hand</strong></td><td>10 万～15 万美元</td><td>24 个自由度、120 多个传感器，近 30 年积累。2017–18 年的主要客户是 OpenAI 的单手转魔方项目。</td></tr>
+          <tr><td><strong>Sharpa（直驱）</strong></td><td>约 5 万美元一只</td><td>每个关节独立电机，能从牌堆里一张一张发扑克牌。</td></tr>
+          <tr class="row-bull"><td><strong>TetherIA Aero Hand Open</strong></td><td>300 美元</td><td>开源、绳驱、低自由度，用现成电机，按任务取舍。</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout">
+      <p><strong>高价手不是为了赚钱，是在筛客户。</strong>量产之前，高定价只卖给真有需求的大厂和经费充足的实验室，拿反馈迭代构型。
+         性能、成本、可靠性三者最多顾两头——这个「不可能三角」到今天没被打破，只是各家选了不同的两头。</p>
+    </div>
+  </section>
+
+  <section id="drive">
+    <div class="kicker">Actuation</div>
+    <h2>驱动路线拆解</h2>
+    <div class="table-scroll">
+      <table class="report-data-table report-cols-5">
+        <thead><tr><th>路线</th><th>代表</th><th>怎么动</th><th>长处</th><th>死穴</th></tr></thead>
+        <tbody>
+          <tr><td><strong>连杆</strong></td><td>假肢式 6 自由度；韩国 ILDA 高自由度</td>
+              <td>推杆或蜗轮蜗杆经连杆带动手指，指尖走固定轨迹</td><td>结构紧凑</td>
+              <td>低自由度版跟夹爪差别不大；高自由度版全刚性连接，抗冲击差</td></tr>
+          <tr class="row-bull"><td><strong>直驱</strong></td><td>Allegro（16 个自由度配 16 个电机）、Sharpa</td>
+              <td>每个关节一个微电机</td><td>自由度高、控制直观、最容易仿真</td>
+              <td>高减速比让传动不透明、抗冲击差；全金属，整手常在 1 公斤以上；贵</td></tr>
+          <tr><td><strong>双向拉绳</strong></td><td>Shadow、ORCA</td>
+              <td>每个关节两根绳，分别接电机正反两个方向</td><td>力输出稳，有顺应性</td>
+              <td>绳材蠕变会松，要定期张紧；走线占空间，电机只能放小臂</td></tr>
+          <tr class="row-bull"><td><strong>单向拉绳</strong></td><td>特斯拉 Optimus</td>
+              <td>绳只管弯曲，伸直靠弹簧</td><td>对蠕变不敏感，可用算法补偿</td>
+              <td>伸直没有主动力，弹簧还吃掉一部分握力</td></tr>
+          <tr><td><strong>液压</strong></td><td>Sanctuary AI</td>
+              <td>硬币大小的微型液压件</td><td>力量大、响应快</td>
+              <td>成本、维护、噪音、能效都难</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>
+      量产侧在往<strong>直驱</strong>和<strong>单向拉绳</strong>两条上收。
+      直驱能用拧螺丝、焊接这类成熟工艺装配，产线更成熟；拉绳的端部固定和张紧还没有标准工艺，
+      是工程问题不是科学问题，但眼下更慢。
+    </p>
+    <p>
+      特斯拉的手是个现成的例子。2023 年年中，内部第三代是蜗轮蜗杆加绳驱，6 个主动自由度、11 个关节；
+      加上关节编码器和触觉之后装配极难，一只手从早装到晚装不完，一天只出一两台。
+      重做成 3.1 代才上了产线，做到每周一百多台。下一代把驱动器从手掌移到小臂——照的是人手，屈指的大肌肉本来就长在前臂。
+    </p>
+    <div class="callout">
+      <p><strong>路线决定价值落在哪。</strong>直驱每多一个自由度就多一个微电机和一套精密齿轮，价值在手指里的微驱动；
+         绳驱把这些挪出手掌，手里只剩绳、弹簧和编码器，前臂则多了一组接近常规尺寸的执行器。
+         哪条路线在量产整机里占多数，决定了「微驱动」这门生意有多大。</p>
+    </div>
+  </section>
+
+  <section id="tactile">
+    <div class="kicker">Touch</div>
+    <h2>触觉路线拆解</h2>
+    <p class="section-intro">
+      触觉是两件事：<strong>力</strong>（静态的握力、动态的滑动振动）和<strong>形态</strong>（软硬、粗糙、材质）。五条路线各测到其中一部分。
+    </p>
+    <div class="table-scroll">
+      <table class="report-data-table report-cols-5">
+        <thead><tr><th>路线</th><th>原理</th><th>测得到</th><th>死穴</th><th>定位</th></tr></thead>
+        <tbody>
+          <tr><td><strong>压阻</strong></td><td>受力改变电阻</td><td>垂直方向的力</td><td>只测垂直力；随温湿度漂移</td><td>最成熟最便宜，适合大面积覆盖</td></tr>
+          <tr><td><strong>压电</strong></td><td>受力瞬间产生电压</td><td>冲击、振动这类变化的力</td><td>按住不动信号就衰减，测不了静态力</td><td>专管滑动和碰撞</td></tr>
+          <tr class="row-bull"><td><strong>电容</strong></td><td>形变改变极板距离或面积</td><td>三维力，灵敏度高</td><td>压紧后量程有限；怕电磁干扰</td><td>价格是光学的四分之一到二分之一，已批量用在工厂分拣和检测</td></tr>
+          <tr class="row-bull"><td><strong>光学（视触觉）</strong></td><td>摄像头看弹性体形变</td><td>接触形貌加力的分布，分辨率最高</td><td>贵；吃算力；难做薄</td><td>指尖首选，行业最热</td></tr>
+          <tr><td><strong>磁</strong></td><td>弹性体掺磁粒，底部磁传感器读形变</td><td>三维力</td><td>怕电磁干扰；分辨率有限</td><td>结构像光学、更简单</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>
+      没有一条路线能单独覆盖全身：指尖用光学换分辨率，手掌手臂用压阻、电容换面积和成本；
+      材质和振动还得靠加速度计、麦克风一类的传感器补。完整方案是多种传感器拼出来的。
+    </p>
+    <p>
+      光学路线的分辨率已经超过人：人的指尖约 1 平方厘米、3000 个感受点，量产型光学传感器做到 24 万个点。
+      代价在三处。弹性体要软、要耐磨、要薄，三者天然冲突；摄像头需要对焦距离，做薄只能靠超表面这类新光学；
+      单指成本仍在人民币千元级，量上去之后有机会降到几百元。现在的厚度和 SIM 卡差不多，下一代做到 3 毫米。
+    </p>
+    <div class="callout">
+      <p><strong>ADI 的位置在传感器后面那一段。</strong>把压阻、电容的微弱信号变成干净的数字量，用 MEMS 加速度计抓振动，
+         驱动和控制微电机——这些都是它现有产品线的活，但这是按产品线推的匹配，不是公司披露的收入。
+         它另外养着一个专做灵巧操作的 AI 团队，2026 年在机器人顶会 ICRA 展示了触觉灵巧操作，发表的论文做的是视觉和触觉的融合。</p>
+    </div>
+  </section>
+
+  <section id="data">
+    <div class="kicker">Data &amp; models</div>
+    <h2>数据与模型：真正卡住的地方</h2>
+    <p class="section-intro">
+      硬件已经接近够用，「随手放一罐可乐、自主打开」这类任务的上限要靠模型释放，而模型缺的是数据。
+    </p>
+    <p>
+      <strong>量级。</strong>真机遥操数据里，目前最大的数据集约 1 万小时。通用具身模型要到百万小时量级——约等于一个人一生的物理经验——才进入下一阶段。
+      触觉的门槛低一个数量级，<strong>10 万小时左右开始出现泛化</strong>：不操作时触觉信号基本为零，天然剔掉了无效片段。
+    </p>
+    <p>
+      <strong>采集悖论。</strong>要采人的触觉，就得在手和物体之间隔一层传感器，人自己的触觉因此被屏蔽，操作变笨，示范质量下降。
+      最好的织物手套全手约 500 个点，抓一颗 M2 螺丝只落在一个点上；实测这类手套采到的有效数据多是整掌抓大物体，一到精细操作就失效。
+      格式也不统一：两指夹爪的数据用不到五指手上，触觉和视觉、本体信息在时间轴上对不齐。
+    </p>
+    <p>
+      <strong>接进模型反而掉分。</strong>2026 年 6 月的一项研究把触觉信号直接喂进一个主流视觉-语言-动作模型，各项任务成功率都下降了。
+      原因有三：软硬易碎没法写成规则；触觉维度多，不处理就是噪声；触觉天然高频，视觉语言模型低频。
+      现在的解法是先用自监督编码器把触觉压成「软还是硬、在不在滑、像什么」这类语义，
+      再让一个异步运行的触觉专家以高频修正动作——慢思考和快反射分开，像人的反射弧。
+    </p>
+    <p>
+      <strong>仿真只能补，不能替。</strong>有限元算弹性体形变一帧要一小时，只能换成简化的软接触模型；
+      仿真准确率约九成，差距集中在柔软物体。随机化物理参数加图像增强后，插销任务能零样本迁移到真机，成功率 82.7%。
+      真机和仿真的配比至少一比一。
+    </p>
+    <p>
+      <strong>路线分歧。</strong>一派主张触觉先单独训练、形成语义再和其他模态融合，模块即插即用；
+      另一派认为触觉是局部信号，必须和视觉一起训，才知道力在空间里怎么分布、换了手型还能迁移。ADI 的研究在后一派。
+    </p>
+    <div class="callout">
+      <p><strong>「GPT 时刻」的判据很具体：</strong>同一套算法框架，能在很短时间里教会机器人开可乐、开门、拧螺丝这类完全不同的任务。
+         按现在的数据积累速度，这一天大概在三到五年之后。</p>
+    </div>
+  </section>
+
+  <section id="volume">
+    <div class="kicker">Scaling</div>
+    <h2>量产节奏</h2>
+    <p>
+      <strong>一致性是量产的头号难题。</strong>弹性体厚度、弹性系数、传感器间距稍有偏差，算法就解不出正确的力；
+      2026 年的机器人顶会上实测，多数触觉传感器做不到批次一致。试产线大量工序仍靠手工，
+      下游的手和数采设备接口协议各不相同，量产必须跟着客户做定制。
+    </p>
+    <p>
+      <strong>先上量的是工业场景。</strong>电池包柔性装配（形态常变，靠预编程做不到）、分拣检测、实验室滴管这种毫克级取液。
+      需求量级按第三方对 2030 年人形机器人出货 120 万台的预测、每台十根手指推算，指尖触觉在千万级；
+      倒推一到两年的研发测试周期，<strong>放量节点在 2026 年底到 2027 年初</strong>。
+    </p>
+  </section>
+
+  <section id="pool">
+    <div class="kicker">The pool</div>
+    <h2>票池：这条线到底有哪些票</h2>
+    <p class="section-intro">
+      前面按驱动、触觉、数据三层拆的是<strong>技术</strong>。这一节换个问法：
+      把可交易的标的按<strong>离手有多远</strong>排一遍，看市场今年把钱放在了哪一层。
+      下表是 moomoo「机器人」自选组的 20 只，外加 ADI（它不在那个组里，但前两节讲的就是它）。
+    </p>
+    <div class="table-scroll">
+      <table class="report-data-table report-cols-6">
+        <thead><tr><th>代码</th><th class="num">一年</th><th class="num">年初至今</th><th class="num">距52周高</th><th class="num">偏相关</th><th>说明</th></tr></thead>
+        <tbody>
+          <tr class="row-group"><td colspan="6">手与触觉的零件 —— 一年全正</td></tr>
+          <tr class="row-bull"><td><strong>ADI</strong></td><td class="num up">+52.8</td><td class="num up">+39.8</td><td class="num dn">−15.5</td><td class="num">0.50</td><td>信号链卡位；控制 SOXX 后只有 0.22，见下</td></tr>
+          <tr class="row-bull"><td><strong>TKR</strong></td><td class="num up">+50.1</td><td class="num up">+40.5</td><td class="num dn">−19.8</td><td class="num">0.25</td><td>产品在关节不在手指</td></tr>
+          <tr><td><strong>SYNA</strong></td><td class="num up">+25.2</td><td class="num up">+25.8</td><td class="num dn">−37.6</td><td class="num">0.41</td><td>触控与传感</td></tr>
+          <tr class="row-bull"><td><strong>VPG</strong></td><td class="num up">+88.9</td><td class="num up">+62.7</td><td class="num dn">−58.7</td><td class="num">0.28</td><td>全组一年最强，也是回撤最深之一</td></tr>
+          <tr><td><strong>ALGM</strong></td><td class="num up">+6.7</td><td class="num up">+29.3</td><td class="num dn">−52.5</td><td class="num">0.43</td><td>磁传感</td></tr>
+          <tr class="row-group"><td colspan="6">整机与本体 —— 一年全负</td></tr>
+          <tr class="row-warn"><td><strong>TSLA</strong></td><td class="num dn">−12.6</td><td class="num dn">−19.0</td><td class="num dn">−27.0</td><td class="num">0.28</td><td>HUMN 第一大持仓就是它，偏相关有同义反复成分</td></tr>
+          <tr class="row-warn"><td><strong>SYM</strong></td><td class="num dn">−18.3</td><td class="num dn">−29.6</td><td class="num dn">−52.3</td><td class="num">0.02</td><td>仓储自动化</td></tr>
+          <tr class="row-warn"><td><strong>ALMU</strong></td><td class="num dn">−19.8</td><td class="num dn">−25.9</td><td class="num dn">−60.0</td><td class="num">0.11</td><td>年化波动 119%</td></tr>
+          <tr class="row-warn"><td><strong>PDYN</strong></td><td class="num dn">−26.3</td><td class="num up">+33.3</td><td class="num dn">−47.1</td><td class="num">0.03</td><td>年化波动 96%</td></tr>
+          <tr class="row-warn"><td><strong>SERV</strong></td><td class="num dn">−65.7</td><td class="num dn">−57.5</td><td class="num dn">−76.3</td><td class="num">0.11</td><td>配送机器人</td></tr>
+          <tr class="row-group"><td colspan="6">工业自动化与视觉</td></tr>
+          <tr><td><strong>EMR</strong></td><td class="num up">+15.4</td><td class="num up">+14.2</td><td class="num dn">−9.6</td><td class="num">0.19</td><td>全组离高点最近的一只</td></tr>
+          <tr><td><strong>CGNX</strong></td><td class="num up">+34.1</td><td class="num up">+71.8</td><td class="num dn">−15.4</td><td class="num">0.29</td><td>机器视觉</td></tr>
+          <tr><td><strong>RBC</strong></td><td class="num up">+30.2</td><td class="num up">+11.7</td><td class="num dn">−25.0</td><td class="num">0.27</td><td>精密轴承与传动</td></tr>
+          <tr><td><strong>ISRG</strong></td><td class="num dn">−9.8</td><td class="num dn">−30.6</td><td class="num dn">−34.9</td><td class="num">−0.03</td><td>手术机器人，<strong>对人形因子几乎为零</strong></td></tr>
+          <tr><td><strong>PATH</strong></td><td class="num up">+10.2</td><td class="num dn">−18.3</td><td class="num dn">−32.5</td><td class="num">−0.06</td><td>软件 RPA，<strong>同上</strong></td></tr>
+          <tr class="row-group"><td colspan="6">自动驾驶与出行</td></tr>
+          <tr><td><strong>AUR</strong></td><td class="num up">+5.9</td><td class="num up">+64.3</td><td class="num dn">−26.3</td><td class="num">0.18</td><td>自动驾驶卡车</td></tr>
+          <tr><td><strong>UBER</strong></td><td class="num dn">−25.6</td><td class="num dn">−13.7</td><td class="num dn">−30.9</td><td class="num">−0.17</td><td>出行平台</td></tr>
+          <tr><td><strong>LYFT</strong></td><td class="num dn">−31.2</td><td class="num dn">−22.0</td><td class="num dn">−40.9</td><td class="num">−0.08</td><td>出行平台</td></tr>
+          <tr><td><strong>MBLY</strong></td><td class="num dn">−45.0</td><td class="num dn">−23.2</td><td class="num dn">−49.3</td><td class="num">0.24</td><td>自动驾驶视觉</td></tr>
+          <tr class="row-warn"><td><strong>HTZ</strong></td><td class="num dn">−73.0</td><td class="num dn">−64.6</td><td class="num dn">−77.8</td><td class="num">0.05</td><td>租车，全组最弱</td></tr>
+          <tr class="row-group"><td colspan="6">代工</td></tr>
+          <tr><td><strong>JBL</strong></td><td class="num up">+34.3</td><td class="num up">+31.5</td><td class="num dn">−30.1</td><td class="num">0.42</td><td>代工，偏相关却排在前列</td></tr>
+          <tr class="row-group"><td colspan="6">对照</td></tr>
+          <tr><td><strong>KOID</strong></td><td class="num up">+10.8</td><td class="num up">+11.5</td><td class="num dn">−18.0</td><td class="num">—</td><td>机器人 ETF</td></tr>
+          <tr><td><strong>HUMN</strong></td><td class="num up">+1.2</td><td class="num dn">−1.1</td><td class="num dn">−24.6</td><td class="num">—</td><td>人形 ETF</td></tr>
+          <tr><td><strong>IWM</strong></td><td class="num up">+17.2</td><td class="num up">+16.2</td><td class="num dn">−6.7</td><td class="num">—</td><td>小盘基准（偏相关控制的就是它）</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><strong>最干净的一条结论：钱去了零件，没去机器人。</strong>
+       「手与触觉的零件」五只一年<u>全是正的</u>（+6.7% 到 +88.9%），
+       「整机与本体」五只一年<u>全是负的</u>（−12.6% 到 −65.7%）。
+       五比五，中间没有一个例外。<strong>市场愿意为「卖给机器人的东西」付钱，不愿意为「机器人本身」付钱。</strong></p>
+    <p><strong>偏相关把这件事又说了一遍，而且更反直觉。</strong>
+       控制掉小盘 beta 之后，对机器人 ETF 偏相关最高的是零件和代工——
+       ADI 0.50、ALGM 0.43、JBL 0.42、SYNA 0.41；
+       而真正在造机器人的那几家接近零：<u>SYM 0.02、PDYN 0.03、SERV 0.11</u>。
+       <strong>「人形机器人」这个因子，被定价在了零件上，不在整机上。</strong>
+       两个要注意的地方：TSLA 对人形 ETF 的偏相关 0.28 有同义反复成分（HUMN 的第一大持仓就是 TSLA）；
+       ISRG（手术机器人）和 PATH（软件）的偏相关是负的——<u>它们在这个自选组里，但不在这条线上</u>。</p>
+    <p><strong>按主线的定义，这条线今天还不成立，而且是全票否决。</strong>
+       21 只里 <strong>0 只</strong>收在 52 周高点 5% 以内，最接近的 EMR 也差 9.6%、CGNX −15.4%、ADI −15.5%。
+       见顶时点还高度集中：<u>21 只里有 10 只的 52 周高落在 2026 年 5 月到 6 月</u>，之后一路回落到现在。</p>
+  </section>
+
+  <section id="tape">
+    <div class="kicker">The tape</div>
+    <h2>股价复盘：ADI 和 TKR 里有没有灵巧手</h2>
+    <p class="section-intro">
+      起点 <strong>2025-12-31</strong>，口径 <strong>2026-09-18 收盘</strong>。对照组：半导体 SOXX、工业 XLI、两只人形机器人 ETF（KOID、HUMN）和 TSLA。
+    </p>
+    <div class="table-scroll">
+      <table class="report-data-table report-cols-6">
+        <thead><tr><th>标的</th><th class="num">年初至今</th><th class="num">年内高点</th><th class="num">距高点</th><th class="num">上半年</th><th class="num">下半年</th></tr></thead>
+        <tbody>
+          <tr class="row-bull"><td><strong>ADI</strong></td><td class="num up">+39.8%</td><td class="num">444.14 · 6/22</td><td class="num dn">−15.4%</td><td class="num up">+47.3%</td><td class="num dn">−5.1%</td></tr>
+          <tr class="row-bull"><td><strong>TKR</strong></td><td class="num up">+40.5%</td><td class="num">144.93 · 6/30</td><td class="num dn">−19.2%</td><td class="num up">+73.8%</td><td class="num dn">−19.2%</td></tr>
+          <tr><td>SOXX</td><td class="num up">+77.3%</td><td class="num">654.55 · 6/22</td><td class="num dn">−18.6%</td><td class="num up">+113.0%</td><td class="num dn">−16.7%</td></tr>
+          <tr><td>XLI</td><td class="num up">+10.0%</td><td class="num">186.51 · 8/14</td><td class="num dn">−9.0%</td><td class="num up">+20.0%</td><td class="num dn">−8.4%</td></tr>
+          <tr><td>KOID</td><td class="num up">+11.5%</td><td class="num">43.26 · 5/26</td><td class="num dn">−17.9%</td><td class="num up">+29.4%</td><td class="num dn">−13.9%</td></tr>
+          <tr><td>HUMN</td><td class="num dn">−1.1%</td><td class="num">38.92 · 6/2</td><td class="num dn">−24.1%</td><td class="num up">+18.1%</td><td class="num dn">−16.2%</td></tr>
+          <tr><td>TSLA</td><td class="num dn">−19.0%</td><td class="num">451.67 · 1/5</td><td class="num dn">−19.4%</td><td class="num dn">−6.5%</td><td class="num dn">−13.4%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="muted">下表是日收益相关系数；偏相关是先剥掉行业 ETF 的影响之后剩下的那部分，读人形机器人因子看后三列。</p>
+    <div class="table-scroll">
+      <table class="report-data-table report-cols-7">
+        <thead><tr><th>标的</th><th class="ctr">行业 ETF</th><th class="ctr">KOID</th><th class="ctr">HUMN</th><th class="ctr">偏相关 · KOID</th><th class="ctr">偏相关 · HUMN</th><th class="ctr">偏相关 · TSLA</th></tr></thead>
+        <tbody>
+          <tr><td><strong>ADI</strong></td><td class="ctr">SOXX 0.76</td><td class="ctr">0.71</td><td class="ctr">0.59</td><td class="ctr"><strong>+0.22</strong></td><td class="ctr"><strong>+0.01</strong></td><td class="ctr"><strong>−0.03</strong></td></tr>
+          <tr><td><strong>TKR</strong></td><td class="ctr">XLI 0.75</td><td class="ctr">0.61</td><td class="ctr">0.50</td><td class="ctr"><strong>+0.19</strong></td><td class="ctr"><strong>+0.11</strong></td><td class="ctr"><strong>+0.14</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>
+      <strong>ADI 是一只低贝塔的模拟股。</strong>上半年只涨了 SOXX 的四成，下半年只跌了它的三分之一。基本面对得上：
+      8/19 那一季收入 40.22 亿美元创纪录、同比 +40%，通信 +84%、工业 +53%，调整后营业利润率首次到 50%。
+      原始相关里它跟 KOID 有 0.71，那是因为 KOID 本身就是一篮子半导体、传感器和工业公司；控制住 SOXX 之后只剩 +0.22，对 HUMN 和 TSLA 基本归零。
+      9/18 当天 +3.6%、成交约为平时两倍半，那天是九月第三个周五，季度到期和指数调仓同日生效，本篇不把它归因到任何基本面消息。
+    </p>
+    <p>
+      <strong>TKR 的弹性来自财报日。</strong>2/4 发四季度财报后三天涨约 10%；5/6 超预期并上调指引，单日 +9.2%；
+      8/4 同样超预期、上调指引，却跌 6.9%——物流和原材料成本环比走高，下半年要吃成本逆风。
+      主业有机增长只有 4.3% 到 4.4%；快的那块是精密传动（Industrial Motion），Q1 +12%、Q2 +14.6% 创纪录、利润率 23.3%，
+      公司口径里是医疗、手术和机器人在拉高结构。下半年比 XLI 多跌的那 11 个点里有多少是人形叙事在退，数据分不开；8/4 的成本问题至少占了一部分。
+    </p>
+    <p>
+      TKR 的微型齿轮业务在技术上能进直驱手指，但官方人形产品页只列关节，目前也没有任何公开的手部订单。
+      结合驱动路线那一节：<strong>特斯拉走拉绳，手指里的微驱动机会主要在直驱阵营</strong>，TKR 能不能分到，取决于直驱在量产里赢多少。
+    </p>
+  </section>
+
+  <section id="signals">
+    <div class="kicker">Falsification</div>
+    <h2>可证伪清单</h2>
+    <div class="table-scroll">
+      <table class="report-data-table report-cols-4">
+        <thead><tr><th>观测项</th><th>阈值 / 判据</th><th class="ctr">9/18 现状</th><th>为什么选它</th></tr></thead>
+        <tbody>
+          <tr class="row-warn"><td><strong>ADI 的人形因子</strong></td>
+              <td>控制 SOXX 后对 KOID 的偏相关升到 0.4 以上</td>
+              <td class="ctr"><strong>+0.22</strong></td>
+              <td>市场开始给 ADI 的灵巧手卡位定价。</td></tr>
+          <tr><td><strong>ADI 的收入口径</strong></td>
+              <td>首次在财报或投资者日披露机器人、触觉相关的设计导入、客户或收入</td>
+              <td class="ctr">只有研究团队与会议论文</td>
+              <td>卡位变收入的第一个信号。</td></tr>
+          <tr><td><strong>TKR 进手</strong></td>
+              <td>人形产品线出现手部或手指，比如微型齿轮进直驱手</td>
+              <td class="ctr">官方页只列关节</td>
+              <td>手的价值会不会流到 TKR。</td></tr>
+          <tr class="row-warn"><td><strong>驱动路线</strong></td>
+              <td>量产人形整机里直驱手的占比</td>
+              <td class="ctr">两路线并行，特斯拉走单向拉绳</td>
+              <td>决定微电机、微减速这门生意有多大，也决定 TKR 那一格的上限。</td></tr>
+          <tr><td><strong>触觉上量</strong></td>
+              <td>量产版人形整机标配指尖触觉</td>
+              <td class="ctr">先在电池装配、分拣等工业场景</td>
+              <td>触觉链进入规模收入的起点。</td></tr>
+          <tr><td><strong>模型</strong></td>
+              <td>带触觉的通用模型在公开评测里稳定超过无触觉版本</td>
+              <td class="ctr">直接接入反而掉分（2026-06）</td>
+              <td>触觉从加分项变成必需品。</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="notes">
+    <div class="kicker">Notes</div>
+    <h2>口径与来源</h2>
+    <p>· <strong>价格</strong>全部是长桥<strong>前复权日线</strong>，口径日 <strong>2026-09-18 收盘（周五）</strong>，起点 2025-12-31；
+       上半年＝12/31 至 6/30，下半年＝6/30 至 9/18。年内高点取收盘价。</p>
+    <p>· <strong>相关性</strong>是 2026-01-02 至 09-18 共 179 个交易日的日收益皮尔逊相关；偏相关是控制行业 ETF 日收益后的一阶偏相关。
+       KOID 的成分横跨半导体、传感器、AI 与移动四类公司，HUMN 第一大持仓是 TSLA，所以原始相关会被行业因子抬高，本篇以偏相关为准。
+       <strong>相关只说明同向程度，不说明因果。</strong></p>
+    <p>· <strong>技术与产业信息</strong>来自三期《硅谷101》节目的中文自动字幕（语音识别转写，合计约 2 小时 23 分），
+       专有名词已按上下文还原，<strong>未逐一核对一级来源</strong>；价格、自由度、数据量、成本等数字按节目口径引用。
+       「三到五年」「放量在 2026 年底到 2027 年初」是按节目中的数据量和研发周期推的判断，不是任何公司的指引。</p>
+    <p>· <strong>ADI</strong>：灵巧 AI 团队与 ICRA 2026 的展示和论文见 ADI 官网与论文题目；
+       「能进触觉信号链、MEMS、电机控制」是按产品线推断的匹配，<strong>不是公司披露</strong>。季度数字见财报助手 2026-08-19 记录。</p>
+    <p>· <strong>Timken</strong>：人形产品覆盖范围以 Cone Drive 官方人形页面为准；季度数字来自 2026-05-06、08-04 的业绩与电话会摘要。
+       流传的「产品可覆盖人形机器人 25%～30% 物料成本」一说，本篇<strong>没有找到管理层原话，未采用</strong>。</p>
+    <p>· 2030 年 120 万台是第三方投行预测，千万级触觉需求是按每台十指做的算术，不是订单。</p>
+    <p class="muted">
+      参考：《硅谷101》2025-09-26《当机器人学会开可乐：深聊灵巧手的「不可能三角」与六大技术门派》
+      · 播客 E217 2025-12-11《聊聊灵巧手的硬件与算法，开可乐发扑克有多难？》
+      · 2026-09-04《机器人触觉的爆发前夜：五大技术路线、数据困局与模型之争》
+      · Cone Drive「Humanoid Robot Industry」· Timken 2026 年 Q1、Q2 业绩
+      · 长桥前复权日线（data_date 2026-09-18）
+    </p>
+  </section>
+</main>
+</body>
+</html>
