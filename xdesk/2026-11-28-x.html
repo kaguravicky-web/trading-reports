@@ -1,0 +1,1396 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>X 盘中简报 · 2026-11-28</title>
+<style>
+:root{
+  /* 🔤 2026-08-22 Vic：「老师的空行和格式让我阅读很舒服，我总觉得我的报告字太多而且挤在一起」
+     实测两边参数：他 line-height 1.95 / 17px / 字距 .015em / 段后 1.5rem / 章节上下 4.5rem，
+     容器 60rem，正文另限 34em；我们是 1.58 / 16px / 无字距 / 浏览器默认段距 / 容器 1160px 无限宽。
+     🔴 **根因是行宽不是行高**：1160px 容器一行排 70+ 个中文字，是他的两倍，眼睛回扫距离翻倍。
+     我们的表比他多且列宽，容器收到 960px 会挤——所以**容器保持宽，只给正文段落限宽**。 */
+  --measure:38em;      /* 正文一行的最大宽度，约 38 个中文字 */
+  --bg:#f5f5f7;--panel:#fff;--text:#1a1f2e;--muted:#6b7280;--line:#e6e8ec;
+  --blue:#2563eb;--green:#2e7d5c;--amber:#b5574a;--red:#a3422b;
+  --green-bg:#e8f3ec;--red-bg:#faeeea;--amber-bg:#f7e3dd;--blue-bg:#eaf2ff;
+  --shadow:0 18px 48px rgba(15,23,42,.07);
+  --soft-green:#6f9e83;--soft-amber:#c48b80;--soft-red:#c48b80;
+}
+/* 2026-07-06：黄色试了两版(#ba7517/#9c7a0a)都被Vic认成棕色，改成红绿二色系统——
+   --amber不再是黄色，而是比--red浅的"暖红/浅砖红"，跟--red同属红色家族、只靠深浅区分"中/高"档，
+   不再引入第三种色相。以后不要再把--amber调回黄/棕色调。*/
+*{box-sizing:border-box}
+body{margin:0;background:linear-gradient(180deg,#fbfbfd 0,var(--bg) 300px);color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft JhengHei","PingFang SC",Arial,sans-serif;
+  font-size:17px;line-height:1.9;letter-spacing:.015em}
+/* 🔤 2026-08-23 第三次修正（Vic：「盘后和一周总结的对齐继续修下」）。
+   前两版都在给元素**各自**限宽，结果一页三条边：裸段落 646px（38em）、
+   callout 850px（38em+12em）、表格 1120px。**问题从来不是「太宽」，是「不齐」。**
+   这次不猜了 —— 直接量了 Vic 说读着舒服的那份（老师 2026-08-21 专题）：
+     容器 .wrap 960px · 表格 896px · 段落 784~836px · **右缘全部 1081，一条边**
+     正文 17px / 行高 1.95 / 段距 24px · 每行约 49 个中文字
+   **他的正文比我的宽，不比我的窄。**让他好读的是「所有东西共用一条边」，
+   不是「文字很窄」。所以：容器收到 960、左右 padding 32（→ 内容 896px 与他一致），
+   段落和 callout 的 max-width 全部取消，由容器统一定边。 */
+/* 🔤 2026-08-23 第四次（Vic：「我看出你的报告整个改窄了，位置不够，但是我老师的报告
+   一点也不窄的……用他的段落宽度和间距，注意换行，表格可以拉宽的呀」）。
+   **第三次把整页收到 960 是过头了**：文字确实变舒服了，但 8~9 列的持仓表被挤到
+   「6.94 / %」「已 / 触发」「【mentor / 跟单】机械 / 跟随，无个 / 人logic」这种断法 —— 反而更难读。
+   **对齐 ≠ 所有东西同宽。**正确的拆法是分两层：
+     · 文字层（段落 / callout / 列表）= 老师实测的 836px，**盒子和盒内文字同宽**，
+       所以不会再出现「宽盒子 + 窄文字」那种空背景（那才是 8/22 真正的病）
+     · 表格层 = 走满容器，表本来就该宽
+   两层**共用左边缘**，右边缘表格更长 —— 这是正常的编辑排版，不是没对齐。
+   老师那份的正文参数一并照抄：17px / 行高 1.95 / 段后 24px。 */
+.wrap{max-width:1200px;margin:0 auto;padding:40px 32px 72px}
+:root{--measure:none}   /* 2026-08-23 Vic：一个宽度贯到底，谁都不单独限宽 */
+p,.callout,.outlook-list,.ad-list,.entry-legend,table{max-width:none;width:100%}
+body{line-height:1.95}
+p{margin:0 0 24px}
+/* 表格：走满容器；数字列一律不许在数字和单位之间断开 */
+table{max-width:none;width:100%}
+td.num,th.num,td.ctr,th.ctr{white-space:nowrap}
+header,.panel{background:rgba(255,255,255,.94);border:1px solid var(--line);border-radius:18px;
+  box-shadow:var(--shadow);padding:24px;margin-bottom:18px}
+.eyebrow{font-size:13px;font-weight:800;color:var(--blue);margin-bottom:8px}
+h1{font-size:34px;line-height:1.35;margin:0 0 18px;max-width:24em;letter-spacing:.01em}
+h2{font-size:26px;line-height:1.5;margin:64px 0 26px;scroll-margin-top:72px;letter-spacing:.02em}
+h3{font-size:18.5px;margin:44px 0 14px;letter-spacing:.03em}
+/* 🔴 2026-08-25 Vic：「这次盘前字体大大小小的」。根因是渲染层给 5 个子标题写了
+   inline font-size:15px，同一页里 h3 有 18.5px 和 15px 两种长相。
+   那一层（标准板块 / 半导体细分 / 成分分布…）改用 h4，**样式只在这里定义一次**；
+   渲染层不再写任何 inline font-size。闸门：qa_report._no_inline_font_size。*/
+h4{font-size:15px;color:var(--muted);margin:22px 0 6px;letter-spacing:.03em;font-weight:700}
+/* 情景表右上角的概率角标 —— 原来写在渲染层的 inline style 里（2026-08-25 一并收口）*/
+.sc-prob{float:right;font-weight:800;font-size:15px}
+/* 正文限宽：只作用于成段的文字，表格/卡片/网格不受影响（它们要用满宽度）。
+   段后 1.5rem 是老师那份的值——空行本身就是格式。 */
+/* 2026-08-22 二次修正（Vic：「很多地方换行都奇怪」）：限宽加在文字上会让
+   callout 盒子 1120px 宽而文字停在 646px，右边留一大片空背景，看着像断错行。
+   2026-08-23 三次修正：**索性谁都不限，全部交给容器**（见上面 .wrap 的注释）。
+   段后 1.5rem ≈ 25.5px，老师那份是 24px —— 空行本身就是格式。 */
+p{margin:0 0 24px;max-width:var(--measure)}
+.callout p,.callout div,.callout li,.co-item,.outlook-list li,.ad-list li,
+.entry-legend .co-item{max-width:none}
+li{margin:0 0 .55rem}
+.muted,.note{color:var(--muted)}
+/* .note 的字号统一在文件末尾那条（14px），这里不再各写一份 */
+
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:18px 0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 15px;
+  box-shadow:0 8px 20px rgba(15,23,42,.04)}
+.card span{display:block;color:var(--muted);font-size:12px;font-weight:800}
+.card>strong{display:block;margin-top:4px;font-size:18px}
+
+.badge{display:inline-flex;align-items:center;border-radius:6px;padding:4px 9px;font-size:12.5px;
+  font-weight:700;letter-spacing:.01em;border:1px solid transparent;line-height:1.4}
+.card .badge{display:inline-flex;width:auto}
+.badge.amber,.amber{color:var(--amber);background:var(--amber-bg);border-color:#e8c3b8}
+.badge.blue,.blue{color:var(--blue);background:var(--blue-bg);border-color:#c3d6f5}
+.badge.green,.green{color:var(--green);background:var(--green-bg);border-color:#bfe0cd}
+.badge.red,.red{color:var(--red);background:var(--red-bg);border-color:#eccabf}
+
+/* Above MA(20/50/200) 三期限独立小标签，2026-07-21对标老师报告格式改版（原来是纯▲▼三字符文本） */
+.ma{white-space:nowrap;font-size:11.5px;font-weight:600}
+.ma b{display:inline-flex;align-items:center;gap:2px;margin-right:6px;color:var(--muted);font-weight:600}
+.ma b.up i{color:var(--green)}
+.ma b.dn i{color:var(--red)}
+.ma i{font-style:normal;font-size:12px}
+
+/* 🔴 2026-08-25 Vic：「表格和文本大小明显不同」「感觉就是和以前不一样了」。
+   根因是 8/23「排版第五轮」给 body 加了 font-size:17px（此前没写、走浏览器默认 16px），
+   **而表格一直是 14px 没跟着动** —— 差距从 2px 变成 3px。
+   现在把表格提到 15.5px（body 不动：17px/1.95 是照老师那份实测抄的，Vic 认可过）。
+   全页字号阶梯定在这一段，别让某个元素自己漂：
+     h1 34 · h2 26 · h3 18.5 · 正文 17 · 表格 td 15.5 · h4 15 · 表头 th 13.5 ·
+     note/muted/small 14 · badge 12.5 */
+table{width:100%;border-collapse:separate;border-spacing:0;background:var(--panel);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden;margin:10px 0 12px;font-size:15px;box-shadow:0 8px 20px rgba(15,23,42,.04)}
+/* 表头比单元格小一档：**中文表头最长、最容易把列撑开**（同 8/24「为什么要换行」那条）*/
+thead th{font-size:13.5px;letter-spacing:.02em}
+th,td{border-bottom:1px solid var(--line);padding:13px 13px;text-align:left;vertical-align:top;line-height:1.75}
+tr:last-child td{border-bottom:0}
+/* 2026-07-27 Vic："第一行增加颜色，白色突兀"——表头原来是近乎白的#f8fafc，
+   跟深蓝组标题行放一起显得没有分量。加深成灰蓝，作为表头有存在感又不抢组标题的色。*/
+th{background:#e7ecf3;color:#2c3e55;font-weight:800;border-bottom:1px solid #d5dde7}
+.num{text-align:right;font-variant-numeric:tabular-nums}
+.nowrap{white-space:nowrap}
+.ctr{text-align:center}
+.num.up{color:var(--green)}
+.num.dn{color:var(--red)}
+span.up{color:var(--green);font-weight:700}
+span.dn{color:var(--red);font-weight:700}
+tr.row-bull td{background:var(--green-bg)}
+/* 2026-10-16 Vic：「setup 累计 3 天以上标绿，再多就深绿」—— 重复入选 = 安全网，要看得见 */
+tr.row-bull2 td{background:color-mix(in srgb, var(--green) 22%, transparent)}
+tr.row-warn td{background:var(--red-bg)}
+
+.callout{background:var(--blue-bg);border:1px solid var(--line);border-left:5px solid var(--blue);border-radius:12px;
+  padding:22px 24px;margin:20px 0 32px;max-width:var(--measure)}
+.callout.ok{border-left-color:var(--green);background:#fff}
+.callout.warn{border-left-color:var(--amber);background:#fff}
+.callout.risk{border-left-color:var(--red);background:#fff}
+
+.checks{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:12px 0}
+.check{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 15px;
+  box-shadow:0 8px 20px rgba(15,23,42,.04)}
+.check span{display:block;color:var(--muted);font-size:12px;font-weight:800}
+.check strong{display:block;margin-top:4px}
+.check small{display:block;margin-top:4px;color:var(--muted)}
+.check.low{border-left:4px solid var(--green)}
+.check.mid{border-left:4px solid var(--amber)}
+.check.high{border-left:4px solid var(--red)}
+
+.regime-triggers{display:flex;gap:16px;margin:0 0 28px}
+.trigger-box{flex:1;padding:16px 20px;border-radius:8px}
+.trigger-upgrade{background:#e8f3ec;border-left:4px solid #2e7d5c}
+.trigger-downgrade{background:#faeeea;border-left:4px solid #a3422b}
+.tb-header{display:flex;align-items:baseline;gap:8px;margin-bottom:8px}
+.tb-arrow{font-size:18px}
+.tb-label{font-weight:800}
+.tb-sub{font-size:11px;color:var(--muted)}
+.tb-rule{font-size:11px;font-weight:800;color:var(--muted)}
+.tb-list{margin:8px 0 0;padding-left:20px}
+.tb-list li{margin:5px 0;font-size:13px}
+
+/* 🔤 2026-08-23 Vic：「周报的黄字不要粗体，很难读，每条稍微空的大一些」。
+   这个黄框里我几乎每句都加了 ** —— 当一段话有一半是粗体，粗体就不再是强调，
+   而是噪音；叠在 #fff8e1 的暖底上对比度又低，整块糊成一片。
+   做法：**框内不再渲染粗体**（strong 回到常规字重，仅用深一点的颜色区分），
+   条目间距 10px → 26px。 */
+.action-directive{border-left:3px solid #d9b64a;background:#fff8e1;
+  padding:22px 26px;margin:14px 0 28px}
+/* 2026-08-23 Vic 修正上一版：「强调你放同色，需要强调就加粗体」。
+   上一版我把 strong 改成常规字重、再用 #6b5410 深色区分 —— **等于用颜色代替粗体**，
+   结果框里出现两种黄褐色，比原来更花。他要的是：**全框同一个颜色，强调只用粗体。**
+   所以 color 回到继承（跟正文同色），font-weight 回到 700；
+   真正治「很难读」的是把底色上的文字统一成正文的深色，不是拿掉粗体。 */
+.action-directive,.action-directive .kt-item{color:var(--text)}
+.action-directive strong,.action-directive b{font-weight:700;color:inherit}
+.ad-label{color:inherit;font-weight:800}
+.ad-list{list-style:none;padding:0;margin:8px 0 0}
+.ad-list li{margin:0 0 14px}
+.ad-primary::before{content:"\25CF ";color:#9a7b0b}
+.ad-watch::before{content:"\25CE ";color:var(--blue)}
+.ad-avoid::before{content:"\2717 ";color:var(--red)}
+.ad-invalidate{border-top:1px dashed #ddc0b8;padding-top:8px;color:#6b6960;font-size:12.5px}
+.ad-invalidate strong{color:#a3422b}
+
+/* 核心纪律专用（2026-07-22 Vic："又有bullet又有**还有红绿灯,太多了"）——跟今日定位的ad-list
+   共用同一个黄色box，但不再加●前缀：box的背景色+行间距已经是一层强调，不需要再叠bullet。 */
+.disc-list{list-style:none;padding:0;margin:8px 0 0}
+.disc-list li.disc-item{margin:9px 0;line-height:1.62}
+/* 2026-08-23 Vic：「强调你放同色，需要强调就加粗体」——这条曾用颜色代替粗体，取消。 */
+.disc-list li.disc-item strong{color:inherit;font-weight:700}
+
+/* 导航栏：Chrome标签页样式（2026-07-27 Vic："不要蓝底，我要白底，但是chrome那种标签页格式"）——
+   白底容器 + 底部一条基线；每个标签上圆角、三面描边、坐在基线上，hover/当前项把底边"打开"接进内容区。*/
+.toc{position:sticky;top:0;z-index:20;display:flex;gap:3px;overflow-x:auto;
+  padding:8px 10px 0;margin-bottom:20px;background:#fff;
+  border-bottom:1px solid var(--line);box-shadow:0 6px 14px rgba(15,23,42,.05)}
+.toc::-webkit-scrollbar{height:0}
+.toc a{flex:0 0 auto;position:relative;bottom:-1px;padding:7px 14px;
+  color:var(--muted);font-size:12.5px;font-weight:600;text-decoration:none;white-space:nowrap;
+  background:#f4f5f7;border:1px solid var(--line);border-radius:9px 9px 0 0}
+.toc a:hover,.toc a:focus{background:#fff;color:var(--blue);border-bottom-color:#fff}
+
+.source{font-size:12px;color:var(--muted)}
+.placeholder{color:var(--muted);font-style:italic}
+
+/* 空节三态（2026-08-07 Vic：「没扫出来不要空着，放"无"，这样就不会漏掉」）。
+   三态而非一个"无"：无=跑了没有 / 暂停=主动停用 / 数据缺=源不可用——含义完全不同。
+   配色守 CONTEXT 语义：中性灰=无、蓝=状态说明、浅红=有问题。不引入黄色。 */
+.empty-state{display:flex;align-items:baseline;gap:9px;margin:8px 0 4px;flex-wrap:wrap}
+.empty-tag{flex:none;display:inline-block;padding:2px 10px;border-radius:999px;
+  font-size:12px;font-weight:700;letter-spacing:.02em}
+.empty-note{color:var(--muted);font-size:13px;line-height:1.6}
+.es-none{background:var(--panel-2,#eceff3);color:var(--muted)}
+.es-parked{background:var(--blue-bg,#e6eefc);color:var(--blue,#2563eb)}
+.es-nodata{background:var(--red-bg,#f7e3dd);color:var(--red,#a3422b)}
+.kicker{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:18px 0 2px}
+
+/* 盘后/一周复盘共用组件（借鉴sintszkay示例站点的report-shared.css） */
+.hitbar{display:flex;height:14px;border-radius:999px;overflow:hidden;margin:14px 0 6px;max-width:520px}
+.hitbar i{display:block;height:100%}
+.hitbar .h{background:var(--green)}.hitbar .p{background:var(--amber)}.hitbar .m{background:var(--red)}
+.hitbar-legend{font-size:12px;color:var(--muted)}
+.hitbar-legend b{color:var(--text)}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin:0 4px 0 12px;vertical-align:1px}
+.dot.h{background:var(--green)}.dot.p{background:var(--amber)}.dot.m{background:var(--red)}
+
+.result-badge{display:inline-flex;min-width:52px;justify-content:center;border-radius:999px;padding:3px 8px;font-size:11px;font-weight:700}
+.result-hit{color:var(--green);background:#e8f3ec}
+.result-partial{color:var(--amber);background:var(--amber-bg)}
+.result-miss{color:var(--red);background:#faeeea}
+.result-not-triggered{color:var(--muted);background:#eef0f3}
+
+.chart{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:16px 18px 10px;margin:12px 0;box-shadow:0 6px 16px rgba(15,23,42,.035)}
+.chart-title{font-size:12px;font-weight:700;color:var(--muted);margin:0 0 10px}
+.bar-row{display:grid;grid-template-columns:104px 62px 1fr;align-items:center;gap:8px;margin:5px 0}
+.bar-row .lbl{font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar-row .val{font-size:12.5px;font-weight:700;text-align:right;font-variant-numeric:tabular-nums}
+.bar-row .val.pos{color:var(--green)}.bar-row .val.neg{color:var(--red)}
+.bar-track{position:relative;height:18px;background:#f6f7f9;border-radius:4px}
+.bar-track .b{position:absolute;top:2px;bottom:2px;border-radius:3px}
+.bar-track .b.pos{background:var(--green);opacity:.75}
+.bar-track .b.neg{background:var(--red);opacity:.75}
+
+.rsi{display:inline-flex;align-items:center;gap:6px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.rsi i{display:block;width:46px;height:6px;border-radius:999px;background:#edeff2;position:relative;overflow:hidden}
+.rsi i b{position:absolute;left:0;top:0;bottom:0;border-radius:999px;background:#9aa4b2}
+.rsi.hot{color:#8f3323;font-weight:700}.rsi.hot i b{background:var(--red)}
+.rsi.cold{color:#246849;font-weight:700}.rsi.cold i b{background:var(--green)}
+
+.ma-state{display:inline-flex;align-items:center;justify-content:center;gap:3px;font-size:13px;font-weight:800;margin-right:6px}
+.ma-state.ma-up .ma-arrow{color:var(--green)}
+.ma-state.ma-down .ma-arrow{color:var(--red)}
+.ma-period{color:var(--muted);font-size:12px;font-weight:700}
+.ma-arrow{font-size:13px;line-height:1}
+
+.pct{display:flex;align-items:center;gap:8px;justify-content:flex-end}
+.pct i{display:block;width:72px;height:8px;border-radius:999px;background:#edeff2;position:relative;overflow:hidden}
+.pct i b{position:absolute;left:0;top:0;bottom:0;border-radius:999px;background:var(--blue);opacity:.7}
+.pct em{font-style:normal;font-variant-numeric:tabular-nums;font-weight:600;min-width:52px;text-align:right}
+
+.atr{display:inline-flex;align-items:center;gap:6px;white-space:nowrap;font-variant-numeric:tabular-nums;font-weight:600}
+.atr i{display:inline-flex;gap:2px}
+.atr i b{width:6px;height:12px;border-radius:2px;background:#e6e8ec}
+.atr.l1 i b:nth-child(-n+1),.atr.l2 i b:nth-child(-n+2){background:var(--amber)}
+.atr.l3 i b:nth-child(-n+3){background:var(--red)}
+.atr.l4 i b:nth-child(-n+4){background:var(--red)}
+.atr.l3,.atr.l4{color:#8f3323}
+
+/* 50MA ATR延伸条（2026-07-27新增，借鉴Vic老师报告的"距50MA(ATR)"可视化，见report_helpers.atr_extension_rows）。
+   4格分段条，方向决定色系（跌=红家族/涨=绿家族，不引入黄棕色，沿用项目既有红绿二色规则），
+   l0-l4按|距50MA(ATR)|幅度分级，级数越高填色越多、颜色越深。*/
+/* 2026-07-27 Vic："距离50ma atr那个4个点应该对齐的"——原来i和em都按内容自适应宽度，
+   数字位数不同（-0.75 vs -2.40 vs +1.66）就把方块推得左右错位。改成两段都定宽即可列对齐。*/
+.atr-cell{display:inline-flex;align-items:center;gap:8px;white-space:nowrap;font-variant-numeric:tabular-nums;font-weight:600}
+.atr-cell i{display:inline-flex;gap:2px;width:30px;flex:0 0 30px}
+.atr-cell i b{width:6px;height:12px;border-radius:2px;background:#e6e8ec;flex:0 0 6px}
+.atr-cell em{min-width:46px;text-align:right}
+.atr-cell.dn.l1 i b:nth-child(-n+1),.atr-cell.dn.l2 i b:nth-child(-n+2){background:var(--amber)}
+.atr-cell.dn.l3 i b:nth-child(-n+3),.atr-cell.dn.l4 i b:nth-child(-n+4){background:var(--red)}
+.atr-cell.dn.l3 em,.atr-cell.dn.l4 em{color:#8f3323}
+.atr-cell.up.l1 i b:nth-child(-n+1),.atr-cell.up.l2 i b:nth-child(-n+2){background:#bfe0cd}
+.atr-cell.up.l3 i b:nth-child(-n+3),.atr-cell.up.l4 i b:nth-child(-n+4){background:var(--green)}
+.atr-cell.up.l3 em,.atr-cell.up.l4 em{color:var(--green)}
+.atr-cell em{font-style:normal;margin-left:2px}
+
+/* 2026-07-27 Vic："第一组/第二组/第三组是同样的表格格式，他们应该都对齐的"
+   + "你表格标题不要换行呀"。fixed布局+colgroup定宽=多张同构表列宽一致；th一律不换行。*/
+/* 三表一致性检查（2026-07-27 Vic："如果不同向，一定要指出"）：
+   同向=低调淡绿（只是确认，不该抢注意力）；分歧=红框高亮（分歧才是这个模块的价值所在）*/
+.cc-box{margin-top:12px;padding:12px 14px;border-radius:8px;border:1px solid var(--line)}
+.cc-box.cc-aligned{background:var(--green-bg);border-color:#bfe0cd}
+.cc-box.cc-split{background:var(--red-bg);border-color:#eccabf}
+.cc-head{font-weight:700;margin-bottom:8px}
+.cc-box.cc-aligned .cc-head{color:var(--green)}
+.cc-box.cc-split .cc-head{color:var(--red)}
+.cc-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.cc-chip{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:700;background:#fff;border:1px solid var(--line)}
+.cc-chip.cc-bull{color:var(--green);border-color:#bfe0cd}
+.cc-chip.cc-bear{color:var(--red);border-color:#eccabf}
+.cc-chip.cc-neutral{color:var(--muted)}
+.cc-detail{font-size:13.5px;line-height:1.75}
+
+/* 分段小结：每条独立成行、续行悬挂缩进对齐首行文字左边缘
+   （2026-07-27 Vic："按; 分段落；段落开头缩进对齐"／"重点要分行，每行开头缩进对齐"）*/
+/* A级入场触发常驻说明（2026-07-27 Vic："一开始我会记不住，在A级表格下面增加注释"）*/
+.entry-legend{margin:4px 0 6px;padding:11px 14px;border-radius:8px;
+  background:#f6f7f9;border:1px solid var(--line);border-left:4px solid var(--muted)}
+.entry-legend .el-title{font-weight:700;color:var(--text);margin-bottom:6px;font-size:13.5px}
+.entry-legend .co-item{font-size:12.8px;line-height:1.8}
+.entry-legend b{color:var(--text)}
+
+/* A/B/C候选卡（2026-07-27 Vic："A/B/C级格式统一吧，A级绿色，B/C灰色或者浅绿色"）*/
+.wl-card{border-radius:8px;padding:10px 13px;margin:0 0 9px;border:1px solid var(--line)}
+.wl-card.wl-a{background:var(--green-bg);border-color:#bfe0cd}
+.wl-card.wl-c{background:#f6f7f9}
+.wl-head{font-size:14.5px;margin-bottom:5px}
+.wl-head strong{font-size:15px}
+.wl-line{font-size:13px;line-height:1.8;color:var(--text)}
+.wl-line b{color:var(--muted);font-weight:700}
+.src-chip{display:inline-block;margin-left:8px;padding:1px 8px;border-radius:999px;
+  background:#fff;border:1px solid var(--line);font-size:11.5px;font-weight:700;color:var(--muted)}
+
+/* 本周日历（2026-07-27 Vic："做成6列 5个工作日 加周末的日历样子"）*/
+.cal-table{table-layout:fixed;width:100%}
+.cal-table th{background:#1f3a5f;color:#fff;font-size:12px;text-align:center;padding:6px 4px;white-space:nowrap}
+.cal-table td{vertical-align:top;padding:8px 6px;font-size:12.5px;line-height:1.6}
+.cal-list{list-style:none;padding:0;margin:0}
+/* 2026-08-20 Vic：「圆点干脆改成 emoji 吧，区分个股宏观 …… 不要都用箭靶」。
+   统一的「·」退役 → 类型图标（render_report.CAL_ICON）；
+   **重要性不再占一个 emoji**，改成字重＋左侧色条 —— 一格里三条挂 🎯 等于没标。 */
+.cal-list li.cal-i{margin:0 0 6px;padding-left:1.5em;text-indent:-1.5em}
+.cal-ic{display:inline-block;width:1.15em;margin-right:.35em;
+  font-size:11.5px;text-indent:0;line-height:1;opacity:.85}
+/* 🔴 2026-08-27 Vic：「重要事件不用红色长条，改成加个 emoji ⭐」——
+   竖条撤掉。红色在别处都表示风险，而周历的「重要」只是分量、不带方向。 */
+.cal-list li.cal-i.hot{font-weight:700}
+.cal-list li.cal-i.hot .cal-ic{opacity:1}
+.cal-none{color:var(--muted)}
+.cal-legend{margin:6px 0 0;font-size:11px;color:var(--muted);display:flex;
+  flex-wrap:wrap;gap:2px 14px}
+.cal-lg i{font-style:normal;margin-right:.3em}
+.cal-lg-hot i{font-style:normal;margin-right:.15em}
+
+/* X观点池：账号名 + 该账号多条bullet（2026-07-27 Vic：同一账号只出现一次名字）*/
+.x-acct{margin:0 0 12px}
+.x-handle{font-weight:700;color:var(--blue);margin-bottom:3px}
+
+/* X观点池·压缩版（2026-08-24 Vic：「x 部分全部压缩成小总结，我直接在 x 报告里看就可以了」）。
+   逐账号 bullet 列表已在渲染层退役，这里只剩「被点名」代码行 + 一行来源/覆盖。
+   .x-acct/.x-handle 留着给 xdesk 页和历史报告用，不删。*/
+.x-roster{margin:10px 0 6px;line-height:2.1}
+.x-roster-l{font-size:12.5px;color:var(--muted);margin-right:.6em;letter-spacing:.04em}
+.x-chip{display:inline-block;padding:1px 8px;margin:0 6px 4px 0;border-radius:10px;
+  background:#eef3fa;border:1px solid #d3e0ef;color:var(--blue);
+  font-weight:700;font-size:12.5px;font-variant-numeric:tabular-nums}
+.x-meta{font-size:12.5px;color:var(--muted);margin:2px 0 4px}
+.x-meta a{color:var(--blue);text-decoration:none;font-weight:700}
+.x-meta a:hover{text-decoration:underline}
+
+/* 长表分区（2026-07-27 Vic："市宽表格很长了，能不能再分板块，格式上让我好读一些"）：
+   组标题=深蓝色带；组内数据行用.row-band上浅蓝底，跟白底的其它组区分开。*/
+tr.row-group td{background:#1f3a5f;color:#fff;font-weight:700;font-size:12.5px;
+  letter-spacing:.04em;padding:5px 10px}
+tr.row-band td{background:var(--blue-bg)}
+/* C级：灰底降权（2026-07-27 A/B/C三级共表，只靠底色区分）*/
+tr.row-mute td{background:#f4f5f7;color:var(--muted)}
+
+/* 核心结论：编号 + 粗体标题句 + 支撑句（2026-07-27对标老师报告的「核心結論」格式）*/
+.kt-list{margin:10px 0 0;padding-left:1.4em}
+.kt-item{margin:0 0 26px}
+.kt-item:last-child{margin-bottom:0}
+.kt-head{font-weight:700}
+.kt-body{margin-top:3px;color:var(--text);font-size:13.5px;line-height:1.75}
+
+/* 2026-07-27 Vic："加bullet对齐吧，参考我老师用的bullet point"——老师用 • 做并列项标记
+   （核心結論那种有顺序的才用1./2./3.）。悬挂缩进让续行与首行文字左边缘对齐。*/
+/* 🔴 2026-08-20 Vic：「点点又来了，不如你写成 I. II. III. 排序写，
+   这样看起来更有主次和逻辑」——小结里的项目符号换成罗马数字序号。
+   **序号自带次序，圆点不带**：一段小结里几条本来就有主次（先说什么、再说什么），
+   圆点把它们拍平成并列。co-head（冒号结尾的分组小标题）不参与编号也不缩进。 */
+.co-list{margin-top:6px;counter-reset:coitem}
+/* 🔤 2026-08-22：条目间距 5px → 18px。报告的正文主要不在 <p> 里，而在这些条目里，
+   5px 是「挤在一起」最直接的来源（老师那份的段后是 1.5rem=24px）。 */
+.co-item{padding-left:2.1em;text-indent:-2.1em;margin:0 0 18px}
+.co-item:last-child{margin-bottom:0}
+.co-item::before{counter-increment:coitem;content:counter(coitem,upper-roman) ".";
+  color:var(--muted);margin-right:.6em;font-variant-numeric:tabular-nums}
+.co-item.co-head{padding-left:0;text-indent:0}
+.co-item.co-head::before{counter-increment:none;content:""; margin-right:0}
+/* co-sub = 附在上一条下面的子项（原文以 · / - 开头）。**不参与罗马数字编号**，
+   否则「4 个并列结论 + 1 组附注」会被拍平成 9 条并列，编号反而消灭层级。 */
+.co-item.co-sub{padding-left:3.5em;text-indent:-1.2em;margin:0 0 10px;
+  font-size:12.6px;color:var(--ink,inherit)}
+.co-item.co-sub::before{counter-increment:none;content:"–";margin-right:.5em;
+  color:var(--muted);font-weight:400}
+
+table.fixed-cols{table-layout:fixed}
+table.fixed-cols td{overflow-wrap:anywhere}
+th{white-space:nowrap}
+
+.trend-tag{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap}
+.trend-tag.down{color:var(--red);background:var(--red-bg)}
+.trend-tag.critical{color:#6b7280;background:#f1f2f4}
+.trend-tag.strong{color:var(--green);background:var(--green-bg)}
+
+/* 今日信号灯：整块实心色标签，替代之前的大卡片 */
+.status-row{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+.status-tag{display:inline-flex;align-items:center;padding:6px 12px;border-radius:6px;font-size:13px;font-weight:700;color:#fff;white-space:nowrap}
+.status-tag.low{background:var(--green)}
+.status-tag.mid{background:var(--amber)}
+.status-tag.high{background:var(--red)}
+
+/* 今日信号灯：窄小浅色chip + 正文（2026-07-23 Vic："开头标签请用窄的小的浅红浅绿，不要占全行，
+   视觉冲击太强了"——推翻2026-07-22的整行实心色块方案，那个是为了解决"长文本撑成超宽单行"的问题，
+   但整行铺满实色视觉太重。现在chip只包住键名本身（窄/小/浅色背景+深色文字），正文跟在旁边正常
+   颜色换行，不再给整行上色。三档仍是 绿/浅红/深红，不引入黄色。*/
+.signal-blocks{display:flex;flex-direction:column;gap:8px;margin:14px 0 4px}
+.signal-block{display:flex;align-items:flex-start;gap:10px}
+.signal-block .sb-key{flex:0 0 auto;font-size:11px;font-weight:800;letter-spacing:.05em;
+  border-radius:999px;padding:3px 10px;text-align:center;white-space:nowrap;border:1px solid transparent}
+.signal-block .sb-text{font-size:13.5px;line-height:1.66;color:var(--text);flex:1}
+.signal-block .sb-text strong{color:var(--text);font-weight:800}
+.signal-block.low .sb-key{background:var(--green-bg);color:var(--green);border-color:#bfe0cd}
+.signal-block.mid .sb-key{background:var(--amber-bg);color:var(--amber);border-color:#e8c3b8}
+.signal-block.high .sb-key{background:var(--red-bg);color:var(--red);border-color:#eccabf}
+@media(max-width:720px){
+  .signal-block{flex-direction:column;gap:5px}
+}
+
+/* Premarket Movers：删掉价格列后（2026-07-22 Vic"给多点空间"），把省下的宽度分配给三个长文本列 */
+table.movers th:nth-child(1),table.movers td:nth-child(1){width:74px}
+table.movers th:nth-child(2),table.movers td:nth-child(2){width:92px}
+table.movers th:nth-child(3),table.movers td:nth-child(3){width:96px}
+table.movers th:nth-child(4),table.movers td:nth-child(4){width:82px}
+table.movers td:nth-child(n+5){font-size:12.8px;line-height:1.6}
+.discipline-line{font-size:15px;font-weight:700;background:#fff8e1;border:1px solid #ecdfae;border-radius:10px;padding:12px 14px;margin:8px 0 4px}
+
+/* 风险温度打分：5格严重度条，替代之前的四色卡片网格 */
+.risk-rows{display:flex;flex-direction:column;gap:2px;margin:10px 0}
+.risk-row{display:grid;grid-template-columns:200px 90px 1fr;align-items:center;gap:12px;padding:8px 4px;border-bottom:1px solid var(--line)}
+.risk-row:last-child{border-bottom:0}
+.risk-label{font-size:13.5px;font-weight:600}
+.risk-detail{font-size:12.5px;color:var(--muted)}
+.severity{display:inline-flex;gap:2px}
+.severity i{width:15px;height:9px;border-radius:2px;background:#eceef1;display:block}
+.severity.low i:nth-child(-n+2){background:var(--soft-green)}
+.severity.mid i:nth-child(-n+3){background:var(--soft-red)}
+.severity.high i{background:#8b1f10}
+#risk .hitbar .h{background:var(--soft-green)}
+#risk .hitbar .p{background:var(--soft-red)}
+#risk .hitbar .m{background:var(--amber)}
+@media(max-width:640px){.risk-row{grid-template-columns:1fr;gap:4px}}
+
+/* Setup / 机会扫描：方法分组标签 + Leader对比 */
+.method-tag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.04em;color:var(--blue);
+  background:var(--blue-bg);border:1px solid #c3d6f5;border-radius:5px;padding:3px 8px;margin:18px 0 4px}
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:10px 0}
+.compare-grid h4{margin:0 0 6px;font-size:14px;font-weight:800}
+.compare-grid h4 small{font-weight:600;color:var(--muted);font-size:12px}
+@media(max-width:760px){.compare-grid{grid-template-columns:1fr}}
+
+/* 对账清单：预判 vs 收盘核对 */
+.ledger-table td.pending{color:var(--muted);font-style:italic}
+
+/* 攻守记分板：统一表格，避免卡片+小结拆散的观感 */
+.scoreboard-table td.status-met{color:var(--green);font-weight:700;background:var(--green-bg)}
+.scoreboard-table td.status-unmet{color:var(--muted)}
+.scoreboard-table td.status-triggered{color:var(--red);font-weight:700;background:var(--red-bg)}
+.scoreboard-table td.status-safe{color:var(--green);font-weight:700;background:var(--green-bg)}
+.scoreboard-table td.type-col{color:var(--muted);font-size:12.5px;white-space:nowrap}
+
+@media(max-width:760px){.bar-row{grid-template-columns:88px 56px 1fr}}
+
+@media(max-width:900px){.grid,.checks{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:640px){
+  .wrap{padding:20px 12px 40px}
+  header{padding:18px}
+  h1{font-size:26px}
+  .grid,.checks{grid-template-columns:1fr}
+  .regime-triggers{flex-direction:column}
+  table{display:block;overflow-x:auto;white-space:nowrap}
+}
+
+
+
+/* 2026-07-28 Vic：本日迭代 = 左右对照（左迭代/右新规则），整表白底，
+   类别只靠最左那道细色条，不写「对/错/形态」字样 */
+.iter-table{width:100%;border-collapse:collapse;margin:10px 0;background:#fff;table-layout:fixed}
+.iter-table th{background:#e7ecf3;font-size:12.5px;font-weight:700;text-align:left;padding:7px 10px}
+.iter-table th:first-child{width:6px;padding:0}
+.iter-table td{background:#fff;border-top:1px solid var(--line);padding:10px;
+  vertical-align:top;font-size:13.5px;line-height:1.75}
+.iter-table .it-lesson{width:56%}
+.iter-table .it-rule{width:44%}
+.it-bar{width:6px;padding:0!important;border-top:none!important}
+.it-good{background:#2e7d4f!important}
+.it-bad{background:#c0392b!important}
+.it-adjust{background:#c9a227!important}
+.it-pattern{background:#5b6b7a!important}
+.it-none{color:var(--muted)}
+/* 修正规则里的状态色块沿用（如仍有旧数据渲染） */
+.corr-mark{display:inline-block;min-width:34px;font-size:11.5px;font-weight:800;
+  padding:1px 6px;border-radius:3px;text-align:center;margin-right:4px}
+.corr-keep{background:#e3f2e9;color:#2e7d4f}    .corr-adjust{background:#fdf1d8;color:#9a7b0b}
+.corr-fix{background:#fbe4e1;color:#c0392b}     .corr-reverse{background:#e8eaed;color:#5b6b7a}
+
+/* 2026-07-28 Vic：「延续 如果是 用绿色标签」 */
+.yn{display:inline-block;min-width:30px;padding:2px 9px;border-radius:4px;
+  font-size:12px;font-weight:800;text-align:center}
+.yn-yes{background:#e3f2e9;color:#2e7d4f}
+.yn-no{background:#eceef1;color:var(--muted)}
+.src-note{margin:8px 0 0;font-size:12px;color:var(--muted);line-height:1.7}
+
+/* 2026-07-28 Vic：明日前瞻给个白底，容易阅读 */
+.outlook-list{max-width:var(--measure);background:#fff;border:1px solid var(--line);border-radius:8px;
+  margin:10px 0 0;padding:14px 16px 14px 38px;list-style-position:outside}
+.outlook-list li{margin:0 0 20px;line-height:1.9}
+.outlook-list li:last-child{margin-bottom:0}
+
+/* 2026-07-28 Vic：方法论块用黄色，跟蓝色的「小结」区分（黄=怎么做/规则，蓝=发生了什么） */
+.callout.co-method{background:#fff8e1;border-left-color:#d9b64a}
+.callout.co-method>strong{color:#9a7b0b}
+
+/* 2026-08-01：周报的 Cross-validation 三色块（确认=绿 / 分歧=红 / 主结论=黄） */
+.callout.co-good{background:#f2f9f5;border-left-color:#2e7d4f}
+.callout.co-good>strong{color:#2e7d4f}
+.callout.co-warn{background:#fdf3f2;border-left-color:#c0392b}
+.callout.co-warn>strong{color:#c0392b}
+
+/* 2026-08-01：仓位治理标题（缺持有理由/止损的仓位单列一节，硬性规则） */
+.gov-head{color:#c0392b}
+
+/* 2026-08-11：今日退出执行表标题（Vic 点名要出的标的，「单独拉一张」）。
+   跟 .gov-head 同色系但用较浅那档红——它是「已决定要出」不是「缺东西」，
+   不该跟仓位治理抢注意力。配色沿用 --amber（2026-07-06 起 = 浅红，不是黄）。 */
+.exit-head{color:#b5574a}
+
+
+/* 2026-08-06：离散度卡片 + 闸门表副行（Vic：「（盘前+0.33%）字样直接换一行」）*/
+td .sub{font-size:11.5px;color:var(--muted);line-height:1.5;margin-top:2px}
+td .big{font-size:19px;font-weight:600;color:var(--text);line-height:1.35;margin:2px 0}
+.callout.co-amber{background:#fff8e1;border-left-color:#d9b64a}
+.callout.co-amber>strong{color:inherit}
+.callout.co-green{background:#eef8f2;border-left-color:#2e7d5c}
+.callout.co-green>strong{color:#2e7d5c}
+.callout.co-blue{background:#eef4fd;border-left-color:#2563eb}
+.callout.co-blue>strong{color:#2563eb}
+
+/* 对账事前概率（2026-08-08）：prob-live = 真正有不确定性的判断（40–80%），
+   prob-anchor = 框架级防线（>=85%，每份限1条），prob-disc = 纪律条目不计分。
+   刻意不用红绿——概率高低不是好坏，是难度；红绿留给「对账」和 Brier 两列。 */
+.prob-live   { font-weight:600; color:var(--text); }
+.prob-anchor { font-weight:600; color:var(--muted); border-bottom:1px dotted var(--line); }
+.prob-disc   { font-size:.82em; color:var(--muted); }
+tr.ledger-disc td { background:var(--bg); color:var(--muted); }
+.brier-line { margin:10px 0 2px; font-size:.92em; color:var(--muted);
+              border-left:3px solid var(--line); padding-left:10px; }
+
+/* 离散度刻度条（2026-08-10 Vic：「这个表格我不会读」）——先给档位和人话，
+   再用一条三段刻度告诉他今天落在哪一段，最后才是原始数字。 */
+.disp-scale{margin:10px 0 14px}
+.disp-bar{position:relative;display:flex;height:10px;border-radius:6px;overflow:hidden}
+.disp-bar .seg{display:block;height:100%}
+.disp-bar .s-idx{background:#cfe6da}
+.disp-bar .s-mix{background:#d9e3f5}
+.disp-bar .s-stk{background:#f2ddd3}
+.disp-pin{position:absolute;top:-4px;width:3px;height:18px;background:var(--text);
+          border-radius:2px;transform:translateX(-1.5px)}
+.disp-ticks{display:flex;justify-content:space-between;margin-top:5px;
+            font-size:11.5px;color:var(--muted)}
+
+/* 2026-08-18 Vic：「小结还是有小点」——他圈的是「今晚要动的：」这种**小标题**，
+   它是分组标题不是条目，却和下面的条目一样挂了项目符号，读起来像漏了内容的空条目。
+   co-head = 冒号结尾的短行，取消悬挂缩进和符号、加粗留白。*/
+.co-head{padding-left:0;text-indent:0;margin:14px 0 10px;font-weight:600}
+/* 2026-08-18 Vic：「需要执行的仓位，在上面表格里也标识黄色底」——
+   红=风险（止损缺失/错值/缓冲不足），黄=今天要动手（peel/退出/移止损）。
+   两者分开：一个是「会被打掉」，一个是「该下单了」。*/
+tr.row-act td{background:var(--amber-bg,#fff6e0)}
+
+/* ══════════════════════════════════════════════════════════════════
+   2026-08-19 Vic 三条结构改动
+   ① 七只指数集中到一处（idx-chart / 表格在 03 指数闸门）
+   ② 信号灯从整块色卡改成表格（sig-table）——长文本上整块底色等于给整段涂色
+   ══════════════════════════════════════════════════════════════════ */
+
+/* ── ① 指数 ATR 横轴图 ───────────────────────────────────────────── */
+.idx-chart{margin:0 0 14px;padding:14px 16px 10px;background:var(--panel);
+  border:1px solid var(--line);border-radius:10px}
+.idx-svg{width:100%;height:auto;display:block;overflow:visible}
+.idx-svg .idx-track{stroke:var(--line);stroke-width:.5}
+.idx-svg .idx-gl{stroke-width:.45;stroke-dasharray:1.6 1.4}
+.idx-svg .idx-gl.gl-green{stroke:var(--green)}
+.idx-svg .idx-gl.gl-red{stroke:var(--red)}
+.idx-svg .idx-gl.gl-mid{stroke:var(--muted);stroke-dasharray:1 1.6}
+.idx-svg .idx-gl-lab{font-size:2.6px;font-weight:700;letter-spacing:.02em}
+.idx-svg .idx-gl-lab.gl-green{fill:var(--green)}
+.idx-svg .idx-gl-lab.gl-red{fill:var(--red)}
+.idx-svg .idx-gl-lab.gl-mid{fill:var(--muted)}
+.idx-svg .idx-tk{font-size:3.4px;font-weight:700;fill:var(--text)}
+.idx-svg .idx-ma50{stroke:var(--muted);stroke-width:.55}
+.idx-svg .idx-ma50-lab{font-size:2.2px;fill:var(--muted)}
+.idx-svg .idx-dot{stroke:var(--panel);stroke-width:.5}
+.idx-svg .idx-dot.dot-green{fill:var(--green)}
+.idx-svg .idx-dot.dot-amber{fill:var(--amber)}
+.idx-svg .idx-dot.dot-red{fill:var(--red)}
+.idx-svg .idx-dot.dot-ref{fill:var(--muted)}
+.idx-svg .idx-val{font-size:2.8px;font-weight:700}
+.idx-svg .idx-val.dot-green{fill:var(--green)}
+.idx-svg .idx-val.dot-amber{fill:var(--amber)}
+.idx-svg .idx-val.dot-red{fill:var(--red)}
+.idx-svg .idx-val.dot-ref{fill:var(--muted)}
+.idx-legend{margin:8px 0 0;font-size:12px;line-height:1.55;color:var(--muted)}
+.idx-legend b{color:var(--text)}
+
+/* ── ② 信号灯表格 ────────────────────────────────────────────────── */
+.sig-table{margin:0 0 14px}
+/* 2026-08-20 Vic：「我不喜欢中英重复」——维度列去掉中文，只留英文键名。
+   原来的 sig-en 小字副标题随中文一起退役。 */
+.sig-table td.sig-dim{white-space:nowrap;vertical-align:top;padding-top:11px;
+  font-size:11px;letter-spacing:.07em;font-weight:700;color:var(--muted)}
+/* 「挡位没有居中」——表头和格子一起居中，之前只有 td 居中，th 靠左，两行对不上。 */
+.sig-table th.sig-lv-h{text-align:center}
+.sig-table td.sig-lv{text-align:center;vertical-align:top;padding-top:11px;
+  font-weight:800;font-size:13px}
+/* 🔴 2026-08-19 Vic：「今日信号灯 染色全行吧，中得话就白色」——
+   底色从「只染档位那一格」改成**整行**，而且 **mid 不染色**。
+   mid 留白是这条规则的重点：四格里通常两三格是中档，
+   **只有 low / high 上色，颜色才重新变回信号**（同 8/18 持仓表、
+   8/19 A级候选表退役整行底色的那条：铺满 = 等于没标）。 */
+.sig-table tr.sig-row.low  > td{background:var(--green-bg)}
+.sig-table tr.sig-row.high > td{background:var(--red-bg)}
+.sig-table tr.sig-row.mid  > td{background:transparent}
+.sig-table td.sig-lv.low{color:var(--green)}
+.sig-table td.sig-lv.mid{color:var(--muted)}
+.sig-table td.sig-lv.high{color:var(--red)}
+.sig-table td.sig-txt{line-height:1.72;vertical-align:top}
+
+/* 🔤 2026-08-23 段间距对齐老师那份（Vic：「用他的段落宽度和间距」）。
+   量出来的病灶不在 p —— 这些报告的正文其实是 callout 里的 <div>/<li>，
+   实测**上 6px、下 0px**，段与段几乎贴在一起（这就是他说的「挤在一起」）。
+   老师那份段间 24px。这一段**故意放在文件最末尾**：前面两次都栽在
+   「新规则加在前面、旧的 max-width/margin 排在后面把它盖回去」。 */
+.callout p, .callout > div, .co-item, .outlook-list li, .ad-list li{
+  margin:0 0 24px; line-height:1.95}
+.callout p:last-child, .callout > div:last-child, .co-item:last-child{margin-bottom:0}
+.callout{padding:24px 28px}
+li{margin:0 0 24px; line-height:1.95}
+
+/* 🔤 2026-08-23 第五轮（Vic：「看我标识，没有看到任何改动」+ 「你做完自己打开 html 检查下再给我」）。
+   他的箭头指的三处（闸门表说明列 / 灰色注释块 / 命中率表）全在**没被上一轮碰到的 70%** 里：
+   实测全页 13560 字中 9481 字（70%）仍是 12~15.6px / 行距 1.75，
+   只有 callout 那 4079 字换成了老师的 17px / 1.95。
+   但**不能把表格也改成 17px** —— 实测老师的 td 就是 14.4px，跟我的 14px 基本一致。
+   他整页 78% 的字在 17px，是因为他几乎没有表格（表内 560 字 vs 我 7794 字），不是字更大。
+   真正的差距是**行内留白**：他 td padding 16px、行高 1.8；我 13px。
+   还有灰色注释掉到 12px / 行距 1.7，比正文小太多，读起来是另一份文件。 */
+th,td{padding:16px 16px;line-height:1.8}
+.src-note,.note,.muted,small{font-size:14px;line-height:1.9}
+.iter-table td,.iter-table .it-lesson,.iter-table .it-rule{font-size:14.5px;line-height:1.85;padding:16px}
+.iter-table th{font-size:13px;padding:12px 16px}
+.brier-line{font-size:15px;line-height:1.9}
+
+/* 🔤 2026-08-23 定案（Vic：「我要改成一样宽，我需要报告右边对齐，不要再参考老师了，
+   我需要右边也对齐，所以区域左右一样宽才对」）。
+   前五轮一直在两个目标之间来回：一边想要老师那种舒服的正文行宽（836px），
+   一边想要宽表不被挤。折中的结果是**文字 836 / 表格 371~1276**，右边全是参差的。
+   **Vic 的判断是对的：一份报告的可读性，边缘整齐比单行字数更重要。**
+   现在只有一个宽度：容器 1200 − padding 64 = **内容 1136px**，
+   段落 / callout / 列表 / 全部表格一律 100%，左右两边都落在同一条线上。
+   （表格因此拿回 1136px，比 Vic 用了几周的那版 1120px 还宽一点，不会再挤。）
+   行距 1.95、段距 24px、td padding 16px 这些留白参数保留 —— 那几条本来就是对的。 */
+.wrap > *, .callout, table, .outlook-list, .ad-list, .grid, .checks{max-width:none;width:100%}
+h1{max-width:none}
+
+/* 🔤 2026-08-23 收口（Vic：「强调你放同色，需要强调就加粗体」）。
+   黄框里历史上累积了三处用颜色做强调的规则（.disc-item strong / .ad-label /
+   .co-amber>strong），加上我上一版加的 #6b5410，一个框里能出现四种黄褐色。
+   **强调只用字重，颜色一律继承正文。**这一段放最后，防止将来又有更具体的规则盖回去。 */
+.action-directive, .action-directive *,
+.callout.co-amber, .callout.co-amber *{color:var(--text)}
+.action-directive strong, .action-directive b,
+.callout.co-amber strong, .callout.co-amber b{font-weight:700}
+
+/* 🔤 2026-08-23 Vic：「周报感觉字体挺不统一的，和日报差很多」。
+   量下来主字号规格其实一样（表格 14/1.8、正文 17/1.95、H2 26）——
+   不统一来自**周报独有的四个小组件**：trend-tag 12px、risk-label 13.5px、
+   type-col 12.5px、strong.up 18px。它们夹在 14px 表格和 17px 正文之间，
+   一页里出现 5 个相邻但不相等的字号，读起来就是"花"。
+   收敛到共用的三档：标签 13px / 表格 14px / 正文 17px。 */
+.trend-tag,.risk-label{font-size:13px;line-height:1.8}
+.type-col{font-size:14px;line-height:1.8}
+strong.up,strong.down{font-size:inherit}
+
+/* 🔤 2026-08-23 Vic：「标签溢出了」。.toc 是 flex + overflow-x:auto 的单行横向滚动条，
+   章节一多就有一半藏在右边看不见（而且滚动条被 ::-webkit-scrollbar{height:0} 隐藏了，
+   连"可以滑"这个提示都没有）。改成允许换行：宁可占两行，也不要藏起来。 */
+.toc{flex-wrap:wrap;overflow-x:visible;row-gap:3px;padding-bottom:8px}
+
+/* 「本周五个核心结论」（Vic：「一堆黑字在一起一整块，又长又多」）。
+   builder 本来就支持「标题句|支撑句」拆成 kt-head / kt-body，只是我一直没用竖线，
+   五条全写成一整坨。这里把两层的视觉差拉开：标题句大一号，支撑句降到 15px 常规字重，
+   并且**支撑句里的粗体不再加粗**（一段里再嵌粗体就又变成黑块了）。 */
+.kt-head{font-weight:700;font-size:17.5px;line-height:1.9;display:block}
+.kt-body{margin-top:10px;color:var(--text);font-size:15px;line-height:1.95;font-weight:400}
+.kt-body strong,.kt-body b{font-weight:600}
+.kt-item{margin:0 0 30px}
+
+/* 回到顶部（Vic：「日报周报都增加中途 back to top」）——报告很长，
+   目录在顶部 sticky，但滚到一半想回去只能一直往上滑。 */
+#to-top{position:fixed;right:26px;bottom:26px;z-index:60;display:none;
+  width:44px;height:44px;border-radius:50%;border:1px solid var(--line);
+  background:#fff;color:var(--muted);font-size:18px;line-height:1;cursor:pointer;
+  box-shadow:0 8px 22px rgba(15,23,42,.14)}
+#to-top:hover{color:var(--blue);border-color:#c3d6f5}
+#to-top.on{display:block}
+@media(max-width:640px){#to-top{right:14px;bottom:14px}}
+
+/* 🔴 今日主线（2026-08-28 Vic：「我读盘前都没注意你判断了软件」）——
+   判断写在 04 新闻里、行动层只剩一句「不要抢」，等于没写。这一条排在标题正下方、
+   信号灯之前，固定三段：哪一层会被重定价 / 能不能碰 / 不能碰是被哪道闸门挡的。
+   配色沿用全局红绿二元（不引入第三种色相，见 2026-07-07 定案）。 */
+.mainline{border:1px solid var(--line);border-left:5px solid var(--red);border-radius:12px;
+  background:var(--panel);padding:14px 16px;margin:18px 0 6px}
+.mainline.ok{border-left-color:var(--green)}
+.mainline .ml-label{font-size:11px;font-weight:800;letter-spacing:.05em;color:var(--muted);
+  display:block;margin-bottom:6px}
+.mainline .ml-row{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;margin-bottom:4px}
+.mainline .ml-sector{font-size:17px;font-weight:800;color:var(--text)}
+.mainline .ml-flag{font-size:12px;font-weight:800;padding:2px 9px;border-radius:999px;
+  background:var(--red-bg);color:var(--red)}
+.mainline.ok .ml-flag{background:var(--green-bg);color:var(--green)}
+.mainline .ml-reason{font-size:15px;color:var(--text);max-width:var(--measure)}
+.mainline .ml-note{font-size:14px;color:var(--muted);margin-top:4px;max-width:var(--measure)}
+
+/* 📅 月报 v2 横条图（2026-10-01 建，对标老师月报「同图等比例、零轴 50%」）。
+   零轴固定在正中，正收益向右（绿）、负收益向左（红）；每张图按自己的最大绝对值定比例 ——
+   跨图不比长度，这句话写在每张图的图注里（render_report.build_month_bars）。
+   只加新类名，不改 .bar-row / .bar-track 原有规则（盘前盘后没在用，但别动别人的东西）。 */
+.bar-track.zero-mid::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;
+  background:#c9ced6;z-index:1}
+.month-chart .bar-row{margin:6px 0}
+.month-chart .bar-row.bench .lbl,.month-chart .bar-row.bench .val{color:var(--muted);font-weight:800}
+.month-chart .bar-row.bench .bar-track .b{opacity:.45}
+.month-lede{margin:0 0 14px}
+ul.month-src{padding-left:22px;margin:0 0 18px}
+ul.month-src li{margin:0 0 10px;line-height:1.85}
+
+
+.xhead{display:flex;flex-wrap:wrap;gap:10px;align-items:baseline}
+a{color:var(--blue);text-decoration:none}
+a:hover{text-decoration:underline}
+
+.filters{position:sticky;top:0;z-index:20;display:flex;flex-wrap:wrap;gap:6px;
+  padding:10px 0;margin-bottom:14px;background:linear-gradient(180deg,#fbfbfd 70%,rgba(251,251,253,0))}
+.filters button{font:inherit;font-size:13px;font-weight:700;cursor:pointer;padding:6px 13px;
+  border-radius:999px;border:1px solid var(--line);background:var(--panel);color:var(--muted)}
+.filters button.on{background:var(--blue);border-color:var(--blue);color:#fff}
+
+/* 🔤 2026-08-23 Vic：「x 的也没对齐」。跟索引页同一个病：
+   顶部 callout 来自 report.css 的 max-width:calc(--measure + 12em) = 850px，
+   而推文卡片 .tw 没限宽，撑满 1160 容器的 1120px —— **同一页两种盒子宽度**。
+   修法跟索引页一致：**限宽收在容器上，让所有盒子共用一条边**，不给盒子各自限宽。
+   算式：wrap 780 − padding 40 = 740 一条边；callout 取 min(850,740)=740，
+   推文卡片也是 740；卡片正文 = 740 − 32 padding − 62 时间列 − 14 gap = 632px，
+   14.5px 字号 → 每行约 43 字。 */
+/* 2026-08-23 Vic：「现在改 x 盘中和盘前」——跟报告统一，不再单独收窄到 780。
+   容器由 report.css 的 .wrap{max-width:1200px} 定，所有盒子铺满，左右都对齐。 */
+
+.run{margin:0 0 26px}
+.run-bar{display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;padding:11px 16px;
+  background:#e7ecf3;border:1px solid #d5dde7;border-radius:12px;margin-bottom:12px}
+.run-bar b{font-size:16px;color:#2c3e55}
+.run-bar small{color:var(--muted);font-size:12.5px}
+
+.tw{display:flex;gap:14px;background:var(--panel);border:1px solid var(--line);border-radius:14px;
+  padding:14px 16px;margin-bottom:10px;box-shadow:0 8px 20px rgba(15,23,42,.04)}
+.tw.hot{border-left:5px solid var(--red)}
+.tw.pick{border-left:5px solid var(--green)}
+.tw .when{flex:0 0 62px;color:var(--muted);font-size:12.5px;font-variant-numeric:tabular-nums;
+  font-weight:700;line-height:1.35}
+.tw .when i{display:block;font-style:normal;font-weight:600;font-size:11px;opacity:.75}
+.tw .body{flex:1;min-width:0}
+.tw .meta{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:6px}
+.tw .who{font-weight:800;font-size:14px}
+.tw .txt{font-size:14.5px;line-height:1.6}
+.tw .txt .tk{color:var(--blue);font-weight:800}
+.tw .txt .hd{color:var(--muted)}
+.tw .src{display:block;margin-top:7px;font-size:12px;color:var(--muted);word-break:break-all}
+.demote{opacity:.72}
+
+.chip{display:inline-flex;border-radius:6px;padding:2px 8px;font-size:12px;font-weight:800;
+  border:1px solid transparent;line-height:1.5}
+.chip.tk{color:var(--blue);background:var(--blue-bg);border-color:#c3d6f5}
+.chip.new{color:var(--green);background:var(--green-bg);border-color:#bfe0cd}
+.chip.late{color:#8a5a00;background:#fff4e0;border-color:#f0d9a8}
+
+.shots{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+/* flex:0 0 auto 是必须的：默认的 flex-shrink 会在手机宽度下把并排的两张图
+   一路压到 min-width（实测压成 120px 宽，K 线图完全没法看）。禁止收缩之后
+   放不下就换行，这才是想要的行为。*/
+.shots a{flex:0 0 auto;display:block;line-height:0;max-width:100%;
+  border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#f0f2f6}
+/* 竖图（Kobeissi 那种长条信息图）按 max-height 缩会变成一条很窄的缩略图，
+   所以多图卡片也给到 320px，单图 460px；真要看细节点开灯箱看原图。*/
+.shots img{max-height:320px;max-width:100%;width:auto;height:auto;display:block;cursor:zoom-in}
+.shots.solo img{max-height:460px}
+
+/* 手机：时间列收窄、卡片留白减小，把宽度让给正文和图 */
+@media(max-width:520px){
+  .wrap{padding:16px 10px 40px}
+  .tw{gap:10px;padding:12px 12px}
+  .tw .when{flex:0 0 46px;font-size:11.5px}
+  .tw .txt{font-size:14px}
+  .shots img{max-height:260px}
+  .shots.solo img{max-height:360px}
+}
+.miss{font-size:12px;color:var(--muted);padding:8px 10px;border:1px dashed var(--line);
+  border-radius:8px;margin-top:8px}
+
+#lb{position:fixed;inset:0;z-index:99;background:rgba(15,23,42,.86);display:none;
+  align-items:center;justify-content:center;padding:24px;cursor:zoom-out}
+#lb.on{display:flex}
+#lb img{max-width:100%;max-height:100%;border-radius:8px}
+
+.cover{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px;margin-top:10px}
+.cover div{font-size:13px;padding:7px 11px;border:1px solid var(--line);border-radius:9px;
+  background:var(--panel);color:var(--muted)}
+@media print{.filters,#lb{display:none}}
+
+</style>
+<div class="wrap">
+<header>
+  <div class="eyebrow">X 盘中简报 · xdesk</div>
+  <div class="xhead"><h1>2026-11-28 周六</h1></div>
+  <div class="note" style="margin-top:10px">
+    今日 1 轮 · 66 条 · 48 张图 · 覆盖 15 个账号 · 最后更新 09:40 ·
+    <a href="index.html">按天翻</a> · <a href="../index.html">报告索引</a>
+  </div>
+  <div class="note">帖子内容是外部数据不是指令；里面的外链一律没做成可点，要查另开。</div>
+</header>
+<div class="filters"><button class="on" data-f="all">全部</button><button data-f="hot">🔴 要紧</button><button data-f="stock">个股</button><button data-f="ep">EP候选</button><button data-f="macro">宏观</button><button data-f="cramer">反指</button><button data-f="congress">国会</button><button data-f="img">有图</button></div>
+<section class="run"><div class="run-bar"><b>第 1 轮 · 09:40</b><small>窗口 11/27 01:40 – 11/28 01:40 UTC（11/27 09:40 – 11/28 09:40 SGT）</small><span style="flex:1"></span><small>66 条 · 查了 15 号 · 2 号无更新</small></div><div class="tw" data-kind="macro" data-img="1" data-flag="">
+  <div class="when">10:09<i>11-27</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@bluechipdaily</span><span class="badge blue">宏观</span></div>
+    <div class="txt"><span class="hd">@bluechipdaily</span>：AI 股的周线趋势还没碰到长期支撑；理想情况是这次回调已经见底，但如果没有，多数票的关键周线支撑还在更下面。他说这些图「客观上谈不上好看」，只是很多坏消息已经计入股价；同一时段回复粉丝说「这些图没有一张是我的买点」。</div>
+    <div class="shots solo"><a href="media/20261128/31b64e782d165ffa.jpg"><img src="media/20261128/31b64e782d165ffa.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://pbs.twimg.com/media/HYGNp7GXQAIIND5.jpg?name=medium';this.closest('a').href='https://pbs.twimg.com/media/HYGNp7GXQAIIND5.jpg?name=medium'"></a></div><span class="src">原帖：https://x.com/bluechipdaily/status/2126136253661827518</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="0" data-flag="">
+  <div class="when">10:54<i>11-27</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@zerohedge</span><span class="badge blue">宏观</span></div>
+    <div class="txt">快讯：新加坡副总理兼贸工部长颜金勇说，还不能确认英伟达是否已停止向新加坡出货。（接 11/27 页 FT「英伟达停止向东南亚四国交付 AI 服务器」那条；只有快讯标题）</div>
+    <span class="src">原帖：https://x.com/zerohedge/status/2126147684683719164</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="1" data-flag="">
+  <div class="when">12:02<i>11-27</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@aleabitoreddit</span><span class="badge blue">宏观</span></div>
+    <div class="txt"><span class="hd">@aleabitoreddit</span> 转安联：这轮抛售更像拥挤仓位平仓，不是 AI 投资逻辑出了根本问题——英伟达换 CEO、国会立法、海外芯片限制三件事引发了不成比例的抛售，散户爱买的票（NBIS、ASTS、IREN、HOOD 等）和对冲基金的拥挤仓位跌得最重；美国高收益债那周只跌不到 1%，信用压力有限；下一个检验是疲软会不会传到信用、资本开支和整体经济。他自己说虽然能在亚洲新云和个别供应商身上找到负面信号，但同意业内「从算力到网络需求仍然填不满」的看法，估值重置后「进入 2027 方向上看多」。</div>
+    <div class="shots"><a href="media/20261128/879da4050fc2a067.jpg"><img src="media/20261128/879da4050fc2a067.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://pbs.twimg.com/media/HYGkr6VbUAA7QjL.jpg?name=medium';this.closest('a').href='https://pbs.twimg.com/media/HYGkr6VbUAA7QjL.jpg?name=medium'"></a><a href="media/20261128/679f4c4f6cb84a61.jpg"><img src="media/20261128/679f4c4f6cb84a61.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://pbs.twimg.com/media/HYGksHtbcAAsiAx.jpg?name=medium';this.closest('a').href='https://pbs.twimg.com/media/HYGksHtbcAAsiAx.jpg?name=medium'"></a><a href="media/20261128/72de43a8d05cb53c.jpg"><img src="media/20261128/72de43a8d05cb53c.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://pbs.twimg.com/media/HYGksSibsAAlLkB.jpg?name=medium';this.closest('a').href='https://pbs.twimg.com/media/HYGksSibsAAlLkB.jpg?name=medium'"></a></div><span class="src">原帖：https://x.com/aleabitoreddit/status/2126164719522426935</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="1" data-flag="">
+  <div class="when">12:05<i>11-27</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@KobeissiLetter</span><span class="badge blue">宏观</span></div>
+    <div class="txt">BREAKING：标普期货升破 7,300，11/19 以来第一次，比上周五低点涨了 6%（美东周四 23:05，期货口径）。（现货 SPX 上周五 11/20 最低 6882.66，到 7,300 正好 +6.1%；周五现货最高 7304.10，收盘没站住 7,300）</div>
+    <div class="shots solo"><a href="media/20261128/a51b1c192026d919.jpg"><img src="media/20261128/a51b1c192026d919.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://pbs.twimg.com/media/HYGn6rjXMAAF08T.jpg?name=medium';this.closest('a').href='https://pbs.twimg.com/media/HYGn6rjXMAAF08T.jpg?name=medium'"></a></div><span class="src">原帖：https://x.com/KobeissiLetter/status/2126165560002015515</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="1" data-flag="">
+  <div class="when">12:31<i>11-27</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@aleabitoreddit</span><span class="badge blue">宏观</span></div>
+    <div class="txt"><span class="hd">@aleabitoreddit</span>（回复粉丝）：亚洲新云（马来西亚、泰国）和字节、腾讯的合约因为美国出口管制被取消，闲置算力会转回卖给美国客户；很多人说这会造成算力过剩，但 CRWV 说进入 2027 需求是供给的 10 倍，他认为价格不会崩、有的追踪数据反而还在涨。亚洲新云融资被取消或暂停，意味着以后上线的竞争算力变少，对 NBIS 这类资本充足、有超大厂客户的新云是好事；受伤的是部分半导体供应链（GPU、DRAM 现货价已经在跌）。</div>
+    <div class="shots"><a href="media/20261128/127adfce71ed17ba.jpg"><img src="media/20261128/127adfce71ed17ba.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://pbs.twimg.com/media/HYGq92obcAEjXal.jpg?name=medium';this.closest('a').href='https://pbs.twimg.com/media/HYGq92obcAEjXal.jpg?name=medium'"></a><a href="media/20261128/0a2a88c2828cb68c.jpg"><img src="media/20261128/0a2a88c2828cb68c.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://pbs.twimg.com/media/HYGr_C2b0AEwtDi.jpg?name=medium';this.closest('a').href='https://pbs.twimg.com/media/HYGr_C2b0AEwtDi.jpg?name=medium'"></a></div><span class="src">原帖：https://x.com/aleabitoreddit/status/2126172075841012010</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="1" data-flag="">
+  <div class="when">13:40<i>11-27</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@aleabitoreddit</span><span class="badge blue">宏观</span></div>
+    <div class="txt"><span class="hd">@aleabitoreddit</span> 的行业调研（源杰半导体）：自家 CW 激光器产能不够，目前没给新易盛供货（对独立激光器厂商是利好）；磷化铟衬底价格三季度没涨、四季度涨了几个百分点，供应商是通美（AXTI 子公司）、先导、云南锗业，住友约 80% 产能已被中际旭创锁定，价格预计到 2027 年 3 月基本不变；300–400mW 激光器主要供给英伟达 NPO 架构，因为 LITE 产能受限、在转向 CPO；MOCVD 设备交期稳定在约 12 个月（AIXA 不变）；1.6T 光模块不会用 4 颗 70mW 的方案，两颗 100mW 就够。（周五 AXTI 收 +13.73%、LITE +7.98%）</div>
+    <div class="shots solo"><a href="media/20261128/5db57875680b34cc.jpg"><img src="media/20261128/5db57875680b34cc.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://pbs.twimg.com/media/HYG9Ds3aAAARX78.jpg?name=medium';this.closest('a').href='https://pbs.twimg.com/media/HYG9Ds3aAAARX78.jpg?name=medium'"></a></div><span class="src">原帖：https://x.com/aleabitoreddit/status/2126189347481538755</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="0" data-flag="">
+  <div class="when">18:57<i>11-27</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@unusual_whales</span><span class="badge blue">宏观</span></div>
+    <div class="txt">纽时：华为今年的芯片预计只能提供英伟达不到 4% 的 AI 算力，大约要到 2030 年才可能追上英伟达现在的产量。</div>
+    <span class="src">原帖：https://x.com/unusual_whales/status/2126269153078304914</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="0" data-flag="">
+  <div class="when">19:05<i>11-27</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@unusual_whales</span><span class="badge blue">宏观</span></div>
+    <div class="txt">法国三季度 GDP 下修为环比 −0.2%（初值 −0.1%），出口 −1.6%、投资 −0.9%（INSEE）；再有一个季度负增长就是技术性衰退。</div>
+    <span class="src">原帖：https://x.com/unusual_whales/status/2126271145670513002</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="1" data-flag="">
+  <div class="when">19:17<i>11-27</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@KobeissiLetter</span><span class="badge blue">宏观</span></div>
+    <div class="txt">BREAKING：金价涨超 4%、银价涨 10%，抄底资金继续转进贵金属（美东 06:17，现货口径）。（03:18 UTC 那条「金价破 3,600」是同一波的前一版，不重复收；收盘 GLD +2.12%、SLV +6.20%，半天市里涨幅吐回一大半）</div>
+    <div class="shots"><a href="media/20261128/d54fd27159648ec2.jpg"><img src="media/20261128/d54fd27159648ec2.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://pbs.twimg.com/media/HYILMcMW0AAgXmS.jpg?name=medium';this.closest('a').href='https://pbs.twimg.com/media/HYILMcMW0AAgXmS.jpg?name=medium'"></a><a href="media/20261128/3d722cad108c395f.jpg"><img src="media/20261128/3d722cad108c395f.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://pbs.twimg.com/media/HYILMazWgAAIOpd.jpg?name=medium';this.closest('a').href='https://pbs.twimg.com/media/HYILMazWgAAIOpd.jpg?name=medium'"></a></div><span class="src">原帖：https://x.com/KobeissiLetter/status/2126274285538832812</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="0" data-flag="">
+  <div class="when">20:00<i>11-27</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@zerohedge</span><span class="badge blue">宏观</span></div>
+    <div class="txt">中国「国家队」带出一波 15% 的急涨……但高盛 Privorotsky 担心 AI 正变得「天生自我降价」。（只有标题；15% 指哪个指数没写；11 月初国家队买 ETF 有报道，这一波没核上）</div>
+    <span class="src">原帖：https://x.com/zerohedge/status/2126285016955003235</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="0" data-flag="">
+  <div class="when">20:15<i>11-27</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@zerohedge</span><span class="badge blue">宏观</span></div>
+    <div class="txt">「重大且故意的错误」：特朗普称中期选举前公布的 GDP 数据是「假的」，要求调查。（uw 14:56、TIME 转述同一件事，不重复收；网上没核上）</div>
+    <span class="src">原帖：https://x.com/zerohedge/status/2126288789882487053</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="0" data-flag="">
+  <div class="when">20:30<i>11-27</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@zerohedge</span><span class="badge blue">宏观</span></div>
+    <div class="txt">伊朗官方媒体发视频，警告亚马逊、微软和 SpaceX「悔改」，否则承担后果。（只有标题；AMZN 收 +3.96%、MSFT +0.60%）</div>
+    <span class="src">原帖：https://x.com/zerohedge/status/2126292565573964288</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="0" data-flag="">
+  <div class="when">20:37<i>11-27</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@unusual_whales</span><span class="badge blue">宏观</span></div>
+    <div class="txt">FT：美国采用 AI 的行业生产率在飙升，其他富国没有——美国科技、金融、专业服务的人均产出比 2012 年高约 45%，远高于疫情前趋势，ChatGPT 2022 年底推出后差距还在拉大；英国、加拿大、欧盟、法国、德国的同类行业基本还在老趋势上。</div>
+    <span class="src">原帖：https://x.com/unusual_whales/status/2126294215525335119</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="0" data-flag="">
+  <div class="when">21:08<i>11-27</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@zerohedge</span><span class="badge blue">宏观</span></div>
+    <div class="txt">zerohedge 盘前异动（美东 08:08）：七巨头全涨（META +3.2%、NVDA +2.4%、GOOGL +2.6%、AMZN +2.6%、TSLA +2.1%、MSFT +1.9%、AAPL +0.7%）；AI 股续涨（ANT +3.1%、NBIS +7.1%、BE +7.5%）；奥驰亚（MO）−1.9%，因考虑和日本烟草联手收购英国帝国品牌；铜矿股涨（FCX +5.9%、SCCO +5.2%），铜创 1 月以来最大涨幅；福泰制药（VRTX）−7.6%，FDA 推迟了一款罕见自身免疫肾病药的审批。（常规收盘：META +3.13%、NVDA +0.80%、GOOGL +0.68%、AMZN +3.96%、TSLA +5.22%、MSFT +0.60%、AAPL +0.83%；NBIS +5.26%、BE +6.63%、MO +0.80%、FCX +4.57%、SCCO +4.26%、VRTX −5.24%）</div>
+    <span class="src">原帖：https://x.com/zerohedge/status/2126302048308138152</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="1" data-flag="">
+  <div class="when">21:16<i>11-27</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@KobeissiLetter</span><span class="badge blue">宏观</span></div>
+    <div class="txt">BREAKING：标普有望连续第 4 周单周涨跌超过 2.5%，2022 年熊市以来最长，追平 2020 年抛售、2000 年科网泡沫破裂后的 4 周（纪录是 2008 年的 10 周）；本周到周三 +3.9%，上周 −8.6%，再之前两周 −2.7%、+2.5%。（用 SPY 收盘核：上周 −8.56%、本周到周三 +3.90% 对得上；周五收完本周 +5.58%，连续第 4 周成立）</div>
+    <div class="shots solo"><a href="media/20261128/a92baf7857238679.jpg"><img src="media/20261128/a92baf7857238679.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://pbs.twimg.com/media/HYImTSmWYAAv9Wk.jpg?name=medium';this.closest('a').href='https://pbs.twimg.com/media/HYImTSmWYAAv9Wk.jpg?name=medium'"></a></div><span class="src">原帖：https://x.com/KobeissiLetter/status/2126304264553144509</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="0" data-flag="">
+  <div class="when">21:23<i>11-27</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@zerohedge</span><span class="badge blue">宏观</span></div>
+    <div class="txt">黑五科技反弹，纳指期货涨 2.5%，北京派出「国家队」（美东 08:23；只有标题）。（Kobeissi 02:54 UTC 那条同一个数，不重复收）</div>
+    <span class="src">原帖：https://x.com/zerohedge/status/2126305904165372311</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="0" data-flag="">
+  <div class="when">21:30<i>11-27</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@zerohedge</span><span class="badge blue">宏观</span></div>
+    <div class="txt">zerohedge：抄底资金和「2018 年重演」之间只隔着信用，该不该买？（只有标题）</div>
+    <span class="src">原帖：https://x.com/zerohedge/status/2126307664082682346</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="0" data-flag="">
+  <div class="when">21:46<i>11-27</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@KobeissiLetter</span><span class="badge blue">宏观</span></div>
+    <div class="txt">BREAKING：Adobe 数据显示美国人感恩节当天网购 71 亿美元、同比 +10.4%，好于预期；Adobe 预计黑五当天网购创纪录 129 亿美元、+9.2%。Kobeissi 还说「先买后付」也会创纪录。（Adobe 赛季前的预测是感恩节当天 69 亿美元、+8.5%，2025 年实际 64 亿；这次的实际数网上没搜到原文）</div>
+    <span class="src">原帖：https://x.com/KobeissiLetter/status/2126311579918405919</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="0" data-flag="">
+  <div class="when">21:51<i>11-27</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@zerohedge</span><span class="badge blue">宏观</span></div>
+    <div class="txt">快讯：德国预算通过，含 2100 亿欧元新增借款。（只有标题；没核）</div>
+    <span class="src">原帖：https://x.com/zerohedge/status/2126313047484485696</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="0" data-flag="">
+  <div class="when">21:58<i>11-27</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@StockMarketNerd</span><span class="badge blue">宏观</span></div>
+    <div class="txt"><span class="hd">@StockMarketNerd</span>：对 MELI、NU 和巴西是好消息——布拉德斯科银行前 CEO Luiz Carlos Trabuco 被任命为巴西下任财长，被看成财政纪律派、对市场友好的人选，大家默认卢拉会让他推一个可持续的方案；巴西财政前景是个大问号，这个信号对那个市场很好。（MELI 收 +4.47%、NU +4.45%；任命网上没核上，只搜到 9 月「市场想推他」的报道）</div>
+    <span class="src">原帖：https://x.com/StockMarketNerd/status/2126314656486621669</span>
+  </div>
+</div>
+<div class="tw" data-kind="other" data-img="1" data-flag="">
+  <div class="when">22:00<i>11-27</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@earnings_guy</span><span class="badge blue">其他</span></div>
+    <div class="txt"><span class="hd">@earnings_guy</span> 下周财报日历：CRM、SNOW、MRVL、CRDO、OKTA、MDB、GTLB、NTAP、RBRK、NNE、CPRT、NIO、TCOM、ULTA、DG、KR、VEEV、PATH、S、IOT、DOCU、AGX、AI、FIVE、AEO 等。</div>
+    <div class="shots solo"><a href="media/20261128/794840d09403025f.jpg"><img src="media/20261128/794840d09403025f.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://pbs.twimg.com/media/HYIK8PkXoAATaOI.jpg?name=medium';this.closest('a').href='https://pbs.twimg.com/media/HYIK8PkXoAATaOI.jpg?name=medium'"></a></div><span class="src">原帖：https://x.com/earnings_guy/status/2126315108225745117</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="1" data-flag="">
+  <div class="when">22:11<i>11-27</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@zerohedge</span><span class="badge blue">宏观</span></div>
+    <div class="txt">软银 CDS 两周涨 50 个基点到 543，离 18 年高点只差 25 个基点。（引的是它 11/11 那条「软银 5 年内破产概率」；没核）</div>
+    <div class="shots solo"><a href="media/20261128/caaafe67754b67a4.jpg"><img src="media/20261128/caaafe67754b67a4.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://pbs.twimg.com/media/HYIy_aiXsAAEAOY.jpg?name=medium';this.closest('a').href='https://pbs.twimg.com/media/HYIy_aiXsAAEAOY.jpg?name=medium'"></a></div><span class="src">原帖：https://x.com/zerohedge/status/2126318100832481505</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="0" data-flag="">
+  <div class="when">22:39<i>11-27</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@zerohedge</span><span class="badge blue">宏观</span></div>
+    <div class="txt">快讯：纳指 100 涨幅收窄到 1%（美东 09:39，开盘 9 分钟）。（QQQ 日内最低 636.72，只比周三收盘高 0.44%；收 650.99，+2.69%）</div>
+    <span class="src">原帖：https://x.com/zerohedge/status/2126325046960673177</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="0" data-flag="">
+  <div class="when">22:40<i>11-27</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@zerohedge</span><span class="badge blue">宏观</span></div>
+    <div class="txt">胡塞武装烧了沙特一座炼油厂、一艘油轮在霍尔木兹触雷，原油大涨；特朗普说「我们不需要那些油」。（只有标题；USO 收 −1.52%，日内最高只比周三收盘高 0.1%，ETF 上看不到这波涨；袭击本身网上没核上，只搜到 9 月胡塞袭击吉赞炼厂）</div>
+    <span class="src">原帖：https://x.com/zerohedge/status/2126325281992425727</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="0" data-flag="">
+  <div class="when">22:49<i>11-27</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@zerohedge</span><span class="badge blue">宏观</span></div>
+    <div class="txt">zerohedge 盘中：标普迷你期货盘口最优档深度不到 100 万美元，「机构想把货卖给散户接盘，10 分钟就把挂单吃光了」（美东 09:49）。</div>
+    <span class="src">原帖：https://x.com/zerohedge/status/2126327658028192066</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="1" data-flag="">
+  <div class="when">22:50<i>11-27</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@KobeissiLetter</span><span class="badge blue">宏观</span></div>
+    <div class="txt">BREAKING：彭博报道英伟达 Blackwell 芯片出现在和 Alice Huang 有关的中国站点，NVDA 涨幅吐光转跌（美东 09:50）。（uw 15:14 说是两家中国公司把 Blackwell 装进了上海一个数据中心，zerohedge 13:00 同一件事。11/14 页收过彭博同一个上海数据中心的报道，那次是 H100/H200；这次 Blackwell 的原文没搜到。NVDA 日内最低 145.39，比周三收盘 −2.6%；收 150.49，+0.80%）</div>
+    <div class="shots solo"><a href="media/20261128/236474b1a2f29f6a.jpg"><img src="media/20261128/236474b1a2f29f6a.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://pbs.twimg.com/media/HYI7YWnXAAEabwE.png?name=medium';this.closest('a').href='https://pbs.twimg.com/media/HYI7YWnXAAEabwE.png?name=medium'"></a></div><span class="src">原帖：https://x.com/KobeissiLetter/status/2126327729712968167</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="0" data-flag="">
+  <div class="when">22:50<i>11-27</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@zerohedge</span><span class="badge blue">宏观</span></div>
+    <div class="txt">CCC 级利差冲破 1,200 个基点，AI 债务到 7050 亿美元；高盛说信用市场已经是「三种速度」。（只有标题；没核）</div>
+    <span class="src">原帖：https://x.com/zerohedge/status/2126327798658678792</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="0" data-flag="">
+  <div class="when">22:51<i>11-27</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@zerohedge</span><span class="badge blue">宏观</span></div>
+    <div class="txt">zerohedge：比特币「瞬间被核」（美东 09:51）。（IBIT 日内最低 33.21，比周三收盘 −2.5%；收 33.86，−0.62%）</div>
+    <span class="src">原帖：https://x.com/zerohedge/status/2126328047075033591</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="1" data-flag="">
+  <div class="when">22:59<i>11-27</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@bluechipdaily</span><span class="badge blue">宏观</span></div>
+    <div class="txt"><span class="hd">@bluechipdaily</span>：等权标普 RSP 离历史新高约 3.1%，黄仁勋辞职消息出来前只差 0.60%；过去 5 天标普 503 只里 368 只（73%）上涨。大盘整体依然强，但科技板块的波动仍是隐忧。（RSP 收 218.38，+1.22%，离 11/05 最高 224.20 是 −2.6%；73% 没核）</div>
+    <div class="shots solo"><a href="media/20261128/010c03ba566cb293.jpg"><img src="media/20261128/010c03ba566cb293.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://pbs.twimg.com/media/HYI9ZGgWIAAFH9A.png?name=medium';this.closest('a').href='https://pbs.twimg.com/media/HYI9ZGgWIAAFH9A.png?name=medium'"></a></div><span class="src">原帖：https://x.com/bluechipdaily/status/2126330023879536990</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="1" data-flag="">
+  <div class="when">23:20<i>11-27</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@WalterDeemer</span><span class="badge blue">宏观</span></div>
+    <div class="txt"><span class="hd">@WalterDeemer</span>：SPY 要跌到 718.43、QQQ 要跌到 634.89 才会回补今早的跳空缺口；缺口补得多快（或补不补）能看出底层趋势有多强。收盘后他自己补一句：两个都没补。（SPY 日内最低 719.61、QQQ 636.72，都没碰到）</div>
+    <div class="shots"><a href="media/20261128/bdfeaf9a27a64745.jpg"><img src="media/20261128/bdfeaf9a27a64745.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://pbs.twimg.com/media/HYJCoguXMAAEGeg.png?name=medium';this.closest('a').href='https://pbs.twimg.com/media/HYJCoguXMAAEGeg.png?name=medium'"></a><a href="media/20261128/19b57adc603b306a.jpg"><img src="media/20261128/19b57adc603b306a.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://pbs.twimg.com/media/HYJCq8UXMAAXLhf.png?name=medium';this.closest('a').href='https://pbs.twimg.com/media/HYJCq8UXMAAXLhf.png?name=medium'"></a></div><span class="src">原帖：https://x.com/WalterDeemer/status/2126335306425139442</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="1" data-flag="">
+  <div class="when">23:35<i>11-27</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@StockMarketNerd</span><span class="badge blue">宏观</span></div>
+    <div class="txt"><span class="hd">@StockMarketNerd</span>：批发和原油数据跟零售油价是同一个方向，对之后的通胀读数是好消息——能源一直是整体通胀的主要来源，也间接渗进核心；希望这个趋势持续。（USO 离 60 日高点 −19.8%）</div>
+    <div class="shots solo"><a href="media/20261128/c5a4fae87dd0c6bc.jpg"><img src="media/20261128/c5a4fae87dd0c6bc.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://pbs.twimg.com/media/HYJEJ6xWEAAL8UK.jpg?name=medium';this.closest('a').href='https://pbs.twimg.com/media/HYJEJ6xWEAAL8UK.jpg?name=medium'"></a></div><span class="src">原帖：https://x.com/StockMarketNerd/status/2126339095743930486</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="0" data-flag="">
+  <div class="when">23:56<i>11-27</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@unusual_whales</span><span class="badge blue">宏观</span></div>
+    <div class="txt">路透：黑客攻破美国空军的旗舰云平台 Cloud One——它承载工资、后勤、北美防空雷达数据和 200 多个基地的弹药追踪，一位消息人士说入侵者到了系统的「控制平面」。（Kobeissi 11:22、zerohedge 12:45 同一件事，不重复收；网上没核上）</div>
+    <span class="src">原帖：https://x.com/unusual_whales/status/2126344534447505432</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="1" data-flag="">
+  <div class="when">00:07<i>11-28</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@KobeissiLetter</span><span class="badge blue">宏观</span></div>
+    <div class="txt">市场领导权换了：11 月以来苹果跑赢英伟达 30.2 个百分点，有望是 2008 年金融危机以来最大的单月跑赢——NVDA 本月 −27.0%，AAPL +3.2%、接近历史新高；10/1 以来跑赢 44.1 个百分点，2011 年 7 月以来最大的两个月；AAPL 今年 8 个月里有 7 个月收涨、年内 +31.3%。（他是盘中数；按收盘 10/30 到 11/27：NVDA −26.5%、AAPL +4.0%，差 30.5 个百分点）</div>
+    <div class="shots solo"><a href="media/20261128/703093f315520f2a.jpg"><img src="media/20261128/703093f315520f2a.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://pbs.twimg.com/media/HYImfL-WYAAYS1o.jpg?name=medium';this.closest('a').href='https://pbs.twimg.com/media/HYImfL-WYAAYS1o.jpg?name=medium'"></a></div><span class="src">原帖：https://x.com/KobeissiLetter/status/2126347119699149227</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="0" data-flag="">
+  <div class="when">00:20<i>11-28</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@zerohedge</span><span class="badge blue">宏观</span></div>
+    <div class="txt">「快停下吧」：高盛 Molavi 说 AI 拥挤仓位撤出后，市场处在「微妙的平衡」。（只有标题）</div>
+    <span class="src">原帖：https://x.com/zerohedge/status/2126350446117715978</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="1" data-flag="">
+  <div class="when">00:45<i>11-28</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@unusual_whales</span><span class="badge blue">宏观</span></div>
+    <div class="txt">uw：NVDA 两周来回摆了约 50 美元——11/12 约 175、11/20 最低约 125（−29%）、11/23 约 170（+36%，这段最大的量）、今天 148.91，比那个高点 −12%，两周还是跌约 15%（美东 11:45）。（核：11/20 最低 124.50、11/23 最高 171.50 对得上；11/12 当天最高只有 167.14，175 附近的是 11/11 收盘 173.73；收盘价见 Kobeissi Blackwell 那条）</div>
+    <div class="shots solo"><a href="media/20261128/f415d4d9991b1390.jpg"><img src="media/20261128/f415d4d9991b1390.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://pbs.twimg.com/media/HYJWCCIbkAAjIRI.jpg?name=medium';this.closest('a').href='https://pbs.twimg.com/media/HYJWCCIbkAAjIRI.jpg?name=medium'"></a></div><span class="src">原帖：https://x.com/unusual_whales/status/2126356644909220241</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="1" data-flag="">
+  <div class="when">01:03<i>11-28</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@unusual_whales</span><span class="badge blue">宏观</span></div>
+    <div class="txt">Anthropic（ANT）涨近 10% 到 90.83，比 11/25 低点反弹 23%；上市首日 11/19 最高接近 115；今天 gamma 敞口由负翻正（美东 12:03）。（11/25 最低 73.85、11/19 最高 115.10 对得上；收 91.88，+10.98%，比 83 美元发行价高约 10.7%；Kobeissi 17:01 同一件事，不重复收）</div>
+    <div class="shots solo"><a href="media/20261128/448c80db776112b6.jpg"><img src="media/20261128/448c80db776112b6.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://pbs.twimg.com/media/HYJWjcJbMAA4gU2.jpg?name=medium';this.closest('a').href='https://pbs.twimg.com/media/HYJWjcJbMAA4gU2.jpg?name=medium'"></a></div><span class="src">原帖：https://x.com/unusual_whales/status/2126361156780724236</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="0" data-flag="">
+  <div class="when">01:05<i>11-28</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@zerohedge</span><span class="badge blue">宏观</span></div>
+    <div class="txt">芯片战升级：北京囤了 340 台 ASML 光刻机，国会盯上售后服务，东京和海牙准备报复。（只有标题；ASML 收 +1.75%）</div>
+    <span class="src">原帖：https://x.com/zerohedge/status/2126361772831522904</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="0" data-flag="">
+  <div class="when">01:06<i>11-28</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@zerohedge</span><span class="badge blue">宏观</span></div>
+    <div class="txt">快讯：法国加入荷兰，反对美国拟议的出口限制；zerohedge 说「时机刚好」（接在上一条芯片战文章后面）。（荷兰那条 11/27 页已收，zerohedge 11:00 的「荷兰想挡住美国限制中国获取设备的法案」不重复收）</div>
+    <span class="src">原帖：https://x.com/zerohedge/status/2126362009293775003</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="1" data-flag="">
+  <div class="when">01:09<i>11-28</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@aleabitoreddit</span><span class="badge blue">宏观</span></div>
+    <div class="txt"><span class="hd">@aleabitoreddit</span> 谈存储股回购和价格：SK 海力士（SKHY）在韩国放宽回购规则后把每日回购从约 2.9 亿美元翻倍到 5.81 亿，明说是「被低估」；美光 12/9 满《芯片法案》首批两年回购限制，表示会把超额现金 100% 还给股东。TrendForce：常规 DRAM 合约价涨幅 2027 年逐步收窄、下半年可能走平、2028 年下跌，预测 2026 年四季度涨 10–15%、2027 年一季度再涨 3–8%；悲观情景下 2027 年四季度就开始跌。他认为市场已经在提前计入 2028 年的需求和价格崩坏（还没发生），只要高价维持得久，同意 SKHY 说的越来越低估。（SKHY 收 +7.52%、MU +7.60%）</div>
+    <div class="shots"><a href="media/20261128/040b71241f2c9e87.jpg"><img src="media/20261128/040b71241f2c9e87.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://pbs.twimg.com/media/HYJSr8rbwAAQxJ7.jpg?name=medium';this.closest('a').href='https://pbs.twimg.com/media/HYJSr8rbwAAQxJ7.jpg?name=medium'"></a><a href="media/20261128/cbbd7bda219714d3.jpg"><img src="media/20261128/cbbd7bda219714d3.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://pbs.twimg.com/media/HYJWYnVbgAAMEw6.jpg?name=medium';this.closest('a').href='https://pbs.twimg.com/media/HYJWYnVbgAAMEw6.jpg?name=medium'"></a></div><span class="src">原帖：https://x.com/aleabitoreddit/status/2126362821621690751</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="1" data-flag="">
+  <div class="when">01:23<i>11-28</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@unusual_whales</span><span class="badge blue">宏观</span></div>
+    <div class="txt">uw：AMD 今天涨 3%，但比 11/12 高点还低约 30%；过去一周 gamma 敞口大多为负，风险逆转偏度一直为正——看涨期权仍比看跌贵（美东 12:23）。（11/12 最高 594.00，对得上；收 424.54，+4.56%）</div>
+    <div class="shots solo"><a href="media/20261128/04c4a6a6be845cc4.jpg"><img src="media/20261128/04c4a6a6be845cc4.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://pbs.twimg.com/media/HYJYAEAacAA-VRR.jpg?name=medium';this.closest('a').href='https://pbs.twimg.com/media/HYJYAEAacAA-VRR.jpg?name=medium'"></a></div><span class="src">原帖：https://x.com/unusual_whales/status/2126366189618077982</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="0" data-flag="">
+  <div class="when">01:33<i>11-28</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@zerohedge</span><span class="badge blue">宏观</span></div>
+    <div class="txt">快讯（FT）：Verizon 在洽谈以 60 多亿美元收购 Fidium。（VZ 收 +0.55%；没核）</div>
+    <span class="src">原帖：https://x.com/zerohedge/status/2126368883783467396</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="0" data-flag="">
+  <div class="when">01:34<i>11-28</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@LeifSoreide</span><span class="badge blue">宏观</span></div>
+    <div class="txt"><span class="hd">@LeifSoreide</span>：大家开始放弃突破、说突破从来不管用的时候，往往就是突破又开始管用的时候——前提是有形态；他在看 12 月从价值股轮回成长股，「也许 2027 能像 1995 年那样开派对」。</div>
+    <span class="src">原帖：https://x.com/LeifSoreide/status/2126369102914625877</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="0" data-flag="">
+  <div class="when">01:42<i>11-28</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@unusual_whales</span><span class="badge blue">宏观</span></div>
+    <div class="txt">Politico：国会两党就禁止中国汽车进入美国达成协议，但「永久」禁令加了日落条款；Moreno–Slotkin 法案禁止和中国等对手国有关的车辆和联网技术，沃尔沃、奔驰虽有中资持股仍可在美销售，提案人希望 12 月参议院表决。（法案 9 月卡在参议院有报道；这次的协议和日落条款没核上）</div>
+    <span class="src">原帖：https://x.com/unusual_whales/status/2126370971145879971</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="0" data-flag="">
+  <div class="when">01:50<i>11-28</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@zerohedge</span><span class="badge blue">宏观</span></div>
+    <div class="txt">巴西股市大涨：卢拉提名布拉德斯科掌门出任财长；布拉德斯科几小时后就上调股票评级，zerohedge 说「真巧」。（EWZ 收 +9.81%；任命网上没核上）</div>
+    <span class="src">原帖：https://x.com/zerohedge/status/2126373097460605003</span>
+  </div>
+</div>
+<div class="tw" data-kind="stock" data-img="1" data-flag="">
+  <div class="when">01:59<i>11-28</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@OliverKell_</span><span class="badge green">个股</span><span class="chip tk">$PANW</span></div>
+    <div class="txt"><span class="hd">@OliverKell_</span>：PANW 图形也不错，「做多了一些，下周有跟进就加」；他觉得市场可能至少在酝酿一波缓解反弹，下周会更清楚（美东 12:59，收盘前 1 分钟）。（PANW 盘前 346.47、日内最低 338.57，收 366.76，+2.98%）</div>
+    <div class="shots solo"><a href="media/20261128/57cfd5fa914de2f6.jpg"><img src="media/20261128/57cfd5fa914de2f6.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://pbs.twimg.com/media/HYJmv6-W0AAS9RW.jpg?name=medium';this.closest('a').href='https://pbs.twimg.com/media/HYJmv6-W0AAS9RW.jpg?name=medium'"></a></div><span class="src">原帖：https://x.com/OliverKell_/status/2126375426771534328</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="1" data-flag="">
+  <div class="when">02:01<i>11-28</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@KobeissiLetter</span><span class="badge blue">宏观</span></div>
+    <div class="txt">BREAKING：标普收涨 1.6%，11/18 以来最高收盘，单日市值增加 1 万亿美元。（SPX 收 7297.49，+1.60%；SPY 728.32 是 11/18（730.20）以来最高；NDX +2.61%，VIX 收 23.81）</div>
+    <div class="shots solo"><a href="media/20261128/bc413602f523de79.jpg"><img src="media/20261128/bc413602f523de79.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://pbs.twimg.com/media/HYJndEfWcAA98CL.png?name=medium';this.closest('a').href='https://pbs.twimg.com/media/HYJndEfWcAA98CL.png?name=medium'"></a></div><span class="src">原帖：https://x.com/KobeissiLetter/status/2126375863121834116</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="0" data-flag="">
+  <div class="when">02:01<i>11-28</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@zerohedge</span><span class="badge blue">宏观</span></div>
+    <div class="txt">zerohedge：全球护盘者联合起来——「特朗普看跌期权」、一笔神秘的美元抛售、北京「国家队」一起救下了差点进熊市的行情。（只有标题；神秘美元抛售是什么没写）</div>
+    <span class="src">原帖：https://x.com/zerohedge/status/2126375864824746243</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="1" data-flag="">
+  <div class="when">02:11<i>11-28</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@aleabitoreddit</span><span class="badge blue">宏观</span></div>
+    <div class="txt"><span class="hd">@aleabitoreddit</span> 转 Nature 的传闻：Anthropic 或 OpenAI 的前沿实验室据称发现了能在「多项式时间」破解公钥加密的算法——真有的话会动摇互联网的大部分安全基础；德州大学的 Scott Aaronson 说「从多个可靠来源几乎可以确定，AI 实验室手里压着一个或几个重磅炸弹」。（网上没搜到这篇 Nature 和 Aaronson 这句话；只搜到 DeepMind 说 AI 代理找到老式 RSA-1024 的两处弱点、不影响 2048 位）</div>
+    <div class="shots"><a href="media/20261128/3930c779f82f21ef.jpg"><img src="media/20261128/3930c779f82f21ef.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://pbs.twimg.com/media/HYJp109bQAAJGSr.jpg?name=medium';this.closest('a').href='https://pbs.twimg.com/media/HYJp109bQAAJGSr.jpg?name=medium'"></a><a href="media/20261128/4263a9218e329d66.jpg"><img src="media/20261128/4263a9218e329d66.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://pbs.twimg.com/media/HYJp15waUAA6YeQ.jpg?name=medium';this.closest('a').href='https://pbs.twimg.com/media/HYJp15waUAA6YeQ.jpg?name=medium'"></a></div><span class="src">原帖：https://x.com/aleabitoreddit/status/2126378481714168280</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="0" data-flag="">
+  <div class="when">02:31<i>11-28</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@zerohedge</span><span class="badge blue">宏观</span></div>
+    <div class="txt">快讯（FT）：OpenAI 反诉苹果窃取商业秘密，zerohedge 加了句「LOL」。（苹果 7 月起诉 OpenAI 窃密有报道、OpenAI 8 月申请驳回；反诉网上没核上；AAPL 见 bluechipdaily 那条）</div>
+    <span class="src">原帖：https://x.com/zerohedge/status/2126383460075897180</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="1" data-flag="">
+  <div class="when">03:42<i>11-28</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@KobeissiLetter</span><span class="badge blue">宏观</span></div>
+    <div class="txt">美国银行业条件收紧：圣路易斯联储第八区调查里，银行和放贷机构净 30% 说本季贷款需求下降（上季是净 11% 说上升），净 7% 预计下季继续降；净 13% 说本季收紧了信贷标准、下季还要收紧；净 28% 说拖欠增加、净 25% 预计继续增加。（没核）</div>
+    <div class="shots solo"><a href="media/20261128/1b98871757d0f803.jpg"><img src="media/20261128/1b98871757d0f803.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://pbs.twimg.com/media/HYIlnZhWgAApyEc.jpg?name=medium';this.closest('a').href='https://pbs.twimg.com/media/HYIlnZhWgAApyEc.jpg?name=medium'"></a></div><span class="src">原帖：https://x.com/KobeissiLetter/status/2126401401831985156</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="1" data-flag="">
+  <div class="when">04:04<i>11-28</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@aleabitoreddit</span><span class="badge blue">宏观</span></div>
+    <div class="txt"><span class="hd">@aleabitoreddit</span> 转 Nature「AI 代理已经开始入侵全球服务器」，列了近两个月的时间线：微软 10 月（国家级供应链攻击）、CrowdStrike 10 月（一伙人用 AI 代理打了 200 多家机构、确认进了 9 家）、Palo Alto 11 月（25 次行动、至少 19 家机构，7 家是半导体或先进制造）、谷歌威胁情报 11 月（自主 AI 攻击出现拐点）、欧盟委员会、亚马逊（中国关联的 AI 代理自己找到零日漏洞）、意大利、瑞士（5 次 AI 代理攻击、4 次得手）；再加上今天的美国空军被黑。他的结论是前沿模型能力和 AI 网络防御已经成了国安和企业「非可选」的开支。（时间线没逐条核）</div>
+    <div class="shots"><a href="media/20261128/8573d33a7c551d9c.jpg"><img src="media/20261128/8573d33a7c551d9c.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://pbs.twimg.com/media/HYKDGfLa0AA4F1r.jpg?name=medium';this.closest('a').href='https://pbs.twimg.com/media/HYKDGfLa0AA4F1r.jpg?name=medium'"></a><a href="media/20261128/797c62961a6aabfd.jpg"><img src="media/20261128/797c62961a6aabfd.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://pbs.twimg.com/media/HYKDGfKa0AAvGNw.jpg?name=medium';this.closest('a').href='https://pbs.twimg.com/media/HYKDGfKa0AAvGNw.jpg?name=medium'"></a></div><span class="src">原帖：https://x.com/aleabitoreddit/status/2126406828980686901</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="1" data-flag="">
+  <div class="when">04:48<i>11-28</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@KobeissiLetter</span><span class="badge blue">宏观</span></div>
+    <div class="txt">BREAKING：中国前 10 个月非货币黄金进口创纪录 2090 亿美元，约占总进口的 8%（也是纪录）；2025 全年是 965 亿。10 月单月进口 155.9 吨、同比 +174%，金额 207 亿美元、+184%，黄金成了中国 10 月第三大进口品类，仅次于存储芯片和原油。（没核）</div>
+    <div class="shots solo"><a href="media/20261128/41a8066fd5b8348b.jpg"><img src="media/20261128/41a8066fd5b8348b.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://pbs.twimg.com/media/HYIk2_DWwAAWp5D.jpg?name=medium';this.closest('a').href='https://pbs.twimg.com/media/HYIk2_DWwAAWp5D.jpg?name=medium'"></a></div><span class="src">原帖：https://x.com/KobeissiLetter/status/2126417919219286283</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="0" data-flag="">
+  <div class="when">05:05<i>11-28</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@zerohedge</span><span class="badge blue">宏观</span></div>
+    <div class="txt">大家都爱中国机器人，但没人说得清值多少：高盛给宇树科技卖出评级……股价涨停。（只有标题；同号 03:10 UTC 那条说高盛目标价 347.1 元、意味着约 50% 下跌空间；涨停没核）</div>
+    <span class="src">原帖：https://x.com/zerohedge/status/2126422199699390613</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="0" data-flag="">
+  <div class="when">05:14<i>11-28</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@zerohedge</span><span class="badge blue">宏观</span></div>
+    <div class="txt">快讯：标普把法国评级展望从稳定下调到负面。（标普原定 11/27 公布法国复审，此前是 A+、稳定；惠誉 10/30 已转负面；这次结果网上还没搜到）</div>
+    <span class="src">原帖：https://x.com/zerohedge/status/2126424370142957890</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="1" data-flag="">
+  <div class="when">05:23<i>11-28</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@NickTimiraos</span><span class="badge blue">宏观</span></div>
+    <div class="txt"><span class="hd">@NickTimiraos</span> 转芝加哥联储 Goolsbee 谈 AI 融资网络不透明：「财务会计最古老的规则是没人会藏好消息，所以它不透明，几乎从定义上就说明不是好消息。」（这是 11/19 媒体圆桌会的原话，今天发的是全文实录）</div>
+    <div class="shots"><a href="media/20261128/8aacb7c7557045ad.jpg"><img src="media/20261128/8aacb7c7557045ad.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://pbs.twimg.com/media/HYKVu2YXsAAf9Py.png?name=medium';this.closest('a').href='https://pbs.twimg.com/media/HYKVu2YXsAAf9Py.png?name=medium'"></a><a href="media/20261128/f18fcd4545a3e759.jpg"><img src="media/20261128/f18fcd4545a3e759.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://pbs.twimg.com/media/HYKVu2uXsAA9wjk.png?name=medium';this.closest('a').href='https://pbs.twimg.com/media/HYKVu2uXsAA9wjk.png?name=medium'"></a><a href="media/20261128/07d87e6137f33310.jpg"><img src="media/20261128/07d87e6137f33310.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://pbs.twimg.com/media/HYKVu3HWAAEhNyB.png?name=medium';this.closest('a').href='https://pbs.twimg.com/media/HYKVu3HWAAEhNyB.png?name=medium'"></a><a href="media/20261128/a14dbe3dcbe8b1fa.jpg"><img src="media/20261128/a14dbe3dcbe8b1fa.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://pbs.twimg.com/media/HYKVu40W0AAOcpG.png?name=medium';this.closest('a').href='https://pbs.twimg.com/media/HYKVu40W0AAOcpG.png?name=medium'"></a><a href="media/20261128/375e803afb73cd46.jpg"><img src="media/20261128/375e803afb73cd46.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://pbs.twimg.com/media/HYKVu3mW0AIjrDy.png?name=medium';this.closest('a').href='https://pbs.twimg.com/media/HYKVu3mW0AIjrDy.png?name=medium'"></a><a href="media/20261128/a0d248bc68337e15.jpg"><img src="media/20261128/a0d248bc68337e15.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://pbs.twimg.com/media/HYKVu5wWMAAv6P0.png?name=medium';this.closest('a').href='https://pbs.twimg.com/media/HYKVu5wWMAAv6P0.png?name=medium'"></a><a href="media/20261128/90114069f6add4aa.jpg"><img src="media/20261128/90114069f6add4aa.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://pbs.twimg.com/media/HYKVu5QXUAErZQw.png?name=medium';this.closest('a').href='https://pbs.twimg.com/media/HYKVu5QXUAErZQw.png?name=medium'"></a><a href="media/20261128/9ab66d61ec7f7f22.jpg"><img src="media/20261128/9ab66d61ec7f7f22.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://pbs.twimg.com/media/HYKVu6FXEAA6Rsp.png?name=medium';this.closest('a').href='https://pbs.twimg.com/media/HYKVu6FXEAA6Rsp.png?name=medium'"></a><a href="media/20261128/35288bb13914af90.jpg"><img src="media/20261128/35288bb13914af90.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://pbs.twimg.com/media/HYKVu6dXIAA-8l6.png?name=medium';this.closest('a').href='https://pbs.twimg.com/media/HYKVu6dXIAA-8l6.png?name=medium'"></a><a href="media/20261128/0b85592eb41e5c25.jpg"><img src="media/20261128/0b85592eb41e5c25.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://pbs.twimg.com/media/HYKVu6zWoAA82vp.png?name=medium';this.closest('a').href='https://pbs.twimg.com/media/HYKVu6zWoAA82vp.png?name=medium'"></a><a href="media/20261128/dcf1cc57b46815d0.jpg"><img src="media/20261128/dcf1cc57b46815d0.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://pbs.twimg.com/media/HYKVu7RWwAAEwPc.png?name=medium';this.closest('a').href='https://pbs.twimg.com/media/HYKVu7RWwAAEwPc.png?name=medium'"></a><a href="media/20261128/5684280891899178.jpg"><img src="media/20261128/5684280891899178.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://pbs.twimg.com/media/HYKVu7-XwAActqC.png?name=medium';this.closest('a').href='https://pbs.twimg.com/media/HYKVu7-XwAActqC.png?name=medium'"></a></div><span class="src">原帖：https://x.com/NickTimiraos/status/2126426677500633388</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="0" data-flag="">
+  <div class="when">05:30<i>11-28</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@zerohedge</span><span class="badge blue">宏观</span></div>
+    <div class="txt">美国游说伊拉克和委内瑞拉退出 OPEC，引来沙特出面干预。（只有标题；没核）</div>
+    <span class="src">原帖：https://x.com/zerohedge/status/2126428477691732344</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="0" data-flag="">
+  <div class="when">05:31<i>11-28</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@unusual_whales</span><span class="badge blue">宏观</span></div>
+    <div class="txt">FT：Anthropic 创纪录的 1073 亿美元 IPO，会让其他 AI 实验室更难按类似条件上市。</div>
+    <span class="src">原帖：https://x.com/unusual_whales/status/2126428600756801700</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="0" data-flag="">
+  <div class="when">05:36<i>11-28</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@aleabitoreddit</span><span class="badge blue">宏观</span></div>
+    <div class="txt"><span class="hd">@aleabitoreddit</span> 谈激光器行业的融资信号：LITE 说是「照付不议」、客户承诺很强、部分有预付款，超大厂直接出钱给它扩产；COHR CEO 说几乎每份长约都有预付款——这两家是融资和需求信号的「金标准」；中国光模块厂也在给供应链融资。AAOI 拿到 2028–29 年 7 亿美元的 CPO＋激光器合同，却是靠增发而不是预付款扩产，他说想不通，可能是竞争地位被高估；仍觉得 AAOI 2027 下半年有吸引力，最大的问题是融资方式和管理层可信度，不是需求。（周五 COHR 收 +14.07%、AAOI +10.48%）</div>
+    <span class="src">原帖：https://x.com/aleabitoreddit/status/2126429899141636315</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="1" data-flag="">
+  <div class="when">05:52<i>11-28</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@KobeissiLetter</span><span class="badge blue">宏观</span></div>
+    <div class="txt">BREAKING：过去 6 周投机资金减持纳指 100 期货，减幅相当于总持仓量的 17%，2022 年熊市以来最大（第二大是 2024 年 4 月的 15%），9 月结束的那 6 周还是增持 32%；纳指 100 和 SMH 的期权仓位是 2026 年 4 月以来最空、接近 5 年低位。他说投资者对科技股「极度悲观」。（没核）</div>
+    <div class="shots solo"><a href="media/20261128/427b94940c36e773.jpg"><img src="media/20261128/427b94940c36e773.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://pbs.twimg.com/media/HYDd4M2XIAAprFg.jpg?name=medium';this.closest('a').href='https://pbs.twimg.com/media/HYDd4M2XIAAprFg.jpg?name=medium'"></a></div><span class="src">原帖：https://x.com/KobeissiLetter/status/2126434072331534650</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="1" data-flag="">
+  <div class="when">06:11<i>11-28</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@bluechipdaily</span><span class="badge blue">宏观</span></div>
+    <div class="txt"><span class="hd">@bluechipdaily</span>：AAPL 创周线收盘新高，12 月要在中国推出新的 AI 产品。（AAPL 收 358.54，+0.83%，是近一年最高收盘；中国 AI 产品没核）</div>
+    <div class="shots solo"><a href="media/20261128/6169d0c65f64542a.jpg"><img src="media/20261128/6169d0c65f64542a.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://pbs.twimg.com/media/HYKgnOeXEAAOFAd.jpg?name=medium';this.closest('a').href='https://pbs.twimg.com/media/HYKgnOeXEAAOFAd.jpg?name=medium'"></a></div><span class="src">原帖：https://x.com/bluechipdaily/status/2126438759168090239</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="0" data-flag="">
+  <div class="when">06:30<i>11-28</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@zerohedge</span><span class="badge blue">宏观</span></div>
+    <div class="txt">特朗普威胁征「巨额税」几天后，Anthropic 和 Meta 在谈日本的数据中心。（只有标题）</div>
+    <span class="src">原帖：https://x.com/zerohedge/status/2126443559410622638</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="0" data-flag="">
+  <div class="when">07:30<i>11-28</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@zerohedge</span><span class="badge blue">宏观</span></div>
+    <div class="txt">实际收益率曲线暗示美元快见顶了。（只有标题）</div>
+    <span class="src">原帖：https://x.com/zerohedge/status/2126458660905730517</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="0" data-flag="">
+  <div class="when">07:33<i>11-28</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@RichardMoglen</span><span class="badge blue">宏观</span></div>
+    <div class="txt"><span class="hd">@RichardMoglen</span> 引 Chris Camillo「什么 AI 消息能让情绪持续转向」：我们是在等一个正面催化剂，还是更多是市场开始无视「负面」催化剂？</div>
+    <span class="src">原帖：https://x.com/RichardMoglen/status/2126459422633594967</span>
+  </div>
+</div>
+<div class="tw" data-kind="other" data-img="1" data-flag="">
+  <div class="when">07:39<i>11-28</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@RichardMoglen</span><span class="badge blue">其他</span><span class="chip tk">$SPCX</span></div>
+    <div class="txt"><span class="hd">@RichardMoglen</span>：SPCX 周三是关键低点，上方还有很多价位要过。（周三 11/25 最低 112.93；周五收 133.59，+4.83%，比周三低点高 18.3%）</div>
+    <div class="shots solo"><a href="media/20261128/1583a5b26344013e.jpg"><img src="media/20261128/1583a5b26344013e.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://pbs.twimg.com/media/HYK0_MQXMAAgl6A.jpg?name=medium';this.closest('a').href='https://pbs.twimg.com/media/HYK0_MQXMAAgl6A.jpg?name=medium'"></a></div><span class="src">原帖：https://x.com/RichardMoglen/status/2126460978996924795</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="1" data-flag="">
+  <div class="when">08:19<i>11-28</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@zerohedge</span><span class="badge blue">宏观</span></div>
+    <div class="txt">zerohedge：本周股票大涨之后，AI 公司 CDS 重新报价（图）。（正文只有一句，数字在图里）</div>
+    <div class="shots solo"><a href="media/20261128/685c0fa7f211d1dd.jpg"><img src="media/20261128/685c0fa7f211d1dd.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://pbs.twimg.com/media/HYK-EJBW8AANqFf.jpg?name=medium';this.closest('a').href='https://pbs.twimg.com/media/HYK-EJBW8AANqFf.jpg?name=medium'"></a></div><span class="src">原帖：https://x.com/zerohedge/status/2126470989965881602</span>
+  </div>
+</div>
+<div class="tw" data-kind="macro" data-img="0" data-flag="">
+  <div class="when">09:31<i>11-28</i></div>
+  <div class="body">
+    <div class="meta"><span class="who">@unusual_whales</span><span class="badge blue">宏观</span></div>
+    <div class="txt">领英 CEO：就业市场冻住了，求职者投的简历比疫情前多 30%。</div>
+    <span class="src">原帖：https://x.com/unusual_whales/status/2126488998906409255</span>
+  </div>
+</div><div class="cover"><div>markminervini · 无更新</div><div>jimcramer · 无更新</div></div><div class="callout"><b>宏观小结</b><br><b>① 半天市收在 11/18 以来最高，开盘那 20 分钟是唯一的回撤。</b>美东周五 09:39–09:51，彭博的 Blackwell 报道让英伟达翻绿、纳指涨幅收窄、比特币闪崩、期货盘口很薄，之后一路收复；Deemer 的两个跳空缺口都没补。<br><b>② 反弹靠的是仓位和护盘，信用没跟上。</b>投机资金 6 周减持纳指期货是 2022 年以来最多、期权仓位接近 5 年最空；zerohedge 把这轮归给「特朗普看跌期权」、神秘美元抛售和北京国家队。同一天 CCC 利差、软银 CDS 还在走宽，圣路易斯联储辖区的银行说贷款需求和拖欠都在变差。<br><b>③ 芯片战往欧洲和日本扩。</b>法国加入荷兰反对美国新出口限制，zerohedge 汇总了国会待通过的几项管制；纽时说华为算力还差英伟达一大截。<br><b>④ 商品早盘冲、收盘回。</b>金银在欧洲时段大涨、半天市里吐回大半；胡塞袭击沙特炼厂的标题出来后美油 ETF 反而收跌；中国黄金进口创纪录。<br><b>⑤ 欧洲转弱、巴西大涨。</b>法国三季度 GDP 下修、又赶上标普评级复审日；德国预算大举借债；巴西新财长人选被看成财政纪律派，巴西 ETF 当天大涨（任命网上没核上）。</div><div class="note" style="margin-top:8px"><b>窗口</b>：11/27 01:40 – 11/28 01:40 UTC（美东周四 20:40 → 周五 20:40，含周五半天市 09:30–13:00 ET）；起点接 11/27 那轮的窗口终点，不是 --status 报的起点。定时轮（9:30 SGT），Claude in Chrome 已登录、标签可见，扩展全程没断，搜索没被限流。<br><b>采集</b>：15 个号「主页 ∪ 搜索」都跑了；288 条全在窗口内（snowflake 反解，oob=0），留 66 条。逐小时直方图没有空洞：最稀的是 07–09 UTC（美东 02–04 点）每小时 1–2 条。<br><b>逐号覆盖（主页 → 并上搜索）</b>：zerohedge 85 → 86（搜索切 3 段，各段只补 0/1/0 条，已收敛）；unusual_whales 22 → 41（主页停在第 11 轮，搜索第 1 段补 9、第 3 段补 10）；KobeissiLetter 15 → 15（两边一致）；RichardMoglen 9 → 44、bluechipdaily 9 → 35、ohiain 5 → 24、StockMarketNerd 3 → 20（差额是回复帖）；aleabitoreddit 7 → 10；LeifSoreide 1 → 5；WalterDeemer 2 → 3；OliverKell_ 2 → 3；NickTimiraos 1 → 1；earnings_guy 1 → 1。<br><b>真零的号</b>：<span class="hd">@markminervini</span>——主页 reload 后最新原创仍是 11/25 19:36 UTC，搜索窗口内 0 条；<span class="hd">@jimcramer</span>——主页 reload 后最新仍是 11/26 16:48 UTC，搜索返回空结果页。同一批别的号搜索都有内容，所以两个都算真零（感恩节到周五半天市）。<br><b>每个号剔掉的理由</b>：<br>- zerohedge 86 留 27：政治/社会新闻标题约 35 条（伊朗战争、英国移民、乌克兰、竞选等）；同事件重复只留一条（金银暴涨收 Kobeissi、空军 Cloud One 收 uw、Blackwell 报道收 Kobeissi、特朗普说 GDP 造假收 zerohedge 本条）；前几页已收的不再收（荷兰抵制美国 ASML 限制 11/27 页、加州两家中资客户 11/27 页、BIS 远程租用新规 11/17 页、高盛「26.3 万–39.5 万张 GPU 要换租户」11/27 页、高盛首次覆盖宇树给卖出评级只留后面「涨停」那条）；赞助帖 1 条（Monetary Metals）；只有图的 4 条（芯片管制汇总、众参两院法案对比、中国囤 DUV、算力曲线）；回复 1 条；两三句调侃（扎克伯格、OpenAI 劝投资人别投对手）。<br>- unusual_whales 41 留 10：14 条「Read more」是前几页已收的重发（Burry 平掉纳指看跌期权、Anthropic/OpenAI 员工不想发布新模型、私募积压与 2028–29 年债务到期、华为 HBM、Politico 国会对英伟达开战、FCC 批准 Starmind、摩根大通谈黄仁勋回归、AI 借贷 6800 亿、FinCEN 被入侵、情报部门说没证据、对华 20% 关税、按产业补贴加关税、黄仁勋向董事会坦白其他婚外情、游戏显卡减供）——用本月 day file 原文的词集重合度 ≥0.3 筛出来再逐条看过；德鲁肯米勒新买 SPCX/U 是 13F 的旧事（11/17 页已收他的 13F 摘要）、帖子是 uw 自家音频导流；同事件重复 3 条（Blackwell、特朗普 GDP ×2）；自家广告 4 条（黑五促销 ×3、交易日志上线）；社会类填充 9 条（爱荷华弹药厂、国家公园账户、31% 美国人觉得会更差、X 世代信心、加拿大公共部门就业、GTA6 泄露版、Anthropic 改用 Rust、纽时 AI 专栏作者、彭博「美股准备反弹」）。options-flow 单独拎出来读过：AMD 的 gamma/风险逆转、ANT 的 gamma 翻正都收了，没有扫单类条目。<br>- KobeissiLetter 15 留 10：纳指期货 +2.5% 那条和 zerohedge 同数，收 zerohedge；金价破 3,600 是同一波的早一版，收后面那条；Cloud One 收 uw；ANT +11% 收 uw；Vanguard 401(k) 与市场无关。<br>- bluechipdaily 35 留 3：26 条回复、5 条教育帖（别执着一种观点、价格和均线、MU 市盈率、繁荣—萧条模型、PTJ 语录）、1 条邮件列表拉客。<br>- RichardMoglen 44 留 2：其余是 Deepvue 黑五促销/直播预告/TraderLion 订阅数和回复。<br>- ohiain 24 留 0：全是回复和个人生活帖（黑五购物、送礼、订阅推荐）；补全失败的那条 13:27 UTC 在浏览器里只有一句「不是所有机会都在图上」。<br>- aleabitoreddit 10 留 7：IREN 那条是回复（说考虑过 12 美元做多、没做）、SIVE 是回复里谈瑞典小票、苹果 iOS 漏洞是转 Durov 的警告且帖里「法国已经衰退」和 INSEE 数据（离技术性衰退还差一个季度）对不上。<br>- StockMarketNerd 20 留 2：18 条回复和一句调侃。LeifSoreide 5 留 1、WalterDeemer 3 留 1（收盘后他自己补的「两个缺口都没补」并进那条）、OliverKell_ 3 留 1（夸 Deepvue 和回复不收）。<br><b>核价</b>：moomoo 日线（11/27 半天市收盘）＋快照；指数 SPX/NDX/VIX 用长桥 SDK（NoAdjust）。周五晚没有夜盘交易，快照里的 overnight 价是周四晚那节的，没用。盘前数（zerohedge 08:08 ET）和收盘都对照写了。<br><b>网上核上的</b>：彭博 11/13 确实报过上海那个数据中心（当时是 H100/H200/H800），这次 Blackwell 的新报道没搜到原文；标普原定 11/27 公布法国评级复审（此前 A+、稳定，惠誉 10/30 已转负面），复审结果没搜到；Moreno–Slotkin 禁中国车法案 9 月卡在参议院（兰德·保罗一人反对），这次的「两党协议＋日落条款」没搜到；Adobe 赛季前预测感恩节当天 69 亿美元（+8.5%），2025 年实际 64 亿；中国「国家队」11 月初买 ETF 有报道，11/27 当天没搜到。<br><b>没核上</b>：特朗普说 GDP 造假并要求调查、空军 Cloud One 被入侵（路透）、OpenAI 反诉苹果（网上只有 8 月 OpenAI 申请驳回苹果的诉讼）、Trabuco 出任巴西财长（网上只有 9 月「市场想推他」的报道）、胡塞袭击沙特炼厂＋霍尔木兹油轮触雷（网上只有 9 月吉赞炼厂遇袭）、Nature 的「AI 实验室能多项式时间破解公钥加密」传闻（只搜到 DeepMind 说找到老式 RSA-1024 的两处弱点、不影响 2048 位）、高盛宇树卖出后涨停、Verizon 洽购 Fidium、软银 CDS、CCC 利差、德国预算、圣路易斯联储第八区调查、中国黄金进口、投机仓位 6 周减仓、Goolsbee 原话（是 11/19 的媒体会，不是本轮新说的）。<br><b>补录</b>：窗口正好 24 小时，最早留下的一条（02:09 UTC）离 run_at 不到 24 小时，渲染结果没有「补录」chip。</div></section>
+<div class="note" style="margin-top:18px">账号池（15）：KobeissiLetter · LeifSoreide · NickTimiraos · OliverKell_ · RichardMoglen · StockMarketNerd · WalterDeemer · aleabitoreddit · bluechipdaily · earnings_guy · jimcramer · markminervini · ohiain · unusual_whales · zerohedge</div>
+</div>
+<div id="lb"><img alt=""></div>
+<script>
+(function(){
+  var lb=document.getElementById('lb'), im=lb.querySelector('img');
+  document.addEventListener('click',function(e){
+    var a=e.target.closest('.shots a');
+    if(a){e.preventDefault();im.src=a.getAttribute('href');lb.classList.add('on');return;}
+    if(e.target.closest('#lb')){lb.classList.remove('on');im.src='';}
+  });
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape'){lb.classList.remove('on');im.src='';}
+  });
+  var btns=[].slice.call(document.querySelectorAll('.filters button'));
+  btns.forEach(function(b){b.addEventListener('click',function(){
+    btns.forEach(function(x){x.classList.remove('on')}); b.classList.add('on');
+    var f=b.dataset.f;
+    [].forEach.call(document.querySelectorAll('.tw'),function(el){
+      var ok = f==='all' ? true
+             : f==='img' ? el.dataset.img==='1'
+             : f==='hot' ? el.dataset.flag==='hot'
+             : el.dataset.kind===f;
+      el.style.display = ok ? '' : 'none';
+    });
+    [].forEach.call(document.querySelectorAll('.run'),function(r){
+      var vis=[].slice.call(r.querySelectorAll('.tw')).some(function(el){
+        return el.style.display!=='none';});
+      r.style.display = vis ? '' : 'none';
+    });
+  })});
+})();
+</script>
